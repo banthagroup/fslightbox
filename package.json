@@ -1,0 +1,26 @@
+{
+  "name": "fsimage",
+  "version": "1.0.0",
+  "description": "Open source project.\r Big trinity:\r - HTML \r - CSS\r - Javascript\r ##### No jQuery.",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp-sass": "^4.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiotrZdziarski/FsImage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PiotrZdziarski/FsImage/issues"
+  },
+  "homepage": "https://github.com/PiotrZdziarski/FsImage#readme"
+}
