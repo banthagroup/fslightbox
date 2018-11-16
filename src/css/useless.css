@@ -1,0 +1,31 @@
+#app {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  text-align: center;
+  width: 100%; }
+
+html, body {
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  background: #f5f6f6; }
+
+.images {
+  width: 60%;
+  margin: auto; }
+  .images .image {
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 50px; }
+
+h1 {
+  color: #20a4a7;
+  font-size: 42px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-bottom: 70px; }
+
+* {
+  box-sizing: border-box; }
