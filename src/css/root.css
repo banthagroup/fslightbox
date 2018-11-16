@@ -20,7 +20,7 @@ html, body {
 
 h1 {
   color: #20a4a7;
-  font-size: 42px;
+  font-size: 72px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -34,9 +34,10 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6); }
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  font-family: Arial, sans-serif; }
 
 .fslightbox-open {
   position: absolute;
@@ -44,3 +45,35 @@ h1 {
   overflow-y: hidden;
   top: 0;
   bottom: 0; }
+
+.fslightbox-single-source {
+  max-width: 100%;
+  max-height: 100%;
+  float: left; }
+
+.fslightbox-media-holder {
+  height: 80%; }
+
+.fslightbox-nav {
+  height: 46px;
+  width: 100%;
+  position: relative; }
+
+.fslightbox-slide-number-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .85rem;
+  color: #aaa;
+  max-width: 46px; }
+  .fslightbox-slide-number-container .fslightbox-slide-slide-number {
+    padding: 0 2px; }
+
+.fslightbox-toolbar {
+  position: absolute;
+  min-width: 100px;
+  right: 0;
+  top: 0;
+  background: black;
+  height: 100%; }
