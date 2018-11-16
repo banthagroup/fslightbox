@@ -14,7 +14,7 @@ gulp.task('serve', function () {
     });
 
     gulp.watch("src/scss/**/*.scss", ['sass']);
-    gulp.watch('src/js/*.js', ['reload']);
+    gulp.watch('src/js/**/*.js', ['reload']);
     gulp.watch('src/*.html', ['reload']);
 });
 

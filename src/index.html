@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FsImage</title>
+    <title>FsLightbox</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/root.css">
 
 </head>
 <body>
-    <div id="app">
-        xd
+<div id="app">
+    <h1>FsLightbox</h1>
+    <div class="images">
+        <a href="images/1.jpeg" data-fslightbox="images">
+            <img class="image" src="images/1.jpeg" alt="">
+        </a>
+        <a href="images/2.jpg" data-fslightbox="images">
+            <img class="image" src="images/2.jpg" alt="">
+        </a>
+        <img class="image" src="images/3.jpeg" alt="">
+        <img class="image" src="images/4.jpeg" alt="">
     </div>
+</div>
 
-    <!--SCRIPTS-->
-    <script src="js/index.js"></script>
+<!--SCRIPTS-->
+<script src="js/dom/static.js"></script>
+<script src="js/dom/root.js"></script>
+<script src="js/dom/media.js"></script>
+<script src="js/dom/single_source.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
