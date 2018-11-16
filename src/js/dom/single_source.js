@@ -1,5 +1,7 @@
 function renderSingleSource(src) {
     let singleSource = document.createElement('img');
+    singleSource.classList.add('fslightbox-single-source');
     singleSource.src = src;
-    data.container.appendChild(singleSource);
+    data.media_holder.appendChild(singleSource);
 }
+

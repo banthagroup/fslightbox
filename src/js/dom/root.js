@@ -1,17 +1,18 @@
-data = {
-    container: {}
-};
-
-function generateDOM() {
+function createDOM() {
     document.body.classList.add('fslightbox-open');
-    let container = document.createElement('div');
-    container.classList.add('fslightbox-container');
-    data.container = container;
+    //create container
+    let container = createElem('div', ['fslightbox-container']);
+    container.id = "fslightbox-container";
     document.body.appendChild(container);
 
-    window.addEventListener('scroll', function (event) {
-        event.preventDefault();
-        console.log(event);
-    })
+    createNav(container);
+    //create media holder
+    let media_holder = createElem('div', ['fslightbox-media-holder']);
+    container.appendChild(media_holder);
 
+    let image = createElem('img', ['fslightbox-single-source']);
+    image.src = 'images/1.jpeg';
+    media_holder.appendChild(image);
+
+    console.log(1);
 }
