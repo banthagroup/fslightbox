@@ -8,39 +8,7 @@
 }
 
 .fslightbox-toolbar-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   width: 46px;
   cursor: pointer;
-}
-
-.fslightbox-toolbar-button:hover {
-  .fslightbox-svg-icon path,
-  .fslightbox-svg-icon polygon,
-  .fslightbox-svg-icon rect {
-    fill: #c2bbbc;
-  }
-}
-
-.fslightbox-svg-icon {
-  width: 1em;
-  height: 1em;
-}
-
-.fslightbox-svg-icon path,
-.fslightbox-svg-icon polygon,
-.fslightbox-svg-icon rect {
-  -webkit-transition: .2s fill ease;
-  -moz-transition: .2s fill ease;
-  -ms-transition: .2s fill ease;
-  -o-transition: .2s fill ease;
-  transition: .2s fill ease;
-  fill: #a09a9b;
-}
-
-.fslightbox-svg-icon circle {
-  stroke: #4691f6;
-  stroke-width: 1;
 }

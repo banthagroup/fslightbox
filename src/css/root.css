@@ -48,8 +48,7 @@ h1 {
 
 .fslightbox-single-source {
   max-width: 100%;
-  max-height: 100%;
-  float: left; }
+  max-height: 100%; }
 
 .fslightbox-media-holder {
   display: flex;
@@ -59,7 +58,9 @@ h1 {
 .fslightbox-nav {
   height: 46px;
   width: 100%;
-  position: relative; }
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 .fslightbox-slide-number-container {
   height: 100%;
@@ -67,7 +68,7 @@ h1 {
   justify-content: center;
   align-items: center;
   font-size: .85rem;
-  color: #aaa;
+  color: #a1a1a1;
   max-width: 46px; }
   .fslightbox-slide-number-container .fslightbox-slide-slide-number {
     padding: 0 2px; }
@@ -81,17 +82,9 @@ h1 {
   background: rgba(0, 0, 0, 0.18); }
 
 .fslightbox-toolbar-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   width: 46px;
   cursor: pointer; }
-
-.fslightbox-toolbar-button:hover .fslightbox-svg-icon path,
-.fslightbox-toolbar-button:hover .fslightbox-svg-icon polygon,
-.fslightbox-toolbar-button:hover .fslightbox-svg-icon rect {
-  fill: #c2bbbc; }
 
 .fslightbox-svg-icon {
   width: 1em;
@@ -105,11 +98,42 @@ h1 {
   -ms-transition: .2s fill ease;
   -o-transition: .2s fill ease;
   transition: .2s fill ease;
-  fill: #a09a9b; }
+  fill: #ccc; }
 
 .fslightbox-svg-icon circle {
   stroke: #4691f6;
   stroke-width: 1; }
 
-.fslightbox-bottom-nav {
-  height: 60px; }
+.fslightbox-slide-btn-container {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px 20px 6px;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  transform: translateY(-50%); }
+
+.fslightbox-slide-btn-container:hover .fslightbox-svg-icon path,
+.fslightbox-slide-btn-container:hover .fslightbox-svg-icon polygon,
+.fslightbox-slide-btn-container:hover .fslightbox-svg-icon rect {
+  fill: #f1f1f1; }
+
+.fslightbox-slide-btn {
+  padding: 9px;
+  font-size: 26px;
+  background: rgba(30, 30, 30, 0.6); }
+
+.fslightbox-slide-btn-right-container {
+  right: 0;
+  padding-left: 20px;
+  padding-right: 6px; }
+
+.button-style {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.button-style:hover .fslightbox-svg-icon path,
+.button-style:hover .fslightbox-svg-icon polygon,
+.button-style:hover .fslightbox-svg-icon rect {
+  fill: #f1f1f1; }
