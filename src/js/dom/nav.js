@@ -1,13 +1,15 @@
-function createNav(container) {
+function renderNav(container) {
     let nav = createElem('div', ['fslightbox-nav']);
     container.appendChild(nav);
     createSlideNumber(nav);
     createToolbar(nav);
 }
 
+
 function setSlideNumber(slide) {
     document.getElementById('current_slide').innerHTML = slide;
 }
+
 
 function createSlideNumber(nav) {
     let number_container = createElem('div', ['fslightbox-slide-number-container']);
@@ -27,11 +29,13 @@ function createSlideNumber(nav) {
     nav.appendChild(number_container);
 }
 
+
 function createToolbar(nav) {
     let toolbar = createElem('div', ['fslightbox-toolbar']);
     nav.appendChild(toolbar);
     createToolbarButton(toolbar);
 }
+
 
 function createToolbarButton(toolbar) {
     let button = createElem('div', ['fslightbox-toolbar-button']);

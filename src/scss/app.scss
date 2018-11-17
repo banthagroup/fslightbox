@@ -23,7 +23,9 @@
 }
 
 .fslightbox-media-holder {
-  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fslightbox-nav {
@@ -46,3 +48,4 @@
   }
 }
 @import "tools/toolbar";
+@import "tools/bottomNav";

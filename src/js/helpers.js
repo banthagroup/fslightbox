@@ -20,6 +20,7 @@ function createElem(tag, classNames) {
  */
 function createSVGIcon(d) {
     let svg = document.createElementNS('http://www.w3.org/2000/svg',"svg");
+    svg.setAttributeNS(null, 'class', 'fslightbox-svg-icon');
     svg.setAttributeNS(null, 'viewBox', '0 0 20 20');
 
     let path = document.createElementNS('http://www.w3.org/2000/svg',"path");
