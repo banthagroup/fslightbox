@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",
+    "gulp-concat": "^2.6.1",
     "gulp-sass": "^4.0.2"
   },
   "scripts": {

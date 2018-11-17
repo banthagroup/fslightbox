@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FsImage</title>
+    <title>FsLightbox</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/root.css">
 
 </head>
 <body>
-    <div id="app">
-        xd
+<div id="app">
+    <h1>FsLightbox</h1>
+    <div class="images">
+        <a href="images/1.jpeg" data-fslightbox="images">
+            <img class="image" src="images/1.jpeg" alt="">
+        </a>
+        <button onclick="fsLightbox.clear()">clear</button>
+        <a href="#">
+            <img class="image" src="images/2.jpg" alt="">
+        </a>
+        <img class="image" src="images/3.jpeg" alt="">
+        <img class="image" src="images/4.jpeg" alt="">
     </div>
+</div>
 
-    <!--SCRIPTS-->
-    <script src="js/index.js"></script>
+<!--SCRIPTS-->
+<script src="./app.js"></script>
 </body>
 </html>

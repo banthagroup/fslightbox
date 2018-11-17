@@ -1,0 +1,14 @@
+.fslightbox-toolbar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  background: rgba(0,0,0,0.4);
+}
+
+.fslightbox-toolbar-button {
+  color: white;
+  height: 100%;
+  width: 46px;
+}
