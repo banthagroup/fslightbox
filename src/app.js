@@ -20,6 +20,7 @@ function createElem(tag, classNames) {
  */
 function createSVGIcon(d) {
     let svg = document.createElementNS('http://www.w3.org/2000/svg',"svg");
+    svg.setAttributeNS(null, 'class', 'fslightbox-svg-icon');
     svg.setAttributeNS(null, 'viewBox', '0 0 20 20');
 
     let path = document.createElementNS('http://www.w3.org/2000/svg',"path");
@@ -61,6 +62,10 @@ data = {
     }
 }(document);
 
+function renderBottomNav(container) {
+    let bottomNav = createElem('div', ['fslightbox-bottom-nav']);
+    container.appendChild(bottomNav);
+}
 function generateMedia() {
     // for(let i = 0; i < tags.length; i++) {
     //     tags[i].addEventListener('click', () => {
@@ -69,16 +74,18 @@ function generateMedia() {
     //     //renderSingleSource(tags[i].getAttribute('href'));
     // }
 }
-function createNav(container) {
+function renderNav(container) {
     let nav = createElem('div', ['fslightbox-nav']);
     container.appendChild(nav);
     createSlideNumber(nav);
     createToolbar(nav);
 }
 
+
 function setSlideNumber(slide) {
     document.getElementById('current_slide').innerHTML = slide;
 }
+
 
 function createSlideNumber(nav) {
     let number_container = createElem('div', ['fslightbox-slide-number-container']);
@@ -98,11 +105,13 @@ function createSlideNumber(nav) {
     nav.appendChild(number_container);
 }
 
+
 function createToolbar(nav) {
     let toolbar = createElem('div', ['fslightbox-toolbar']);
     nav.appendChild(toolbar);
     createToolbarButton(toolbar);
 }
+
 
 function createToolbarButton(toolbar) {
     let button = createElem('div', ['fslightbox-toolbar-button']);
@@ -120,15 +129,17 @@ function createDOM() {
     container.id = "fslightbox-container";
     document.body.appendChild(container);
 
-    createNav(container);
+    renderNav(container);
     //create media holder
     let media_holder = createElem('div', ['fslightbox-media-holder']);
+    media_holder.style.height = window.innerHeight - 106 + 'px';
     container.appendChild(media_holder);
 
     let image = createElem('img', ['fslightbox-single-source']);
     image.src = 'images/1.jpeg';
     media_holder.appendChild(image);
 
+    renderBottomNav(container);
     console.log(1);
 }
 function renderSingleSource(src) {
