@@ -1,7 +1,6 @@
 # Fullscreen lightbox
 Open source project.
-Big trinity:
-- HTML 
-- CSS
+Technologies:
+- SCSS
 - Javascript
 #### No jQuery.
