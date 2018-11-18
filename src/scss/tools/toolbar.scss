@@ -4,11 +4,12 @@
   top: 0;
   height: 100%;
   display: flex;
-  background: rgba(0,0,0,0.18);
+  z-index: 1;
+  background: rgba(35,35,35,.65);
 }
 
 .fslightbox-toolbar-button {
   height: 100%;
-  width: 46px;
+  width: 45px;
   cursor: pointer;
 }

@@ -13,7 +13,16 @@ function fsLightboxObject() {
         isRenderingSlideButtons: true,
         isRenderingToolbarButtons: {
             "close": true
-        }
+        },
+        sources: [
+            "images/1.jpeg",
+            "images/2.jpg",
+            "images/3.jpeg",
+            "images/4.jpeg",
+            "images/5.jpg",
+            "images/6.jpg",
+        ],
+        mediaHolder: {}
     };
 
     /**
@@ -114,7 +123,7 @@ function fsLightboxObject() {
         this.button = new DOMObject('div').addClassesAndCreate(['fslightbox-toolbar-button', 'button-style']);
 
         this.addSVGIcon = function (d) {
-            let SVGIcon = new self.SVGIcon().getSVGIcon('M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z');
+            let SVGIcon = new self.SVGIcon().getSVGIcon(d);
             this.button.appendChild(
                 SVGIcon
             )
@@ -210,19 +219,50 @@ function fsLightboxObject() {
         privateMethods.renderSlideButtons(container);
         privateMethods.renderNav(container);
 
+        this.data.mediaHolder = new this.mediaHolder();
+        this.data.mediaHolder.renderHolder(container);
 
-        //create media holder
-        let media_holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-        media_holder.style.height = window.innerHeight + 'px';
-        window.onresize = function () {
-            media_holder.style.height = window.innerHeight + 'px';
-        };
-        container.appendChild(media_holder);
-
-        let image = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-        image.src = 'images/4.jpeg';
-        media_holder.appendChild(image);
+        this.source();
     };
+
+
+    /**
+     * @constructor
+     */
+    this.mediaHolder = function() {
+        this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
+        this.holder.style.height = window.innerHeight + 'px';
+        window.onresize = function () {
+            self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
+        };
+        this.renderHolder = function (container) {
+            container.appendChild(this.holder);
+        };
+    };
+
+
+    this.source = function () {
+        this.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+        this.sourceElem.src = self.data.sources[0];
+
+        // let sourceThis = this;
+        // let index = 0;
+        // setInterval( function () {
+        //     if(index === 5){
+        //         index = 0;s
+        //     }
+        //     sourceThis.sourceElem.onload = function() {
+        //         sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
+        //         void sourceThis.sourceElem.offsetWidth;
+        //         sourceThis.sourceElem.classList.add('fslightbox-fade-in');
+        //     };
+        //
+        //     sourceThis.sourceElem.src = self.data.sources[index];
+        //     index++;
+        // },1500);
+
+        this.data.mediaHolder.holder.appendChild(this.sourceElem);
+    }
 }
 
 let fsLightbox = new fsLightboxObject();
