@@ -243,23 +243,36 @@ function fsLightboxObject() {
 
     this.source = function () {
         this.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+        let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
+        this.data.mediaHolder.holder.appendChild(loader);
+        let sourceThis = this;
+
+        this.sourceElem.onload = function() {
+            self.data.mediaHolder.holder.removeChild(loader);
+            console.timeEnd('loading');
+            console.log(this.width);
+            sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
+            void sourceThis.sourceElem.offsetWidth;
+            sourceThis.sourceElem.classList.add('fslightbox-fade-in');
+        };
+        console.time('loading');
         this.sourceElem.src = self.data.sources[0];
 
-        // let sourceThis = this;
-        // let index = 0;
-        // setInterval( function () {
-        //     if(index === 5){
-        //         index = 0;s
-        //     }
-        //     sourceThis.sourceElem.onload = function() {
-        //         sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
-        //         void sourceThis.sourceElem.offsetWidth;
-        //         sourceThis.sourceElem.classList.add('fslightbox-fade-in');
-        //     };
-        //
-        //     sourceThis.sourceElem.src = self.data.sources[index];
-        //     index++;
-        // },1500);
+        let index = 1;
+        setInterval( function () {
+            if(index === 5){
+                index = 0;
+            }
+            sourceThis.sourceElem.onload = function() {
+                console.log(this.width);
+                sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
+                void sourceThis.sourceElem.offsetWidth;
+                sourceThis.sourceElem.classList.add('fslightbox-fade-in');
+            };
+
+            sourceThis.sourceElem.src = self.data.sources[index];
+            index++;
+        },1500);
 
         this.data.mediaHolder.holder.appendChild(this.sourceElem);
     }
