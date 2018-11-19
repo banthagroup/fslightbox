@@ -22,7 +22,8 @@ function fsLightboxObject() {
             "images/5.jpg",
             "images/6.jpg",
         ],
-        mediaHolder: {}
+        mediaHolder: {},
+        onResizeEvent: new onResizeEvent()
     };
 
     /**
@@ -57,6 +58,23 @@ function fsLightboxObject() {
 
 
     /**
+     * Object that contains all actions that fslightbox is doing during running
+     * @constructor
+     */
+    function onResizeEvent() {
+        this.mediaHolderDimensions = function () {
+        };
+        this.sourceDimensions = function () {
+        };
+        let eventThis = this;
+        window.onresize = function () {
+            eventThis.mediaHolderDimensions();
+            eventThis.sourceDimensions();
+        }
+    }
+
+
+    /**
      * SVGIcon object with getSVGIcon method which return <svg> element with <path> child
      * @returns {Element}
      * @constructor
@@ -65,12 +83,12 @@ function fsLightboxObject() {
         /**
          *  <svg> with added 'fslightbox-svg-icon' class
          */
-        this.svg = document.createElementNS('http://www.w3.org/2000/svg',"svg");
+        this.svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
 
         /**
          * child of svg empty <path>
          */
-        this.path = document.createElementNS('http://www.w3.org/2000/svg',"path");
+        this.path = document.createElementNS('http://www.w3.org/2000/svg', "path");
         this.svg.setAttributeNS(null, 'class', 'fslightbox-svg-icon');
         this.svg.setAttributeNS(null, 'viewBox', '0 0 20 20');
 
@@ -129,7 +147,7 @@ function fsLightboxObject() {
             )
         };
 
-        this.remove = function() {
+        this.remove = function () {
             console.log(this.button);
         }
     };
@@ -139,7 +157,7 @@ function fsLightboxObject() {
      * Toolbar object which contains toolbar buttons
      * @constructor
      */
-    this.toolbar = function() {
+    this.toolbar = function () {
         this.toolbarElem = new DOMObject('div').addClassesAndCreate(['fslightbox-toolbar']);
 
         this.renderDefaultButtons = function () {
@@ -158,7 +176,7 @@ function fsLightboxObject() {
             nav.appendChild(this.toolbarElem);
         };
 
-        this.addButtonToToolbar = function() {
+        this.addButtonToToolbar = function () {
             let toolbarButton = new self.toolbarButton();
         };
     };
@@ -182,7 +200,7 @@ function fsLightboxObject() {
                 container.appendChild(nav);
             },
             renderSlideButtons: function (container) {
-                if(self.data.isRenderingSlideButtons === false) {
+                if (self.data.isRenderingSlideButtons === false) {
                     return false;
                 }
 
@@ -229,10 +247,10 @@ function fsLightboxObject() {
     /**
      * @constructor
      */
-    this.mediaHolder = function() {
+    this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
         this.holder.style.height = window.innerHeight + 'px';
-        window.onresize = function () {
+        self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
         };
         this.renderHolder = function (container) {
@@ -247,32 +265,53 @@ function fsLightboxObject() {
         this.data.mediaHolder.holder.appendChild(loader);
         let sourceThis = this;
 
-        this.sourceElem.onload = function() {
+        /**
+         * add fade in class and dimension function
+         */
+        this.sourceElem.onload = function () {
+            const coefficient = this.width / this.height;
+            const sourceWidth = this.width;
+            const sourceHeight = this.height;
+
+            self.data.onResizeEvent.sourceDimensions = function () {
+                const deviceWidth = window.innerWidth;
+                const deviceHeight = window.innerHeight;
+                let newHeight = deviceWidth / coefficient;
+
+                if(sourceWidth > deviceWidth || sourceHeight > deviceHeight) {
+                    if (newHeight < deviceHeight - 60) {
+                        sourceThis.sourceElem.style.height = newHeight + "px";
+                        sourceThis.sourceElem.style.width = deviceWidth + "px";
+                    } else {
+                        newHeight = deviceHeight - 60;
+                        sourceThis.sourceElem.style.height = newHeight + "px";
+                        sourceThis.sourceElem.style.width = deviceHeight * coefficient + "px";
+                    }
+                }
+            };
+
+            self.data.onResizeEvent.sourceDimensions();
             self.data.mediaHolder.holder.removeChild(loader);
-            console.timeEnd('loading');
-            console.log(this.width);
             sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
             void sourceThis.sourceElem.offsetWidth;
             sourceThis.sourceElem.classList.add('fslightbox-fade-in');
         };
-        console.time('loading');
-        this.sourceElem.src = self.data.sources[0];
-
-        let index = 1;
-        setInterval( function () {
-            if(index === 5){
-                index = 0;
-            }
-            sourceThis.sourceElem.onload = function() {
-                console.log(this.width);
-                sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
-                void sourceThis.sourceElem.offsetWidth;
-                sourceThis.sourceElem.classList.add('fslightbox-fade-in');
-            };
-
-            sourceThis.sourceElem.src = self.data.sources[index];
-            index++;
-        },1500);
+        this.sourceElem.src = self.data.sources[5];
+        //
+        // let index = 1;
+        // setInterval( function () {
+        //     if(index === 5){
+        //         index = 0;
+        //     }
+        //     sourceThis.sourceElem.onload = function() {
+        //         sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
+        //         void sourceThis.sourceElem.offsetWidth;
+        //         sourceThis.sourceElem.classList.add('fslightbox-fade-in');
+        //     };
+        //
+        //     sourceThis.sourceElem.src = self.data.sources[index];
+        //     index++;
+        // },1500);
 
         this.data.mediaHolder.holder.appendChild(this.sourceElem);
     }
