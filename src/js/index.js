@@ -267,7 +267,22 @@ function fsLightboxObject() {
         this.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
         let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
         this.data.mediaHolder.holder.appendChild(loader);
-        let sourceThis = this;
+
+        const xhr = new XMLHttpRequest();
+        xhr.onloadstart = function() {
+            xhr.responseType = "blob";
+        };
+
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4) {
+                if(xhr.status === 200) {
+                    self.data.sourceElem.src = URL.createObjectURL(xhr.response);
+                }
+            }
+        };
+
+        xhr.open('get', 'images/1.jpeg', true);
+        xhr.send(null);
 
         /**
          * add fade in class and dimension function
@@ -309,8 +324,6 @@ function fsLightboxObject() {
             self.data.sourceElem.classList.add('fslightbox-fade-in');
         };
 
-        this.data.sourceElem.src = this.data.sources[2];
-
         let index = 4;
         setInterval( function () {
             self.data.mediaHolder.holder.removeChild(self.data.sourceElem);
@@ -322,13 +335,13 @@ function fsLightboxObject() {
                 self.data.onResizeEvent.rememberdWidth = this.width;
                 self.data.onResizeEvent.rememberdHeight = this.height;
                 self.data.onResizeEvent.sourceDimensions(this.width, this.height);
+                self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
                 self.data.sourceElem.classList.remove('fslightbox-fade-in');
                 void self.data.sourceElem.offsetWidth;
                 self.data.sourceElem.classList.add('fslightbox-fade-in');
             };
             self.data.sourceElem.src = self.data.sources[index];
             index++;
-            self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
         },1500);
 
         this.data.mediaHolder.holder.appendChild(this.data.sourceElem);
@@ -337,5 +350,5 @@ function fsLightboxObject() {
 
 let fsLightbox = new fsLightboxObject();
 !function () {
-    //fsLightbox.init();
+    //self.init();
 }(document, window);
