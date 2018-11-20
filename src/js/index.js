@@ -14,13 +14,16 @@ function fsLightboxObject() {
         isRenderingToolbarButtons: {
             "close": true
         },
-        sources: [
+        urls: [
             "images/1.jpeg",
             "images/2.jpg",
             "images/3.jpeg",
             "images/4.jpeg",
             "images/5.jpg",
             "images/6.jpg",
+        ],
+        sources: [
+
         ],
         mediaHolder: {},
         sourceElem: {},
@@ -268,6 +271,7 @@ function fsLightboxObject() {
         let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
         this.data.mediaHolder.holder.appendChild(loader);
 
+
         const xhr = new XMLHttpRequest();
         xhr.onloadstart = function() {
             xhr.responseType = "blob";
@@ -281,7 +285,7 @@ function fsLightboxObject() {
             }
         };
 
-        xhr.open('get', 'images/1.jpeg', true);
+        xhr.open('get', this.data.urls[0], true);
         xhr.send(null);
 
         /**
@@ -304,7 +308,6 @@ function fsLightboxObject() {
                 let newHeight = deviceWidth / coefficient;
                 if(sourceWidth > deviceWidth || sourceHeight > deviceHeight) {
                     if (newHeight < deviceHeight - 60) {
-                        console.log(1);
                         sourceElem.style.height = newHeight + "px";
                         sourceElem.style.width = deviceWidth + "px";
                     } else {
@@ -318,19 +321,46 @@ function fsLightboxObject() {
             self.data.onResizeEvent.rememberdWidth = this.width;
             self.data.onResizeEvent.rememberdHeight = this.height;
             self.data.onResizeEvent.sourceDimensions(this.width, this.height);
-            self.data.mediaHolder.holder.removeChild(loader);
+            self.data.mediaHolder.holder.innerHTML = '';
             self.data.sourceElem.classList.remove('fslightbox-fade-in');
             void self.data.sourceElem.offsetWidth;
             self.data.sourceElem.classList.add('fslightbox-fade-in');
+
+            self.data.sources.push(self.data.sourceElem);
+
         };
 
-        let index = 4;
+        let index = 1;
         setInterval( function () {
-            self.data.mediaHolder.holder.removeChild(self.data.sourceElem);
-            self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-            if(index === 5){
+
+            if(index === 6){
                 index = 0;
             }
+
+            if(typeof self.data.sources[index] !== "undefined") {
+                self.data.mediaHolder.holder.innerHTML = '';
+                self.data.mediaHolder.holder.appendChild(self.data.sources[index]);
+                index++;
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.onloadstart = function() {
+                xhr.responseType = "blob";
+            };
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4) {
+                    if(xhr.status === 200) {
+                        self.data.sourceElem.src = URL.createObjectURL(xhr.response);
+                    }
+                }
+            };
+            xhr.open('get', self.data.urls[index], true);
+            xhr.send(null);
+
+            self.data.mediaHolder.holder.innerHTML = '';
+            self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+
             self.data.sourceElem.onload = function() {
                 self.data.onResizeEvent.rememberdWidth = this.width;
                 self.data.onResizeEvent.rememberdHeight = this.height;
@@ -339,12 +369,11 @@ function fsLightboxObject() {
                 self.data.sourceElem.classList.remove('fslightbox-fade-in');
                 void self.data.sourceElem.offsetWidth;
                 self.data.sourceElem.classList.add('fslightbox-fade-in');
+                self.data.sources.push(self.data.sourceElem);
+                console.log(self.data.sources);
             };
-            self.data.sourceElem.src = self.data.sources[index];
             index++;
-        },1500);
-
-        this.data.mediaHolder.holder.appendChild(this.data.sourceElem);
+        },500);
     }
 }
 
