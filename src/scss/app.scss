@@ -12,6 +12,7 @@
   background: #1e1e1e;
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: Arial, sans-serif;
+  z-index: 9999999;
 }
 
 .fslightbox-open {
@@ -37,6 +38,7 @@
   align-items: center;
   font-size: .85rem;
   color:#a1a1a1;
+  z-index: 1;
   max-width: 46px;
 
   .fslightbox-slide-slide-number {
