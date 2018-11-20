@@ -23,6 +23,7 @@ function fsLightboxObject() {
             "images/6.jpg",
         ],
         mediaHolder: {},
+        sourceElem: {},
         onResizeEvent: new onResizeEvent()
     };
 
@@ -62,6 +63,9 @@ function fsLightboxObject() {
      * @constructor
      */
     function onResizeEvent() {
+        this.rememberdWidth = 0;
+        this.rememberdHeight = 0;
+
         this.mediaHolderDimensions = function () {
         };
         this.sourceDimensions = function () {
@@ -260,7 +264,7 @@ function fsLightboxObject() {
 
 
     this.source = function () {
-        this.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+        this.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
         let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
         this.data.mediaHolder.holder.appendChild(loader);
         let sourceThis = this;
@@ -268,52 +272,66 @@ function fsLightboxObject() {
         /**
          * add fade in class and dimension function
          */
-        this.sourceElem.onload = function () {
-            const coefficient = this.width / this.height;
-            const sourceWidth = this.width;
-            const sourceHeight = this.height;
+        this.data.sourceElem.onload = function () {
 
-            self.data.onResizeEvent.sourceDimensions = function () {
+            //imagine that is is fix for IE ...
+            //if IE wouldnt exists i would just simply add max-width 100% and max-height: 100%
+            self.data.onResizeEvent.sourceDimensions = function (sourceWidth, sourceHeight) {
+                if(typeof  sourceWidth === "undefined") {
+                    sourceWidth = self.data.onResizeEvent.rememberdWidth;
+                    sourceHeight = self.data.onResizeEvent.rememberdHeight;
+                }
+
+                let sourceElem = self.data.sourceElem;
+                const coefficient = sourceWidth / sourceHeight;
                 const deviceWidth = window.innerWidth;
                 const deviceHeight = window.innerHeight;
                 let newHeight = deviceWidth / coefficient;
-
                 if(sourceWidth > deviceWidth || sourceHeight > deviceHeight) {
                     if (newHeight < deviceHeight - 60) {
-                        sourceThis.sourceElem.style.height = newHeight + "px";
-                        sourceThis.sourceElem.style.width = deviceWidth + "px";
+                        console.log(1);
+                        sourceElem.style.height = newHeight + "px";
+                        sourceElem.style.width = deviceWidth + "px";
                     } else {
                         newHeight = deviceHeight - 60;
-                        sourceThis.sourceElem.style.height = newHeight + "px";
-                        sourceThis.sourceElem.style.width = deviceHeight * coefficient + "px";
+                        sourceElem.style.height = newHeight + "px";
+                        sourceElem.style.width = newHeight * coefficient + "px";
                     }
                 }
             };
 
-            self.data.onResizeEvent.sourceDimensions();
+            self.data.onResizeEvent.rememberdWidth = this.width;
+            self.data.onResizeEvent.rememberdHeight = this.height;
+            self.data.onResizeEvent.sourceDimensions(this.width, this.height);
             self.data.mediaHolder.holder.removeChild(loader);
-            sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
-            void sourceThis.sourceElem.offsetWidth;
-            sourceThis.sourceElem.classList.add('fslightbox-fade-in');
+            self.data.sourceElem.classList.remove('fslightbox-fade-in');
+            void self.data.sourceElem.offsetWidth;
+            self.data.sourceElem.classList.add('fslightbox-fade-in');
         };
-        this.sourceElem.src = self.data.sources[5];
-        //
-        // let index = 1;
-        // setInterval( function () {
-        //     if(index === 5){
-        //         index = 0;
-        //     }
-        //     sourceThis.sourceElem.onload = function() {
-        //         sourceThis.sourceElem.classList.remove('fslightbox-fade-in');
-        //         void sourceThis.sourceElem.offsetWidth;
-        //         sourceThis.sourceElem.classList.add('fslightbox-fade-in');
-        //     };
-        //
-        //     sourceThis.sourceElem.src = self.data.sources[index];
-        //     index++;
-        // },1500);
 
-        this.data.mediaHolder.holder.appendChild(this.sourceElem);
+        this.data.sourceElem.src = this.data.sources[2];
+
+        let index = 4;
+        setInterval( function () {
+            self.data.mediaHolder.holder.removeChild(self.data.sourceElem);
+            self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+            if(index === 5){
+                index = 0;
+            }
+            self.data.sourceElem.onload = function() {
+                self.data.onResizeEvent.rememberdWidth = this.width;
+                self.data.onResizeEvent.rememberdHeight = this.height;
+                self.data.onResizeEvent.sourceDimensions(this.width, this.height);
+                self.data.sourceElem.classList.remove('fslightbox-fade-in');
+                void self.data.sourceElem.offsetWidth;
+                self.data.sourceElem.classList.add('fslightbox-fade-in');
+            };
+            self.data.sourceElem.src = self.data.sources[index];
+            index++;
+            self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
+        },1500);
+
+        this.data.mediaHolder.holder.appendChild(this.data.sourceElem);
     }
 }
 
