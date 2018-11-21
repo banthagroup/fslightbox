@@ -15,13 +15,22 @@
     <div class="images">
         <button onclick="fsLightbox.init()">clear</button>
     </div>
+
+    <video id="video" class="fancybox-video" controls="" controlslist="nodownload"
+           poster="https://peach.blender.org/wp-content/uploads/bird1.jpg">
+        <source src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">
+        Sorry, your browser doesn't support embedded videos, <a
+            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch
+        with your favorite video player!
+    </video>
 </div>
 
 <!--SCRIPTS-->
 <script src="./app.js"></script>
 <script>
-    fsLightbox.data.renderSlideButtons = true;
-    fsLightbox.init();
+    let fsLightbox = new fsLightboxObject();
+    //fsLightbox.data.renderSlideButtons = true;
+    //fsLightbox.init();
 </script>
 </body>
 </html>

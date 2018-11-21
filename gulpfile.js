@@ -3,7 +3,6 @@ var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 
-
 gulp.task('reload', function () {
     browserSync.reload();
 });

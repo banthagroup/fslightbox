@@ -11,6 +11,7 @@ function fsLightboxObject() {
         total_slides: 1,
         isRenderingSlideCounter: true,
         isRenderingSlideButtons: true,
+        isfirstTimeLoad: false,
         isRenderingToolbarButtons: {
             "close": true
         },
@@ -77,7 +78,7 @@ function fsLightboxObject() {
         window.onresize = function () {
             eventThis.mediaHolderDimensions();
             eventThis.sourceDimensions();
-        }
+        };
     }
 
 
@@ -247,7 +248,8 @@ function fsLightboxObject() {
         this.data.mediaHolder = new this.mediaHolder();
         this.data.mediaHolder.renderHolder(container);
 
-        this.source();
+        this.data.isfirstTimeLoad = true;
+        this.loadsource();
     };
 
 
@@ -266,33 +268,82 @@ function fsLightboxObject() {
     };
 
 
-    this.source = function () {
-        this.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-        let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
-        this.data.mediaHolder.holder.appendChild(loader);
+    /**
+     * Handles source loading depending on it type
+     * @constructor
+     */
+    this.loadsource = function () {
 
+        //if first time load add loader
+        if(this.data.isfirstTimeLoad === true) {
+            let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
+            this.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+            this.data.isfirstTimeLoad = false;
+        }
+
+        let _this = this;
 
         const xhr = new XMLHttpRequest();
         xhr.onloadstart = function() {
             xhr.responseType = "blob";
         };
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if(xhr.readyState === 4) {
                 if(xhr.status === 200) {
-                    self.data.sourceElem.src = URL.createObjectURL(xhr.response);
+                    let responseType = xhr.response.type;
+                    responseType.indexOf('/');
+                    responseType = responseType.slice(0, responseType.indexOf('/'));
+
+                    if(responseType === 'image') {
+                        _this.imageLoad(URL.createObjectURL(xhr.response));
+                    }
+
+                    if(responseType === 'video') {
+                        _this.videoLoad(URL.createObjectURL(xhr.response));
+                    }
                 }
             }
         };
 
-        xhr.open('get', this.data.urls[0], true);
+        xhr.open('get', 'films/film.mp4', true);
         xhr.send(null);
+
+
+        this.imageLoad = function (src) {
+            let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+            let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
+            this.data.mediaHolder.holder.appendChild(loader);
+            sourceElem.src = src;
+            sourceElem.addEventListener('load', function () {
+                _this.onloadListener(sourceElem, this.width, this.height);
+            });
+        };
+
+
+        this.videoLoad = function (src) {
+            let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
+            let source = new DOMObject('source').elem;
+            console.log(source.offsetWidth);
+            console.log(source.videoWidth);
+            source.src = src;
+            videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
+                '            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch\n' +
+                '        with your favorite video player!';
+
+            videoElem.setAttribute('controls', '');
+            videoElem.appendChild(source);
+            //let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
+            videoElem.addEventListener('loadedmetadata', function () {
+                _this.onloadListener(videoElem, this.videoWidth, this.videoHeight);
+            });
+        };
+
 
         /**
          * add fade in class and dimension function
          */
-        this.data.sourceElem.onload = function () {
-
+        this.onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
             //imagine that is is fix for IE ...
             //if IE wouldnt exists i would just simply add max-width 100% and max-height: 100%
             self.data.onResizeEvent.sourceDimensions = function (sourceWidth, sourceHeight) {
@@ -301,7 +352,6 @@ function fsLightboxObject() {
                     sourceHeight = self.data.onResizeEvent.rememberdHeight;
                 }
 
-                let sourceElem = self.data.sourceElem;
                 const coefficient = sourceWidth / sourceHeight;
                 const deviceWidth = window.innerWidth;
                 const deviceHeight = window.innerHeight;
@@ -318,66 +368,69 @@ function fsLightboxObject() {
                 }
             };
 
-            self.data.onResizeEvent.rememberdWidth = this.width;
-            self.data.onResizeEvent.rememberdHeight = this.height;
-            self.data.onResizeEvent.sourceDimensions(this.width, this.height);
+            // dimensions will be given only one time so we will need to remember it
+            // for next onresize event calls
+            self.data.onResizeEvent.rememberdWidth = sourceWidth;
+            self.data.onResizeEvent.rememberdHeight = sourceHeight;
+            self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
             self.data.mediaHolder.holder.innerHTML = '';
-            self.data.sourceElem.classList.remove('fslightbox-fade-in');
-            void self.data.sourceElem.offsetWidth;
-            self.data.sourceElem.classList.add('fslightbox-fade-in');
+            self.data.mediaHolder.holder.appendChild(sourceElem);
+            sourceElem.classList.remove('fslightbox-fade-in');
+            void sourceElem.offsetWidth;
+            sourceElem.classList.add('fslightbox-fade-in');
+            self.data.sources.push(sourceElem);
+        }
 
-            self.data.sources.push(self.data.sourceElem);
 
-        };
 
-        let index = 1;
-        setInterval( function () {
 
-            if(index === 6){
-                index = 0;
-            }
 
-            if(typeof self.data.sources[index] !== "undefined") {
-                self.data.mediaHolder.holder.innerHTML = '';
-                self.data.mediaHolder.holder.appendChild(self.data.sources[index]);
-                index++;
-                return;
-            }
-
-            const xhr = new XMLHttpRequest();
-            xhr.onloadstart = function() {
-                xhr.responseType = "blob";
-            };
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState === 4) {
-                    if(xhr.status === 200) {
-                        self.data.sourceElem.src = URL.createObjectURL(xhr.response);
-                    }
-                }
-            };
-            xhr.open('get', self.data.urls[index], true);
-            xhr.send(null);
-
-            self.data.mediaHolder.holder.innerHTML = '';
-            self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-
-            self.data.sourceElem.onload = function() {
-                self.data.onResizeEvent.rememberdWidth = this.width;
-                self.data.onResizeEvent.rememberdHeight = this.height;
-                self.data.onResizeEvent.sourceDimensions(this.width, this.height);
-                self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
-                self.data.sourceElem.classList.remove('fslightbox-fade-in');
-                void self.data.sourceElem.offsetWidth;
-                self.data.sourceElem.classList.add('fslightbox-fade-in');
-                self.data.sources.push(self.data.sourceElem);
-                console.log(self.data.sources);
-            };
-            index++;
-        },500);
+        // let index = 1;
+        // setInterval( function () {
+        //
+        //     if(index === 6){
+        //         index = 0;
+        //     }
+        //
+        //     if(typeof self.data.sources[index] !== "undefined") {
+        //         self.data.mediaHolder.holder.innerHTML = '';
+        //         self.data.mediaHolder.holder.appendChild(self.data.sources[index]);
+        //         index++;
+        //         return;
+        //     }
+        //
+        //     const xhr = new XMLHttpRequest();
+        //     xhr.onloadstart = function() {
+        //         xhr.responseType = "blob";
+        //     };
+        //     xhr.onreadystatechange = function() {
+        //         if(xhr.readyState === 4) {
+        //             if(xhr.status === 200) {
+        //                 sourceElem.src = URL.createObjectURL(xhr.response);
+        //             }
+        //         }
+        //     };
+        //     xhr.open('get', self.data.urls[index], true);
+        //     xhr.send(null);
+        //
+        //     self.data.mediaHolder.holder.innerHTML = '';
+        //     self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+        //
+        //     sourceElem.onload = function() {
+        //         self.data.onResizeEvent.rememberdWidth = this.width;
+        //         self.data.onResizeEvent.rememberdHeight = this.height;
+        //         self.data.onResizeEvent.sourceDimensions(this.width, this.height);
+        //         self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
+        //         sourceElem.classList.remove('fslightbox-fade-in');
+        //         void sourceElem.offsetWidth;
+        //         sourceElem.classList.add('fslightbox-fade-in');
+        //         self.data.sources.push(self.data.sourceElem);
+        //         console.log(self.data.sources);
+        //     };
+        //     index++;
+        // },500);
     }
 }
 
-let fsLightbox = new fsLightboxObject();
 !function () {
-    //self.init();
 }(document, window);

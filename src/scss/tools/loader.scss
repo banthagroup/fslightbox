@@ -1,20 +1,31 @@
-.fslightbox-loader {
+.lds-ring {
   display: inline-block;
-  width: 64px;
-  height: 64px;
+  position: relative;
+  width: 67px;
+  height: 67px;
 }
-.fslightbox-loader:after {
-  content: " ";
+.lds-ring div {
+  box-sizing: border-box;
   display: block;
-  width: 46px;
-  height: 46px;
-  margin: 1px;
-  border-radius: 50%;
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  margin: 6px;
   border: 5px solid #999;
-  border-color: #999 transparent #999 transparent;
-  animation: fslightbox-loader 1.2s linear infinite;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #999 transparent transparent transparent;
 }
-@keyframes fslightbox-loader {
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
   0% {
     transform: rotate(0deg);
   }
