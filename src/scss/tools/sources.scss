@@ -1,0 +1,24 @@
+.fslightbox-single-source {
+  display: none;
+  //max-height: 100%;
+  //max-width: 100%;
+}
+
+.fslightbox-fade-in {
+  display: block;
+  -webkit-animation: fslightbox-fade-in-animation .25s ease;
+  -o-animation: fslightbox-fade-in-animation .25s ease;
+  animation: fslightbox-fade-in-animation .25s ease;
+  -webkit-transform: translateZ(0);
+  image-rendering: optimizeQuality;
+}
+
+@keyframes fslightbox-fade-in-animation {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

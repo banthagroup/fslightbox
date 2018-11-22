@@ -1,12 +1,20 @@
+@import "tools/toolbar";
+@import "tools/bottomNav";
+@import "tools/loader";
+@import "tools/sources";
+
 .fslightbox-container {
   position: absolute;
   top:0;
   left:0;
   width:100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.7);
+  background: #1e1e1e;
+  background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: Arial, sans-serif;
+  z-index: 9999999;
 }
+
 
 .fslightbox-open {
   position:absolute;
@@ -16,20 +24,12 @@
   bottom:0;
 }
 
-.fslightbox-single-source {
-  max-width: 100%;
-  max-height: 100%;
-  float: left;
-}
-
-.fslightbox-media-holder {
-  height: 80%;
-}
-
 .fslightbox-nav {
-  height: 46px;
+  height: 45px;
   width: 100%;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .fslightbox-slide-number-container {
@@ -38,11 +38,85 @@
   justify-content: center;
   align-items: center;
   font-size: .85rem;
-  color:#aaa;
+  color:#a1a1a1;
+  z-index: 1;
   max-width: 46px;
 
   .fslightbox-slide-slide-number {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     padding: 0 2px;
   }
 }
-@import "tools/toolbar";
+
+.fslightbox-svg-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.fslightbox-svg-icon path,
+.fslightbox-svg-icon polygon,
+.fslightbox-svg-icon rect {
+  fill: #ddd;
+}
+
+.fslightbox-svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 1;
+}
+
+.fslightbox-slide-btn-container {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px 20px 6px;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.fslightbox-slide-btn-container:hover {
+  .fslightbox-svg-icon path,
+  .fslightbox-svg-icon polygon,
+  .fslightbox-svg-icon rect {
+    fill: #f1f1f1;
+  }
+}
+
+.fslightbox-slide-btn {
+  padding:8px;
+  font-size: 26px;
+  background: rgba(35,35,35,.65);
+}
+
+.fslightbox-slide-btn-right-container {
+  right:0;
+  padding-left: 20px;
+  padding-right: 6px;
+}
+
+.button-style{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fslightbox-media-holder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-style:hover {
+  .fslightbox-svg-icon path,
+  .fslightbox-svg-icon polygon,
+  .fslightbox-svg-icon rect {
+    fill: #fff;
+  }
+}
+
+

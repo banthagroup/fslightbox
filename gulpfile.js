@@ -31,6 +31,12 @@ gulp.task('sass', function () {
 
 
 gulp.task('js', function () {
+  //   return gulp.src('src/js/**/*.js')
+  // //      .pipe(concat('app.js'))
+  //       .pipe(browserify({
+  //           debug: true
+  //       }))
+  //       .pipe(gulp.dest('src'));
     browserify({
         entries:  ['src/js/index.js', 'src/js/renderDom.js'],
         debug: true
