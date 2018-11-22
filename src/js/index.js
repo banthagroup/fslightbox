@@ -1,16 +1,7 @@
-<<<<<<< HEAD
 /**
  * @constructor
  */
 window.fsLightboxObject =  function () {
-=======
-"use strict";
-
-/**
- * @constructor
- */
-function fsLightboxObject() {
->>>>>>> animations
 
     this.data = {
         running: false,
@@ -31,10 +22,7 @@ function fsLightboxObject() {
             "images/6.jpg",
         ],
         sources: [],
-<<<<<<< HEAD
         rememberedSourcesDimensions: [],
-=======
->>>>>>> animations
         mediaHolder: {},
         sourceElem: {},
         onResizeEvent: new onResizeEvent()
@@ -47,11 +35,8 @@ function fsLightboxObject() {
 
 
     this.init = function () {
-<<<<<<< HEAD
         let xd = require('./renderDom')(this, DOMObject);
-=======
-        this.renderDOM();
->>>>>>> animations
+        xd = '';
     };
 
 
@@ -203,7 +188,6 @@ function fsLightboxObject() {
     };
 
 
-<<<<<<< HEAD
     this.slide = function () {
 
         this.previousSlideViaButton = function () {
@@ -233,96 +217,6 @@ function fsLightboxObject() {
 
     /**
      * Div that holds source elem
-=======
-    /**
-     * Method that takes care of rendering whole dom of fsLightbox
-     */
-    this.renderDOM = function () {
-
-        let privateMethods = {
-            renderNav: function (container) {
-                let nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
-
-                let toolbar = new self.toolbar();
-                toolbar.renderToolbar(nav);
-
-                let slideCounter = new self.slideCounter();
-                slideCounter.renderSlideCounter(nav);
-
-                container.appendChild(nav);
-            },
-            renderSlideButtons: function (container) {
-                if (self.data.isRenderingSlideButtons === false) {
-                    return false;
-                }
-
-                //render left btn
-                let left_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container']);
-                let btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'button-style']);
-                btn.appendChild(
-                    new self.SVGIcon().getSVGIcon('M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z')
-                );
-                container.appendChild(left_btn_container);
-
-
-                //go to previous slide onclick
-                left_btn_container.onclick = function () {
-                    if(self.data.slide > 1) {
-                        self.data.slide -= 1;
-                    } else {
-                        self.data.slide = self.data.total_slides
-                    }
-
-                    //load source by index (array is indexed from 0 so we need to decrement index)
-                    self.loadsource(self.data.urls[self.data.slide - 1]);
-                };
-                left_btn_container.appendChild(btn);
-                let right_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-right-container']);
-                btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'button-style']);
-                btn.appendChild(
-                    new self.SVGIcon().getSVGIcon('M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z')
-                );
-
-
-                //go to next slide onclick
-                right_btn_container.onclick = function () {
-                    if(self.data.slide < self.data.total_slides) {
-                        self.data.slide += 1;
-                    } else {
-                        self.data.slide = 1;
-                    }
-
-                    //load source by index (array is indexed from 0 so we need to decrement index)
-                    self.loadsource(self.data.urls[self.data.slide - 1]);
-                };
-                right_btn_container.appendChild(btn);
-                container.appendChild(right_btn_container);
-            }
-        };
-
-
-        //disable scrolling
-        document.body.classList.add('fslightbox-open');
-
-        //create container
-        let container = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
-        container.id = "fslightbox-container";
-        document.body.appendChild(container);
-
-        //render slide buttons and nav(toolbar)
-        privateMethods.renderSlideButtons(container);
-        privateMethods.renderNav(container);
-
-        this.data.mediaHolder = new this.mediaHolder();
-        this.data.mediaHolder.renderHolder(container);
-
-        this.data.isfirstTimeLoad = true;
-        this.loadsource(this.data.urls[0]);
-    };
-
-    /**
-     * @constructor
->>>>>>> animations
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
@@ -335,15 +229,6 @@ function fsLightboxObject() {
         };
     };
 
-<<<<<<< HEAD
-=======
-
-    this.slideByDrag = function () {
-
-    };
-
-
->>>>>>> animations
     /**
      * Handles source loading depending on it type
      * @constructor
@@ -351,7 +236,6 @@ function fsLightboxObject() {
     this.loadsource = function (url) {
 
         let _this = this;
-<<<<<<< HEAD
         const indexOfSourceURL = self.data.urls.indexOf(url);
 
         let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
@@ -373,47 +257,21 @@ function fsLightboxObject() {
                 sourceElem.style.width = newHeight * coefficient + "px";
             }
         };
-=======
->>>>>>> animations
 
         /**
          * add fade in class and dimension function
          */
         let onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
-<<<<<<< HEAD
 
             //add method that changes source dimension on window resize
             self.data.onResizeEvent.sourceDimensions = function () {
                 sourceDimensions(sourceElem, sourceWidth, sourceHeight);
-=======
-            //imagine that is is fix for IE ...
-            //if IE wouldnt exists i would just simply add max-width 100% and max-height: 100%
-            self.data.onResizeEvent.sourceDimensions = function (sourceWidth, sourceHeight) {
-                if (typeof  sourceWidth === "undefined") {
-                    sourceWidth = self.data.onResizeEvent.rememberdWidth;
-                    sourceHeight = self.data.onResizeEvent.rememberdHeight;
-                }
-
-                const coefficient = sourceWidth / sourceHeight;
-                const deviceWidth = window.innerWidth;
-                const deviceHeight = window.innerHeight;
-                let newHeight = deviceWidth / coefficient;
-                if (newHeight < deviceHeight - 60) {
-                    sourceElem.style.height = newHeight + "px";
-                    sourceElem.style.width = deviceWidth + "px";
-                } else {
-                    newHeight = deviceHeight - 60;
-                    sourceElem.style.height = newHeight + "px";
-                    sourceElem.style.width = newHeight * coefficient + "px";
-                }
->>>>>>> animations
             };
 
             // dimensions will be given only one time so we will need to remember it
             // for next onresize event calls
             self.data.onResizeEvent.rememberdWidth = sourceWidth;
             self.data.onResizeEvent.rememberdHeight = sourceHeight;
-<<<<<<< HEAD
 
             //normal source dimensions needs to be stored in array
             //it will be needed when loading source from memory
@@ -436,15 +294,6 @@ function fsLightboxObject() {
 
             //push elem to array from where it will be loaded again if needed
             self.data.sources[indexOfSourceURL] = sourceElem;
-=======
-            self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
-            self.data.mediaHolder.holder.innerHTML = '';
-            self.data.mediaHolder.holder.appendChild(sourceElem);
-            sourceElem.classList.remove('fslightbox-fade-in');
-            void sourceElem.offsetWidth;
-            sourceElem.classList.add('fslightbox-fade-in');
-            self.data.sources.push(sourceElem);
->>>>>>> animations
         };
 
 
@@ -510,10 +359,6 @@ function fsLightboxObject() {
                 const xhr = new XMLHttpRequest();
                 xhr.onloadstart = function () {
                     xhr.responseType = "blob";
-<<<<<<< HEAD
-=======
-                    xhr.dataType = 'json';
->>>>>>> animations
                 };
 
                 xhr.onreadystatechange = function () {
@@ -548,7 +393,6 @@ function fsLightboxObject() {
 
         //check if source was previously created and
         // create it if it wasn't or if it was load it from variable
-<<<<<<< HEAD
         if (typeof this.data.sources[indexOfSourceURL] === "undefined") {
             this.createSourceElem();
         } else {
@@ -565,15 +409,6 @@ function fsLightboxObject() {
                     rememberedSourceDimensions[indexOfSourceURL].height
                 );
             };
-=======
-        if (typeof this.data.sources[this.data.urls.indexOf(url)] === "undefined") {
-            this.createSourceElem();
-        } else {
-            _this.data.mediaHolder.holder.innerHTML = '';
-            _this.data.mediaHolder.holder.appendChild(
-                _this.data.sources[this.data.urls.indexOf(url)]
-            );
->>>>>>> animations
         }
 
 
@@ -621,7 +456,6 @@ function fsLightboxObject() {
         //     };
         //     index++;
         // },500);
-<<<<<<< HEAD
     };
 
     this.slideByDrag = function () {
@@ -629,10 +463,6 @@ function fsLightboxObject() {
     };
 };
 
-=======
-    }
-}
->>>>>>> animations
 
 !function () {
 }(document, window);
