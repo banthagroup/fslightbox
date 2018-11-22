@@ -7,8 +7,8 @@ function fsLightboxObject() {
 
     this.data = {
         running: false,
-        slide: 2,
-        total_slides: 1,
+        slide: 1,
+        total_slides: 6,
         isRenderingSlideCounter: true,
         isRenderingSlideButtons: true,
         isfirstTimeLoad: false,
@@ -216,17 +216,41 @@ function fsLightboxObject() {
                 btn.appendChild(
                     new self.SVGIcon().getSVGIcon('M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z')
                 );
-                left_btn_container.appendChild(btn);
                 container.appendChild(left_btn_container);
 
+
+                //go to previous slide onclick
+                left_btn_container.onclick = function () {
+                    if(self.data.slide > 1) {
+                        self.data.slide -= 1;
+                    } else {
+                        self.data.slide = self.data.total_slides
+                    }
+
+                    //load source by index (array is indexed from 0 so we need to decrement index)
+                    self.loadsource(self.data.urls[self.data.slide - 1]);
+                };
+                left_btn_container.appendChild(btn);
                 let right_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-right-container']);
                 btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'button-style']);
                 btn.appendChild(
                     new self.SVGIcon().getSVGIcon('M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z')
                 );
+
+
+                //go to next slide onclick
+                right_btn_container.onclick = function () {
+                    if(self.data.slide < self.data.total_slides) {
+                        self.data.slide += 1;
+                    } else {
+                        self.data.slide = 1;
+                    }
+
+                    //load source by index (array is indexed from 0 so we need to decrement index)
+                    self.loadsource(self.data.urls[self.data.slide - 1]);
+                };
                 right_btn_container.appendChild(btn);
                 container.appendChild(right_btn_container);
-
             }
         };
 
@@ -247,7 +271,7 @@ function fsLightboxObject() {
         this.data.mediaHolder.renderHolder(container);
 
         this.data.isfirstTimeLoad = true;
-        this.loadsource("images/5.jpg");
+        this.loadsource(this.data.urls[0]);
     };
 
     /**
@@ -265,6 +289,11 @@ function fsLightboxObject() {
     };
 
 
+    this.slideByDrag = function () {
+
+    };
+
+
     /**
      * Handles source loading depending on it type
      * @constructor
@@ -272,12 +301,6 @@ function fsLightboxObject() {
     this.loadsource = function (url) {
 
         let _this = this;
-
-        //if first time load add loader
-        if (this.data.isfirstTimeLoad === true) {
-            this.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-            this.data.isfirstTimeLoad = false;
-        }
 
         /**
          * add fade in class and dimension function
@@ -320,62 +343,13 @@ function fsLightboxObject() {
 
 
         this.loadYoutubevideo = function (videoId) {
-           let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
-           iframe.src = '//www.youtube.com/embed/' + videoId;
-           iframe.setAttribute('allowfullscreen', '');
-           iframe.setAttribute('frameborder', '0');
-           this.data.mediaHolder.holder.appendChild(iframe);
-           onloadListener(iframe, 1920, 1080);
+            let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
+            iframe.src = '//www.youtube.com/embed/' + videoId;
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('frameborder', '0');
+            this.data.mediaHolder.holder.appendChild(iframe);
+            onloadListener(iframe, 1920, 1080);
         };
-
-
-        const parser = document.createElement('a');
-        parser.href = url;
-
-        function getId(url) {
-            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            let match = url.match(regExp);
-
-            if (match && match[2].length == 11) {
-                return match[2];
-            } else {
-                return 'error';
-            }
-        }
-
-
-
-        if(parser.hostname === 'www.youtube.com') {
-            this.loadYoutubevideo(getId(url));
-        } else {
-            const xhr = new XMLHttpRequest();
-            xhr.onloadstart = function () {
-                xhr.responseType = "blob";
-                xhr.dataType = 'json';
-            };
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        let responseType = xhr.response.type;
-                        responseType.indexOf('/');
-                        responseType = responseType.slice(0, responseType.indexOf('/'));
-
-                        if (responseType === 'image') {
-                            _this.imageLoad(URL.createObjectURL(xhr.response));
-                        }
-
-                        if (responseType === 'video') {
-                            _this.videoLoad(URL.createObjectURL(xhr.response));
-                        }
-                    }
-                }
-            };
-
-            xhr.open('get', 'images/5.jpg', true);
-            xhr.send(null);
-        }
-
 
 
         this.imageLoad = function (src) {
@@ -407,6 +381,72 @@ function fsLightboxObject() {
             });
         };
 
+
+        this.createSourceElem = function () {
+            const parser = document.createElement('a');
+            parser.href = url;
+
+            function getId(url) {
+                let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                let match = url.match(regExp);
+
+                if (match && match[2].length == 11) {
+                    return match[2];
+                } else {
+                    return 'error';
+                }
+            }
+
+
+            if (parser.hostname === 'www.youtube.com') {
+                this.loadYoutubevideo(getId(url));
+            } else {
+                const xhr = new XMLHttpRequest();
+                xhr.onloadstart = function () {
+                    xhr.responseType = "blob";
+                    xhr.dataType = 'json';
+                };
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            let responseType = xhr.response.type;
+                            responseType.indexOf('/');
+                            responseType = responseType.slice(0, responseType.indexOf('/'));
+
+                            if (responseType === 'image') {
+                                _this.imageLoad(URL.createObjectURL(xhr.response));
+                            }
+
+                            if (responseType === 'video') {
+                                _this.videoLoad(URL.createObjectURL(xhr.response));
+                            }
+                        }
+                    }
+                };
+
+                xhr.open('get', url, true);
+                xhr.send(null);
+            }
+        };
+
+
+        //if first time load add loader
+        if (this.data.isfirstTimeLoad === true) {
+            this.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+            this.data.isfirstTimeLoad = false;
+        }
+
+        //check if source was previously created and
+        // create it if it wasn't or if it was load it from variable
+        if (typeof this.data.sources[this.data.urls.indexOf(url)] === "undefined") {
+            this.createSourceElem();
+        } else {
+            _this.data.mediaHolder.holder.innerHTML = '';
+            _this.data.mediaHolder.holder.appendChild(
+                _this.data.sources[this.data.urls.indexOf(url)]
+            );
+        }
 
 
         // let index = 1;

@@ -85,7 +85,8 @@ h1 {
   -webkit-animation: fslightbox-fade-in-animation .25s ease;
   -o-animation: fslightbox-fade-in-animation .25s ease;
   animation: fslightbox-fade-in-animation .25s ease;
-  -webkit-transform: translateZ(0); }
+  -webkit-transform: translateZ(0);
+  image-rendering: optimizeQuality; }
 
 @keyframes fslightbox-fade-in-animation {
   0% {
