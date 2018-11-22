@@ -23,9 +23,7 @@ function fsLightboxObject() {
             "images/5.jpg",
             "images/6.jpg",
         ],
-        sources: [
-
-        ],
+        sources: [],
         mediaHolder: {},
         sourceElem: {},
         onResizeEvent: new onResizeEvent()
@@ -249,9 +247,8 @@ function fsLightboxObject() {
         this.data.mediaHolder.renderHolder(container);
 
         this.data.isfirstTimeLoad = true;
-        this.loadsource();
+        this.loadsource("images/5.jpg");
     };
-
 
     /**
      * @constructor
@@ -272,42 +269,113 @@ function fsLightboxObject() {
      * Handles source loading depending on it type
      * @constructor
      */
-    this.loadsource = function () {
+    this.loadsource = function (url) {
+
+        let _this = this;
 
         //if first time load add loader
-        if(this.data.isfirstTimeLoad === true) {
-            let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
+        if (this.data.isfirstTimeLoad === true) {
             this.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
             this.data.isfirstTimeLoad = false;
         }
 
-        let _this = this;
+        /**
+         * add fade in class and dimension function
+         */
+        let onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
+            //imagine that is is fix for IE ...
+            //if IE wouldnt exists i would just simply add max-width 100% and max-height: 100%
+            self.data.onResizeEvent.sourceDimensions = function (sourceWidth, sourceHeight) {
+                if (typeof  sourceWidth === "undefined") {
+                    sourceWidth = self.data.onResizeEvent.rememberdWidth;
+                    sourceHeight = self.data.onResizeEvent.rememberdHeight;
+                }
 
-        const xhr = new XMLHttpRequest();
-        xhr.onloadstart = function() {
-            xhr.responseType = "blob";
+                const coefficient = sourceWidth / sourceHeight;
+                const deviceWidth = window.innerWidth;
+                const deviceHeight = window.innerHeight;
+                let newHeight = deviceWidth / coefficient;
+                if (newHeight < deviceHeight - 60) {
+                    sourceElem.style.height = newHeight + "px";
+                    sourceElem.style.width = deviceWidth + "px";
+                } else {
+                    newHeight = deviceHeight - 60;
+                    sourceElem.style.height = newHeight + "px";
+                    sourceElem.style.width = newHeight * coefficient + "px";
+                }
+            };
+
+            // dimensions will be given only one time so we will need to remember it
+            // for next onresize event calls
+            self.data.onResizeEvent.rememberdWidth = sourceWidth;
+            self.data.onResizeEvent.rememberdHeight = sourceHeight;
+            self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
+            self.data.mediaHolder.holder.innerHTML = '';
+            self.data.mediaHolder.holder.appendChild(sourceElem);
+            sourceElem.classList.remove('fslightbox-fade-in');
+            void sourceElem.offsetWidth;
+            sourceElem.classList.add('fslightbox-fade-in');
+            self.data.sources.push(sourceElem);
         };
 
-        xhr.onreadystatechange = function () {
-            if(xhr.readyState === 4) {
-                if(xhr.status === 200) {
-                    let responseType = xhr.response.type;
-                    responseType.indexOf('/');
-                    responseType = responseType.slice(0, responseType.indexOf('/'));
 
-                    if(responseType === 'image') {
-                        _this.imageLoad(URL.createObjectURL(xhr.response));
-                    }
+        this.loadYoutubevideo = function (videoId) {
+           let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
+           iframe.src = '//www.youtube.com/embed/' + videoId;
+           iframe.setAttribute('allowfullscreen', '');
+           iframe.setAttribute('frameborder', '0');
+           this.data.mediaHolder.holder.appendChild(iframe);
+           onloadListener(iframe, 1920, 1080);
+        };
 
-                    if(responseType === 'video') {
-                        _this.videoLoad(URL.createObjectURL(xhr.response));
+
+        const parser = document.createElement('a');
+        parser.href = url;
+
+        function getId(url) {
+            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            let match = url.match(regExp);
+
+            if (match && match[2].length == 11) {
+                return match[2];
+            } else {
+                return 'error';
+            }
+        }
+
+
+
+        if(parser.hostname === 'www.youtube.com') {
+            this.loadYoutubevideo(getId(url));
+        } else {
+            const xhr = new XMLHttpRequest();
+            xhr.onloadstart = function () {
+                xhr.responseType = "blob";
+                xhr.dataType = 'json';
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let responseType = xhr.response.type;
+                        responseType.indexOf('/');
+                        responseType = responseType.slice(0, responseType.indexOf('/'));
+
+                        if (responseType === 'image') {
+                            _this.imageLoad(URL.createObjectURL(xhr.response));
+                        }
+
+                        if (responseType === 'video') {
+                            _this.videoLoad(URL.createObjectURL(xhr.response));
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        xhr.open('get', 'films/film.mp4', true);
-        xhr.send(null);
+            xhr.open('get', 'images/5.jpg', true);
+            xhr.send(null);
+        }
+
 
 
         this.imageLoad = function (src) {
@@ -316,7 +384,7 @@ function fsLightboxObject() {
             this.data.mediaHolder.holder.appendChild(loader);
             sourceElem.src = src;
             sourceElem.addEventListener('load', function () {
-                _this.onloadListener(sourceElem, this.width, this.height);
+                onloadListener(sourceElem, this.width, this.height);
             });
         };
 
@@ -335,53 +403,9 @@ function fsLightboxObject() {
             videoElem.appendChild(source);
             //let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
             videoElem.addEventListener('loadedmetadata', function () {
-                _this.onloadListener(videoElem, this.videoWidth, this.videoHeight);
+                onloadListener(videoElem, this.videoWidth, this.videoHeight);
             });
         };
-
-
-        /**
-         * add fade in class and dimension function
-         */
-        this.onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
-            //imagine that is is fix for IE ...
-            //if IE wouldnt exists i would just simply add max-width 100% and max-height: 100%
-            self.data.onResizeEvent.sourceDimensions = function (sourceWidth, sourceHeight) {
-                if(typeof  sourceWidth === "undefined") {
-                    sourceWidth = self.data.onResizeEvent.rememberdWidth;
-                    sourceHeight = self.data.onResizeEvent.rememberdHeight;
-                }
-
-                const coefficient = sourceWidth / sourceHeight;
-                const deviceWidth = window.innerWidth;
-                const deviceHeight = window.innerHeight;
-                let newHeight = deviceWidth / coefficient;
-                if(sourceWidth > deviceWidth || sourceHeight > deviceHeight) {
-                    if (newHeight < deviceHeight - 60) {
-                        sourceElem.style.height = newHeight + "px";
-                        sourceElem.style.width = deviceWidth + "px";
-                    } else {
-                        newHeight = deviceHeight - 60;
-                        sourceElem.style.height = newHeight + "px";
-                        sourceElem.style.width = newHeight * coefficient + "px";
-                    }
-                }
-            };
-
-            // dimensions will be given only one time so we will need to remember it
-            // for next onresize event calls
-            self.data.onResizeEvent.rememberdWidth = sourceWidth;
-            self.data.onResizeEvent.rememberdHeight = sourceHeight;
-            self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
-            self.data.mediaHolder.holder.innerHTML = '';
-            self.data.mediaHolder.holder.appendChild(sourceElem);
-            sourceElem.classList.remove('fslightbox-fade-in');
-            void sourceElem.offsetWidth;
-            sourceElem.classList.add('fslightbox-fade-in');
-            self.data.sources.push(sourceElem);
-        }
-
-
 
 
 
