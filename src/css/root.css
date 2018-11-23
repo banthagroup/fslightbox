@@ -82,6 +82,10 @@ h1 {
 
 .fslightbox-fade-in {
   display: block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-animation: fslightbox-fade-in-animation .25s ease;
   -o-animation: fslightbox-fade-in-animation .25s ease;
   animation: fslightbox-fade-in-animation .25s ease;

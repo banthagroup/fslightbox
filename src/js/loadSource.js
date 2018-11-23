@@ -24,12 +24,6 @@ module.exports = function (self, DOMObject, url) {
     };
 
 
-
-    this.xd = function() {
-        return 8;
-    };
-
-
     /**
      * add fade in class and dimension function
      */
@@ -47,11 +41,10 @@ module.exports = function (self, DOMObject, url) {
 
         //normal source dimensions needs to be stored in array
         //it will be needed when loading source from memory
-        self.data.rememberedSourcesDimensions.splice(indexOfSourceURL, 0, {
+        self.data.rememberedSourcesDimensions[indexOfSourceURL] = {
             "width": sourceWidth,
             "height": sourceHeight
-        });
-
+        };
         //set dimension for the first time
         self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
 
@@ -170,17 +163,17 @@ module.exports = function (self, DOMObject, url) {
     } else {
         const sourceElem = self.data.sources[indexOfSourceURL];
         const rememberedSourceDimensions = self.data.rememberedSourcesDimensions[indexOfSourceURL];
-        console.log(rememberedSourceDimensions);
         self.data.mediaHolder.holder.innerHTML = '';
         self.data.mediaHolder.holder.appendChild(sourceElem);
 
         self.data.onResizeEvent.sourceDimensions = function () {
             sourceDimensions(
                 sourceElem,
-                rememberedSourceDimensions[indexOfSourceURL].width,
-                rememberedSourceDimensions[indexOfSourceURL].height
+                rememberedSourceDimensions.width,
+                rememberedSourceDimensions.height
             );
         };
+        self.data.onResizeEvent.sourceDimensions();
     }
 
 

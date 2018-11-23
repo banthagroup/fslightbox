@@ -25,6 +25,8 @@ window.fsLightboxObject = function () {
         rememberedSourcesDimensions: [],
         mediaHolder: {},
         sourceElem: {},
+        slideCounter: {},
+        updateSlideNumber: function() {},
         onResizeEvent: new onResizeEvent()
     };
 
@@ -125,11 +127,11 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.slideCounter = function () {
-        let number_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-number-container']);
-        this.current_slide = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
+        let numberContainer = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-number-container']);
+        self.data.currentSlideDOM = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
 
-        this.current_slide.innerHTML = self.data.slide;
-        this.current_slide.id = 'current_slide';
+        self.data.currentSlideDOM.innerHTML = self.data.slide;
+        self.data.currentSlideDOM.id = 'current_slide';
 
         let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
         space.innerHTML = '/';
@@ -137,12 +139,17 @@ window.fsLightboxObject = function () {
         let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
         slides.innerHTML = self.data.total_slides;
 
-        number_container.appendChild(this.current_slide);
-        number_container.appendChild(space);
-        number_container.appendChild(slides);
+        numberContainer.appendChild(self.data.currentSlideDOM);
+        numberContainer.appendChild(space);
+        numberContainer.appendChild(slides);
+
+        // this method is called after switching slides
+        self.data.updateSlideNumber = function () {
+            self.data.currentSlideDOM.innerHTML = self.data.slide;
+        };
 
         this.renderSlideCounter = function (nav) {
-            nav.appendChild(number_container);
+            nav.appendChild(numberContainer);
         }
     };
 
@@ -207,6 +214,7 @@ window.fsLightboxObject = function () {
 
             //load source by index (array is indexed from 0 so we need to decrement index)
             self.loadsource(self.data.urls[self.data.slide - 1]);
+            self.data.updateSlideNumber();
         };
 
 
@@ -219,7 +227,7 @@ window.fsLightboxObject = function () {
 
             //load source by index (array is indexed from 0 so we need to decrement index)
             self.loadsource(self.data.urls[self.data.slide - 1]);
-
+            self.data.updateSlideNumber();
         };
     };
 
