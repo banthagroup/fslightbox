@@ -31,17 +31,31 @@ gulp.task('sass', function () {
 
 
 gulp.task('js', function () {
-  //   return gulp.src('src/js/**/*.js')
-  // //      .pipe(concat('app.js'))
-  //       .pipe(browserify({
-  //           debug: true
-  //       }))
-  //       .pipe(gulp.dest('src'));
+    //   return gulp.src('src/js/**/*.js')
+    // //      .pipe(concat('app.js'))
+    //       .pipe(browserify({
+    //           debug: true
+    //       }))
+    //       .pipe(gulp.dest('src'));
     browserify({
-        entries:  ['src/js/index.js', 'src/js/renderDom.js'],
+        entries: [
+            'src/js/index.js',
+            'src/js/renderDOM.js',
+            'src/js/loadSource.js'
+        ],
         debug: true
     })
         .bundle()
+        .on('error', function(err){
+            // print the error (can replace with gulp-util)
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log(err.message);
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            // end this stream
+            this.emit('end');
+        })
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(gulp.dest('src'))

@@ -1,7 +1,6 @@
-function renderDOM(self, DOMObject) {
+module.exports = function(self, DOMObject) {
     let privateMethods = {
         renderNav: function (container) {
-            console.log(self.data);
             let nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
 
             let toolbar = new self.toolbar();
@@ -49,7 +48,6 @@ function renderDOM(self, DOMObject) {
         }
     };
 
-
     //disable scrolling
     document.body.classList.add('fslightbox-open');
 
@@ -66,6 +64,5 @@ function renderDOM(self, DOMObject) {
     self.data.mediaHolder.renderHolder(container);
 
     self.data.isfirstTimeLoad = true;
-    self.loadsource(self.data.urls[0]);
+    self.loadsource(self.data.urls[4]);
 };
-module.exports = renderDOM;
