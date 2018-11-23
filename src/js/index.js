@@ -1,18 +1,22 @@
-/**
- * @constructor
- */
+
+
 window.fsLightboxObject = function () {
 
+    /**
+     * @constructor
+     */
     this.data = {
-        running: false,
         slide: 1,
         total_slides: 6,
-        isRenderingSlideCounter: true,
-        isRenderingSlideButtons: true,
-        isfirstTimeLoad: false,
+
+        slideCounter: true,
+        slideButtons: true,
+        isFirstTimeLoad: false,
+        moveSlidesViaDrag: true,
         isRenderingToolbarButtons: {
             "close": true
         },
+
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
@@ -23,36 +27,44 @@ window.fsLightboxObject = function () {
         ],
         sources: [],
         rememberedSourcesDimensions: [],
+
         mediaHolder: {},
+        nav: {},
+        toolbar: {},
         sourceElem: {},
-        slideCounter: {},
-        updateSlideNumber: function() {},
-        onResizeEvent: new onResizeEvent()
+        slideCounterElem: {},
+        slideEvents: {},
+
+        onResizeEvent: new onResizeEvent(),
+        updateSlideNumber: function() {}
     };
 
     /**
-     * @type {fsLightboxObject}
+     * @var this
+     * @type {Window}
      */
     let self = this;
 
 
     this.init = function () {
         new self.dom();
+        require('./changeSlideByDragging.js')(self);
     };
 
 
     /**
+     * Render all library elements
      * @constructor
      */
     this.dom = function () {
-        let module = require('./renderDOM.js');
-        this.renderedDOM = new module(self, DOMObject);
+        require('./renderDOM.js')(self, DOMObject);
     };
 
 
     this.clear = function () {
         document.getElementById('fslightbox-container').remove();
     };
+
 
     /**
      * Generate dom element with classes
@@ -75,6 +87,8 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     function onResizeEvent() {
+        let _this = this;
+
         this.rememberdWidth = 0;
         this.rememberdHeight = 0;
 
@@ -82,10 +96,10 @@ window.fsLightboxObject = function () {
         };
         this.sourceDimensions = function () {
         };
-        let eventThis = this;
+
         window.onresize = function () {
-            eventThis.mediaHolderDimensions();
-            eventThis.sourceDimensions();
+            _this.mediaHolderDimensions();
+            _this.sourceDimensions();
         };
     }
 
@@ -126,12 +140,12 @@ window.fsLightboxObject = function () {
      * Slide counter object - upper left corner of fsLightbox
      * @constructor
      */
-    this.slideCounter = function () {
+    this.slideCounterElem = function () {
         let numberContainer = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-number-container']);
-        self.data.currentSlideDOM = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
+        self.data.slideCounterElem = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
 
-        self.data.currentSlideDOM.innerHTML = self.data.slide;
-        self.data.currentSlideDOM.id = 'current_slide';
+        self.data.slideCounterElem.innerHTML = self.data.slide;
+        self.data.slideCounterElem.id = 'current_slide';
 
         let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
         space.innerHTML = '/';
@@ -139,13 +153,13 @@ window.fsLightboxObject = function () {
         let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
         slides.innerHTML = self.data.total_slides;
 
-        numberContainer.appendChild(self.data.currentSlideDOM);
+        numberContainer.appendChild(self.data.slideCounterElem);
         numberContainer.appendChild(space);
         numberContainer.appendChild(slides);
 
         // this method is called after switching slides
         self.data.updateSlideNumber = function () {
-            self.data.currentSlideDOM.innerHTML = self.data.slide;
+            self.data.slideCounterElem.innerHTML = self.data.slide;
         };
 
         this.renderSlideCounter = function (nav) {
@@ -246,14 +260,14 @@ window.fsLightboxObject = function () {
     };
 
 
+    /**
+     * Display source (image, HTML5 video, YouTube video) depending on given url from user
+     * @param url
+     * @returns {module.exports}
+     */
     this.loadsource = function (url) {
         const loadsourcemodule = require("./loadSource.js");
         return new loadsourcemodule(self, DOMObject, url);
-    };
-
-
-    this.slideByDrag = function () {
-
     };
 };
 

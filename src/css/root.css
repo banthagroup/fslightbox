@@ -186,7 +186,11 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  z-index: 99999999999; }
+
+.fslightbox-cursor-grabbing {
+  cursor: grabbing; }
 
 .button-style:hover .fslightbox-svg-icon path,
 .button-style:hover .fslightbox-svg-icon polygon,

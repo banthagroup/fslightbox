@@ -1,17 +1,18 @@
-module.exports = function(self, DOMObject) {
+module.exports = function (self, DOMObject) {
     let privateMethods = {
         renderNav: function (container) {
-            let nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
+            self.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
+            new self.toolbar().renderToolbar(self.data.nav);
 
-            let toolbar = new self.toolbar();
-            new self.toolbar().renderToolbar(nav);
+            if (self.data.slideCounter === true) {
+                new self.slideCounterElem().renderSlideCounter(self.data.nav);
+            }
 
-            new self.slideCounter().renderSlideCounter(nav);
+            container.appendChild(self.data.nav);
 
-            container.appendChild(nav);
         },
         renderSlideButtons: function (container) {
-            if (self.data.isRenderingSlideButtons === false) {
+            if (self.data.slideButtons === false) {
                 return false;
             }
 
