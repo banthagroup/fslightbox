@@ -4,10 +4,9 @@ module.exports = function(self, DOMObject) {
             let nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
 
             let toolbar = new self.toolbar();
-            toolbar.renderToolbar(nav);
+            new self.toolbar().renderToolbar(nav);
 
-            let slideCounter = new self.slideCounter();
-            slideCounter.renderSlideCounter(nav);
+            new self.slideCounter().renderSlideCounter(nav);
 
             container.appendChild(nav);
         },
@@ -57,12 +56,12 @@ module.exports = function(self, DOMObject) {
     document.body.appendChild(container);
 
     //render slide buttons and nav(toolbar)
-    privateMethods.renderSlideButtons(container);
     privateMethods.renderNav(container);
+    privateMethods.renderSlideButtons(container);
 
     self.data.mediaHolder = new self.mediaHolder();
     self.data.mediaHolder.renderHolder(container);
 
     self.data.isfirstTimeLoad = true;
-    self.loadsource(self.data.urls[4]);
+    self.loadsource(self.data.urls[0]);
 };
