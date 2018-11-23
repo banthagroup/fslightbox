@@ -41,7 +41,8 @@ gulp.task('js', function () {
         entries: [
             'src/js/index.js',
             'src/js/renderDOM.js',
-            'src/js/loadSource.js'
+            'src/js/loadSource.js',
+            'src/js/changeSlideByDragging.js'
         ],
         debug: true
     })

@@ -151,9 +151,9 @@ module.exports = function (self, DOMObject, url) {
 
 
     //if first time load add loader
-    if (self.data.isfirstTimeLoad === true) {
+    if (self.data.isFirstTimeLoad === true) {
         self.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.data.isfirstTimeLoad = false;
+        self.data.isFirstTimeLoad = false;
     }
 
     //check if source was previously created and
