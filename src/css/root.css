@@ -78,7 +78,9 @@ h1 {
     transform: rotate(360deg); } }
 
 .fslightbox-single-source {
-  display: none; }
+  display: none;
+  transform: translate3d(0, 0, 0);
+  z-index: 999999999999; }
 
 .fslightbox-fade-in {
   display: block;
@@ -89,7 +91,6 @@ h1 {
   -webkit-animation: fslightbox-fade-in-animation .25s ease;
   -o-animation: fslightbox-fade-in-animation .25s ease;
   animation: fslightbox-fade-in-animation .25s ease;
-  -webkit-transform: translateZ(0);
   image-rendering: optimizeQuality; }
 
 @keyframes fslightbox-fade-in-animation {
@@ -107,7 +108,8 @@ h1 {
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   font-family: Arial, sans-serif;
-  z-index: 9999999; }
+  z-index: 9999999;
+  overflow-x: hidden; }
 
 .fslightbox-open {
   position: absolute;
@@ -183,11 +185,9 @@ h1 {
   justify-content: center; }
 
 .fslightbox-media-holder {
-  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 99999999999; }
+  align-items: center; }
 
 .fslightbox-cursor-grabbing {
   cursor: grabbing; }

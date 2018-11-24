@@ -8,6 +8,7 @@ window.fsLightboxObject = function () {
     this.data = {
         slide: 1,
         total_slides: 6,
+        xPosition: -window.innerWidth,
 
         slideCounter: true,
         slideButtons: true,
@@ -29,18 +30,22 @@ window.fsLightboxObject = function () {
         rememberedSourcesDimensions: [],
 
         mediaHolder: {},
+        stageSources: {
+            "previousSource": {},
+            "currentSource": {},
+            "nextSource": {},
+        },
+
         nav: {},
         toolbar: {},
         sourceElem: {},
         slideCounterElem: {},
-        slideEvents: {},
 
         onResizeEvent: new onResizeEvent(),
         updateSlideNumber: function() {}
     };
 
     /**
-     * @var this
      * @type {Window}
      */
     let self = this;
@@ -250,9 +255,13 @@ window.fsLightboxObject = function () {
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
+        this.holder.style.width = 3 * window.innerWidth + 'px';
+        this.holder.style.transform = 'translate3d(' +  - window.innerWidth + 'px,0,0)';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
-            self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
+            self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';
+            self.data.mediaHolder.holder.style.height = 0.9 * window.innerHeight + 'px';
+            self.data.mediaHolder.holder.style.marginTop = 0.1 * window.innerHeight + 'px';
         };
         this.renderHolder = function (container) {
             container.appendChild(this.holder);
