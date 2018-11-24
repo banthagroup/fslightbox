@@ -42,6 +42,7 @@ gulp.task('js', function () {
             'src/js/index.js',
             'src/js/renderDOM.js',
             'src/js/loadSource.js',
+            'src/js/appendSource.js',
             'src/js/changeSlideByDragging.js'
         ],
         debug: true
