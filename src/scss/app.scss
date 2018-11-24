@@ -112,12 +112,11 @@
   transition: transform .5s;
 }
 .fslightbox-source-holder {
-  width: 100%;
+  flex: 1;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 5%;
 }
 
 @keyframes slide-right {
