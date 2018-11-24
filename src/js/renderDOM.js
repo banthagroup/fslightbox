@@ -64,5 +64,5 @@ module.exports = function (self, DOMObject) {
     self.data.mediaHolder.renderHolder(container);
 
     self.data.isfirstTimeLoad = true;
-    self.loadsources(self.data.urls[self.data.slide], 'initial');
+    self.loadsources('initial');
 };

@@ -1,7 +1,7 @@
-module.exports = function (self, DOMObject, url, typeOfLoad) {
+module.exports = function (self, DOMObject, typeOfLoad) {
 
-    const indexOfSourceURL = self.data.urls.indexOf(url);
     const _this = this;
+    let currentSlideArrayIndex = self.data.slide - 1;
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
         if (typeof  sourceWidth === "undefined") {
@@ -27,17 +27,16 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
     /**
      * add fade in class and dimension function
      */
-    let onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
+    let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
 
         //normal source dimensions needs to be stored in array
         //it will be needed when loading source from memory
-        self.data.rememberedSourcesDimensions[indexOfSourceURL] = {
+        self.data.rememberedSourcesDimensions[arrayIndex] = {
             "width": sourceWidth,
             "height": sourceHeight
         };
-
 
         //add some fade in animation
         sourceElem.classList.remove('fslightbox-fade-in');
@@ -58,36 +57,36 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
 
         sourceHolder.appendChild(sourceElem);
-        self.data.sources[indexOfSourceURL] = sourceHolder;
+        self.data.sources[arrayIndex] = sourceHolder;
 
         switch (typeOfLoad) {
             case 'initial':
-                self.appendMethods.initialAppend(self.data.sources);
+                self.appendMethods.initialAppend(self);
                 break;
         }
     };
 
 
-    this.loadYoutubevideo = function (videoId) {
+    this.loadYoutubevideo = function (videoId, arrayIndex) {
         let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
         iframe.src = '//www.youtube.com/embed/' + videoId;
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
         self.data.mediaHolder.holder.appendChild(iframe);
-        onloadListener(iframe, 1920, 1080);
+        onloadListener(iframe, 1920, 1080, arrayIndex);
     };
 
 
-    this.imageLoad = function (src) {
+    this.imageLoad = function (src, arrayIndex) {
         let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
         sourceElem.src = src;
         sourceElem.addEventListener('load', function () {
-            onloadListener(sourceElem, this.width, this.height);
+            onloadListener(sourceElem, this.width, this.height, arrayIndex);
         });
     };
 
 
-    this.videoLoad = function (src) {
+    this.videoLoad = function (src, arrayIndex) {
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
         console.log(source.offsetWidth);
@@ -100,18 +99,20 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
         videoElem.setAttribute('controls', '');
         videoElem.appendChild(source);
         videoElem.addEventListener('loadedmetadata', function () {
-            onloadListener(videoElem, this.videoWidth, this.videoHeight);
+            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
         });
     };
 
 
-    this.createSourceElem = function () {
+    this.createSourceElem = function (sourceUrl) {
         const parser = document.createElement('a');
-        parser.href = url;
+        const indexOfSource = self.data.urls.indexOf(sourceUrl);
 
-        function getId(url) {
+        parser.href = sourceUrl;
+
+        function getId(sourceUrl) {
             let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            let match = url.match(regExp);
+            let match = sourceUrl.match(regExp);
 
             if (match && match[2].length == 11) {
                 return match[2];
@@ -122,7 +123,7 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
 
 
         if (parser.hostname === 'www.youtube.com') {
-            this.loadYoutubevideo(getId(url));
+            this.loadYoutubevideo(getId(sourceUrl), indexOfSource);
         } else {
             const xhr = new XMLHttpRequest();
             xhr.onloadstart = function () {
@@ -132,25 +133,38 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
+
+                        //check what type of file provided from link
                         let responseType = xhr.response.type;
                         responseType.indexOf('/');
                         responseType = responseType.slice(0, responseType.indexOf('/'));
 
                         if (responseType === 'image') {
-                            _this.imageLoad(URL.createObjectURL(xhr.response));
+                            _this.imageLoad(URL.createObjectURL(xhr.response), indexOfSource);
                         }
 
                         if (responseType === 'video') {
-                            _this.videoLoad(URL.createObjectURL(xhr.response));
+                            _this.videoLoad(URL.createObjectURL(xhr.response), indexOfSource);
                         }
                     }
                 }
             };
 
-            xhr.open('get', url, true);
+            xhr.open('get', sourceUrl, true);
             xhr.send(null);
         }
     };
+
+    if(typeOfLoad === 'initial') {
+
+        this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
+        this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
+        if(currentSlideArrayIndex === 0) {
+            this.createSourceElem(self.data.urls[self.data.urls.length - 1]);
+        } else {
+            this.createSourceElem(currentSlideArrayIndex - 1);
+        }
+    }
 
 
     //if first time load add loader
@@ -158,6 +172,10 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
         self.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
         self.data.isFirstTimeLoad = false;
     }
+
+
+    /*
+
 
     //check if source was previously created and
     // create it if it wasn't or if it was load it from variable
@@ -180,4 +198,6 @@ module.exports = function (self, DOMObject, url, typeOfLoad) {
         };
         self.data.onResizeEvent.sourceDimensions();
     }
+
+    */
 };

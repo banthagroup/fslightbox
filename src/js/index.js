@@ -1,5 +1,3 @@
-
-
 window.fsLightboxObject = function () {
 
     /**
@@ -42,7 +40,8 @@ window.fsLightboxObject = function () {
         slideCounterElem: {},
 
         onResizeEvent: new onResizeEvent(),
-        updateSlideNumber: function() {}
+        updateSlideNumber: function () {
+        }
     };
 
     /**
@@ -255,8 +254,8 @@ window.fsLightboxObject = function () {
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-        this.holder.style.width = 3 * window.innerWidth + 'px';
-        //this.holder.style.transform = 'translate3d(' +  - window.innerWidth + 'px,0,0)';
+        this.holder.style.width = 3.6 * window.innerWidth + 'px';
+        this.holder.style.transform = 'translate3d(' + -1.3 * window.innerWidth + 'px,0,0)';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';
@@ -282,9 +281,9 @@ window.fsLightboxObject = function () {
      * @param typeOfLoad
      * @returns {module.exports}
      */
-    this.loadsources = function (url, typeOfLoad) {
+    this.loadsources = function (typeOfLoad) {
         const loadsourcemodule = require("./loadSource.js");
-        return new loadsourcemodule(self, DOMObject, url, typeOfLoad);
+        return new loadsourcemodule(self, DOMObject, typeOfLoad);
     };
 };
 
