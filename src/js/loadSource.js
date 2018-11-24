@@ -28,37 +28,58 @@ module.exports = function (self, DOMObject, url) {
      * add fade in class and dimension function
      */
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
-
-        //add method that changes source dimension on window resize
-        self.data.onResizeEvent.sourceDimensions = function () {
-            sourceDimensions(sourceElem, sourceWidth, sourceHeight);
-        };
-
-        // dimensions will be given only one time so we will need to remember it
-        // for next onresize event calls
-        self.data.onResizeEvent.rememberdWidth = sourceWidth;
-        self.data.onResizeEvent.rememberdHeight = sourceHeight;
-
         //normal source dimensions needs to be stored in array
         //it will be needed when loading source from memory
         self.data.rememberedSourcesDimensions[indexOfSourceURL] = {
             "width": sourceWidth,
             "height": sourceHeight
         };
-        //set dimension for the first time
-        self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
 
-        //append elem
-        self.data.mediaHolder.holder.innerHTML = '';
-        self.data.mediaHolder.holder.appendChild(sourceElem);
+
+        //sourceElem.classList.add('fslightbox-fade-in');
+        self.data.sources[indexOfSourceURL] = sourceElem;
 
         //add some fade in animation
         sourceElem.classList.remove('fslightbox-fade-in');
         void sourceElem.offsetWidth;
         sourceElem.classList.add('fslightbox-fade-in');
 
-        //push elem to array from where it will be loaded again if needed
-        self.data.sources[indexOfSourceURL] = sourceElem;
+        //add method that changes source dimension on window resize
+        self.data.onResizeEvent.sourceDimensions = function () {
+            sourceDimensions(sourceElem, sourceWidth, sourceHeight);
+        };
+
+        //set dimension for the first time
+        self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
+
+        // dimensions will be given only one time so we will need to remember it
+        // for next onresize event calls
+        self.data.onResizeEvent.rememberdWidth = sourceWidth;
+        self.data.onResizeEvent.rememberdHeight = sourceHeight;
+
+        if(indexOfSourceURL === 0) {
+            sourceElem.style.transform = 'translate3d(' +  0.25 *window.innerWidth + 'px,0,0)';
+        }
+
+        if(indexOfSourceURL === 5) {
+            sourceElem.style.transform = 'translate3d(' +  0.25* -window.innerWidth + 'px,0,0)';
+        }
+
+
+
+        //if we are rendering image that won't be displayed currently
+        //we don't need to append it
+        if(indexOfSourceURL !== self.data.slide - 1) {
+
+            //sourceElem.style.transform = 'translate3d(' + window.innerWidth + 'px,0,0)';
+            self.data.mediaHolder.holder.appendChild(sourceElem);
+            return;
+        }
+
+
+        //append elem
+        /* self.data.mediaHolder.holder.innerHTML = ''; */
+        self.data.mediaHolder.holder.appendChild(sourceElem);
     };
 
 
@@ -67,7 +88,7 @@ module.exports = function (self, DOMObject, url) {
         iframe.src = '//www.youtube.com/embed/' + videoId;
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
-        this.data.mediaHolder.holder.appendChild(iframe);
+        self.data.mediaHolder.holder.appendChild(iframe);
         onloadListener(iframe, 1920, 1080);
     };
 
@@ -161,10 +182,12 @@ module.exports = function (self, DOMObject, url) {
     if (typeof self.data.sources[indexOfSourceURL] === "undefined") {
         this.createSourceElem();
     } else {
+        console.log('loaded from memory');
         const sourceElem = self.data.sources[indexOfSourceURL];
         const rememberedSourceDimensions = self.data.rememberedSourcesDimensions[indexOfSourceURL];
         self.data.mediaHolder.holder.innerHTML = '';
         self.data.mediaHolder.holder.appendChild(sourceElem);
+        console.log(sourceElem);
 
         self.data.onResizeEvent.sourceDimensions = function () {
             sourceDimensions(

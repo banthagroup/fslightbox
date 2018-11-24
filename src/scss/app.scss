@@ -13,6 +13,7 @@
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: Arial, sans-serif;
   z-index: 9999999;
+  overflow-x: hidden;
 }
 
 
@@ -105,11 +106,9 @@
 }
 
 .fslightbox-media-holder {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999999999;
 }
 .fslightbox-cursor-grabbing {
   cursor: grabbing;

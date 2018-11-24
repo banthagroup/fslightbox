@@ -1,5 +1,7 @@
 .fslightbox-single-source {
   display: none;
+  transform: translate3d(0, 0, 0);
+  z-index: 999999999999;
   //max-height: 100%;
   //max-width: 100%;
 }
@@ -13,7 +15,7 @@
   -webkit-animation: fslightbox-fade-in-animation .25s ease;
   -o-animation: fslightbox-fade-in-animation .25s ease;
   animation: fslightbox-fade-in-animation .25s ease;
-  -webkit-transform: translateZ(0);
+  //-webkit-transform: translateZ(0);
   image-rendering: optimizeQuality;
 }
 
