@@ -20,6 +20,8 @@ module.exports = function (self) {
             }
             is_dragging = true;
             difference = 0;
+
+            console.log(self.data.xPosition);
         },
 
 
@@ -35,7 +37,6 @@ module.exports = function (self) {
             } else if (difference < 0) {
 
             }
-            console.log(difference);
         },
 
 

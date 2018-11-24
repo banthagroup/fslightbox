@@ -1,4 +1,4 @@
-module.exports = function (self, DOMObject, url) {
+module.exports = function (self, DOMObject, url, typeOfLoad) {
 
     const indexOfSourceURL = self.data.urls.indexOf(url);
     const _this = this;
@@ -11,7 +11,7 @@ module.exports = function (self, DOMObject, url) {
 
         const coefficient = sourceWidth / sourceHeight;
         const deviceWidth = window.innerWidth;
-        const deviceHeight = window.innerHeight;
+        const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
         let newHeight = deviceWidth / coefficient;
         if (newHeight < deviceHeight - 60) {
             sourceElem.style.height = newHeight + "px";
@@ -28,6 +28,9 @@ module.exports = function (self, DOMObject, url) {
      * add fade in class and dimension function
      */
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight) {
+
+        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+
         //normal source dimensions needs to be stored in array
         //it will be needed when loading source from memory
         self.data.rememberedSourcesDimensions[indexOfSourceURL] = {
@@ -35,9 +38,6 @@ module.exports = function (self, DOMObject, url) {
             "height": sourceHeight
         };
 
-
-        //sourceElem.classList.add('fslightbox-fade-in');
-        self.data.sources[indexOfSourceURL] = sourceElem;
 
         //add some fade in animation
         sourceElem.classList.remove('fslightbox-fade-in');
@@ -57,29 +57,14 @@ module.exports = function (self, DOMObject, url) {
         self.data.onResizeEvent.rememberdWidth = sourceWidth;
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
 
-        if(indexOfSourceURL === 0) {
-            sourceElem.style.transform = 'translate3d(' +  0.25 *window.innerWidth + 'px,0,0)';
+        sourceHolder.appendChild(sourceElem);
+        self.data.sources[indexOfSourceURL] = sourceHolder;
+
+        switch (typeOfLoad) {
+            case 'initial':
+                self.appendMethods.initialAppend(self.data.sources);
+                break;
         }
-
-        if(indexOfSourceURL === 5) {
-            sourceElem.style.transform = 'translate3d(' +  0.25* -window.innerWidth + 'px,0,0)';
-        }
-
-
-
-        //if we are rendering image that won't be displayed currently
-        //we don't need to append it
-        if(indexOfSourceURL !== self.data.slide - 1) {
-
-            //sourceElem.style.transform = 'translate3d(' + window.innerWidth + 'px,0,0)';
-            self.data.mediaHolder.holder.appendChild(sourceElem);
-            return;
-        }
-
-
-        //append elem
-        /* self.data.mediaHolder.holder.innerHTML = ''; */
-        self.data.mediaHolder.holder.appendChild(sourceElem);
     };
 
 
@@ -95,8 +80,6 @@ module.exports = function (self, DOMObject, url) {
 
     this.imageLoad = function (src) {
         let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-        let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
-        self.data.mediaHolder.holder.appendChild(loader);
         sourceElem.src = src;
         sourceElem.addEventListener('load', function () {
             onloadListener(sourceElem, this.width, this.height);
@@ -116,7 +99,6 @@ module.exports = function (self, DOMObject, url) {
 
         videoElem.setAttribute('controls', '');
         videoElem.appendChild(source);
-        //let loader = new DOMObject('div').addClassesAndCreate(['fslightbox-loader']);
         videoElem.addEventListener('loadedmetadata', function () {
             onloadListener(videoElem, this.videoWidth, this.videoHeight);
         });
@@ -198,50 +180,4 @@ module.exports = function (self, DOMObject, url) {
         };
         self.data.onResizeEvent.sourceDimensions();
     }
-
-
-    // let index = 1;
-    // setInterval( function () {
-    //
-    //     if(index === 6){
-    //         index = 0;
-    //     }
-    //
-    //     if(typeof self.data.sources[index] !== "undefined") {
-    //         self.data.mediaHolder.holder.innerHTML = '';
-    //         self.data.mediaHolder.holder.appendChild(self.data.sources[index]);
-    //         index++;
-    //         return;
-    //     }
-    //
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.onloadstart = function() {
-    //         xhr.responseType = "blob";
-    //     };
-    //     xhr.onreadystatechange = function() {
-    //         if(xhr.readyState === 4) {
-    //             if(xhr.status === 200) {
-    //                 sourceElem.src = URL.createObjectURL(xhr.response);
-    //             }
-    //         }
-    //     };
-    //     xhr.open('get', self.data.urls[index], true);
-    //     xhr.send(null);
-    //
-    //     self.data.mediaHolder.holder.innerHTML = '';
-    //     self.data.sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
-    //
-    //     sourceElem.onload = function() {
-    //         self.data.onResizeEvent.rememberdWidth = this.width;
-    //         self.data.onResizeEvent.rememberdHeight = this.height;
-    //         self.data.onResizeEvent.sourceDimensions(this.width, this.height);
-    //         self.data.mediaHolder.holder.appendChild(self.data.sourceElem);
-    //         sourceElem.classList.remove('fslightbox-fade-in');
-    //         void sourceElem.offsetWidth;
-    //         sourceElem.classList.add('fslightbox-fade-in');
-    //         self.data.sources.push(self.data.sourceElem);
-    //         console.log(self.data.sources);
-    //     };
-    //     index++;
-    // },500);
 };

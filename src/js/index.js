@@ -256,12 +256,10 @@ window.fsLightboxObject = function () {
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
         this.holder.style.width = 3 * window.innerWidth + 'px';
-        this.holder.style.transform = 'translate3d(' +  - window.innerWidth + 'px,0,0)';
+        //this.holder.style.transform = 'translate3d(' +  - window.innerWidth + 'px,0,0)';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';
-            self.data.mediaHolder.holder.style.height = 0.9 * window.innerHeight + 'px';
-            self.data.mediaHolder.holder.style.marginTop = 0.1 * window.innerHeight + 'px';
         };
         this.renderHolder = function (container) {
             container.appendChild(this.holder);
@@ -270,13 +268,23 @@ window.fsLightboxObject = function () {
 
 
     /**
-     * Display source (image, HTML5 video, YouTube video) depending on given url from user
+     * Methods that appends sources to mediaHolder depending on action
+     * @type {{intialAppend, previousAppend, nextAppend}|*}
+     */
+    this.appendMethods = require('./appendSource');
+
+
+    /**
+     * Display source (images, HTML5 video, YouTube video) depending on given url from user
+     * Or if display is initial display 3 initial sources
+     * If there are >= 3 initial sources there will be always 3 in stage
      * @param url
+     * @param typeOfLoad
      * @returns {module.exports}
      */
-    this.loadsource = function (url) {
+    this.loadsources = function (url, typeOfLoad) {
         const loadsourcemodule = require("./loadSource.js");
-        return new loadsourcemodule(self, DOMObject, url);
+        return new loadsourcemodule(self, DOMObject, url, typeOfLoad);
     };
 };
 
