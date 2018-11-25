@@ -17,11 +17,11 @@ window.fsLightboxObject = function () {
         },
 
         urls: [
-            "images/5.jpg",
-            "images/2.jpg",
-            "images/3.jpeg",
-            "images/4.jpeg",
             "images/1.jpeg",
+            "images/2.jpg",
+            "images/5.jpg",
+            "images/4.jpeg",
+            "images/3.jpeg",
             "images/6.jpg",
         ],
         sources: [],
@@ -32,6 +32,14 @@ window.fsLightboxObject = function () {
             "previousSource": {},
             "currentSource": {},
             "nextSource": {},
+        },
+        previousLoad: {
+            loaded: false,
+            isCallingAppend: false
+        },
+        nextLoad: {
+            loaded: false,
+            isCallingAppend: false
         },
 
         nav: {},
@@ -267,7 +275,7 @@ window.fsLightboxObject = function () {
 
     /**
      * Methods that appends sources to mediaHolder depending on action
-     * @type {{intialAppend, previousAppend, nextAppend}|*}
+     * @type {{initialAppend, previousAppend, nextAppend}|*}
      */
     this.appendMethods = require('./appendSource');
 

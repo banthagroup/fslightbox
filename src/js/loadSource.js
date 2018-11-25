@@ -27,7 +27,7 @@ module.exports = function (self, DOMObject, typeOfLoad) {
     /**
      * add fade in class and dimension function
      */
-    let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex, xd) {
+    let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
 
@@ -59,12 +59,15 @@ module.exports = function (self, DOMObject, typeOfLoad) {
 
 
         sourceHolder.appendChild(sourceElem);
-
         self.data.sources[arrayIndex] = sourceHolder;
 
         switch (typeOfLoad) {
             case 'initial':
                 self.appendMethods.initialAppend(self);
+                break;
+            case 'next':
+                self.data.nextLoad.loaded = true;
+                self.appendMethods.nextAppend(self);
                 break;
         }
     };
@@ -169,7 +172,7 @@ module.exports = function (self, DOMObject, typeOfLoad) {
     }
 
     if (typeOfLoad === 'next') {
-
+        this.createSourceElem(self.data.urls[self.data.slide]);
     }
 
 
