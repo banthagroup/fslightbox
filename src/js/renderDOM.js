@@ -4,6 +4,20 @@ module.exports = function (self, DOMObject) {
             self.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
             new self.toolbar().renderToolbar(self.data.nav);
 
+
+            let xdbtn = new DOMObject('a').elem;
+            xdbtn.innerHTML = 'hide';
+            xdbtn.style.zIndex = '9999999';
+            xdbtn.onclick = function () {
+                console.log(self.data.sources[0]);
+                self.data.mediaHolder.holder.innerHTML = '';
+
+               // for(let source in self.data.sources) {
+                    self.data.mediaHolder.holder.appendChild(self.data.sources[0]);
+            //    }
+            };
+            self.data.nav.appendChild(xdbtn);
+
             if (self.data.slideCounter === true) {
                 new self.slideCounterElem().renderSlideCounter(self.data.nav);
             }

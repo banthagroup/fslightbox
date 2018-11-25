@@ -13,7 +13,6 @@
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: Arial, sans-serif;
   z-index: 9999999;
-  overflow-x: hidden;
 }
 
 
@@ -21,6 +20,7 @@
   position:absolute;
   width:100%;
   overflow-y:hidden;
+  overflow-x: hidden;
   top:0;
   bottom:0;
 }
@@ -106,29 +106,12 @@
 }
 
 .fslightbox-media-holder {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform .5s;
+  cursor: grabbing;
 }
-.fslightbox-source-holder {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@keyframes slide-right {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-130%, 0 , 0);
-  }
-}
-
 .fslightbox-cursor-grabbing {
   cursor: grabbing;
 }

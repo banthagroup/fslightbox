@@ -36,7 +36,6 @@ h1 {
   top: 0;
   height: 100%;
   display: flex;
-  z-index: 1;
   background: rgba(35, 35, 35, 0.65); }
 
 .fslightbox-toolbar-button {
@@ -77,20 +76,31 @@ h1 {
   100% {
     transform: rotate(360deg); } }
 
-.fslightbox-single-source {
-  display: none;
-  transform: translate3d(0, 0, 0);
-  z-index: 999999999999; }
+.fslightbox-source-holder {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.fslightbox-transform-transition {
+  -webkit-transition: transform .366s;
+  -moz-transition: transform .366s;
+  -ms-transition: transform .366s;
+  -o-transition: transform .366s;
+  transition: transform .366s; }
+
+@keyframes slide-right {
+  0% {
+    transform: translate3d(0, 0, 0); }
+  100% {
+    transform: translate3d(-130%, 0, 0); } }
 
 .fslightbox-fade-in {
-  display: block;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-animation: fslightbox-fade-in-animation .25s ease;
-  -o-animation: fslightbox-fade-in-animation .25s ease;
-  animation: fslightbox-fade-in-animation .25s ease;
   image-rendering: optimizeQuality; }
 
 @keyframes fslightbox-fade-in-animation {
@@ -108,13 +118,13 @@ h1 {
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   font-family: Arial, sans-serif;
-  z-index: 9999999;
-  overflow-x: hidden; }
+  z-index: 9999999; }
 
 .fslightbox-open {
   position: absolute;
   width: 100%;
   overflow-y: hidden;
+  overflow-x: hidden;
   top: 0;
   bottom: 0; }
 
@@ -185,23 +195,11 @@ h1 {
   justify-content: center; }
 
 .fslightbox-media-holder {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform .5s; }
-
-.fslightbox-source-holder {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-
-@keyframes slide-right {
-  0% {
-    transform: translate3d(0, 0, 0); }
-  100% {
-    transform: translate3d(-130%, 0, 0); } }
+  cursor: grabbing; }
 
 .fslightbox-cursor-grabbing {
   cursor: grabbing; }

@@ -6,7 +6,7 @@ window.fsLightboxObject = function () {
     this.data = {
         slide: 1,
         total_slides: 6,
-        xPosition: -window.innerWidth,
+        xPosition: -1.3 * window.innerWidth,
 
         slideCounter: true,
         slideButtons: true,
@@ -17,11 +17,11 @@ window.fsLightboxObject = function () {
         },
 
         urls: [
-            "images/1.jpeg",
+            "images/5.jpg",
             "images/2.jpg",
             "images/3.jpeg",
             "images/4.jpeg",
-            "images/5.jpg",
+            "images/1.jpeg",
             "images/6.jpg",
         ],
         sources: [],
@@ -162,8 +162,9 @@ window.fsLightboxObject = function () {
         numberContainer.appendChild(slides);
 
         // this method is called after switching slides
-        self.data.updateSlideNumber = function () {
-            self.data.slideCounterElem.innerHTML = self.data.slide;
+        self.data.updateSlideNumber = function (number) {
+            self.data.slide = number;
+            self.data.slideCounterElem.innerHTML = number;
         };
 
         this.renderSlideCounter = function (nav) {
@@ -225,27 +226,26 @@ window.fsLightboxObject = function () {
 
         this.previousSlideViaButton = function () {
             if (self.data.slide > 1) {
-                self.data.slide -= 1;
+                self.data.updateSlideNumber(self.data.slide - 1);
             } else {
-                self.data.slide = self.data.total_slides
+                self.data.updateSlideNumber(self.data.total_slides);
             }
 
             //load source by index (array is indexed from 0 so we need to decrement index)
             self.loadsource(self.data.urls[self.data.slide - 1]);
-            self.data.updateSlideNumber();
         };
 
 
         this.nextSlideViaButton = function () {
             if (self.data.slide < self.data.total_slides) {
-                self.data.slide += 1;
+                self.data.updateSlideNumber(self.data.slide + 1)
             } else {
-                self.data.slide = 1;
+                self.data.updateSlideNumber(self.data.total_slides);
             }
 
             //load source by index (array is indexed from 0 so we need to decrement index)
             self.loadsource(self.data.urls[self.data.slide - 1]);
-            self.data.updateSlideNumber();
+            self.data.updateSlideNumber(self.data.slide);
         };
     };
 
@@ -255,7 +255,6 @@ window.fsLightboxObject = function () {
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
         this.holder.style.width = 3.6 * window.innerWidth + 'px';
-        this.holder.style.transform = 'translate3d(' + -1.3 * window.innerWidth + 'px,0,0)';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';

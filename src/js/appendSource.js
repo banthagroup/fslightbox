@@ -28,19 +28,28 @@ module.exports = {
                 stageSources.previousSource = sources[arrayIndex - 1];
             }
 
+
             //current source
             stageSources.currentSource = sources[arrayIndex];
 
             //next source
-            if(arrayIndex === lastArrayIndex) {
+            if (arrayIndex === lastArrayIndex) {
                 stageSources.nextSource = 0;
             } else {
                 stageSources.nextSource = sources[arrayIndex + 1];
             }
 
-            for(let source in stageSources) {
+            for (let source in stageSources) {
                 self.data.mediaHolder.holder.appendChild(stageSources[source]);
+                stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+
             }
+
+            // setTimeout(function () {
+            //     stageSources.previousSource.classList.add('fslightbox-transform-transition');
+            //     stageSources.currentSource.classList.add('fslightbox-transform-transition');
+            //     stageSources.nextSource.classList.add('fslightbox-transform-transition');
+            // }, 366);
         }
     },
 
