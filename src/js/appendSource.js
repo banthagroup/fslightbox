@@ -42,14 +42,7 @@ module.exports = {
             for (let source in stageSources) {
                 self.data.mediaHolder.holder.appendChild(stageSources[source]);
                 stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-
             }
-
-            // setTimeout(function () {
-            //     stageSources.previousSource.classList.add('fslightbox-transform-transition');
-            //     stageSources.currentSource.classList.add('fslightbox-transform-transition');
-            //     stageSources.nextSource.classList.add('fslightbox-transform-transition');
-            // }, 366);
         }
     },
 
@@ -57,7 +50,45 @@ module.exports = {
 
     },
 
-    nextAppend: function () {
 
+    /**
+     * Loading after transition should be called first
+     * but if image won't load till that this method will be called to append next source when it's loaded
+     * @param self
+     */
+    nextAppend: function (self) {
+
+        const nextLoad = self.data.nextLoad;
+        if(!nextLoad.loaded || !nextLoad.isCallingAppend) {
+            return;
+        }
+        nextLoad.loaded = false;
+        nextLoad.isCallingAppend = false;
+
+        this.nextSourceChangeStage(self);
+    },
+
+
+    /**
+     * This method change stage sources after sliding to next source
+     * @param self
+     */
+    nextSourceChangeStage: function (self) {
+        const mediaHolder = self.data.mediaHolder.holder;
+        const stageSources = self.data.stageSources;
+
+        mediaHolder.removeChild(stageSources.previousSource);
+        stageSources.previousSource = stageSources.currentSource;
+
+        mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
+        stageSources.currentSource = stageSources.nextSource;
+        stageSources.nextSource = self.data.sources[self.data.slide];
+
+        self.data.xPosition = -1.3 * window.innerWidth;
+
+        for (let source in stageSources) {
+            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+        }
+        mediaHolder.appendChild(stageSources.nextSource);
     }
 };

@@ -80,10 +80,28 @@ module.exports = function (self) {
                 }
 
 
+                /**
+                 *  After transition finish change stage sources after sliding to next source
+                 */
                 setTimeout(function () {
+
+                    // disable animation when not sliding
                     sources.previousSource.classList.remove('fslightbox-transform-transition');
                     sources.currentSource.classList.remove('fslightbox-transform-transition');
                     sources.nextSource.classList.remove('fslightbox-transform-transition');
+
+
+                    // transition last 366ms so if image won't load till that
+                    // we will need to render it after it loads on nextAppend method at appendSource.js
+                    const nextLoad = self.data.nextLoad;
+                    if(nextLoad.loaded === false) {
+                        nextLoad.isCallingAppend = true;
+                        return;
+                    }
+                    nextLoad.loaded = false;
+                    nextLoad.isCallingAppend = false;
+
+                    self.appendMethods.nextSourceChangeStage(self);
                 }, 366);
             }
         },
@@ -96,7 +114,6 @@ module.exports = function (self) {
             difference = e.clientX - mouseDownClientX;
             let to_transform = self.data.xPosition + difference;
 
-            console.log(to_transform);
             for(let source in sources) {
                 sources[source].style.transform = 'translate(' + to_transform + 'px,0)';
             }
