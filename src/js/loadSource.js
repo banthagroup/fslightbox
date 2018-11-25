@@ -27,7 +27,7 @@ module.exports = function (self, DOMObject, typeOfLoad) {
     /**
      * add fade in class and dimension function
      */
-    let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
+    let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex, xd) {
 
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
 
@@ -51,12 +51,15 @@ module.exports = function (self, DOMObject, typeOfLoad) {
         //set dimension for the first time
         self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
 
+
         // dimensions will be given only one time so we will need to remember it
         // for next onresize event calls
         self.data.onResizeEvent.rememberdWidth = sourceWidth;
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
 
+
         sourceHolder.appendChild(sourceElem);
+
         self.data.sources[arrayIndex] = sourceHolder;
 
         switch (typeOfLoad) {
@@ -155,15 +158,18 @@ module.exports = function (self, DOMObject, typeOfLoad) {
         }
     };
 
-    if(typeOfLoad === 'initial') {
-
+    if (typeOfLoad === 'initial') {
         this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
         this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
-        if(currentSlideArrayIndex === 0) {
+        if (currentSlideArrayIndex === 0) {
             this.createSourceElem(self.data.urls[self.data.urls.length - 1]);
         } else {
             this.createSourceElem(currentSlideArrayIndex - 1);
         }
+    }
+
+    if (typeOfLoad === 'next') {
+
     }
 
 

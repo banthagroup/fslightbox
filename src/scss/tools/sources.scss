@@ -1,20 +1,43 @@
 .fslightbox-single-source {
-  display: none;
-  transform: translate3d(0, 0, 0);
-  z-index: 999999999999;
+  //stransform: translateZ(0);
   //max-height: 100%;
   //max-width: 100%;
 }
 
+.fslightbox-source-holder {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fslightbox-transform-transition {
+  -webkit-transition: transform .366s;
+  -moz-transition: transform .366s;
+  -ms-transition: transform .366s;
+  -o-transition: transform .366s;
+  transition: transform .366s;
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-130%, 0 , 0);
+  }
+}
+
 .fslightbox-fade-in {
-  display: block;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-animation: fslightbox-fade-in-animation .25s ease;
-  -o-animation: fslightbox-fade-in-animation .25s ease;
-  animation: fslightbox-fade-in-animation .25s ease;
+  //-webkit-animation: fslightbox-fade-in-animation .25s ease;
+  //-o-animation: fslightbox-fade-in-animation .25s ease;
+  //animation: fslightbox-fade-in-animation .25s ease;
   //-webkit-transform: translateZ(0);
   image-rendering: optimizeQuality;
 }
