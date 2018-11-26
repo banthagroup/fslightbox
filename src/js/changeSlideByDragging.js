@@ -14,6 +14,7 @@ module.exports = function (self) {
 
     let eventListeners = {
 
+
         mouseDownEvent: function (e) {
            e.preventDefault();
 
@@ -26,6 +27,7 @@ module.exports = function (self) {
         },
 
 
+
         mouseUpEvent: function () {
             for(let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
@@ -33,9 +35,16 @@ module.exports = function (self) {
             self.data.xPosition = self.data.xPosition + difference;
             is_dragging = false;
 
+            // add transition if user slide to source
+            sources.previousSource.classList.add('fslightbox-transform-transition');
+            sources.currentSource.classList.add('fslightbox-transform-transition');
+            sources.nextSource.classList.add('fslightbox-transform-transition');
+
+
+            // slide previous
             if (difference > 0) {
 
-                //update slide number
+                // update slide number
                 if(self.data.slide === 1) {
                     self.data.updateSlideNumber(self.data.total_slides);
                 } else {
@@ -43,22 +52,15 @@ module.exports = function (self) {
                 }
 
                 self.data.xPosition = -0.1 * window.innerWidth;
-
-                sources.previousSource.classList.add('fslightbox-transform-transition');
-                sources.currentSource.classList.add('fslightbox-transform-transition');
-                sources.nextSource.classList.add('fslightbox-transform-transition');
+                self.loadsources('previous');
 
                 for(let source in sources) {
                     sources[source].style.transform = 'translate(' + -0.1 * window.innerWidth + 'px,0)';
                 }
-
-                setTimeout(function () {
-                    sources.previousSource.classList.remove('fslightbox-transform-transition');
-                    sources.currentSource.classList.remove('fslightbox-transform-transition');
-                    sources.nextSource.classList.remove('fslightbox-transform-transition');
-                }, 366);
             }
 
+
+            // slide next
             else if (difference < 0) {
 
                 //update slide number
@@ -71,40 +73,40 @@ module.exports = function (self) {
                 self.data.xPosition = -2.5 * window.innerWidth;
                 self.loadsources('next');
 
-                sources.previousSource.classList.add('fslightbox-transform-transition');
-                sources.currentSource.classList.add('fslightbox-transform-transition');
-                sources.nextSource.classList.add('fslightbox-transform-transition');
-
                 for(let source in sources) {
                     sources[source].style.transform = 'translate(' + -2.5 * window.innerWidth + 'px,0)';
                 }
-
-
-                /**
-                 *  After transition finish change stage sources after sliding to next source
-                 */
-                setTimeout(function () {
-
-                    // disable animation when not sliding
-                    sources.previousSource.classList.remove('fslightbox-transform-transition');
-                    sources.currentSource.classList.remove('fslightbox-transform-transition');
-                    sources.nextSource.classList.remove('fslightbox-transform-transition');
-
-
-                    // transition last 366ms so if image won't load till that
-                    // we will need to render it after it loads on nextAppend method at appendSource.js
-                    const nextLoad = self.data.nextLoad;
-                    if(nextLoad.loaded === false) {
-                        nextLoad.isCallingAppend = true;
-                        return;
-                    }
-                    nextLoad.loaded = false;
-                    nextLoad.isCallingAppend = false;
-
-                    self.appendMethods.nextSourceChangeStage(self);
-                }, 366);
             }
+
+
+
+            /**
+             *  After transition finish change stage sources after sliding to next source
+             */
+            setTimeout(function () {
+                sources.previousSource.classList.remove('fslightbox-transform-transition');
+                sources.currentSource.classList.remove('fslightbox-transform-transition');
+                sources.nextSource.classList.remove('fslightbox-transform-transition');
+
+                // transition last 366ms so if image won't load till that
+                // we will need to render it after it loads on nextAppend method at appendSource.js
+                const slideLoad = self.data.slideLoad;
+                if(slideLoad.loaded === false) {
+                    slideLoad.isCallingAppend = true;
+                    return;
+                }
+                slideLoad.loaded = false;
+                slideLoad.isCallingAppend = false;
+
+
+                if (difference > 0) {
+                    self.appendMethods.previousSourceChangeStage(self);
+                } else if(difference < 0) {
+                    self.appendMethods.nextSourceChangeStage(self);
+                }
+            }, 366);
         },
+
 
 
         mouseMoveEvent: function (e) {

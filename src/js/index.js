@@ -19,9 +19,9 @@ window.fsLightboxObject = function () {
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
-            "images/5.jpg",
-            "images/4.jpeg",
             "images/3.jpeg",
+            "images/4.jpeg",
+            "images/5.jpg",
             "images/6.jpg",
         ],
         sources: [],
@@ -33,11 +33,7 @@ window.fsLightboxObject = function () {
             "currentSource": {},
             "nextSource": {},
         },
-        previousLoad: {
-            loaded: false,
-            isCallingAppend: false
-        },
-        nextLoad: {
+        slideLoad: {
             loaded: false,
             isCallingAppend: false
         },

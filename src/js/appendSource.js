@@ -46,24 +46,58 @@ module.exports = {
         }
     },
 
-    previousAppend: function () {
-
-    },
 
 
     /**
      * Loading after transition should be called first
-     * but if image won't load till that this method will be called to append next source when it's loaded
+     * but if source won't load till that this method will notice that
+     * @param self
+     */
+    useAppendMethod: function(self) {
+        const slideLoad = self.data.slideLoad;
+        if(!slideLoad.loaded || !slideLoad.isCallingAppend) {
+            return false;
+        }
+        slideLoad.loaded = false;
+        slideLoad.isCallingAppend = false;
+
+        return true;
+    },
+
+
+
+    /**
+     * Check if previous source append is needed and call if it is
+     * @param self
+     */
+    previousAppend: function (self) {
+        if(!this.useAppendMethod(self)) {
+            return;
+        }
+
+        this.previousSourceChangeStage(self);
+    },
+
+
+    /**
+     * This method changes stage sources after sliding to previous source
+     * @param self
+     */
+    previousSourceChangeStage(self) {
+
+    },
+
+
+
+
+    /**
+     * Check if next source append is needed and call if it is
      * @param self
      */
     nextAppend: function (self) {
-
-        const nextLoad = self.data.nextLoad;
-        if(!nextLoad.loaded || !nextLoad.isCallingAppend) {
+        if(!this.useAppendMethod(self)) {
             return;
         }
-        nextLoad.loaded = false;
-        nextLoad.isCallingAppend = false;
 
         this.nextSourceChangeStage(self);
     },
@@ -82,10 +116,14 @@ module.exports = {
 
         mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
         stageSources.currentSource = stageSources.nextSource;
-        stageSources.nextSource = self.data.sources[self.data.slide];
+
+        if(self.data.slide === self.data.total_slides) {
+            stageSources.nextSource = self.data.sources[0];
+        } else {
+            stageSources.nextSource = self.data.sources[self.data.slide];
+        }
 
         self.data.xPosition = -1.3 * window.innerWidth;
-
         for (let source in stageSources) {
             stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
         }

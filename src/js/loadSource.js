@@ -66,8 +66,12 @@ module.exports = function (self, DOMObject, typeOfLoad) {
                 self.appendMethods.initialAppend(self);
                 break;
             case 'next':
-                self.data.nextLoad.loaded = true;
+                self.data.slideLoad.loaded = true;
                 self.appendMethods.nextAppend(self);
+                break;
+            case 'previous':
+                self.data.slideLoad.loaded = true;
+                self.appendMethods.previousAppend(self);
                 break;
         }
     };
@@ -95,8 +99,6 @@ module.exports = function (self, DOMObject, typeOfLoad) {
     this.videoLoad = function (src, arrayIndex) {
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
-        console.log(source.offsetWidth);
-        console.log(source.videoWidth);
         source.src = src;
         videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
             '            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch\n' +
@@ -161,19 +163,51 @@ module.exports = function (self, DOMObject, typeOfLoad) {
         }
     };
 
-    if (typeOfLoad === 'initial') {
-        this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
-        this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
-        if (currentSlideArrayIndex === 0) {
-            this.createSourceElem(self.data.urls[self.data.urls.length - 1]);
-        } else {
-            this.createSourceElem(currentSlideArrayIndex - 1);
-        }
+
+
+
+    switch (typeOfLoad) {
+        case 'initial':
+            this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
+            this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
+            if (currentSlideArrayIndex === 0) {
+                this.createSourceElem(self.data.urls[self.data.urls.length - 1]);
+            } else {
+                this.createSourceElem(currentSlideArrayIndex - 1);
+            }
+            break;
+        case 'next':
+            // Array is indexed from 0 so next source index will be simply slide number
+
+            // if slide number is equals total slide number
+            // we'll consider appending source from index 0 not from slide number index
+            if(self.data.slide === self.data.total_slides) {
+
+                // if source was previously appended load it from memory
+                if(typeof self.data.sources[0] !== "undefined") {
+                    console.log(1);
+                    self.data.slideLoad.loaded = true;
+                    self.appendMethods.nextAppend(self);
+                } else {
+                    this.createSourceElem(self.data.urls[0]);
+                }
+
+                break;
+            }
+
+            // if data was previously appended load it from memory
+            else if(typeof self.data.sources[self.data.slide] !== "undefined") {
+                self.data.slideLoad.loaded = true;
+                self.appendMethods.nextAppend(self);
+                break;
+            }
+
+            // if source wasn't previously appended we will need to create it
+            this.createSourceElem(self.data.urls[self.data.slide]);
+            break;
     }
 
-    if (typeOfLoad === 'next') {
-        this.createSourceElem(self.data.urls[self.data.slide]);
-    }
+
 
 
     //if first time load add loader
