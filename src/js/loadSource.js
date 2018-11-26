@@ -57,7 +57,6 @@ module.exports = function (self, DOMObject, typeOfLoad) {
         self.data.onResizeEvent.rememberdWidth = sourceWidth;
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
 
-
         sourceHolder.appendChild(sourceElem);
         self.data.sources[arrayIndex] = sourceHolder;
 
@@ -129,7 +128,6 @@ module.exports = function (self, DOMObject, typeOfLoad) {
             }
         }
 
-
         if (parser.hostname === 'www.youtube.com') {
             this.loadYoutubevideo(getId(sourceUrl), indexOfSource);
         } else {
@@ -165,9 +163,9 @@ module.exports = function (self, DOMObject, typeOfLoad) {
 
 
 
-
     switch (typeOfLoad) {
         case 'initial':
+            // if we load initially we'll need to create all three stage sources
             this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
             this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
             if (currentSlideArrayIndex === 0) {
@@ -176,11 +174,42 @@ module.exports = function (self, DOMObject, typeOfLoad) {
                 this.createSourceElem(currentSlideArrayIndex - 1);
             }
             break;
+
+        case 'previous':
+            // Array is indexed from 0 so previous source index will be slide number - 2
+
+            // if slide number is 1
+            // we'll be appending source from total_slides index not from slide number index - 2
+            if(self.data.slide === 1) {
+
+
+                // if source was previously appended load it from memory
+                if(typeof self.data.sources[self.data.total_slides] !== "undefined") {
+                    self.data.slideLoad.loaded = true;
+                    self.appendMethods.previousAppend(self);
+                } else {
+                    this.createSourceElem(self.data.urls[self.data.total_slides - 1]);
+                }
+
+                break;
+            }
+
+            // if data was previously appended load it from memory
+            else if(typeof self.data.sources[self.data.slide - 2] !== "undefined") {
+                self.data.slideLoad.loaded = true;
+                self.appendMethods.previousAppend(self);
+                break;
+            }
+
+            // if source wasn't previously appended we will need to create it
+            this.createSourceElem(self.data.urls[self.data.slide - 2]);
+            break;
+
         case 'next':
             // Array is indexed from 0 so next source index will be simply slide number
 
             // if slide number is equals total slide number
-            // we'll consider appending source from index 0 not from slide number index
+            // we'll be appending source from index 0 not from slide number index
             if(self.data.slide === self.data.total_slides) {
 
                 // if source was previously appended load it from memory

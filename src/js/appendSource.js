@@ -83,8 +83,27 @@ module.exports = {
      * This method changes stage sources after sliding to previous source
      * @param self
      */
-    previousSourceChangeStage(self) {
+    previousSourceChangeStage: function(self) {
 
+        const mediaHolder = self.data.mediaHolder.holder;
+        const stageSources = self.data.stageSources;
+
+        mediaHolder.removeChild(stageSources.nextSource);
+        stageSources.nextSource = stageSources.currentSource;
+
+        stageSources.currentSource = stageSources.previousSource;
+
+        if(self.data.slide === 1) {
+            stageSources.previousSource = self.data.sources[self.data.total_slides - 1];
+        } else {
+            stageSources.previousSource = self.data.sources[self.data.slide - 2];
+        }
+
+        self.data.xPosition = -1.3 * window.innerWidth;
+        for (let source in stageSources) {
+            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+        }
+        mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
     },
 
 
@@ -102,7 +121,6 @@ module.exports = {
         this.nextSourceChangeStage(self);
     },
 
-
     /**
      * This method change stage sources after sliding to next source
      * @param self
@@ -114,7 +132,6 @@ module.exports = {
         mediaHolder.removeChild(stageSources.previousSource);
         stageSources.previousSource = stageSources.currentSource;
 
-        mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
         stageSources.currentSource = stageSources.nextSource;
 
         if(self.data.slide === self.data.total_slides) {

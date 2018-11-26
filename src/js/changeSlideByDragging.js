@@ -11,6 +11,7 @@ module.exports = function (self) {
     let is_dragging = false;
     let mouseDownClientX;
     let difference;
+    let slideaAble = true;
 
     let eventListeners = {
 
@@ -29,11 +30,22 @@ module.exports = function (self) {
 
 
         mouseUpEvent: function () {
+
             for(let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
             }
             self.data.xPosition = self.data.xPosition + difference;
             is_dragging = false;
+
+            //we can slide only if previous animation has finished
+            if(!slideaAble) {
+                for(let source in sources) {
+                    sources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+                }
+                return;
+            }
+            console.log(1);
+            slideaAble = false;
 
             // add transition if user slide to source
             sources.previousSource.classList.add('fslightbox-transform-transition');
@@ -104,6 +116,8 @@ module.exports = function (self) {
                 } else if(difference < 0) {
                     self.appendMethods.nextSourceChangeStage(self);
                 }
+
+                slideaAble = true;
             }, 366);
         },
 
