@@ -47,35 +47,36 @@ module.exports = {
     },
 
 
-
     /**
      * Loading after transition should be called first
      * but if source won't load till that this method will notice that
      * @param self
      */
-    useAppendMethod: function(self) {
+    useAppendMethod: function (self, slide) {
         const slideLoad = self.data.slideLoad;
-        if(!slideLoad.loaded || !slideLoad.isCallingAppend) {
+        if (!slideLoad.loaded || !slideLoad.isCallingAppend) {
             return false;
         }
         slideLoad.loaded = false;
+        slideLoad.loads[slide] = false;
         slideLoad.isCallingAppend = false;
+        slideLoad.isCallingAppends[slide] = false;
 
         return true;
     },
 
 
-
     /**
      * Check if previous source append is needed and call if it is
      * @param self
+     * @param slide
      */
-    previousAppend: function (self) {
-        if(!this.useAppendMethod(self)) {
+    previousAppend: function (self, slide) {
+        if (!this.useAppendMethod(self, slide)) {
             return;
         }
 
-        this.previousSourceChangeStage(self);
+        this.previousSourceChangeStage(self, slide);
     },
 
 
@@ -83,7 +84,7 @@ module.exports = {
      * This method changes stage sources after sliding to previous source
      * @param self
      */
-    previousSourceChangeStage: function(self) {
+    previousSourceChangeStage: function (self) {
 
         const mediaHolder = self.data.mediaHolder.holder;
         const stageSources = self.data.stageSources;
@@ -93,7 +94,7 @@ module.exports = {
 
         stageSources.currentSource = stageSources.previousSource;
 
-        if(self.data.slide === 1) {
+        if (self.data.slide === 1) {
             stageSources.previousSource = self.data.sources[self.data.total_slides - 1];
         } else {
             stageSources.previousSource = self.data.sources[self.data.slide - 2];
@@ -107,43 +108,58 @@ module.exports = {
     },
 
 
-
-
     /**
      * Check if next source append is needed and call if it is
      * @param self
+     * @param slide
      */
-    nextAppend: function (self) {
-        if(!this.useAppendMethod(self)) {
+    nextAppend: function (self, slide) {
+        if (!this.useAppendMethod(self)) {
             return;
         }
 
-        this.nextSourceChangeStage(self);
+        console.log(self.data.slideLoad.loads);
+        this.nextSourceChangeStage(self, slide);
     },
 
     /**
      * This method change stage sources after sliding to next source
      * @param self
      */
-    nextSourceChangeStage: function (self) {
+    nextSourceChangeStage: function (self, slide) {
+
         const mediaHolder = self.data.mediaHolder.holder;
         const stageSources = self.data.stageSources;
 
-        mediaHolder.removeChild(stageSources.previousSource);
-        stageSources.previousSource = stageSources.currentSource;
 
-        stageSources.currentSource = stageSources.nextSource;
+             //console.log(slide);
+            // console.log(stageSources.nextSource);
+            // console.log(self.data.sources[slide - 1]);
+           // if(typeof self.data.sources[slide - 1] !== "undefined") {
 
-        if(self.data.slide === self.data.total_slides) {
-            stageSources.nextSource = self.data.sources[0];
-        } else {
-            stageSources.nextSource = self.data.sources[self.data.slide];
-        }
+        let watcher = setInterval(function () {
+            mediaHolder.removeChild(stageSources.previousSource);
+            stageSources.previousSource = stageSources.currentSource;
 
-        self.data.xPosition = -1.3 * window.innerWidth;
-        for (let source in stageSources) {
-            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-        }
-        mediaHolder.appendChild(stageSources.nextSource);
+            stageSources.currentSource = stageSources.nextSource;
+
+            console.log(self.data.sources);
+            if (self.data.slide === self.data.total_slides) {
+                stageSources.nextSource = self.data.sources[0];
+            } else {
+                stageSources.nextSource = self.data.sources[self.data.slide];
+            }
+            mediaHolder.appendChild(stageSources.nextSource);
+
+            self.data.xPosition = -1.3 * window.innerWidth;
+            for (let source in stageSources) {
+                stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+            }
+
+            clearInterval(watcher);
+        },1);
+
+           //w }
+
     }
 };

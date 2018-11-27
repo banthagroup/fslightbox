@@ -69,7 +69,7 @@ module.exports = function (self) {
                 }
 
                 self.data.xPosition = -0.1 * window.innerWidth;
-                self.loadsources('previous');
+                self.loadsources('previous', self.data.slide);
 
                 for(let source in sources) {
                     sources[source].style.transform = 'translate(' + -0.1 * window.innerWidth + 'px,0)';
@@ -88,14 +88,14 @@ module.exports = function (self) {
                 }
 
                 self.data.xPosition = -2.5 * window.innerWidth;
-                self.loadsources('next');
+                self.loadsources('next', self.data.slide);
 
                 for(let source in sources) {
                     sources[source].style.transform = 'translate(' + -2.5 * window.innerWidth + 'px,0)';
                 }
             }
 
-
+            let currentSlide = self.data.slide;
 
             /**
              *  After transition finish change stage sources after sliding to next source
@@ -108,22 +108,23 @@ module.exports = function (self) {
                 // transition last 366ms so if image won't load till that
                 // we will need to render it after it loads on nextAppend method at appendSource.js
                 const slideLoad = self.data.slideLoad;
+                slideaAble = true;
                 if(slideLoad.loaded === false) {
                     slideLoad.isCallingAppend = true;
                     return;
                 }
                 slideLoad.loaded = false;
+                slideLoad.loads[currentSlide] = false;
                 slideLoad.isCallingAppend = false;
-
+                slideLoad.isCallingAppends[currentSlide] = false;
 
                 if (difference > 0) {
-                    self.appendMethods.previousSourceChangeStage(self);
+                    self.appendMethods.previousSourceChangeStage(self, currentSlide);
                 } else if(difference < 0) {
-                    self.appendMethods.nextSourceChangeStage(self);
+                    self.appendMethods.nextSourceChangeStage(self, currentSlide);
                 }
 
-                slideaAble = true;
-            }, 366);
+            },366);
         },
 
 
