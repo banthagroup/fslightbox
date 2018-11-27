@@ -19,7 +19,8 @@ window.fsLightboxObject = function () {
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
-            "images/3.jpeg",
+            //"images/3.jpeg",
+            "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
             "images/6.jpg",
@@ -35,7 +36,10 @@ window.fsLightboxObject = function () {
         },
         slideLoad: {
             loaded: false,
-            isCallingAppend: false
+            isCallingAppend: false,
+            appends: [],
+            loads: [],
+            isCallingAppends: []
         },
 
         nav: {},
@@ -47,6 +51,7 @@ window.fsLightboxObject = function () {
         updateSlideNumber: function () {
         }
     };
+
 
     /**
      * @type {Window}
@@ -284,9 +289,9 @@ window.fsLightboxObject = function () {
      * @param typeOfLoad
      * @returns {module.exports}
      */
-    this.loadsources = function (typeOfLoad) {
+    this.loadsources = function (typeOfLoad, slide) {
         const loadsourcemodule = require("./loadSource.js");
-        return new loadsourcemodule(self, DOMObject, typeOfLoad);
+        return new loadsourcemodule(self, DOMObject, typeOfLoad, slide);
     };
 };
 
