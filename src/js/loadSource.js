@@ -214,7 +214,6 @@ module.exports = function (self, DOMObject, typeOfLoad) {
 
                 // if source was previously appended load it from memory
                 if(typeof self.data.sources[0] !== "undefined") {
-                    console.log(1);
                     self.data.slideLoad.loaded = true;
                     self.appendMethods.nextAppend(self);
                 } else {
