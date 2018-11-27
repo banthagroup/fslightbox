@@ -19,11 +19,15 @@ module.exports = function (self) {
         mouseDownEvent: function (e) {
            e.preventDefault();
 
-            mouseDownClientX = e.clientX;
             for(let elem in elements) {
                 elements[elem].classList.add('fslightbox-cursor-grabbing');
             }
             is_dragging = true;
+            mouseDownClientX = e.clientX;
+
+            if(!slideaAble) {
+                return;
+            }
             difference = 0;
         },
 
@@ -34,17 +38,18 @@ module.exports = function (self) {
             for(let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
             }
-            self.data.xPosition = self.data.xPosition + difference;
+
             is_dragging = false;
+
+            // if user didn't slide none animation should work
+            if(difference == 0) {
+                return;
+            }
 
             //we can slide only if previous animation has finished
             if(!slideaAble) {
-                for(let source in sources) {
-                    sources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-                }
                 return;
             }
-            console.log(1);
             slideaAble = false;
 
             // add transition if user slide to source
@@ -124,9 +129,10 @@ module.exports = function (self) {
 
 
         mouseMoveEvent: function (e) {
-            if (!is_dragging){
+            if (!is_dragging || !slideaAble){
                 return;
             }
+
             difference = e.clientX - mouseDownClientX;
             let to_transform = self.data.xPosition + difference;
 
