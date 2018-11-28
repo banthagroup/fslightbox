@@ -90,6 +90,7 @@ module.exports = function (self) {
                 self.data.xPosition = -2.5 * window.innerWidth;
                 self.loadsources('next', self.data.slide);
 
+
                 for(let source in sources) {
                     sources[source].style.transform = 'translate(' + -2.5 * window.innerWidth + 'px,0)';
                 }
@@ -101,6 +102,12 @@ module.exports = function (self) {
              *  After transition finish change stage sources after sliding to next source
              */
             setTimeout(function () {
+                self.data.xPosition = -1.3 * window.innerWidth;
+                for (let source in self.data.stageSources) {
+                    self.data.stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+                }
+
+
                 sources.previousSource.classList.remove('fslightbox-transform-transition');
                 sources.currentSource.classList.remove('fslightbox-transform-transition');
                 sources.nextSource.classList.remove('fslightbox-transform-transition');
@@ -109,8 +116,8 @@ module.exports = function (self) {
                 // we will need to render it after it loads on nextAppend method at appendSource.js
                 const slideLoad = self.data.slideLoad;
                 slideaAble = true;
-                if(slideLoad.loaded === false) {
-                    slideLoad.isCallingAppend = true;
+                if(slideLoad.loads[currentSlide] === false || typeof slideLoad.loads[currentSlide] === "undefined") {
+                    slideLoad.isCallingAppends[currentSlide] = true;
                     return;
                 }
                 slideLoad.loaded = false;

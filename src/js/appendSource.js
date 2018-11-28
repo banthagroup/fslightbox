@@ -51,10 +51,11 @@ module.exports = {
      * Loading after transition should be called first
      * but if source won't load till that this method will notice that
      * @param self
+     * @param slide
      */
     useAppendMethod: function (self, slide) {
         const slideLoad = self.data.slideLoad;
-        if (!slideLoad.loaded || !slideLoad.isCallingAppend) {
+        if (!slideLoad.loads[slide] || !slideLoad.isCallingAppends[slide]) {
             return false;
         }
         slideLoad.loaded = false;
@@ -99,11 +100,6 @@ module.exports = {
         } else {
             stageSources.previousSource = self.data.sources[self.data.slide - 2];
         }
-
-        self.data.xPosition = -1.3 * window.innerWidth;
-        for (let source in stageSources) {
-            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-        }
         mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
     },
 
@@ -114,11 +110,10 @@ module.exports = {
      * @param slide
      */
     nextAppend: function (self, slide) {
-        if (!this.useAppendMethod(self)) {
+        if (!this.useAppendMethod(self, slide)) {
             return;
         }
 
-        console.log(self.data.slideLoad.loads);
         this.nextSourceChangeStage(self, slide);
     },
 
@@ -131,35 +126,21 @@ module.exports = {
         const mediaHolder = self.data.mediaHolder.holder;
         const stageSources = self.data.stageSources;
 
+        console.log(stageSources.nextSource.firstChild);
+        mediaHolder.removeChild(stageSources.previousSource);
+        stageSources.previousSource = stageSources.currentSource;
+        stageSources.currentSource = stageSources.nextSource;
 
-             //console.log(slide);
-            // console.log(stageSources.nextSource);
-            // console.log(self.data.sources[slide - 1]);
-           // if(typeof self.data.sources[slide - 1] !== "undefined") {
+        if (self.data.slide === self.data.total_slides) {
+            stageSources.nextSource = self.data.sources[0];
+        } else {
+            stageSources.nextSource = self.data.sources[slide];
+        }
+        mediaHolder.appendChild(stageSources.nextSource);
 
-        let watcher = setInterval(function () {
-            mediaHolder.removeChild(stageSources.previousSource);
-            stageSources.previousSource = stageSources.currentSource;
-
-            stageSources.currentSource = stageSources.nextSource;
-
-            console.log(self.data.sources);
-            if (self.data.slide === self.data.total_slides) {
-                stageSources.nextSource = self.data.sources[0];
-            } else {
-                stageSources.nextSource = self.data.sources[self.data.slide];
-            }
-            mediaHolder.appendChild(stageSources.nextSource);
-
-            self.data.xPosition = -1.3 * window.innerWidth;
-            for (let source in stageSources) {
-                stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-            }
-
-            clearInterval(watcher);
-        },1);
-
-           //w }
-
+        self.data.xPosition = -1.3 * window.innerWidth;
+        for (let source in stageSources) {
+            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
+        }
     }
 };
