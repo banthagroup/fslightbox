@@ -100,8 +100,7 @@ h1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
-  image-rendering: optimizeQuality; }
+  user-select: none; }
 
 @keyframes fslightbox-fade-in-animation {
   0% {

@@ -69,11 +69,13 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             case 'next':
                 self.data.slideLoad.loaded = true;
                 self.data.slideLoad.loads[slide] = true;
+                self.data.slideLoad.appends[slide] = true;
                 self.appendMethods.nextAppend(self, slide);
                 break;
             case 'previous':
                 self.data.slideLoad.loaded = true;
                 self.data.slideLoad.loads[slide] = true;
+                self.data.slideLoad.appends[slide] = true;
                 self.appendMethods.previousAppend(self, slide);
                 break;
         }
@@ -100,7 +102,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
 
     this.videoLoad = function (src, arrayIndex) {
-        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
+        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source', 'fslightbox-fade-in']);
         let source = new DOMObject('source').elem;
         source.src = src;
         videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +

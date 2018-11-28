@@ -19,7 +19,7 @@ window.fsLightboxObject = function () {
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
-            //"images/3.jpeg",
+           // "images/3.jpeg",
             "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
