@@ -39,9 +39,11 @@ module.exports = {
                 stageSources.nextSource = sources[arrayIndex + 1];
             }
 
+
+            stageSources.previousSource.style.transform = 'translate(' + -self.data.slideDistance * window.innerWidth + 'px,0)';
+            stageSources.nextSource.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
             for (let source in stageSources) {
                 self.data.mediaHolder.holder.appendChild(stageSources[source]);
-                stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
             }
         }
     },
@@ -123,6 +125,7 @@ module.exports = {
      */
     nextSourceChangeStage: function (self, slide) {
 
+
         const mediaHolder = self.data.mediaHolder.holder;
         const stageSources = self.data.stageSources;
 
@@ -142,5 +145,33 @@ module.exports = {
         for (let source in stageSources) {
             stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
         }
+
+        stageSources.previousSource.classList.remove('fslightbox-transform-transition');
+        stageSources.currentSource.classList.remove('fslightbox-transform-transition');
+        stageSources.nextSource.classList.remove('fslightbox-transform-transition');
+
+    },
+
+
+    slideNext: function(self, slide, DOMObject) {
+        const stageSources = self.data.stageSources;
+        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+        sourceHolder.innerHTML ='<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+
+        self.data.mediaHolder.holder.removeChild(stageSources.previousSource);
+        stageSources.previousSource = stageSources.currentSource;
+        stageSources.currentSource = stageSources.nextSource;
+        stageSources.nextSource = sourceHolder;
+        stageSources.nextSource.style.transform ='translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+        self.data.mediaHolder.holder.appendChild(sourceHolder);
+    },
+
+
+    nextAppend_B: function (self,slide) {
+        if (!this.useAppendMethod(self, slide)) {
+            return;
+        }
+
+        console.log(self.data.sources[slide]);
     }
 };

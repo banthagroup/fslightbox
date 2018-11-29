@@ -70,7 +70,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 self.data.slideLoad.loaded = true;
                 self.data.slideLoad.loads[slide] = true;
                 self.data.slideLoad.appends[slide] = true;
-                self.appendMethods.nextAppend(self, slide);
+                self.appendMethods.nextAppend_B(self, slide);
                 break;
             case 'previous':
                 self.data.slideLoad.loaded = true;
@@ -215,6 +215,10 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         case 'next':
             // Array is indexed from 0 so next source index will be simply slide number
 
+
+            self.appendMethods.slideNext(self,slide, DOMObject);
+
+
             // if slide number is equals total slide number
             // we'll be appending source from index 0 not from slide number index
             if (self.data.slide === self.data.total_slides) {
@@ -240,7 +244,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             }
 
 
-            // if source wasn't previously appended we will need to create it
+            //if source wasn't previously appended we will need to create it
             this.createSourceElem(self.data.urls[self.data.slide]);
             break;
     }

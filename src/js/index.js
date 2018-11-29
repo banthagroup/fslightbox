@@ -7,6 +7,7 @@ window.fsLightboxObject = function () {
         slide: 1,
         total_slides: 6,
         xPosition: -1.3 * window.innerWidth,
+        slideDistance: 1.3,
 
         slideCounter: true,
         slideButtons: true,
@@ -19,8 +20,8 @@ window.fsLightboxObject = function () {
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
-           // "images/3.jpeg",
-            "films/film.mp4",
+            "images/3.jpeg",
+            //"films/film2.mp4",
             "images/4.jpeg",
             "images/5.jpg",
             "images/6.jpg",
@@ -263,7 +264,7 @@ window.fsLightboxObject = function () {
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-        this.holder.style.width = 3.6 * window.innerWidth + 'px';
+        this.holder.style.width =  window.innerWidth + 'px';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';

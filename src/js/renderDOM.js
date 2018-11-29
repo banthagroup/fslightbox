@@ -12,9 +12,9 @@ module.exports = function (self, DOMObject) {
                 console.log(self.data.sources[0]);
                 self.data.mediaHolder.holder.innerHTML = '';
 
-               // for(let source in self.data.sources) {
-                    self.data.mediaHolder.holder.appendChild(self.data.sources[0]);
-            //    }
+                // for(let source in self.data.sources) {
+                self.data.mediaHolder.holder.appendChild(self.data.sources[0]);
+                //    }
             };
             self.data.nav.appendChild(xdbtn);
 
