@@ -36,7 +36,6 @@ window.fsLightboxObject = function () {
             "nextSource": {},
         },
         slideLoad: {
-            appends: [],
             loaded: [],
             isCallingAppend: []
         },
@@ -262,7 +261,7 @@ window.fsLightboxObject = function () {
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-        this.holder.style.width =  window.innerWidth + 'px';
+        this.holder.style.width = window.innerWidth + 'px';
         this.holder.style.height = window.innerHeight + 'px';
         self.data.onResizeEvent.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';
@@ -271,6 +270,44 @@ window.fsLightboxObject = function () {
             container.appendChild(this.holder);
         };
     };
+
+
+
+    /**
+     * Return object with stage sources indexes depending on provided slide
+     * @param slide
+     * @returns {{previous: number, current: number, next: number}}
+     */
+    this.getSourcesIndexes = function (slide) {
+
+        // sources are stored in array indexed from 0
+        const arrayIndex = slide - 1;
+        const sourcesIndexes = {
+            previous: 0,
+            current: 0,
+            next: 0
+        };
+
+        // previous
+        if (arrayIndex === 0) {
+            sourcesIndexes.previous = self.data.total_slides - 1;
+        } else {
+            sourcesIndexes.previous = arrayIndex - 1;
+        }
+
+        // current
+        sourcesIndexes.current = arrayIndex;
+
+        //next
+        if (slide === self.data.total_slides) {
+            sourcesIndexes.next = 0;
+        } else {
+            sourcesIndexes.next = arrayIndex + 1;
+        }
+
+        return sourcesIndexes;
+    };
+
 
 
     /**

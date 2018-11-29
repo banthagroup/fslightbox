@@ -6,7 +6,7 @@ module.exports = function (self) {
         "nav": self.data.nav
     };
     //sources are transformed
-    const sources = self.data.stageSources;
+    const sources = self.data.sources;
 
     let is_dragging = false;
     let mouseDownClientX;
@@ -34,6 +34,7 @@ module.exports = function (self) {
 
 
         mouseUpEvent: function () {
+            let sourcesIndexes = self.getSourcesIndexes(self.data.slide);
 
             for(let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
@@ -53,9 +54,9 @@ module.exports = function (self) {
             slideaAble = false;
 
             // add transition if user slide to source
-            sources.previousSource.classList.add('fslightbox-transform-transition');
-            sources.currentSource.classList.add('fslightbox-transform-transition');
-            sources.nextSource.classList.add('fslightbox-transform-transition');
+            sources[sourcesIndexes.previous].classList.add('fslightbox-transform-transition');
+            sources[sourcesIndexes.current].classList.add('fslightbox-transform-transition');
+            sources[sourcesIndexes.next].classList.add('fslightbox-transform-transition');
 
 
             // slide previous
@@ -71,8 +72,8 @@ module.exports = function (self) {
                 self.data.xPosition = -0.1 * window.innerWidth;
                 self.loadsources('previous', self.data.slide);
 
-                for(let source in sources) {
-                    sources[source].style.transform = 'translate(' + -0.1 * window.innerWidth + 'px,0)';
+                for(let sourceIndex in sourcesIndexes) {
+                    sources[sourceIndex].style.transform = 'translate(' + -0.1 * window.innerWidth + 'px,0)';
                 }
             }
 
@@ -88,42 +89,43 @@ module.exports = function (self) {
                 }
 
                 self.data.xPosition = -2.5 * window.innerWidth;
-                let previous = -self.data.slideDistance * window.innerWidth + difference;
-                sources.currentSource.style.transform = 'translate(' + previous + 'px,0)';
-                sources.nextSource.style.transform = 'translate(0,0)';
+                let slideBackTransform = -self.data.slideDistance * window.innerWidth;
+
+                sources[sourcesIndexes.current].style.transform = 'translate(' + slideBackTransform + 'px,0)';
+                sources[sourcesIndexes.next].style.transform = 'translate(0,0)';
 
                 self.loadsources('next', self.data.slide);
             }
 
-            let currentSlide = self.data.slide;
+
+            let slide = self.data.slide;
 
             /**
              *  After transition finish change stage sources after sliding to next source
              */
             setTimeout(function () {
 
-                sources.previousSource.classList.remove('fslightbox-transform-transition');
-                sources.currentSource.classList.remove('fslightbox-transform-transition');
-                sources.nextSource.classList.remove('fslightbox-transform-transition');
+                sources[sourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
+                sources[sourcesIndexes.current].classList.remove('fslightbox-transform-transition');
+                sources[sourcesIndexes.next].classList.remove('fslightbox-transform-transition');
 
                 // transition last 250ms so if image won't load till that
                 // we will need to render it after it loads on nextAppend method at appendSource.js
                 const slideLoad = self.data.slideLoad;
                 slideaAble = true;
-                if(slideLoad.loaded[currentSlide] === false || typeof slideLoad.loaded[currentSlide] === "undefined") {
-                    slideLoad.isCallingAppend[currentSlide] = true;
+                if(slideLoad.loaded[slide] === false || typeof slideLoad.loaded[slide] === "undefined") {
+                    slideLoad.isCallingAppend[slide] = true;
                     return;
                 }
 
-                slideLoad.loaded[currentSlide] = false;
-                slideLoad.isCallingAppend[currentSlide] = false;
+                slideLoad.loaded[slide] = false;
+                slideLoad.isCallingAppend[slide] = false;
 
                 if (difference > 0) {
-                    self.appendMethods.previousSourceChangeStage(self, currentSlide);
+                    self.appendMethods.previousSourceChangeStage(self, slide);
                 } else if(difference < 0) {
-                    self.appendMethods.nextSourceChangeStage(self, currentSlide);
+                    self.appendMethods.nextSourceChangeStage(self, slide);
                 }
-
             },250);
         },
 
@@ -135,11 +137,14 @@ module.exports = function (self) {
             }
 
             difference = e.clientX - mouseDownClientX;
-            let previous = -self.data.slideDistance * window.innerWidth + difference;
-            let next = self.data.slideDistance * window.innerWidth + difference;
-            sources.previousSource.style.transform = 'translate(' + previous + 'px,0)';
-            sources.currentSource.style.transform = 'translate(' + difference + 'px,0)';
-            sources.nextSource.style.transform = 'translate(' + next + 'px,0)';
+            const previous = -self.data.slideDistance * window.innerWidth + difference;
+            const next = self.data.slideDistance * window.innerWidth + difference;
+            const sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+
+            // slide sources
+            sources[sourcesIndexes.previous].style.transform = 'translate(' + previous + 'px,0)';
+            sources[sourcesIndexes.current].style.transform = 'translate(' + difference + 'px,0)';
+            sources[sourcesIndexes.next].style.transform = 'translate(' + next + 'px,0)';
         }
     };
 

@@ -19,32 +19,35 @@ module.exports = {
             let arrayIndex = self.data.slide - 1;
             let lastArrayIndex = self.data.urls.length - 1;
             const sources = self.data.sources;
-            const stageSources = self.data.stageSources;
+            const mediaHolder = self.data.mediaHolder.holder;
+
+            let previousSource;
+            let currentSource;
+            let nextSource;
 
             //previous source
             if (arrayIndex === 0) {
-                stageSources.previousSource = sources[lastArrayIndex];
+                previousSource = sources[lastArrayIndex];
             } else {
-                stageSources.previousSource = sources[arrayIndex - 1];
+                previousSource = sources[arrayIndex - 1];
             }
 
-
             //current source
-            stageSources.currentSource = sources[arrayIndex];
+            currentSource = sources[arrayIndex];
 
             //next source
             if (arrayIndex === lastArrayIndex) {
-                stageSources.nextSource = 0;
+                nextSource = 0;
             } else {
-                stageSources.nextSource = sources[arrayIndex + 1];
+                nextSource = sources[arrayIndex + 1];
             }
 
+            previousSource.style.transform = 'translate(' + -self.data.slideDistance * window.innerWidth + 'px,0)';
+            nextSource.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
 
-            stageSources.previousSource.style.transform = 'translate(' + -self.data.slideDistance * window.innerWidth + 'px,0)';
-            stageSources.nextSource.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
-            for (let source in stageSources) {
-                self.data.mediaHolder.holder.appendChild(stageSources[source]);
-            }
+            mediaHolder.appendChild(previousSource);
+            mediaHolder.appendChild(currentSource);
+            mediaHolder.appendChild(nextSource);
         }
     },
 
@@ -118,21 +121,24 @@ module.exports = {
     },
 
 
+
     renderHolderNext: function (self, slide, DOMObject) {
 
-        const stageSources = self.data.stageSources;
+        const sources = self.data.sources;
 
+        // we will be removing previous element from slide before so we need to decrement slide
+        const sourcesIndexes = self.getSourcesIndexes(slide - 1);
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        self.data.mediaHolder.holder.removeChild(sources[sourcesIndexes.previous]);
+        sourceHolder.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
 
-        self.data.mediaHolder.holder.removeChild(stageSources.previousSource);
-        stageSources.previousSource = stageSources.currentSource;
-        stageSources.currentSource = stageSources.nextSource;
-        stageSources.nextSource = sourceHolder;
-        stageSources.nextSource.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
-        console.log(sourceHolder);
+        // we are appending sourceHolder to array on slide index because array is indexed from 0
+        // so next source index will be simply slide number
+        self.data.sources[slide] = sourceHolder;
         self.data.mediaHolder.holder.appendChild(sourceHolder);
     },
+
 
 
     /**
@@ -141,10 +147,8 @@ module.exports = {
      */
     nextSourceChangeStage: function (self, slide) {
         const nextSource = self.data.sources[slide];
-        const stageSources = self.data.stageSources;
-
-
-        stageSources.nextSource.innerHTML = '';
-        stageSources.nextSource.appendChild(nextSource.firstChild);
+        const nextSourceHolder = self.data.mediaHolder.holder.childNodes[2];
+        //nextSourceHolder.appendChild(nextSource.firstChild);
+        console.log(nextSourceHolder);
     },
 };
