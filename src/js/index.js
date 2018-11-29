@@ -20,8 +20,8 @@ window.fsLightboxObject = function () {
         urls: [
             "images/1.jpeg",
             "images/2.jpg",
-            "images/3.jpeg",
-            //"films/film2.mp4",
+            //"images/3.jpeg",
+            "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
             "images/6.jpg",
@@ -36,11 +36,9 @@ window.fsLightboxObject = function () {
             "nextSource": {},
         },
         slideLoad: {
-            loaded: false,
-            isCallingAppend: false,
             appends: [],
-            loads: [],
-            isCallingAppends: []
+            loaded: [],
+            isCallingAppend: []
         },
 
         nav: {},

@@ -110,19 +110,18 @@ module.exports = function (self) {
                 // we will need to render it after it loads on nextAppend method at appendSource.js
                 const slideLoad = self.data.slideLoad;
                 slideaAble = true;
-                if(slideLoad.loads[currentSlide] === false || typeof slideLoad.loads[currentSlide] === "undefined") {
-                    slideLoad.isCallingAppends[currentSlide] = true;
+                if(slideLoad.loaded[currentSlide] === false || typeof slideLoad.loaded[currentSlide] === "undefined") {
+                    slideLoad.isCallingAppend[currentSlide] = true;
                     return;
                 }
-                slideLoad.loaded = false;
-                slideLoad.loads[currentSlide] = false;
-                slideLoad.isCallingAppend = false;
-                slideLoad.isCallingAppends[currentSlide] = false;
+
+                slideLoad.loaded[currentSlide] = false;
+                slideLoad.isCallingAppend[currentSlide] = false;
 
                 if (difference > 0) {
                     self.appendMethods.previousSourceChangeStage(self, currentSlide);
                 } else if(difference < 0) {
-                    self.appendMethods.nextAppend_B(self, currentSlide);
+                    self.appendMethods.nextSourceChangeStage(self, currentSlide);
                 }
 
             },250);

@@ -57,13 +57,11 @@ module.exports = {
      */
     useAppendMethod: function (self, slide) {
         const slideLoad = self.data.slideLoad;
-        if (!slideLoad.loads[slide] || !slideLoad.isCallingAppends[slide]) {
+        if (!slideLoad.loaded[slide] || !slideLoad.isCallingAppend[slide]) {
             return false;
         }
-        slideLoad.loaded = false;
-        slideLoad.loads[slide] = false;
-        slideLoad.isCallingAppend = false;
-        slideLoad.isCallingAppends[slide] = false;
+        slideLoad.loaded[slide] = false;
+        slideLoad.isCallingAppend[slide] = false;
 
         return true;
     },
@@ -119,59 +117,34 @@ module.exports = {
         this.nextSourceChangeStage(self, slide);
     },
 
-    /**
-     * This method change stage sources after sliding to next source
-     * @param self
-     */
-    nextSourceChangeStage: function (self, slide) {
 
+    renderHolderNext: function (self, slide, DOMObject) {
 
-        const mediaHolder = self.data.mediaHolder.holder;
         const stageSources = self.data.stageSources;
 
-        console.log(stageSources.nextSource.firstChild);
-        mediaHolder.removeChild(stageSources.previousSource);
-        stageSources.previousSource = stageSources.currentSource;
-        stageSources.currentSource = stageSources.nextSource;
-
-        if (self.data.slide === self.data.total_slides) {
-            stageSources.nextSource = self.data.sources[0];
-        } else {
-            stageSources.nextSource = self.data.sources[slide];
-        }
-        mediaHolder.appendChild(stageSources.nextSource);
-
-        self.data.xPosition = -1.3 * window.innerWidth;
-        for (let source in stageSources) {
-            stageSources[source].style.transform = 'translate(' + -1.3 * window.innerWidth + 'px,0)';
-        }
-
-        stageSources.previousSource.classList.remove('fslightbox-transform-transition');
-        stageSources.currentSource.classList.remove('fslightbox-transform-transition');
-        stageSources.nextSource.classList.remove('fslightbox-transform-transition');
-
-    },
-
-
-    slideNext: function(self, slide, DOMObject) {
-        const stageSources = self.data.stageSources;
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-        sourceHolder.innerHTML ='<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
 
         self.data.mediaHolder.holder.removeChild(stageSources.previousSource);
         stageSources.previousSource = stageSources.currentSource;
         stageSources.currentSource = stageSources.nextSource;
         stageSources.nextSource = sourceHolder;
-        stageSources.nextSource.style.transform ='translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+        stageSources.nextSource.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+        console.log(sourceHolder);
         self.data.mediaHolder.holder.appendChild(sourceHolder);
     },
 
 
-    nextAppend_B: function (self,slide) {
-        if (!this.useAppendMethod(self, slide)) {
-            return;
-        }
+    /**
+     * This method change stage sources after sliding to next source
+     * @param self
+     */
+    nextSourceChangeStage: function (self, slide) {
+        const nextSource = self.data.sources[slide];
+        const stageSources = self.data.stageSources;
 
-        console.log(self.data.sources[slide]);
-    }
+
+        stageSources.nextSource.innerHTML = '';
+        stageSources.nextSource.appendChild(nextSource.firstChild);
+    },
 };
