@@ -58,22 +58,25 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
 
         sourceHolder.appendChild(sourceElem);
-        self.data.sources[arrayIndex] = sourceHolder;
 
 
         switch (typeOfLoad) {
             case 'initial':
+                // replace loader with loaded source
+                self.data.sources[arrayIndex] = sourceHolder;
                 self.appendMethods.initialAppend(self);
                 break;
             case 'next':
                 self.data.slideLoad.loaded[slide] = true;
-                self.data.slideLoad.appends[slide] = true;
+                // replace loader with loaded source
+                self.data.sources[slide].innerHTML = '';
+                self.data.sources[slide].appendChild(sourceElem);
+
                 self.appendMethods.nextAppend(self, slide);
                 break;
             case 'previous':
                 self.data.slideLoad.loaded = true;
-                self.data.slideLoad.loads[slide] = true;
-                self.data.slideLoad.appends[slide] = true;
+                self.data.sources[slide] = sourceHolder;
                 self.appendMethods.previousAppend(self, slide);
                 break;
         }
@@ -215,7 +218,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
             // if slide number is equals total slide number
             // we'll be appending source from index 0 not from slide number index
-            if (self.data.slide === self.data.total_slides) {
+            if (slide === self.data.total_slides) {
 
                 // if source was previously appended load it from memory
                 if (typeof self.data.sources[0] !== "undefined") {
@@ -229,30 +232,17 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             }
 
             // if data was previously appended load it from memory
-            else if (typeof self.data.sources[self.data.slide] !== "undefined") {
+            else if (typeof self.data.sources[slide] !== "undefined") {
                 self.data.slideLoad.loaded[slide] = true;
                 self.appendMethods.nextAppend(self);
                 break;
             }
 
-
-            //we'll render loader for load time of source
+            // remove previous element and append loader for time of loading source
             self.appendMethods.renderHolderNext(self,slide, DOMObject);
-            //if source wasn't previously appended we will need to create it
-            this.createSourceElem(self.data.urls[self.data.slide]);
+            // if source wasn't previously appended we will need to create it
+            this.createSourceElem(self.data.urls[slide]);
             break;
-    }
-
-
-    if(slide) {
-        self.data.slideLoad.appends[slide] = false;
-    }
-
-
-    //if first time load add loader
-    if (self.data.isFirstTimeLoad === true) {
-        self.data.mediaHolder.holder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.data.isFirstTimeLoad = false;
     }
 
 
