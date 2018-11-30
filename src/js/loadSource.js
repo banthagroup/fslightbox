@@ -1,7 +1,12 @@
 module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     const _this = this;
-    let currentSlideArrayIndex = self.data.slide - 1;
+    const sourcesIndexes = self.getSourcesIndexes(slide);
+    const urls = self.data.urls;
+    const sources = self.data.sources;
+    let tempSources = {};
+    let tempName = '';
+    let sourceCounter = 0;
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
         if (typeof  sourceWidth === "undefined") {
@@ -29,6 +34,8 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
      */
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
+        sourceCounter++;
+
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
 
         //normal source dimensions needs to be stored in array
@@ -51,29 +58,42 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         //set dimension for the first time
         self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
 
-
         // dimensions will be given only one time so we will need to remember it
         // for next onresize event calls
         self.data.onResizeEvent.rememberdWidth = sourceWidth;
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
-
         sourceHolder.appendChild(sourceElem);
 
 
         switch (typeOfLoad) {
             case 'initial':
-                // replace loader with loaded source
-                self.data.sources[arrayIndex] = sourceHolder;
-                self.appendMethods.initialAppend(self);
+                // add to temp array because loading is asynchronous so we can't depend on load order
+                tempSources[arrayIndex] = sourceHolder;
+
+                if(urls.length >= 3) {
+                    // append sources when all 3 are loaded
+                    if(Object.keys(tempSources).length >= 3) {
+
+                        sources[sourcesIndexes.previous].innerHTML = '';
+                        sources[sourcesIndexes.previous].appendChild(tempSources[sourcesIndexes.previous]);
+
+                        sources[sourcesIndexes.current].innerHTML = '';
+                        sources[sourcesIndexes.current].appendChild(tempSources[sourcesIndexes.current]);
+
+                        sources[sourcesIndexes.next].innerHTML = '';
+                        sources[sourcesIndexes.next].appendChild(tempSources[sourcesIndexes.next]);
+                    }
+                }
                 break;
             case 'next':
                 // replace loader with loaded source
-                self.data.sources[slide].innerHTML = '';
-                self.data.sources[slide].appendChild(sourceElem);
+                sources[sourcesIndexes.next].innerHTML = '';
+                sources[sourcesIndexes.next].appendChild(sourceElem);
                 break;
             case 'previous':
-                self.data.sources[slide - 2].innerHTML = '';
-                self.data.sources[slide - 2].appendChild(sourceElem);
+                // replace loader with loaded source
+                sources[sourcesIndexes.previous].innerHTML = '';
+                sources[sourcesIndexes.previous].appendChild(sourceElem);
                 break;
         }
     };
@@ -167,30 +187,31 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     switch (typeOfLoad) {
         case 'initial':
-            // if we load initially we'll need to create all three stage sources
-            this.createSourceElem(self.data.urls[currentSlideArrayIndex]);
-            this.createSourceElem(self.data.urls[currentSlideArrayIndex + 1]);
-            if (currentSlideArrayIndex === 0) {
-                this.createSourceElem(self.data.urls[self.data.urls.length - 1]);
-            } else {
-                this.createSourceElem(currentSlideArrayIndex - 1);
+            //append loader when loading initially
+            self.appendMethods.renderHolderInitial(self,slide,DOMObject);
+
+            if(urls.length >= 3) {
+                this.createSourceElem(urls[sourcesIndexes.previous]);
+                this.createSourceElem(urls[sourcesIndexes.current]);
+                this.createSourceElem(urls[sourcesIndexes.next]);
+                break;
             }
             break;
 
         case 'previous':
             // append loader when loading a next source
-            self.appendMethods.renderHolderPrevious(self,slide, DOMObject);
+            self.appendMethods.renderHolderPrevious(self, slide, DOMObject);
 
             // load previous source
-            this.createSourceElem(self.data.urls[self.data.slide - 2]);
+            this.createSourceElem(urls[sourcesIndexes.previous]);
             break;
 
         case 'next':
             // append loader when loading a next source
-            self.appendMethods.renderHolderNext(self,slide, DOMObject);
+            self.appendMethods.renderHolderNext(self, slide, DOMObject);
 
             //load next source
-            this.createSourceElem(self.data.urls[slide]);
+            this.createSourceElem(urls[sourcesIndexes.next]);
             break;
     }
 };

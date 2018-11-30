@@ -19,36 +19,35 @@ module.exports = function (self) {
         mouseDownEvent: function (e) {
             e.preventDefault();
 
-            for(let elem in elements) {
+            for (let elem in elements) {
                 elements[elem].classList.add('fslightbox-cursor-grabbing');
             }
             is_dragging = true;
             mouseDownClientX = e.clientX;
 
-            if(!slideaAble) {
+            if (!slideaAble) {
                 return;
             }
             difference = 0;
         },
 
 
-
         mouseUpEvent: function () {
             let sourcesIndexes = self.getSourcesIndexes(self.data.slide);
 
-            for(let elem in elements) {
+            for (let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
             }
 
             is_dragging = false;
 
             // if user didn't slide none animation should work
-            if(difference == 0) {
+            if (difference == 0) {
                 return;
             }
 
             //we can slide only if previous animation has finished
-            if(!slideaAble) {
+            if (!slideaAble) {
                 return;
             }
             slideaAble = false;
@@ -63,7 +62,7 @@ module.exports = function (self) {
             if (difference > 0) {
 
                 // update slide number
-                if(self.data.slide === 1) {
+                if (self.data.slide === 1) {
                     self.data.updateSlideNumber(self.data.total_slides);
                 } else {
                     self.data.updateSlideNumber(self.data.slide - 1);
@@ -88,7 +87,7 @@ module.exports = function (self) {
             else if (difference < 0) {
 
                 //update slide number
-                if(self.data.slide === self.data.total_slides) {
+                if (self.data.slide === self.data.total_slides) {
                     self.data.updateSlideNumber(1);
                 } else {
                     self.data.updateSlideNumber(self.data.slide + 1);
@@ -117,14 +116,13 @@ module.exports = function (self) {
 
                 // user shouldn't be able to slide when animation is running
                 slideaAble = true;
-            },250);
+            }, 250);
         },
-
 
 
         mouseMoveEvent: function (e) {
 
-            if (!is_dragging || !slideaAble){
+            if (!is_dragging || !slideaAble) {
                 return;
             }
 
@@ -141,7 +139,7 @@ module.exports = function (self) {
     };
 
 
-    for(let elem in elements) {
+    for (let elem in elements) {
         elements[elem].addEventListener('mousedown', eventListeners.mouseDownEvent);
     }
     window.addEventListener('mouseup', eventListeners.mouseUpEvent);
