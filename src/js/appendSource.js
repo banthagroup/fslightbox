@@ -51,25 +51,6 @@ module.exports = {
         }
     },
 
-
-    /**
-     * Loading after transition should be called first
-     * but if source won't load till that this method will notice that
-     * @param self
-     * @param slide
-     */
-    useAppendMethod: function (self, slide) {
-        const slideLoad = self.data.slideLoad;
-        if (!slideLoad.loaded[slide] || !slideLoad.isCallingAppend[slide]) {
-            return false;
-        }
-        slideLoad.loaded[slide] = false;
-        slideLoad.isCallingAppend[slide] = false;
-
-        return true;
-    },
-
-
     /**
      * Check if previous source append is needed and call if it is
      * @param self
@@ -107,48 +88,19 @@ module.exports = {
     },
 
 
-    /**
-     * Check if next source append is needed and call if it is
-     * @param self
-     * @param slide
-     */
-    nextAppend: function (self, slide) {
-        if (!this.useAppendMethod(self, slide)) {
-            return;
-        }
-
-        this.nextSourceChangeStage(self, slide);
-    },
-
-
 
     renderHolderNext: function (self, slide, DOMObject) {
 
-        const sources = self.data.sources;
+        const holder = self.data.mediaHolder.holder;
 
         // we will be removing previous element from slide before so we need to decrement slide
-        const sourcesIndexes = self.getSourcesIndexes(slide - 1);
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.data.mediaHolder.holder.removeChild(sources[sourcesIndexes.previous]);
         sourceHolder.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
 
         // we are appending sourceHolder to array on slide index because array is indexed from 0
         // so next source index will be simply slide number
         self.data.sources[slide] = sourceHolder;
-        self.data.mediaHolder.holder.appendChild(sourceHolder);
-    },
-
-
-
-    /**
-     * This method change stage sources after sliding to next source
-     * @param self
-     */
-    nextSourceChangeStage: function (self, slide) {
-        const nextSource = self.data.sources[slide];
-        const nextSourceHolder = self.data.mediaHolder.holder.childNodes[2];
-        //nextSourceHolder.appendChild(nextSource.firstChild);
-        console.log(nextSourceHolder);
+        holder.appendChild(sourceHolder);
     },
 };

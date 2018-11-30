@@ -27,19 +27,10 @@ window.fsLightboxObject = function () {
             "images/6.jpg",
         ],
         sources: [],
+        sourcesLoaded: [],
         rememberedSourcesDimensions: [],
 
         mediaHolder: {},
-        stageSources: {
-            "previousSource": {},
-            "currentSource": {},
-            "nextSource": {},
-        },
-        slideLoad: {
-            loaded: [],
-            isCallingAppend: []
-        },
-
         nav: {},
         toolbar: {},
         sourceElem: {},
