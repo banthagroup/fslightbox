@@ -69,11 +69,17 @@ module.exports = function (self) {
                     self.data.updateSlideNumber(self.data.slide - 1);
                 }
 
-                self.data.xPosition = -0.1 * window.innerWidth;
-                self.loadsources('previous', self.data.slide);
 
-                for(let sourceIndex in sourcesIndexes) {
-                    sources[sourceIndex].style.transform = 'translate(' + -0.1 * window.innerWidth + 'px,0)';
+                const slideNextTransform = self.data.slideDistance * window.innerWidth;
+                sources[sourcesIndexes.current].style.transform = 'translate(' + slideNextTransform + 'px,0)';
+                sources[sourcesIndexes.previous].style.transform = 'translate(0,0)';
+
+                // get new indexes
+                sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+
+                //if source isn't already in memory
+                if (typeof self.data.sources[sourcesIndexes.previous] === "undefined") {
+                    self.loadsources('previous', self.data.slide);
                 }
             }
 
@@ -88,17 +94,18 @@ module.exports = function (self) {
                     self.data.updateSlideNumber(self.data.slide + 1);
                 }
 
-                self.data.xPosition = -2.5 * window.innerWidth;
-                let slideBackTransform = -self.data.slideDistance * window.innerWidth;
+                const slideBackTransform = -self.data.slideDistance * window.innerWidth;
                 sources[sourcesIndexes.current].style.transform = 'translate(' + slideBackTransform + 'px,0)';
                 sources[sourcesIndexes.next].style.transform = 'translate(0,0)';
 
-                self.loadsources('next', self.data.slide);
-            }
+                // get new indexes
+                sourcesIndexes = self.getSourcesIndexes(self.data.slide);
 
-            let slide = self.data.slide;
-            sourcesIndexes = self.getSourcesIndexes(slide);
-            console.log(sourcesIndexes);
+                //if source isn't already in memory
+                if (typeof self.data.sources[sourcesIndexes.next] === "undefined") {
+                    self.loadsources('next', self.data.slide);
+                }
+            }
 
 
             setTimeout(function () {

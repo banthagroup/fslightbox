@@ -2,7 +2,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     const _this = this;
     let currentSlideArrayIndex = self.data.slide - 1;
-    const sourcesIndexes = self.getSourcesIndexes(slide);
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
         if (typeof  sourceWidth === "undefined") {
@@ -69,13 +68,12 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 break;
             case 'next':
                 // replace loader with loaded source
-                self.data.sourcesLoaded[slide] = true;
                 self.data.sources[slide].innerHTML = '';
                 self.data.sources[slide].appendChild(sourceElem);
                 break;
             case 'previous':
-                self.data.sources[slide] = sourceHolder;
-                self.appendMethods.previousAppend(self, slide);
+                self.data.sources[slide - 2].innerHTML = '';
+                self.data.sources[slide - 2].appendChild(sourceElem);
                 break;
         }
     };
@@ -180,76 +178,19 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             break;
 
         case 'previous':
-            // Array is indexed from 0 so previous source index will be slide number - 2
+            // append loader when loading a next source
+            self.appendMethods.renderHolderPrevious(self,slide, DOMObject);
 
-            // if slide number is 1
-            // we'll be appending source from total_slides index not from slide number index - 2
-            if (self.data.slide === 1) {
-
-
-                // if source was previously appended load it from memory
-                if (typeof self.data.sources[self.data.total_slides] !== "undefined") {
-                    self.data.slideLoad.loaded = true;
-                    self.data.slideLoad.loads[slide] = true;
-                    self.appendMethods.previousAppend(self);
-                } else {
-                    this.createSourceElem(self.data.urls[self.data.total_slides - 1]);
-                }
-
-                break;
-            }
-
-            // if data was previously appended load it from memory
-            else if (typeof self.data.sources[self.data.slide - 2] !== "undefined") {
-                self.data.slideLoad.loaded = true;
-                self.data.slideLoad.loads[slide] = true;
-                self.appendMethods.previousAppend(self);
-                break;
-            }
-
-            // if source wasn't previously appended we will need to create it
+            // load previous source
             this.createSourceElem(self.data.urls[self.data.slide - 2]);
             break;
 
         case 'next':
-
-            //image is already in memory
-            if (typeof self.data.sources[sourcesIndexes.next] !== "undefined") {
-                break;
-            }
-
-            // remove previous element and append loader for time of loading source
+            // append loader when loading a next source
             self.appendMethods.renderHolderNext(self,slide, DOMObject);
-            // if source wasn't previously appended we will need to create it
+
+            //load next source
             this.createSourceElem(self.data.urls[slide]);
             break;
     }
-
-
-    /*
-
-
-    //check if source was previously created and
-    // create it if it wasn't or if it was load it from variable
-    if (typeof self.data.sources[indexOfSourceURL] === "undefined") {
-        this.createSourceElem();
-    } else {
-        console.log('loaded from memory');
-        const sourceElem = self.data.sources[indexOfSourceURL];
-        const rememberedSourceDimensions = self.data.rememberedSourcesDimensions[indexOfSourceURL];
-        self.data.mediaHolder.holder.innerHTML = '';
-        self.data.mediaHolder.holder.appendChild(sourceElem);
-        console.log(sourceElem);
-
-        self.data.onResizeEvent.sourceDimensions = function () {
-            sourceDimensions(
-                sourceElem,
-                rememberedSourceDimensions.width,
-                rememberedSourceDimensions.height
-            );
-        };
-        self.data.onResizeEvent.sourceDimensions();
-    }
-
-    */
 };
