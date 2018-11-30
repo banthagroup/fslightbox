@@ -51,44 +51,39 @@ module.exports = {
         }
     },
 
+
+
+
     /**
-     * Check if previous source append is needed and call if it is
+     * Renders loader when loading a previous source
      * @param self
      * @param slide
+     * @param DOMObject
      */
-    previousAppend: function (self, slide) {
-        if (!this.useAppendMethod(self, slide)) {
-            return;
-        }
+    renderHolderPrevious: function (self, slide, DOMObject) {
+        const holder = self.data.mediaHolder.holder;
 
-        this.previousSourceChangeStage(self, slide);
+        // we will be removing previous element from slide before so we need to decrement slide
+        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        const transformPrevious = -self.data.slideDistance * window.innerWidth;
+        sourceHolder.style.transform = 'translate(' + transformPrevious + 'px,0)';
+
+        // we are appending sourceHolder to array on slide index because array is indexed from 0
+        // so next source index will be simply slide number decreased by 2
+        self.data.sources[slide - 2] = sourceHolder;
+        holder.insertAdjacentElement('afterbegin', sourceHolder);
     },
+
+
 
 
     /**
-     * This method changes stage sources after sliding to previous source
+     * Renders loader when loading a next source
      * @param self
+     * @param slide
+     * @param DOMObject
      */
-    previousSourceChangeStage: function (self) {
-
-        const mediaHolder = self.data.mediaHolder.holder;
-        const stageSources = self.data.stageSources;
-
-        mediaHolder.removeChild(stageSources.nextSource);
-        stageSources.nextSource = stageSources.currentSource;
-
-        stageSources.currentSource = stageSources.previousSource;
-
-        if (self.data.slide === 1) {
-            stageSources.previousSource = self.data.sources[self.data.total_slides - 1];
-        } else {
-            stageSources.previousSource = self.data.sources[self.data.slide - 2];
-        }
-        mediaHolder.insertAdjacentElement('afterbegin', stageSources.previousSource);
-    },
-
-
-
     renderHolderNext: function (self, slide, DOMObject) {
 
         const holder = self.data.mediaHolder.holder;
@@ -102,5 +97,7 @@ module.exports = {
         // so next source index will be simply slide number
         self.data.sources[slide] = sourceHolder;
         holder.appendChild(sourceHolder);
-    },
+    }
+
+
 };
