@@ -4,7 +4,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.data = {
-        slide: 1,
+        slide: 3,
         total_slides: 6,
         xPosition: -1.3 * window.innerWidth,
         slideDistance: 1.3,
@@ -24,6 +24,7 @@ window.fsLightboxObject = function () {
             "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
+            //"https://www.youtube.com/watch?v=AS5CxLCWq-Q",
             "images/6.jpg",
         ],
         sources: [],
@@ -263,7 +264,6 @@ window.fsLightboxObject = function () {
     };
 
 
-
     /**
      * Return object with stage sources indexes depending on provided slide
      * @param slide
@@ -298,7 +298,6 @@ window.fsLightboxObject = function () {
 
         return sourcesIndexes;
     };
-
 
 
     /**
