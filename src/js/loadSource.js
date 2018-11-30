@@ -2,6 +2,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     const _this = this;
     let currentSlideArrayIndex = self.data.slide - 1;
+    const sourcesIndexes = self.getSourcesIndexes(slide);
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
         if (typeof  sourceWidth === "undefined") {
@@ -67,15 +68,12 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 self.appendMethods.initialAppend(self);
                 break;
             case 'next':
-                self.data.slideLoad.loaded[slide] = true;
                 // replace loader with loaded source
+                self.data.sourcesLoaded[slide] = true;
                 self.data.sources[slide].innerHTML = '';
                 self.data.sources[slide].appendChild(sourceElem);
-
-                self.appendMethods.nextAppend(self, slide);
                 break;
             case 'previous':
-                self.data.slideLoad.loaded = true;
                 self.data.sources[slide] = sourceHolder;
                 self.appendMethods.previousAppend(self, slide);
                 break;
@@ -214,27 +212,9 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             break;
 
         case 'next':
-            // Array is indexed from 0 so next source index will be simply slide number
 
-            // if slide number is equals total slide number
-            // we'll be appending source from index 0 not from slide number index
-            if (slide === self.data.total_slides) {
-
-                // if source was previously appended load it from memory
-                if (typeof self.data.sources[0] !== "undefined") {
-                    self.data.slideLoad.loaded[slide] = true;
-                    self.appendMethods.nextAppend(self);
-                } else {
-                    this.createSourceElem(self.data.urls[0]);
-                }
-
-                break;
-            }
-
-            // if data was previously appended load it from memory
-            else if (typeof self.data.sources[slide] !== "undefined") {
-                self.data.slideLoad.loaded[slide] = true;
-                self.appendMethods.nextAppend(self);
+            //image is already in memory
+            if (typeof self.data.sources[sourcesIndexes.next] !== "undefined") {
                 break;
             }
 

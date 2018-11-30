@@ -90,48 +90,33 @@ module.exports = function (self) {
 
                 self.data.xPosition = -2.5 * window.innerWidth;
                 let slideBackTransform = -self.data.slideDistance * window.innerWidth;
-
                 sources[sourcesIndexes.current].style.transform = 'translate(' + slideBackTransform + 'px,0)';
                 sources[sourcesIndexes.next].style.transform = 'translate(0,0)';
 
                 self.loadsources('next', self.data.slide);
             }
 
-
             let slide = self.data.slide;
+            sourcesIndexes = self.getSourcesIndexes(slide);
+            console.log(sourcesIndexes);
 
-            /**
-             *  After transition finish change stage sources after sliding to next source
-             */
+
             setTimeout(function () {
 
+                // remove transition because with dragging it looks awful
                 sources[sourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
                 sources[sourcesIndexes.current].classList.remove('fslightbox-transform-transition');
                 sources[sourcesIndexes.next].classList.remove('fslightbox-transform-transition');
 
-                // transition last 250ms so if image won't load till that
-                // we will need to render it after it loads on nextAppend method at appendSource.js
-                const slideLoad = self.data.slideLoad;
+                // user shouldn't be able to slide when animation is running
                 slideaAble = true;
-                if(slideLoad.loaded[slide] === false || typeof slideLoad.loaded[slide] === "undefined") {
-                    slideLoad.isCallingAppend[slide] = true;
-                    return;
-                }
-
-                slideLoad.loaded[slide] = false;
-                slideLoad.isCallingAppend[slide] = false;
-
-                if (difference > 0) {
-                    self.appendMethods.previousSourceChangeStage(self, slide);
-                } else if(difference < 0) {
-                    self.appendMethods.nextSourceChangeStage(self, slide);
-                }
             },250);
         },
 
 
 
         mouseMoveEvent: function (e) {
+
             if (!is_dragging || !slideaAble){
                 return;
             }
