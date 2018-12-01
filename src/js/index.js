@@ -24,7 +24,7 @@ window.fsLightboxObject = function () {
             "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
-            //"https://www.youtube.com/watch?v=AS5CxLCWq-Q",
+            "https://www.youtube.com/watch?v=AS5CxLCWq-Q",
             "images/6.jpg",
         ],
         sources: [],

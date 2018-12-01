@@ -86,8 +86,40 @@ module.exports = {
      * @param slide
      * @param DOMObject
      */
-    previousSlideViaButton: function (self, slide, DOMObject) {
+    previousSlideViaButton: function (self, previousSlide) {
+        if (previousSlide === 1) {
+            console.log(1);
+            self.data.slide = self.data.total_slides;
+        } else {
+            self.data.slide -= 1;
+        }
+        self.data.updateSlideNumber(self.data.slide);
+        const newSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
+        if (typeof self.data.sources[newSourcesIndexes.previous] === "undefined") {
+            self.loadsources('previous', self.data.slide);
+        }
+
+        const sources = self.data.sources;
+        const currentSource = sources[newSourcesIndexes.current];
+        const nextSource = sources[newSourcesIndexes.next];
+
+        nextSource.classList.remove('fslightbox-transform-transition');
+        currentSource.classList.remove('fslightbox-transform-transition');
+        sources[newSourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
+
+        nextSource.classList.remove('fslightbox-fade-in-animation');
+        void nextSource.offsetWidth;
+        nextSource.classList.add('fslightbox-fade-in-animation');
+
+
+        currentSource.classList.remove('fslightbox-fade-in-animation');
+        void currentSource.offsetWidth;
+        currentSource.classList.add('fslightbox-fade-in-animation');
+
+        currentSource.style.transform = 'translate(0,0)';
+        const plusTransform = self.data.slideDistance * window.innerWidth;
+        nextSource.style.transform = 'translate(' + plusTransform + 'px,0)';
     },
 
 
@@ -115,7 +147,7 @@ module.exports = {
 
         previousSource.classList.remove('fslightbox-transform-transition');
         currentSource.classList.remove('fslightbox-transform-transition');
-        sources[newSourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
+        sources[newSourcesIndexes.next].classList.remove('fslightbox-transform-transition');
 
         previousSource.classList.remove('fslightbox-fade-in-animation');
         void previousSource.offsetWidth;
