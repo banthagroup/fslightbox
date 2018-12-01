@@ -21,7 +21,7 @@ window.fsLightboxObject = function () {
             "images/1.jpeg",
             "images/2.jpg",
             //"images/3.jpeg",
-            "films/film.mp4",
+            "films/xd.css",
             "images/4.jpeg",
             "images/5.jpg",
             //"https://www.youtube.com/watch?v=AS5CxLCWq-Q",
@@ -151,6 +151,7 @@ window.fsLightboxObject = function () {
         self.data.slideCounterElem.id = 'current_slide';
 
         let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
+        space.style.fontSize = '12px';
         space.innerHTML = '/';
 
         let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
@@ -221,33 +222,6 @@ window.fsLightboxObject = function () {
     };
 
 
-    this.slide = function () {
-
-        this.previousSlideViaButton = function () {
-            if (self.data.slide > 1) {
-                self.data.updateSlideNumber(self.data.slide - 1);
-            } else {
-                self.data.updateSlideNumber(self.data.total_slides);
-            }
-
-            //load source by index (array is indexed from 0 so we need to decrement index)
-            self.loadsource(self.data.urls[self.data.slide - 1]);
-        };
-
-
-        this.nextSlideViaButton = function () {
-            if (self.data.slide < self.data.total_slides) {
-                self.data.updateSlideNumber(self.data.slide + 1)
-            } else {
-                self.data.updateSlideNumber(self.data.total_slides);
-            }
-
-            //load source by index (array is indexed from 0 so we need to decrement index)
-            self.loadsource(self.data.urls[self.data.slide - 1]);
-            self.data.updateSlideNumber(self.data.slide);
-        };
-    };
-
     /**
      * Div that holds source elem
      */
@@ -269,34 +243,67 @@ window.fsLightboxObject = function () {
      * @param slide
      * @returns {{previous: number, current: number, next: number}}
      */
-    this.getSourcesIndexes = function (slide) {
+    this.getSourcesIndexes = {
 
-        // sources are stored in array indexed from 0
-        const arrayIndex = slide - 1;
-        const sourcesIndexes = {
-            previous: 0,
-            current: 0,
-            next: 0
-        };
+        previous: function(slide) {
+            let previousSlideIndex;
+            const arrayIndex = slide - 1;
 
-        // previous
-        if (arrayIndex === 0) {
-            sourcesIndexes.previous = self.data.total_slides - 1;
-        } else {
-            sourcesIndexes.previous = arrayIndex - 1;
-        }
+            // previous
+            if (arrayIndex === 0) {
+                previousSlideIndex = self.data.total_slides - 1;
+            } else {
+                previousSlideIndex = arrayIndex - 1;
+            }
 
-        // current
-        sourcesIndexes.current = arrayIndex;
+            return previousSlideIndex;
+        },
 
-        //next
-        if (slide === self.data.total_slides) {
-            sourcesIndexes.next = 0;
-        } else {
-            sourcesIndexes.next = arrayIndex + 1;
-        }
 
-        return sourcesIndexes;
+        next: function(slide) {
+
+            let nextSlideIndex;
+            const arrayIndex = slide - 1;
+
+            //next
+            if (slide === self.data.total_slides) {
+                nextSlideIndex = 0;
+            } else {
+                nextSlideIndex = arrayIndex + 1;
+            }
+
+            return nextSlideIndex;
+        },
+
+
+        all: function (slide) {
+            // sources are stored in array indexed from 0
+            const arrayIndex = slide - 1;
+            const sourcesIndexes = {
+                previous: 0,
+                current: 0,
+                next: 0
+            };
+
+            // previous
+            if (arrayIndex === 0) {
+                sourcesIndexes.previous = self.data.total_slides - 1;
+            } else {
+                sourcesIndexes.previous = arrayIndex - 1;
+            }
+
+            // current
+            sourcesIndexes.current = arrayIndex;
+
+            //next
+            if (slide === self.data.total_slides) {
+                sourcesIndexes.next = 0;
+            } else {
+                sourcesIndexes.next = arrayIndex + 1;
+            }
+
+            return sourcesIndexes;
+        },
     };
 
 

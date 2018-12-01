@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 #app {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
@@ -86,6 +87,18 @@ h1 {
   justify-content: center;
   align-items: center; }
 
+.fslightbox-single-source {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: opacity .20s;
+  -moz-transition: opacity .20s;
+  -ms-transition: opacity .20s;
+  -o-transition: opacity .20s;
+  transition: opacity .20s;
+  opacity: 0.5; }
+
 .fslightbox-transform-transition {
   -webkit-transition: transform .20s;
   -moz-transition: transform .20s;
@@ -93,23 +106,20 @@ h1 {
   -o-transition: transform .20s;
   transition: transform .20s; }
 
-@keyframes slide-right {
-  0% {
-    transform: translate3d(0, 0, 0); }
-  100% {
-    transform: translate3d(-130%, 0, 0); } }
-
 .fslightbox-fade-in {
+  opacity: 1 !important; }
+
+.fslightbox-invalid-file-wrapper {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; }
-
-@keyframes fslightbox-fade-in-animation {
-  0% {
-    opacity: 0.5; }
-  100% {
-    opacity: 1; } }
+  user-select: none;
+  font-size: 22px;
+  color: #eaebeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5; }
 
 .fslightbox-container {
   position: absolute;
@@ -119,7 +129,7 @@ h1 {
   height: 100vh;
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
-  font-family: Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
   z-index: 9999999; }
 
 .fslightbox-open {
@@ -143,7 +153,7 @@ h1 {
   justify-content: center;
   align-items: center;
   font-size: .85rem;
-  color: #a1a1a1;
+  color: #c1c2c2;
   z-index: 1;
   max-width: 46px; }
   .fslightbox-slide-number-container .fslightbox-slide-slide-number {

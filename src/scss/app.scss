@@ -2,6 +2,7 @@
 @import "tools/bottomNav";
 @import "tools/loader";
 @import "tools/sources";
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 .fslightbox-container {
   position: absolute;
@@ -11,7 +12,7 @@
   height: 100vh;
   background: #1e1e1e;
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
-  font-family: Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
   z-index: 9999999;
 }
 
@@ -39,7 +40,7 @@
   justify-content: center;
   align-items: center;
   font-size: .85rem;
-  color:#a1a1a1;
+  color:#c1c2c2;
   z-index: 1;
   max-width: 46px;
 

@@ -1,11 +1,10 @@
 module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     const _this = this;
-    const sourcesIndexes = self.getSourcesIndexes(slide);
+    const sourcesIndexes = self.getSourcesIndexes.all(slide);
     const urls = self.data.urls;
     const sources = self.data.sources;
     let tempSources = {};
-    let tempName = '';
     let sourceCounter = 0;
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
@@ -45,11 +44,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             "height": sourceHeight
         };
 
-        //add some fade in animation
-        sourceElem.classList.remove('fslightbox-fade-in');
-        void sourceElem.offsetWidth;
-        sourceElem.classList.add('fslightbox-fade-in');
-
         //add method that changes source dimension on window resize
         self.data.onResizeEvent.sourceDimensions = function () {
             sourceDimensions(sourceElem, sourceWidth, sourceHeight);
@@ -64,6 +58,10 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         self.data.onResizeEvent.rememberdHeight = sourceHeight;
         sourceHolder.appendChild(sourceElem);
 
+        const previousSource = sources[sourcesIndexes.previous];
+        const currentSource = sources[sourcesIndexes.current];
+        const nextSource = sources[sourcesIndexes.next];
+
 
         switch (typeOfLoad) {
             case 'initial':
@@ -74,26 +72,36 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                     // append sources when all 3 are loaded
                     if(Object.keys(tempSources).length >= 3) {
 
-                        sources[sourcesIndexes.previous].innerHTML = '';
-                        sources[sourcesIndexes.previous].appendChild(tempSources[sourcesIndexes.previous]);
+                        previousSource.innerHTML = '';
+                        previousSource.appendChild(tempSources[sourcesIndexes.previous].firstChild);
+                        void currentSource.firstChild.offsetWidth;
+                        previousSource.firstChild.classList.add('fslightbox-fade-in');
 
-                        sources[sourcesIndexes.current].innerHTML = '';
-                        sources[sourcesIndexes.current].appendChild(tempSources[sourcesIndexes.current]);
+                        currentSource.innerHTML = '';
+                        currentSource.appendChild(tempSources[sourcesIndexes.current].firstChild);
+                        void currentSource.firstChild.offsetWidth;
+                        currentSource.firstChild.classList.add('fslightbox-fade-in');
 
-                        sources[sourcesIndexes.next].innerHTML = '';
-                        sources[sourcesIndexes.next].appendChild(tempSources[sourcesIndexes.next]);
+                        nextSource.innerHTML = '';
+                        nextSource.appendChild(tempSources[sourcesIndexes.next].firstChild);
+                        void currentSource.firstChild.offsetWidth;
+                        nextSource.firstChild.classList.add('fslightbox-fade-in');
                     }
                 }
                 break;
             case 'next':
                 // replace loader with loaded source
-                sources[sourcesIndexes.next].innerHTML = '';
-                sources[sourcesIndexes.next].appendChild(sourceElem);
+                nextSource.innerHTML = '';
+                nextSource.appendChild(sourceElem);
+                void currentSource.firstChild.offsetWidth;
+                nextSource.firstChild.classList.add('fslightbox-fade-in');
                 break;
             case 'previous':
                 // replace loader with loaded source
-                sources[sourcesIndexes.previous].innerHTML = '';
-                sources[sourcesIndexes.previous].appendChild(sourceElem);
+                previousSource.innerHTML = '';
+                previousSource.appendChild(sourceElem);
+                void currentSource.firstChild.offsetWidth;
+                previousSource.firstChild.classList.add('fslightbox-fade-in');
                 break;
         }
     };
@@ -119,7 +127,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
 
     this.videoLoad = function (src, arrayIndex) {
-        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source', 'fslightbox-fade-in']);
+        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
         source.src = src;
         videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
@@ -131,6 +139,13 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         videoElem.addEventListener('loadedmetadata', function () {
             onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
         });
+    };
+
+    this.invalidFile = function (arrayIndex) {
+        let invalidFileWrapper = new DOMObject('div').addClassesAndCreate(['fslightbox-invalid-file-wrapper']);
+        invalidFileWrapper.innerHTML = 'Invalid file';
+
+        onloadListener(invalidFileWrapper, window.innerWidth, window.innerHeight, arrayIndex);
     };
 
 
@@ -172,8 +187,12 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                             _this.imageLoad(URL.createObjectURL(xhr.response), indexOfSource);
                         }
 
-                        if (responseType === 'video') {
+                        else if (responseType === 'video') {
                             _this.videoLoad(URL.createObjectURL(xhr.response), indexOfSource);
+                        }
+
+                        else {
+                            _this.invalidFile(indexOfSource);
                         }
                     }
                 }
