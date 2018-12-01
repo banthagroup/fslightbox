@@ -88,11 +88,12 @@ module.exports = {
      */
     previousSlideViaButton: function (self, previousSlide) {
         if (previousSlide === 1) {
-            console.log(1);
             self.data.slide = self.data.total_slides;
         } else {
             self.data.slide -= 1;
         }
+
+        self.stopVideos();
         self.data.updateSlideNumber(self.data.slide);
         const newSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
@@ -134,6 +135,8 @@ module.exports = {
         } else {
             self.data.slide += 1;
         }
+
+        self.stopVideos();
         self.data.updateSlideNumber(self.data.slide);
         const newSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 

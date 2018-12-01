@@ -6,7 +6,7 @@
   left: 0;
   top: 0;
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
 }
 
@@ -20,7 +20,8 @@
   -ms-transition: opacity .20s;
   -o-transition: opacity .20s;
   transition: opacity .20s;
-  display: inline-block;
+  display: block;
+  margin: auto;
   opacity: 0.5;
   backface-visibility: hidden;
 }
