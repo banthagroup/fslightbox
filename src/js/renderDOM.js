@@ -26,7 +26,7 @@ module.exports = function (self, DOMObject) {
 
             //go to previous slide onclick
             left_btn_container.onclick = function () {
-                self.appendMethods.previousSlideViaButton(self,self.data.slide,DOMObject);
+                self.appendMethods.previousSlideViaButton(self,self.data.slide);
             };
 
             left_btn_container.appendChild(btn);

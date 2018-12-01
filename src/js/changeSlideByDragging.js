@@ -105,6 +105,7 @@ module.exports = function (self) {
                 }
             }
 
+            difference = 0;
 
             setTimeout(function () {
 
