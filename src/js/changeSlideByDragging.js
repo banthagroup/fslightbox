@@ -33,7 +33,7 @@ module.exports = function (self) {
 
 
         mouseUpEvent: function () {
-            let sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+            let sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
             for (let elem in elements) {
                 elements[elem].classList.remove('fslightbox-cursor-grabbing');
@@ -74,7 +74,7 @@ module.exports = function (self) {
                 sources[sourcesIndexes.previous].style.transform = 'translate(0,0)';
 
                 // get new indexes
-                sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+                sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
                 //if source isn't already in memory
                 if (typeof self.data.sources[sourcesIndexes.previous] === "undefined") {
@@ -98,7 +98,7 @@ module.exports = function (self) {
                 sources[sourcesIndexes.next].style.transform = 'translate(0,0)';
 
                 // get new indexes
-                sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+                sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
                 //if source isn't already in memory
                 if (typeof self.data.sources[sourcesIndexes.next] === "undefined") {
@@ -129,7 +129,7 @@ module.exports = function (self) {
             difference = e.clientX - mouseDownClientX;
             const previous = -self.data.slideDistance * window.innerWidth + difference;
             const next = self.data.slideDistance * window.innerWidth + difference;
-            const sourcesIndexes = self.getSourcesIndexes(self.data.slide);
+            const sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
             // slide sources
             sources[sourcesIndexes.previous].style.transform = 'translate(' + previous + 'px,0)';

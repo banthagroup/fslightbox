@@ -24,12 +24,9 @@ module.exports = function (self, DOMObject) {
             );
             container.appendChild(left_btn_container);
 
-            // slide object that contains changing slide methods
-            let slide = new self.slide();
-
             //go to previous slide onclick
             left_btn_container.onclick = function () {
-                slide.previousSlideViaButton();
+                self.appendMethods.previousSlideViaButton(self,self.data.slide,DOMObject);
             };
 
             left_btn_container.appendChild(btn);
@@ -41,7 +38,7 @@ module.exports = function (self, DOMObject) {
 
             //go to next slide onclick
             right_btn_container.onclick = function () {
-                slide.nextSlideViaButton();
+                self.appendMethods.nextSlideViaButton(self,self.data.slide,DOMObject);
             };
             right_btn_container.appendChild(btn);
             container.appendChild(right_btn_container);
