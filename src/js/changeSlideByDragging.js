@@ -21,7 +21,11 @@ module.exports = function (self, DOMObject) {
 
 
         mouseDownEvent: function (e) {
-            e.preventDefault();
+
+            // tag can't be video cause it would be unclickable in microsoft browsers
+            if(e.target.tagName !== 'VIDEO') {
+                e.preventDefault();
+            }
 
             for (let elem in elements) {
                 elements[elem].classList.add('fslightbox-cursor-grabbing');

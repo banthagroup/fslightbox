@@ -96,22 +96,25 @@ window.fsLightboxObject = function () {
 
         this.mediaHolderDimensions = function () {
             self.data.mediaHolder.holder.style.width = window.innerWidth + 'px';
+            self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
         };
 
-        this.sourcesDimensions = function() {
+        this.sourcesDimensions = function () {
 
             const stageSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
             for (let sourceIndex in sources) {
 
-                for (let stageSourceIndex in stageSourcesIndexes) {
-                    console.log(stageSourcesIndexes[stageSourceIndex]);
-                }
+                // add tranforms to stage sources
+                const stageSourcePreviousTransform = -self.data.slideDistance * window.innerWidth;
+                sources[stageSourcesIndexes.previous].style.transform = 'translate(' + stageSourcePreviousTransform + 'px,0)';
+                sources[stageSourcesIndexes.current].style.transform = 'translate(0,0)';
+                sources[stageSourcesIndexes.next].style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
 
                 const elem = sources[sourceIndex].firstChild;
 
                 let sourceWidth = rememberedSourceDimension[sourceIndex].width;
-                let sourceHeight= rememberedSourceDimension[sourceIndex].height;
+                let sourceHeight = rememberedSourceDimension[sourceIndex].height;
 
                 const coefficient = sourceWidth / sourceHeight;
                 const deviceWidth = window.innerWidth;
@@ -269,7 +272,7 @@ window.fsLightboxObject = function () {
      */
     this.getSourcesIndexes = {
 
-        previous: function(slide) {
+        previous: function (slide) {
             let previousSlideIndex;
             const arrayIndex = slide - 1;
 
@@ -284,7 +287,7 @@ window.fsLightboxObject = function () {
         },
 
 
-        next: function(slide) {
+        next: function (slide) {
 
             let nextSlideIndex;
             const arrayIndex = slide - 1;
@@ -337,10 +340,13 @@ window.fsLightboxObject = function () {
 
         // true is html5 video, false is youtube video
         for (let videoIndex in videos) {
-            if(videos[videoIndex] === true) {
-                self.data.sources[videoIndex].firstChild.pause();
-            } else {
-                // really youtube?
+
+            if (videos[videoIndex] === true) {
+                if (typeof self.data.sources[videoIndex].firstChild.pause !== "undefined") {
+                    self.data.sources[videoIndex].firstChild.pause();
+                }
+            }
+            else {
                 self.data.sources[videoIndex].firstChild.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
             }
         }
@@ -366,7 +372,8 @@ window.fsLightboxObject = function () {
         const loadsourcemodule = require("./loadSource.js");
         return new loadsourcemodule(self, DOMObject, typeOfLoad, slide);
     };
-};
+}
+;
 
 
 !function () {
