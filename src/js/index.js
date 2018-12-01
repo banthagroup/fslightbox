@@ -4,7 +4,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.data = {
-        slide: 3,
+        slide: 1,
         total_slides: 6,
         xPosition: -1.3 * window.innerWidth,
         slideDistance: 1.3,
@@ -21,7 +21,7 @@ window.fsLightboxObject = function () {
             "images/1.jpeg",
             "images/2.jpg",
             //"images/3.jpeg",
-            "films/xd.css",
+            "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
             //"https://www.youtube.com/watch?v=AS5CxLCWq-Q",
@@ -150,8 +150,7 @@ window.fsLightboxObject = function () {
         self.data.slideCounterElem.innerHTML = self.data.slide;
         self.data.slideCounterElem.id = 'current_slide';
 
-        let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
-        space.style.fontSize = '12px';
+        let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number', 'fslightbox-slash']);
         space.innerHTML = '/';
 
         let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);

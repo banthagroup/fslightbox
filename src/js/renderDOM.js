@@ -38,7 +38,7 @@ module.exports = function (self, DOMObject) {
 
             //go to next slide onclick
             right_btn_container.onclick = function () {
-                self.appendMethods.nextSlideViaButton(self,self.data.slide,DOMObject);
+                self.appendMethods.nextSlideViaButton(self,self.data.slide);
             };
             right_btn_container.appendChild(btn);
             container.appendChild(right_btn_container);
