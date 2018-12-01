@@ -45,7 +45,8 @@ h1 {
   cursor: pointer; }
 
 .lds-ring {
-  display: inline-block;
+  display: block;
+  margin: auto;
   position: relative;
   width: 67px;
   height: 67px; }
@@ -84,7 +85,6 @@ h1 {
   left: 0;
   top: 0;
   display: flex;
-  justify-content: center;
   align-items: center; }
 
 .fslightbox-single-source {
@@ -97,7 +97,8 @@ h1 {
   -ms-transition: opacity .20s;
   -o-transition: opacity .20s;
   transition: opacity .20s;
-  display: inline-block;
+  display: block;
+  margin: auto;
   opacity: 0.5;
   backface-visibility: hidden; }
 
@@ -158,7 +159,8 @@ h1 {
   width: 100%;
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  z-index: 2; }
 
 .fslightbox-slide-number-container {
   height: 100%;
@@ -228,6 +230,14 @@ h1 {
   left: 0;
   bottom: 0;
   right: 0; }
+
+.fslightbox-invisible-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10; }
 
 .fslightbox-cursor-grabbing {
   cursor: grabbing; }

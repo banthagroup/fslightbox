@@ -5,13 +5,8 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     const urls = self.data.urls;
     const sources = self.data.sources;
     let tempSources = {};
-    let sourceCounter = 0;
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
-        if (typeof  sourceWidth === "undefined") {
-            sourceWidth = self.data.onResizeEvent.rememberdWidth;
-            sourceHeight = self.data.onResizeEvent.rememberdHeight;
-        }
 
         const coefficient = sourceWidth / sourceHeight;
         const deviceWidth = window.innerWidth;
@@ -33,35 +28,22 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
      */
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
-        sourceCounter++;
-
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
 
         //normal source dimensions needs to be stored in array
-        //it will be needed when loading source from memory
+        //it will be needed when resizing a source
         self.data.rememberedSourcesDimensions[arrayIndex] = {
             "width": sourceWidth,
             "height": sourceHeight
         };
 
-        //add method that changes source dimension on window resize
-        self.data.onResizeEvent.sourceDimensions = function () {
-            sourceDimensions(sourceElem, sourceWidth, sourceHeight);
-        };
+        // set dimensions for the 1st time
+        sourceDimensions(sourceElem, sourceWidth, sourceHeight);
 
-        //set dimension for the first time
-        self.data.onResizeEvent.sourceDimensions(sourceWidth, sourceHeight);
-
-        // dimensions will be given only one time so we will need to remember it
-        // for next onresize event calls
-        self.data.onResizeEvent.rememberdWidth = sourceWidth;
-        self.data.onResizeEvent.rememberdHeight = sourceHeight;
         sourceHolder.appendChild(sourceElem);
-
         const previousSource = sources[sourcesIndexes.previous];
         const currentSource = sources[sourcesIndexes.current];
         const nextSource = sources[sourcesIndexes.next];
-
 
         switch (typeOfLoad) {
             case 'initial':
@@ -109,9 +91,12 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     this.loadYoutubevideo = function (videoId, arrayIndex) {
         let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
-        iframe.src = '//www.youtube.com/embed/' + videoId;
+        iframe.src = '//www.youtube.com/embed/' + videoId + '?enablejsapi=1';
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
+        iframe.onmouseup = function () {
+            console.log('japierdoel');
+        };
         self.data.mediaHolder.holder.appendChild(iframe);
         onloadListener(iframe, 1920, 1080, arrayIndex);
     };
@@ -167,6 +152,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         }
 
         if (parser.hostname === 'www.youtube.com') {
+            self.data.videos[indexOfSource] = false;
             this.loadYoutubevideo(getId(sourceUrl), indexOfSource);
         } else {
             const xhr = new XMLHttpRequest();
@@ -189,6 +175,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
                         else if (responseType === 'video') {
                             _this.videoLoad(URL.createObjectURL(xhr.response), indexOfSource);
+                            self.data.videos[indexOfSource] = true;
                         }
 
                         else {

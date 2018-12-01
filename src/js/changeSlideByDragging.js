@@ -1,4 +1,4 @@
-module.exports = function (self) {
+module.exports = function (self, DOMObject) {
 
     //to these elements are added mouse events
     const elements = {
@@ -7,6 +7,10 @@ module.exports = function (self) {
     };
     //sources are transformed
     const sources = self.data.sources;
+    const mediaHolder = self.data.mediaHolder.holder;
+
+    //we will hover all windows with div with high z-index to be sure mouseup is triggered
+    const invisibleHover = new DOMObject('div').addClassesAndCreate(['fslightbox-invisible-hover']);
 
     let is_dragging = false;
     let mouseDownClientX;
@@ -24,15 +28,14 @@ module.exports = function (self) {
             }
             is_dragging = true;
             mouseDownClientX = e.clientX;
-
-            // if (!slideaAble) {
-            //     return;
-            // }
             difference = 0;
         },
 
 
         mouseUpEvent: function () {
+            if(mediaHolder.contains(invisibleHover)) {
+                mediaHolder.removeChild(invisibleHover);
+            }
             let sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
             for (let elem in elements) {
@@ -106,6 +109,7 @@ module.exports = function (self) {
             }
 
             difference = 0;
+            self.stopVideos();
 
             setTimeout(function () {
 
@@ -126,6 +130,8 @@ module.exports = function (self) {
                 return;
             }
 
+            mediaHolder.appendChild(invisibleHover);
+
             difference = e.clientX - mouseDownClientX;
             const previous = -self.data.slideDistance * window.innerWidth + difference;
             const next = self.data.slideDistance * window.innerWidth + difference;
@@ -143,5 +149,8 @@ module.exports = function (self) {
         elements[elem].addEventListener('mousedown', eventListeners.mouseDownEvent);
     }
     window.addEventListener('mouseup', eventListeners.mouseUpEvent);
+    //we will hover all windows with div with high z-index to be sure mouseup is triggered
+    invisibleHover.addEventListener('mouseup', eventListeners.mouseUpEvent);
+    invisibleHover.addEventListener('mousedown', eventListeners.mouseUpEvent);
     window.addEventListener('mousemove', eventListeners.mouseMoveEvent);
 };

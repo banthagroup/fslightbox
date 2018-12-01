@@ -6,9 +6,7 @@ window.fsLightboxObject = function () {
     this.data = {
         slide: 1,
         total_slides: 6,
-        xPosition: -1.3 * window.innerWidth,
         slideDistance: 1.3,
-
         slideCounter: true,
         slideButtons: true,
         isFirstTimeLoad: false,
@@ -24,20 +22,20 @@ window.fsLightboxObject = function () {
             "films/film.mp4",
             "images/4.jpeg",
             "images/5.jpg",
-            "https://www.youtube.com/watch?v=AS5CxLCWq-Q",
-            "images/6.jpg",
+            "https://www.youtube.com/watch?v=WlcO9d0flNY&t=1s",
+            //"images/6.jpg",
         ],
         sources: [],
         sourcesLoaded: [],
         rememberedSourcesDimensions: [],
+        videos: [],
 
         mediaHolder: {},
         nav: {},
         toolbar: {},
-        sourceElem: {},
         slideCounterElem: {},
 
-        onResizeEvent: new onResizeEvent(),
+        onResizeEvent: '',
         updateSlideNumber: function () {
         }
     };
@@ -50,8 +48,9 @@ window.fsLightboxObject = function () {
 
 
     this.init = function () {
+        self.data.onResizeEvent = new onResizeEvent();
         new self.dom();
-        require('./changeSlideByDragging.js')(self);
+        require('./changeSlideByDragging.js')(self, DOMObject);
     };
 
 
@@ -92,17 +91,46 @@ window.fsLightboxObject = function () {
     function onResizeEvent() {
         let _this = this;
 
-        this.rememberdWidth = 0;
-        this.rememberdHeight = 0;
+        const sources = self.data.sources;
+        const rememberedSourceDimension = self.data.rememberedSourcesDimensions;
 
         this.mediaHolderDimensions = function () {
+            self.data.mediaHolder.holder.style.width = window.innerWidth + 'px';
         };
-        this.sourceDimensions = function () {
+
+        this.sourcesDimensions = function() {
+
+            const stageSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
+
+            for (let sourceIndex in sources) {
+
+                for (let stageSourceIndex in stageSourcesIndexes) {
+                    console.log(stageSourcesIndexes[stageSourceIndex]);
+                }
+
+                const elem = sources[sourceIndex].firstChild;
+
+                let sourceWidth = rememberedSourceDimension[sourceIndex].width;
+                let sourceHeight= rememberedSourceDimension[sourceIndex].height;
+
+                const coefficient = sourceWidth / sourceHeight;
+                const deviceWidth = window.innerWidth;
+                const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
+                let newHeight = deviceWidth / coefficient;
+                if (newHeight < deviceHeight - 60) {
+                    elem.style.height = newHeight + "px";
+                    elem.style.width = deviceWidth + "px";
+                } else {
+                    newHeight = deviceHeight - 60;
+                    elem.style.height = newHeight + "px";
+                    elem.style.width = newHeight * coefficient + "px";
+                }
+            }
         };
 
         window.onresize = function () {
             _this.mediaHolderDimensions();
-            _this.sourceDimensions();
+            _this.sourcesDimensions();
         };
     }
 
@@ -228,9 +256,6 @@ window.fsLightboxObject = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
         this.holder.style.width = window.innerWidth + 'px';
         this.holder.style.height = window.innerHeight + 'px';
-        self.data.onResizeEvent.mediaHolderDimensions = function () {
-            self.data.mediaHolder.holder.style.width = 3 * window.innerWidth + 'px';
-        };
         this.renderHolder = function (container) {
             container.appendChild(this.holder);
         };
@@ -303,6 +328,22 @@ window.fsLightboxObject = function () {
 
             return sourcesIndexes;
         },
+    };
+
+
+    this.stopVideos = function () {
+
+        const videos = self.data.videos;
+
+        // true is html5 video, false is youtube video
+        for (let videoIndex in videos) {
+            if(videos[videoIndex] === true) {
+                self.data.sources[videoIndex].firstChild.pause();
+            } else {
+                // really youtube?
+                self.data.sources[videoIndex].firstChild.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
+            }
+        }
     };
 
 
