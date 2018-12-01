@@ -25,9 +25,9 @@ module.exports = function (self) {
             is_dragging = true;
             mouseDownClientX = e.clientX;
 
-            if (!slideaAble) {
-                return;
-            }
+            // if (!slideaAble) {
+            //     return;
+            // }
             difference = 0;
         },
 
@@ -42,7 +42,7 @@ module.exports = function (self) {
             is_dragging = false;
 
             // if user didn't slide none animation should work
-            if (difference == 0) {
+            if (difference === 0) {
                 return;
             }
 
@@ -99,7 +99,6 @@ module.exports = function (self) {
 
                 // get new indexes
                 sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
-
                 //if source isn't already in memory
                 if (typeof self.data.sources[sourcesIndexes.next] === "undefined") {
                     self.loadsources('next', self.data.slide);

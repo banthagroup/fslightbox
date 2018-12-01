@@ -39,7 +39,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: .85rem;
+  font-size: .82rem;
   color:#c1c2c2;
   z-index: 1;
   max-width: 46px;
@@ -50,6 +50,11 @@
     -ms-user-select: none;
     user-select: none;
     padding: 0 2px;
+  }
+
+  .fslightbox-slash {
+    padding-top: .25rem;
+    font-size: 10px;
   }
 }
 

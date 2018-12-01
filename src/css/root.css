@@ -97,7 +97,9 @@ h1 {
   -ms-transition: opacity .20s;
   -o-transition: opacity .20s;
   transition: opacity .20s;
-  opacity: 0.5; }
+  display: inline-block;
+  opacity: 0.5;
+  backface-visibility: hidden; }
 
 .fslightbox-transform-transition {
   -webkit-transition: transform .20s;
@@ -105,9 +107,6 @@ h1 {
   -ms-transition: transform .20s;
   -o-transition: transform .20s;
   transition: transform .20s; }
-
-.fslightbox-fade-in {
-  opacity: 1 !important; }
 
 .fslightbox-invalid-file-wrapper {
   -webkit-user-select: none;
@@ -120,6 +119,20 @@ h1 {
   justify-content: center;
   align-items: center;
   opacity: 0.5; }
+
+.fslightbox-fade-in {
+  opacity: 1 !important; }
+
+.fslightbox-fade-in-animation {
+  -webkit-animation: fade-in .10s  linear;
+  -o-animation: fade-in .10s linear;
+  animation: fade-in .10s linear; }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 
 .fslightbox-container {
   position: absolute;
@@ -152,7 +165,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: .85rem;
+  font-size: .82rem;
   color: #c1c2c2;
   z-index: 1;
   max-width: 46px; }
@@ -162,6 +175,9 @@ h1 {
     -ms-user-select: none;
     user-select: none;
     padding: 0 2px; }
+  .fslightbox-slide-number-container .fslightbox-slash {
+    padding-top: .25rem;
+    font-size: 10px; }
 
 .fslightbox-svg-icon {
   width: 1em;

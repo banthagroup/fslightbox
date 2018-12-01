@@ -12,7 +12,7 @@ module.exports = {
         const loader = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
         const totalSlides = self.data.total_slides;
 
-        if(totalSlides >= 3) {
+        if (totalSlides >= 3) {
             let sourceHolderPrevious = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
             sourceHolderPrevious.style.transform = 'translate(' + -self.data.slideDistance * window.innerWidth + 'px,0)';
             sourceHolderPrevious.innerHTML = loader;
@@ -20,15 +20,15 @@ module.exports = {
             holder.appendChild(sourceHolderPrevious);
         }
 
-        if(totalSlides >= 1) {
+        if (totalSlides >= 1) {
             let sourceHolderCurrent = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
             sourceHolderCurrent.innerHTML = loader;
             self.data.sources[sourcesIndexes.current] = sourceHolderCurrent;
             holder.appendChild(sourceHolderCurrent);
         }
 
-        if(totalSlides >= 2) {
-            let sourceHolderNext= new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+        if (totalSlides >= 2) {
+            let sourceHolderNext = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
             sourceHolderNext.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
             sourceHolderNext.innerHTML = loader;
 
@@ -86,7 +86,7 @@ module.exports = {
      * @param slide
      * @param DOMObject
      */
-    previousSlideViaButton: function (self,slide,DOMObject) {
+    previousSlideViaButton: function (self, slide, DOMObject) {
 
     },
 
@@ -95,12 +95,41 @@ module.exports = {
      * Change slide to next after clicking button
      * @param self
      * @param previousSlide
-     * @param DOMObject
      */
-    nextSlideViaButton: function (self,previousSlide,DOMObject) {
+    nextSlideViaButton: function (self, previousSlide) {
+        if (previousSlide === self.data.total_slides) {
+            self.data.slide = 1;
+        } else {
+            self.data.slide += 1;
+        }
+        self.data.updateSlideNumber(self.data.slide);
+        const newSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
-        const sourcesIndexes = self.getSourcesIndexes(previousSlide);
-        self.data.slide = sourcesIndexes.previous;
+        if (typeof self.data.sources[newSourcesIndexes.next] === "undefined") {
+            self.loadsources('next', self.data.slide);
+        }
+
+        const sources = self.data.sources;
+        const currentSource = sources[newSourcesIndexes.current];
+        const previousSource = sources[newSourcesIndexes.previous];
+
+        previousSource.classList.remove('fslightbox-transform-transition');
+        currentSource.classList.remove('fslightbox-transform-transition');
+        sources[newSourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
+
+        previousSource.classList.remove('fslightbox-fade-in-animation');
+        void previousSource.offsetWidth;
+        previousSource.classList.add('fslightbox-fade-in-animation');
+
+
+        currentSource.classList.remove('fslightbox-fade-in-animation');
+        void currentSource.offsetWidth;
+        currentSource.classList.add('fslightbox-fade-in-animation');
+
+
+        currentSource.style.transform = 'translate(0,0)';
+        const minusTransform = -self.data.slideDistance * window.innerWidth;
+        previousSource.style.transform = 'translate(' + minusTransform + 'px,0)';
     }
 
 

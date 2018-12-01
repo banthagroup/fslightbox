@@ -20,7 +20,9 @@
   -ms-transition: opacity .20s;
   -o-transition: opacity .20s;
   transition: opacity .20s;
+  display: inline-block;
   opacity: 0.5;
+  backface-visibility: hidden;
 }
 
 .fslightbox-transform-transition {
@@ -29,10 +31,6 @@
   -ms-transition: transform .20s;
   -o-transition: transform .20s;
   transition: transform .20s;
-}
-
-.fslightbox-fade-in {
-  opacity: 1 !important;
 }
 
 .fslightbox-invalid-file-wrapper {
@@ -47,4 +45,26 @@
   align-items: center;
   opacity: 0.5;
 }
+
+.fslightbox-fade-in {
+  opacity: 1 !important;
+}
+
+.fslightbox-fade-in-animation {
+  -webkit-animation: fade-in .10s  linear;
+  -o-animation: fade-in .10s linear;
+  animation: fade-in .10s linear;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
 
