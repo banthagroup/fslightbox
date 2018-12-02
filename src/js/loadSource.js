@@ -9,7 +9,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
 
         const coefficient = sourceWidth / sourceHeight;
-        const deviceWidth = window.innerWidth;
+        const deviceWidth = parseInt(self.data.mediaHolder.holder.style.width);
         const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
         let newHeight = deviceWidth / coefficient;
         if (newHeight < deviceHeight - 60) {
