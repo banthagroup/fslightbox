@@ -4,7 +4,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.data = {
-        slide: 3,
+        slide: 1,
         total_slides: 3,
         slideDistance: 1.3,
         slideCounter: true,
@@ -15,14 +15,16 @@ window.fsLightboxObject = function () {
             "close": true
         },
 
+        element: null,
+
         urls: [
             "images/1.jpeg",
-            //"images/2.jpg",
-           // "images/3.jpeg",
-           "films/film.mp4",
+            "images/2.jpg",
+            "images/3.jpeg",
+            //"films/film.mp4",
             //"images/4.jpeg",
             //"images/5.jpg",
-            "https://www.youtube.com/watch?v=WlcO9d0flNY&t=1s",
+            //"https://www.youtube.com/watch?v=WlcO9d0flNY&t=1s",
             //"images/6.jpg",
         ],
         sources: [],
@@ -47,10 +49,37 @@ window.fsLightboxObject = function () {
     let self = this;
 
 
+    /**
+     * Init a new fsLightbox instance
+     */
     this.init = function () {
         self.data.onResizeEvent = new onResizeEvent();
         new self.dom();
         require('./changeSlideByDragging.js')(self, DOMObject);
+    };
+
+
+    /**
+     * Show dom of fsLightbox instance if exists
+     */
+    this.show = function () {
+        if(self.data.element !== null) {
+            document.body.classList.add('fslightbox-open');
+            document.body.appendChild(self.data.element);
+            self.data.element.classList.remove(['fslightbox-fade-in-animation']);
+            self.data.element.classList.add(['fslightbox-fade-in-animation']);
+        } else {
+            self.init();
+        }
+    };
+
+
+    /**
+     * Hide dom of existing fsLightbox instance
+     */
+    this.hide = function () {
+        document.body.classList.remove('fslightbox-open');
+        document.body.removeChild(self.data.element);
     };
 
 
@@ -60,11 +89,6 @@ window.fsLightboxObject = function () {
      */
     this.dom = function () {
         require('./renderDOM.js')(self, DOMObject);
-    };
-
-
-    this.clear = function () {
-        document.getElementById('fslightbox-container').remove();
     };
 
 
@@ -95,8 +119,13 @@ window.fsLightboxObject = function () {
         const rememberedSourceDimension = self.data.rememberedSourcesDimensions;
 
         this.mediaHolderDimensions = function () {
-            self.data.mediaHolder.holder.style.width = window.innerWidth + 'px';
-            self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
+            if (window.innerWidth > 1000) {
+                self.data.mediaHolder.holder.style.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
+                self.data.mediaHolder.holder.style.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
+            } else {
+                self.data.mediaHolder.holder.style.width = window.innerWidth + 'px';
+                self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
+            }
         };
 
         this.sourcesDimensions = function () {
@@ -116,7 +145,7 @@ window.fsLightboxObject = function () {
                 let sourceHeight = rememberedSourceDimension[sourceIndex].height;
 
                 const coefficient = sourceWidth / sourceHeight;
-                const deviceWidth = window.innerWidth;
+                const deviceWidth = parseInt(self.data.mediaHolder.holder.style.width);
                 const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
                 let newHeight = deviceWidth / coefficient;
                 if (newHeight < deviceHeight - 60) {
@@ -236,6 +265,7 @@ window.fsLightboxObject = function () {
                 let button = new DOMObject('div').addClassesAndCreate(['fslightbox-toolbar-button', 'button-style']);
                 let svg = new self.SVGIcon().getSVGIcon('M 11.469 10 l 7.08 -7.08 c 0.406 -0.406 0.406 -1.064 0 -1.469 c -0.406 -0.406 -1.063 -0.406 -1.469 0 L 10 8.53 l -7.081 -7.08 c -0.406 -0.406 -1.064 -0.406 -1.469 0 c -0.406 0.406 -0.406 1.063 0 1.469 L 8.531 10 L 1.45 17.081 c -0.406 0.406 -0.406 1.064 0 1.469 c 0.203 0.203 0.469 0.304 0.735 0.304 c 0.266 0 0.531 -0.101 0.735 -0.304 L 10 11.469 l 7.08 7.081 c 0.203 0.203 0.469 0.304 0.735 0.304 c 0.267 0 0.532 -0.101 0.735 -0.304 c 0.406 -0.406 0.406 -1.064 0 -1.469 L 11.469 10 Z');
                 button.appendChild(svg);
+                button.onclick = self.hide;
                 this.toolbarElem.appendChild(button);
             }
         };
@@ -256,8 +286,15 @@ window.fsLightboxObject = function () {
      */
     this.mediaHolder = function () {
         this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-        this.holder.style.width = window.innerWidth + 'px';
-        this.holder.style.height = window.innerHeight + 'px';
+
+        if (window.innerWidth > 1000) {
+            this.holder.style.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
+            this.holder.style.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
+        } else {
+            this.holder.style.width = window.innerWidth + 'px';
+            this.holder.style.height = window.innerHeight + 'px';
+        }
+
         this.renderHolder = function (container) {
             container.appendChild(this.holder);
         };
@@ -335,7 +372,7 @@ window.fsLightboxObject = function () {
 
     this.transforms = {
 
-        transformMinus: function(elem) {
+        transformMinus: function (elem) {
             elem.style.transform = 'translate(' + (-self.data.slideDistance * window.innerWidth) + 'px,0)';
         },
 
@@ -344,7 +381,7 @@ window.fsLightboxObject = function () {
         },
 
         transformPlus: function (elem) {
-            elem.style.transform = 'translate(' + self.data.slideDistance* window.innerWidth + 'px,0)';
+            elem.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
         }
     };
 

@@ -14,6 +14,9 @@
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: "Montserrat", sans-serif;
   z-index: 9999999;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
 }
 
 
@@ -86,6 +89,8 @@
   transform: translateY(-50%);
 }
 
+
+
 .fslightbox-slide-btn-container:hover {
   .fslightbox-svg-icon path,
   .fslightbox-svg-icon polygon,
@@ -98,6 +103,10 @@
   padding:8px;
   font-size: 26px;
   background: rgba(35,35,35,.65);
+}
+
+.fslightbox-slide-btn-left-container {
+  left:0;
 }
 
 .fslightbox-slide-btn-right-container {
@@ -114,10 +123,9 @@
 
 .fslightbox-media-holder {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .fslightbox-invisible-hover {
