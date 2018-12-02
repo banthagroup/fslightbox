@@ -45,8 +45,11 @@ module.exports = function (self, DOMObject) {
         }
     };
 
-    //disable scrolling
+    //disable scrolling and add fix for jumping site if not mobile
     document.body.classList.add('fslightbox-open');
+    if(!self.data.isMobile) {
+        document.body.classList.add('fslightbox-scrollbarfix');
+    }
 
     //create container
     self.data.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
