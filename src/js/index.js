@@ -4,8 +4,8 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.data = {
-        slide: 1,
-        total_slides: 6,
+        slide: 3,
+        total_slides: 3,
         slideDistance: 1.3,
         slideCounter: true,
         slideButtons: true,
@@ -17,11 +17,11 @@ window.fsLightboxObject = function () {
 
         urls: [
             "images/1.jpeg",
-            "images/2.jpg",
-            //"images/3.jpeg",
-            "films/film.mp4",
-            "images/4.jpeg",
-            "images/5.jpg",
+            //"images/2.jpg",
+           // "images/3.jpeg",
+           "films/film.mp4",
+            //"images/4.jpeg",
+            //"images/5.jpg",
             "https://www.youtube.com/watch?v=WlcO9d0flNY&t=1s",
             //"images/6.jpg",
         ],
@@ -106,10 +106,9 @@ window.fsLightboxObject = function () {
             for (let sourceIndex in sources) {
 
                 // add tranforms to stage sources
-                const stageSourcePreviousTransform = -self.data.slideDistance * window.innerWidth;
-                sources[stageSourcesIndexes.previous].style.transform = 'translate(' + stageSourcePreviousTransform + 'px,0)';
-                sources[stageSourcesIndexes.current].style.transform = 'translate(0,0)';
-                sources[stageSourcesIndexes.next].style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+                self.transforms.transformMinus(sources[stageSourcesIndexes.previous]);
+                self.transforms.transformNull(sources[stageSourcesIndexes.current]);
+                self.transforms.transformPlus(sources[stageSourcesIndexes.next]);
 
                 const elem = sources[sourceIndex].firstChild;
 
@@ -331,6 +330,22 @@ window.fsLightboxObject = function () {
 
             return sourcesIndexes;
         },
+    };
+
+
+    this.transforms = {
+
+        transformMinus: function(elem) {
+            elem.style.transform = 'translate(' + (-self.data.slideDistance * window.innerWidth) + 'px,0)';
+        },
+
+        transformNull: function (elem) {
+            elem.style.transform = 'translate(0,0)';
+        },
+
+        transformPlus: function (elem) {
+            elem.style.transform = 'translate(' + self.data.slideDistance* window.innerWidth + 'px,0)';
+        }
     };
 
 

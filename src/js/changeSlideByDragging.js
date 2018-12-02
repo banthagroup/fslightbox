@@ -12,6 +12,9 @@ module.exports = function (self, DOMObject) {
     //we will hover all windows with div with high z-index to be sure mouseup is triggered
     const invisibleHover = new DOMObject('div').addClassesAndCreate(['fslightbox-invisible-hover']);
 
+    // if there are only 2 or 1 urls transforms will be different
+    const urlsLength = self.data.urls.length;
+
     let is_dragging = false;
     let mouseDownClientX;
     let difference;
@@ -23,7 +26,7 @@ module.exports = function (self, DOMObject) {
         mouseDownEvent: function (e) {
 
             // tag can't be video cause it would be unclickable in microsoft browsers
-            if(e.target.tagName !== 'VIDEO') {
+            if (e.target.tagName !== 'VIDEO') {
                 e.preventDefault();
             }
 
@@ -37,7 +40,7 @@ module.exports = function (self, DOMObject) {
 
 
         mouseUpEvent: function () {
-            if(mediaHolder.contains(invisibleHover)) {
+            if (mediaHolder.contains(invisibleHover)) {
                 mediaHolder.removeChild(invisibleHover);
             }
             let sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
@@ -75,10 +78,13 @@ module.exports = function (self, DOMObject) {
                     self.data.updateSlideNumber(self.data.slide - 1);
                 }
 
-
-                const slideNextTransform = self.data.slideDistance * window.innerWidth;
-                sources[sourcesIndexes.current].style.transform = 'translate(' + slideNextTransform + 'px,0)';
-                sources[sourcesIndexes.previous].style.transform = 'translate(0,0)';
+                if (urlsLength >= 2) {
+                    self.transforms.transformPlus(sources[sourcesIndexes.current]);
+                    self.transforms.transformNull(sources[sourcesIndexes.previous]);
+                }
+                else {
+                  self.transforms.transformNull(sources[sourcesIndexes.current]);
+                }
 
                 // get new indexes
                 sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
@@ -100,9 +106,13 @@ module.exports = function (self, DOMObject) {
                     self.data.updateSlideNumber(self.data.slide + 1);
                 }
 
-                const slideBackTransform = -self.data.slideDistance * window.innerWidth;
-                sources[sourcesIndexes.current].style.transform = 'translate(' + slideBackTransform + 'px,0)';
-                sources[sourcesIndexes.next].style.transform = 'translate(0,0)';
+
+                if (urlsLength > 1) {
+                    self.transforms.transformMinus(sources[sourcesIndexes.current]);
+                    self.transforms.transformNull(sources[sourcesIndexes.next]);
+                } else {
+                    self.transforms.transformNull(sources[sourcesIndexes.current]);
+                }
 
                 // get new indexes
                 sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
@@ -135,16 +145,24 @@ module.exports = function (self, DOMObject) {
             }
 
             mediaHolder.appendChild(invisibleHover);
-
             difference = e.clientX - mouseDownClientX;
-            const previous = -self.data.slideDistance * window.innerWidth + difference;
-            const next = self.data.slideDistance * window.innerWidth + difference;
             const sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
-            // slide sources
-            sources[sourcesIndexes.previous].style.transform = 'translate(' + previous + 'px,0)';
-            sources[sourcesIndexes.current].style.transform = 'translate(' + difference + 'px,0)';
-            sources[sourcesIndexes.next].style.transform = 'translate(' + next + 'px,0)';
+            if (urlsLength >= 3) {
+                sources[sourcesIndexes.previous].style.transform = 'translate(' +
+                    (-self.data.slideDistance * window.innerWidth + difference)
+                    + 'px,0)';
+            }
+
+            if (urlsLength >= 1) {
+                sources[sourcesIndexes.current].style.transform = 'translate(' + difference + 'px,0)';
+            }
+
+            if (urlsLength >= 2) {
+                sources[sourcesIndexes.next].style.transform = 'translate('
+                    + (self.data.slideDistance * window.innerWidth + difference)
+                    + 'px,0)';
+            }
         }
     };
 
