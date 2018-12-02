@@ -49,26 +49,49 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             case 'initial':
                 // add to temp array because loading is asynchronous so we can't depend on load order
                 tempSources[arrayIndex] = sourceHolder;
+                const tempSourcesLength = Object.keys(tempSources).length;
 
-                if(urls.length >= 3) {
-                    // append sources when all 3 are loaded
-                    if(Object.keys(tempSources).length >= 3) {
+                let appends = {
 
+                    appendPrevious: function () {
                         previousSource.innerHTML = '';
                         previousSource.appendChild(tempSources[sourcesIndexes.previous].firstChild);
-                        void currentSource.firstChild.offsetWidth;
                         previousSource.firstChild.classList.add('fslightbox-fade-in');
+                    },
 
+                    appendCurrent: function () {
                         currentSource.innerHTML = '';
                         currentSource.appendChild(tempSources[sourcesIndexes.current].firstChild);
                         void currentSource.firstChild.offsetWidth;
                         currentSource.firstChild.classList.add('fslightbox-fade-in');
+                    },
 
+                    appendNext: function () {
                         nextSource.innerHTML = '';
                         nextSource.appendChild(tempSources[sourcesIndexes.next].firstChild);
-                        void currentSource.firstChild.offsetWidth;
                         nextSource.firstChild.classList.add('fslightbox-fade-in');
                     }
+                };
+
+                if(urls.length >= 3) {
+                    // append sources only if all stage sources are loaded
+                    if(tempSourcesLength >= 3) {
+                        appends.appendPrevious();
+                        appends.appendCurrent();
+                        appends.appendNext();
+                    }
+                }
+
+
+                if(urls.length === 2) {
+                    if(tempSourcesLength >= 2) {
+                        appends.appendPrevious();
+                        appends.appendCurrent();
+                    }
+                }
+
+                if(urls.length === 1) {
+                    appends.appendCurrent();
                 }
                 break;
             case 'next':
@@ -196,10 +219,16 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             //append loader when loading initially
             self.appendMethods.renderHolderInitial(self,slide,DOMObject);
 
+            if(urls.length >= 1) {
+                this.createSourceElem(urls[sourcesIndexes.current]);
+            }
+
+            if(urls.length >= 2) {
+                this.createSourceElem(urls[sourcesIndexes.next]);
+            }
+
             if(urls.length >= 3) {
                 this.createSourceElem(urls[sourcesIndexes.previous]);
-                this.createSourceElem(urls[sourcesIndexes.current]);
-                this.createSourceElem(urls[sourcesIndexes.next]);
                 break;
             }
             break;

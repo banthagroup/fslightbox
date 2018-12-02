@@ -14,7 +14,7 @@ module.exports = {
 
         if (totalSlides >= 3) {
             let sourceHolderPrevious = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-            sourceHolderPrevious.style.transform = 'translate(' + -self.data.slideDistance * window.innerWidth + 'px,0)';
+            self.transforms.transformMinus(sourceHolderPrevious);
             sourceHolderPrevious.innerHTML = loader;
             self.data.sources[sourcesIndexes.previous] = sourceHolderPrevious;
             holder.appendChild(sourceHolderPrevious);
@@ -29,7 +29,7 @@ module.exports = {
 
         if (totalSlides >= 2) {
             let sourceHolderNext = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-            sourceHolderNext.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+            self.transforms.transformPlus(sourceHolderNext);
             sourceHolderNext.innerHTML = loader;
 
             self.data.sources[sourcesIndexes.next] = sourceHolderNext;
@@ -51,9 +51,7 @@ module.exports = {
         // create holder and add a proper transform
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        const transformPrevious = -self.data.slideDistance * window.innerWidth;
-        sourceHolder.style.transform = 'translate(' + transformPrevious + 'px,0)';
-
+        self.transforms.transformMinus(sourceHolder);
 
         self.data.sources[previousSourceIndex] = sourceHolder;
         holder.insertAdjacentElement('afterbegin', sourceHolder);
@@ -73,7 +71,7 @@ module.exports = {
         // create holder and add a proper transform
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        sourceHolder.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
+        self.transforms.transformPlus(sourceHolder);
 
         self.data.sources[nextSourceIndex] = sourceHolder;
         holder.appendChild(sourceHolder);
@@ -83,8 +81,7 @@ module.exports = {
     /**
      * Change slide to previous after clicking button
      * @param self
-     * @param slide
-     * @param DOMObject
+     * @param previousSlide
      */
     previousSlideViaButton: function (self, previousSlide) {
         if (previousSlide === 1) {
@@ -118,9 +115,8 @@ module.exports = {
         void currentSource.offsetWidth;
         currentSource.classList.add('fslightbox-fade-in-animation');
 
-        currentSource.style.transform = 'translate(0,0)';
-        const plusTransform = self.data.slideDistance * window.innerWidth;
-        nextSource.style.transform = 'translate(' + plusTransform + 'px,0)';
+        self.transforms.transformNull(currentSource);
+        self.transforms.transformPlus(nextSource);
     },
 
 
@@ -162,9 +158,8 @@ module.exports = {
         currentSource.classList.add('fslightbox-fade-in-animation');
 
 
-        currentSource.style.transform = 'translate(0,0)';
-        const minusTransform = -self.data.slideDistance * window.innerWidth;
-        previousSource.style.transform = 'translate(' + minusTransform + 'px,0)';
+        self.transforms.transformNull(currentSource);
+        self.transforms.transformMinus(previousSource);
     }
 
 

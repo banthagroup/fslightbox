@@ -55,7 +55,10 @@ module.exports = function (self, DOMObject) {
 
     //render slide buttons and nav(toolbar)
     privateMethods.renderNav(container);
-    privateMethods.renderSlideButtons(container);
+
+    if(self.data.total_slides > 1) {
+        privateMethods.renderSlideButtons(container);
+    }
 
     self.data.mediaHolder = new self.mediaHolder();
     self.data.mediaHolder.renderHolder(container);
