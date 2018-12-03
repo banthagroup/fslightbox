@@ -78,6 +78,27 @@ module.exports = {
     },
 
 
+
+    /**
+     * Renders loader when loading a previous source
+     * @param self
+     * @param slide
+     * @param DOMObject
+     */
+    renderHolderCurrent: function (self, slide, DOMObject) {
+        const holder = self.data.mediaHolder.holder;
+        const sourcesIndexes = self.getSourcesIndexes.all(slide);
+
+        // create holder and add a proper transform
+        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+        self.transforms.transformNull(sourceHolder);
+
+        self.data.sources[sourcesIndexes.current] = sourceHolder;
+        holder.insertBefore(sourceHolder, self.data.sources[sourcesIndexes.next]);
+    },
+
+
     /**
      * Change slide to previous after clicking button
      * @param self

@@ -1,36 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
-#app {
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  text-align: center;
-  width: 100%; }
-
-html, body {
-  overflow: auto;
-  margin: 0;
-  padding: 0;
-  background: #f5f6f6; }
-
-.images {
-  width: 50%;
-  margin: auto; }
-  .images .image {
-    margin-top: 50px;
-    max-width: 100%;
-    max-height: 100%; }
-
-h1 {
-  color: #20a4a7;
-  font-size: 72px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  margin-bottom: 70px; }
-
-* {
-  box-sizing: border-box; }
-
 .fslightbox-toolbar {
   position: absolute;
   right: 0;
