@@ -1,5 +1,17 @@
 module.exports = {
 
+    loader: '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>',
+    self: '',
+    DOMObject: '',
+
+    createHolder: function (index) {
+        let sourceHolder = new this.DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
+        sourceHolder.innerHTML = this.loader;
+        this.self.data.sources[index] = sourceHolder;
+        return sourceHolder;
+    },
+
+
     /**
      * Renders loader when loading fsLightbox initially
      * @param self
@@ -7,95 +19,61 @@ module.exports = {
      * @param DOMObject
      */
     renderHolderInitial: function (self, slide, DOMObject) {
-        const holder = self.data.mediaHolder.holder;
+        this.self = self;
+        this.DOMObject = DOMObject;
         const sourcesIndexes = self.getSourcesIndexes.all(slide);
-        const loader = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
         const totalSlides = self.data.total_slides;
 
         if (totalSlides >= 3) {
-            let sourceHolderPrevious = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-            self.transforms.transformMinus(sourceHolderPrevious);
-            sourceHolderPrevious.innerHTML = loader;
-            self.data.sources[sourcesIndexes.previous] = sourceHolderPrevious;
-            holder.appendChild(sourceHolderPrevious);
+            const prev = this.createHolder(sourcesIndexes.previous);
+            self.transforms.transformMinus(prev);
+            self.data.mediaHolder.holder.appendChild(prev);
         }
-
         if (totalSlides >= 1) {
-            let sourceHolderCurrent = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-            sourceHolderCurrent.innerHTML = loader;
-            self.data.sources[sourcesIndexes.current] = sourceHolderCurrent;
-            holder.appendChild(sourceHolderCurrent);
+            const curr = this.createHolder(sourcesIndexes.current);
+            self.data.mediaHolder.holder.appendChild(curr);
         }
-
         if (totalSlides >= 2) {
-            let sourceHolderNext = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-            self.transforms.transformPlus(sourceHolderNext);
-            sourceHolderNext.innerHTML = loader;
-
-            self.data.sources[sourcesIndexes.next] = sourceHolderNext;
-            holder.appendChild(sourceHolderNext);
+            const next = this.createHolder(sourcesIndexes.next);
+            self.transforms.transformPlus(next);
+            self.data.mediaHolder.holder.appendChild(next);
         }
     },
 
 
     /**
      * Renders loader when loading a previous source
-     * @param self
      * @param slide
-     * @param DOMObject
      */
-    renderHolderPrevious: function (self, slide, DOMObject) {
-        const holder = self.data.mediaHolder.holder;
-        const previousSourceIndex = self.getSourcesIndexes.previous(slide);
-
-        // create holder and add a proper transform
-        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.transforms.transformMinus(sourceHolder);
-
-        self.data.sources[previousSourceIndex] = sourceHolder;
-        holder.insertAdjacentElement('afterbegin', sourceHolder);
+    renderHolderPrevious: function (slide) {
+        const previousSourceIndex = this.self.getSourcesIndexes.previous(slide);
+        const prev = this.createHolder(previousSourceIndex);
+        this.self.transforms.transformMinus(prev);
+        this.self.data.mediaHolder.holder.insertAdjacentElement('afterbegin', prev);
     },
 
 
     /**
      * Renders loader when loading a next source
-     * @param self
      * @param slide
-     * @param DOMObject
      */
-    renderHolderNext: function (self, slide, DOMObject) {
-        const holder = self.data.mediaHolder.holder;
-        const nextSourceIndex = self.getSourcesIndexes.next(slide);
-
-        // create holder and add a proper transform
-        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.transforms.transformPlus(sourceHolder);
-
-        self.data.sources[nextSourceIndex] = sourceHolder;
-        holder.appendChild(sourceHolder);
+    renderHolderNext: function (slide) {
+        const nextSourceIndex = this.self.getSourcesIndexes.next(slide);
+        const next = this.createHolder(nextSourceIndex);
+        this.self.transforms.transformPlus(next);
+        this.self.data.mediaHolder.holder.appendChild(next);
     },
-
 
 
     /**
      * Renders loader when loading a previous source
-     * @param self
      * @param slide
-     * @param DOMObject
      */
-    renderHolderCurrent: function (self, slide, DOMObject) {
-        const holder = self.data.mediaHolder.holder;
-        const sourcesIndexes = self.getSourcesIndexes.all(slide);
-
-        // create holder and add a proper transform
-        let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
-        sourceHolder.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
-        self.transforms.transformNull(sourceHolder);
-
-        self.data.sources[sourcesIndexes.current] = sourceHolder;
-        holder.insertBefore(sourceHolder, self.data.sources[sourcesIndexes.next]);
+    renderHolderCurrent: function (slide) {
+        const sourcesIndexes = this.self.getSourcesIndexes.all(slide);
+        const curr = this.createHolder(sourcesIndexes.current);
+        this.self.transforms.transformNull(curr);
+        this.self.data.mediaHolder.holder.insertBefore(curr, this.self.data.sources[sourcesIndexes.next]);
     },
 
 
@@ -182,6 +160,4 @@ module.exports = {
         self.transforms.transformNull(currentSource);
         self.transforms.transformMinus(previousSource);
     }
-
-
 };
