@@ -46,10 +46,7 @@ module.exports = function (self, DOMObject) {
     };
 
     //disable scrolling and add fix for jumping site if not mobile
-    document.body.classList.add('fslightbox-open');
-    if(!self.data.isMobile) {
-        document.body.classList.add('fslightbox-scrollbarfix');
-    }
+    self.scrollbar.showScrollbar();
 
     //create container
     self.data.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
@@ -68,5 +65,4 @@ module.exports = function (self, DOMObject) {
     self.data.element.classList.add(['fslightbox-fade-in-animation']);
 
     self.data.isfirstTimeLoad = true;
-    self.loadsources('initial', self.data.slide);
 };

@@ -15,14 +15,8 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-transition: opacity .20s;
-  -moz-transition: opacity .20s;
-  -ms-transition: opacity .20s;
-  -o-transition: opacity .20s;
-  transition: opacity .20s;
   display: block;
   margin: auto;
-  opacity: 0.5;
   backface-visibility: hidden;
 }
 
@@ -41,10 +35,10 @@
   user-select: none;
   font-size: 22px;
   color: #eaebeb;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
 }
 
 .fslightbox-fade-in {
@@ -52,7 +46,7 @@
 }
 
 .fslightbox-fade-in-animation {
-  -webkit-animation: fade-in .10s  linear;
+  -webkit-animation: fade-in .10s linear;
   -o-animation: fade-in .10s linear;
   animation: fade-in .10s linear;
 }

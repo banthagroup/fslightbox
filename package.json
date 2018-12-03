@@ -14,8 +14,13 @@
     "browser-sync": "^2.26.3",
     "browserify": "^16.2.3",
     "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp-util": "^3.0.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0"
