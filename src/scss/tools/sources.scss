@@ -1,4 +1,3 @@
-
 .fslightbox-source-holder {
   position: absolute;
   width: 100%;
@@ -18,6 +17,7 @@
   display: block;
   margin: auto;
   backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .fslightbox-transform-transition {

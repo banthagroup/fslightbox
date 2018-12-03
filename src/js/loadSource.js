@@ -23,6 +23,19 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
+    let load = function (sourceHolder, sourceElem) {
+        sourceHolder.innerHTML = '';
+        sourceHolder.appendChild(sourceElem);
+        void sourceHolder.firstChild.offsetWidth;
+        sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
+    };
+
+    let appendInitial = function (sourceHolder, sourceElem) {
+        sourceHolder.innerHTML = '';
+        sourceHolder.appendChild(sourceElem.firstChild);
+        sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
+    };
+
     /**
      * add fade in class and dimension function
      */
@@ -45,6 +58,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         const currentSource = sources[sourcesIndexes.current];
         const nextSource = sources[sourcesIndexes.next];
 
+
         switch (typeOfLoad) {
             case 'initial':
                 // add to temp array because loading is asynchronous so we can't depend on load order
@@ -54,22 +68,15 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 let appends = {
 
                     appendPrevious: function () {
-                        previousSource.innerHTML = '';
-                        previousSource.appendChild(tempSources[sourcesIndexes.previous].firstChild);
-                        previousSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                        appendInitial(previousSource, tempSources[sourcesIndexes.previous]);
                     },
 
                     appendCurrent: function () {
-                        currentSource.innerHTML = '';
-                        currentSource.appendChild(tempSources[sourcesIndexes.current].firstChild);
-                        void currentSource.firstChild.offsetWidth;
-                        currentSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                        appendInitial(currentSource, tempSources[sourcesIndexes.current]);
                     },
 
                     appendNext: function () {
-                        nextSource.innerHTML = '';
-                        nextSource.appendChild(tempSources[sourcesIndexes.next].firstChild);
-                        nextSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                        appendInitial(nextSource, tempSources[sourcesIndexes.next]);
                     }
                 };
 
@@ -96,24 +103,15 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 break;
             case 'current':
                 // replace loader with loaded source
-                currentSource.innerHTML = '';
-                currentSource.appendChild(sourceElem);
-                void currentSource.firstChild.offsetWidth;
-                currentSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                load(currentSource, sourceElem);
                 break;
             case 'next':
                 // replace loader with loaded source
-                nextSource.innerHTML = '';
-                nextSource.appendChild(sourceElem);
-                void currentSource.firstChild.offsetWidth;
-                nextSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                load(nextSource, sourceElem);
                 break;
             case 'previous':
                 // replace loader with loaded source
-                previousSource.innerHTML = '';
-                previousSource.appendChild(sourceElem);
-                void currentSource.firstChild.offsetWidth;
-                previousSource.firstChild.classList.add('fslightbox-fade-in-animation');
+                load(previousSource, sourceElem);
                 break;
         }
     };
@@ -242,7 +240,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
         case 'previous':
             // append loader when loading a next source
-            self.appendMethods.renderHolderPrevious(self, slide, DOMObject);
+            self.appendMethods.renderHolderPrevious(slide);
 
             // load previous source
             this.createSourceElem(urls[sourcesIndexes.previous]);
@@ -250,7 +248,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
         case 'next':
             // append loader when loading a next source
-            self.appendMethods.renderHolderNext(self, slide, DOMObject);
+            self.appendMethods.renderHolderNext(slide);
 
             //load next source
             this.createSourceElem(urls[sourcesIndexes.next]);
@@ -259,7 +257,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         case 'current':
 
             // append loader when loading a next source
-            self.appendMethods.renderHolderCurrent(self, slide, DOMObject);
+            self.appendMethods.renderHolderCurrent(slide);
 
             // load previous source
             this.createSourceElem(urls[sourcesIndexes.current]);

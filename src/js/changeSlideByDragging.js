@@ -1,16 +1,17 @@
 module.exports = function (self, DOMObject) {
 
+    //we will hover all windows with div with high z-index to be sure mouseup is triggered
+    const invisibleHover = new DOMObject('div').addClassesAndCreate(['fslightbox-invisible-hover']);
+
     //to these elements are added mouse events
     const elements = {
         "mediaHolder": self.data.mediaHolder.holder,
-        "nav": self.data.nav
+        "nav": self.data.nav,
+        "invisibleHover": invisibleHover
     };
     //sources are transformed
     const sources = self.data.sources;
     const mediaHolder = self.data.mediaHolder.holder;
-
-    //we will hover all windows with div with high z-index to be sure mouseup is triggered
-    const invisibleHover = new DOMObject('div').addClassesAndCreate(['fslightbox-invisible-hover']);
 
     // if there are only 2 or 1 urls transforms will be different
     const urlsLength = self.data.urls.length;
@@ -29,17 +30,19 @@ module.exports = function (self, DOMObject) {
             if (e.target.tagName !== 'VIDEO') {
                 e.preventDefault();
             }
-
             for (let elem in elements) {
                 elements[elem].classList.add('fslightbox-cursor-grabbing');
             }
             is_dragging = true;
-            mouseDownClientX = e.clientX;
+            (self.data.isMobile) ?
+                mouseDownClientX = e.touches[0].clientX :
+                mouseDownClientX = e.clientX;
             difference = 0;
         },
 
 
         mouseUpEvent: function () {
+
             if (mediaHolder.contains(invisibleHover)) {
                 mediaHolder.removeChild(invisibleHover);
             }
@@ -144,8 +147,13 @@ module.exports = function (self, DOMObject) {
                 return;
             }
 
+            let clientX;
+            (self.data.isMobile) ?
+                clientX = e.touches[0].clientX :
+                clientX = e.clientX;
+
             mediaHolder.appendChild(invisibleHover);
-            difference = e.clientX - mouseDownClientX;
+            difference = clientX - mouseDownClientX;
             const sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
             if (urlsLength >= 3) {
@@ -169,10 +177,12 @@ module.exports = function (self, DOMObject) {
 
     for (let elem in elements) {
         elements[elem].addEventListener('mousedown', eventListeners.mouseDownEvent);
+        elements[elem].addEventListener('touchstart', eventListeners.mouseDownEvent);
     }
     window.addEventListener('mouseup', eventListeners.mouseUpEvent);
-    //we will hover all windows with div with high z-index to be sure mouseup is triggered
+    window.addEventListener('touchend', eventListeners.mouseUpEvent);
     invisibleHover.addEventListener('mouseup', eventListeners.mouseUpEvent);
-    invisibleHover.addEventListener('mousedown', eventListeners.mouseUpEvent);
+    invisibleHover.addEventListener('touchend', eventListeners.mouseUpEvent);
     window.addEventListener('mousemove', eventListeners.mouseMoveEvent);
+    window.addEventListener('touchmove', eventListeners.mouseMoveEvent);
 };
