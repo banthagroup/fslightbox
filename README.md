@@ -1,6 +1,6 @@
 # Fullscreen Lightbox
 
-## Version - 1.1
+## Version - 1.1.1
 
 ## Description
 JavaScript media box library for presenting images, videos.

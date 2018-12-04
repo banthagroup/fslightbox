@@ -518,11 +518,11 @@ window.fsLightboxObject = function () {
         a[i].addEventListener('click', function (e) {
 
             e.preventDefault();
-            const gallery = e.target.parentNode.getAttribute('data-fslightbox');
+            let gallery = this.getAttribute('data-fslightbox');
 
             if (fsLightboxInstances[gallery].data.initiated) {
                 fsLightboxInstances[gallery].setSlide(
-                    fsLightboxInstances[gallery].data.urls.indexOf(e.target.parentNode.getAttribute('href')) + 1
+                    fsLightboxInstances[gallery].data.urls.indexOf(this.getAttribute('href')) + 1
                 );
                 fsLightboxInstances[gallery].show();
                 return;
@@ -542,7 +542,7 @@ window.fsLightboxObject = function () {
             fsLightboxInstances[gallery].data.total_slides = urls.length;
             fsLightboxInstances[gallery].init();
             fsLightboxInstances[gallery].setSlide(
-                urls.indexOf(e.target.parentNode.getAttribute('href')) + 1
+                urls.indexOf(this.getAttribute('href')) + 1
             );
         });
     }
