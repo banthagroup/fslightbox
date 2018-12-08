@@ -1,79 +1,92 @@
 module.exports = {
 
     loader: '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>',
-    self: '',
     DOMObject: '',
 
-    createHolder: function (index) {
+    createHolder: function (self, index) {
         let sourceHolder = new this.DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = this.loader;
-        this.self.data.sources[index] = sourceHolder;
+        self.data.sources[index] = sourceHolder;
         return sourceHolder;
     },
 
 
     /**
      * Renders loader when loading fsLightbox initially
-     * @param self
      * @param slide
      * @param DOMObject
      */
     renderHolderInitial: function (self, slide, DOMObject) {
-        this.self = self;
         this.DOMObject = DOMObject;
         const sourcesIndexes = self.getSourcesIndexes.all(slide);
         const totalSlides = self.data.total_slides;
 
         if (totalSlides >= 3) {
-            const prev = this.createHolder(sourcesIndexes.previous);
+            const prev = this.createHolder(self, sourcesIndexes.previous);
             self.transforms.transformMinus(prev);
             self.data.mediaHolder.holder.appendChild(prev);
         }
         if (totalSlides >= 1) {
-            const curr = this.createHolder(sourcesIndexes.current);
+            const curr = this.createHolder(self, sourcesIndexes.current);
             self.data.mediaHolder.holder.appendChild(curr);
         }
         if (totalSlides >= 2) {
-            const next = this.createHolder(sourcesIndexes.next);
+            const next = this.createHolder(self, sourcesIndexes.next);
             self.transforms.transformPlus(next);
             self.data.mediaHolder.holder.appendChild(next);
         }
     },
 
+    renderHolder: function (self, slide, type) {
+        switch (type) {
+            case 'previous':
+                this.renderHolderPrevious(self, slide);
+                break;
+            case 'current':
+                this.renderHolderCurrent(self, slide);
+                break;
+            case 'next':
+                this.renderHolderNext(self, slide);
+                break;
+        }
+    },
 
     /**
      * Renders loader when loading a previous source
+     * @param self
      * @param slide
      */
-    renderHolderPrevious: function (slide) {
-        const previousSourceIndex = this.self.getSourcesIndexes.previous(slide);
-        const prev = this.createHolder(previousSourceIndex);
-        this.self.transforms.transformMinus(prev);
-        this.self.data.mediaHolder.holder.insertAdjacentElement('afterbegin', prev);
+    renderHolderPrevious: function (self, slide) {
+        const previousSourceIndex = self.getSourcesIndexes.previous(slide);
+        const prev = this.createHolder(self, previousSourceIndex);
+        self.transforms.transformMinus(prev);
+        self.data.mediaHolder.holder.insertAdjacentElement('afterbegin', prev);
     },
 
 
     /**
      * Renders loader when loading a next source
+     * @param self
      * @param slide
      */
-    renderHolderNext: function (slide) {
-        const nextSourceIndex = this.self.getSourcesIndexes.next(slide);
-        const next = this.createHolder(nextSourceIndex);
-        this.self.transforms.transformPlus(next);
-        this.self.data.mediaHolder.holder.appendChild(next);
+    renderHolderNext: function (self, slide) {
+        const nextSourceIndex = self.getSourcesIndexes.next(slide);
+        const next = this.createHolder(self, nextSourceIndex);
+        self.transforms.transformPlus(next);
+        self.data.mediaHolder.holder.appendChild(next);
     },
 
 
     /**
      * Renders loader when loading a previous source
+     * @param self
      * @param slide
      */
-    renderHolderCurrent: function (slide) {
-        const sourcesIndexes = this.self.getSourcesIndexes.all(slide);
-        const curr = this.createHolder(sourcesIndexes.current);
-        this.self.transforms.transformNull(curr);
-        this.self.data.mediaHolder.holder.insertBefore(curr, this.self.data.sources[sourcesIndexes.next]);
+    renderHolderCurrent: function (self, slide) {
+        const sourcesIndexes = self.getSourcesIndexes.all(slide);
+        const curr = this.createHolder(self, sourcesIndexes.current);
+        self.transforms.transformNull(curr);
+        self.data.mediaHolder.holder.insertBefore(curr, self.data.sources[sourcesIndexes.next]);
     },
 
 
