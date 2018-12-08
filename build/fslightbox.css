@@ -118,6 +118,9 @@
 .fslightbox-scrollbarfix {
   padding-right: 17px; }
 
+.fslightbox-fix-webkit-highlight {
+  -webkit-tap-highlight-color: transparent; }
+
 .fslightbox-nav {
   height: 45px;
   width: 100%;

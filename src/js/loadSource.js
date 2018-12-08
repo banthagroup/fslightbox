@@ -36,6 +36,20 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
     };
 
+    let appends = {
+        appendPrevious: function () {
+            appendInitial(sources[sourcesIndexes.previous], tempSources[sourcesIndexes.previous]);
+        },
+
+        appendCurrent: function () {
+            appendInitial(sources[sourcesIndexes.current], tempSources[sourcesIndexes.current]);
+        },
+
+        appendNext: function () {
+            appendInitial(sources[sourcesIndexes.next], tempSources[sourcesIndexes.next]);
+        }
+    };
+
     /**
      * add fade in class and dimension function
      */
@@ -54,31 +68,14 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         sourceDimensions(sourceElem, sourceWidth, sourceHeight);
 
         sourceHolder.appendChild(sourceElem);
-        const previousSource = sources[sourcesIndexes.previous];
-        const currentSource = sources[sourcesIndexes.current];
-        const nextSource = sources[sourcesIndexes.next];
 
 
         switch (typeOfLoad) {
             case 'initial':
                 // add to temp array because loading is asynchronous so we can't depend on load order
                 tempSources[arrayIndex] = sourceHolder;
+                tempSources[arrayIndex] = sourceHolder;
                 const tempSourcesLength = Object.keys(tempSources).length;
-
-                let appends = {
-
-                    appendPrevious: function () {
-                        appendInitial(previousSource, tempSources[sourcesIndexes.previous]);
-                    },
-
-                    appendCurrent: function () {
-                        appendInitial(currentSource, tempSources[sourcesIndexes.current]);
-                    },
-
-                    appendNext: function () {
-                        appendInitial(nextSource, tempSources[sourcesIndexes.next]);
-                    }
-                };
 
                 if(urls.length >= 3) {
                     // append sources only if all stage sources are loaded
@@ -88,7 +85,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                         appends.appendNext();
                     }
                 }
-
 
                 if(urls.length === 2) {
                     if(tempSourcesLength >= 2) {
@@ -100,18 +96,19 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 if(urls.length === 1) {
                     appends.appendCurrent();
                 }
+
                 break;
             case 'current':
                 // replace loader with loaded source
-                load(currentSource, sourceElem);
+                load(sources[sourcesIndexes.current], sourceElem);
                 break;
             case 'next':
                 // replace loader with loaded source
-                load(nextSource, sourceElem);
+                load(sources[sourcesIndexes.next], sourceElem);
                 break;
             case 'previous':
                 // replace loader with loaded source
-                load(previousSource, sourceElem);
+                load(sources[sourcesIndexes.previous], sourceElem);
                 break;
         }
     };
@@ -122,9 +119,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         iframe.src = '//www.youtube.com/embed/' + videoId + '?enablejsapi=1';
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
-        iframe.onmouseup = function () {
-            console.log('japierdoel');
-        };
         self.data.mediaHolder.holder.appendChild(iframe);
         onloadListener(iframe, 1920, 1080, arrayIndex);
     };
@@ -162,9 +156,9 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    this.createSourceElem = function (sourceUrl) {
+    this.createSourceElem = function (urlIndex) {
         const parser = document.createElement('a');
-        const indexOfSource = self.data.urls.indexOf(sourceUrl);
+        const sourceUrl = self.data.urls[urlIndex];
 
         parser.href = sourceUrl;
 
@@ -180,35 +174,34 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         }
 
         if (parser.hostname === 'www.youtube.com') {
-            self.data.videos[indexOfSource] = false;
-            this.loadYoutubevideo(getId(sourceUrl), indexOfSource);
+            self.data.videos[urlIndex] = false;
+            this.loadYoutubevideo(getId(sourceUrl), urlIndex);
         } else {
             const xhr = new XMLHttpRequest();
-            xhr.onloadstart = function () {
-                xhr.responseType = "blob";
-            };
 
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-
+                if(xhr.readyState === 2) {
+                    if(xhr.status === 200 || xhr.status === 206) {
                         //check what type of file provided from link
-                        let responseType = xhr.response.type;
+                        let responseType = xhr.getResponseHeader('content-type');
                         responseType.indexOf('/');
                         responseType = responseType.slice(0, responseType.indexOf('/'));
 
                         if (responseType === 'image') {
-                            _this.imageLoad(URL.createObjectURL(xhr.response), indexOfSource);
+                            _this.imageLoad(urls[urlIndex], urlIndex);
                         }
 
                         else if (responseType === 'video') {
-                            _this.videoLoad(URL.createObjectURL(xhr.response), indexOfSource);
-                            self.data.videos[indexOfSource] = true;
+                            _this.videoLoad(urls[urlIndex], urlIndex);
+                            self.data.videos[urlIndex] = true;
                         }
 
                         else {
-                            _this.invalidFile(indexOfSource);
+                            _this.invalidFile(urlIndex);
                         }
+                    }
+                    else {
+                        _this.invalidFile(urlIndex);
                     }
                 }
             };
@@ -225,15 +218,15 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             self.appendMethods.renderHolderInitial(self,slide,DOMObject);
 
             if(urls.length >= 1) {
-                this.createSourceElem(urls[sourcesIndexes.current]);
+                this.createSourceElem(sourcesIndexes.current);
             }
 
             if(urls.length >= 2) {
-                this.createSourceElem(urls[sourcesIndexes.next]);
+                this.createSourceElem(sourcesIndexes.next);
             }
 
             if(urls.length >= 3) {
-                this.createSourceElem(urls[sourcesIndexes.previous]);
+                this.createSourceElem(sourcesIndexes.previous);
                 break;
             }
             break;
@@ -243,7 +236,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             self.appendMethods.renderHolderPrevious(slide);
 
             // load previous source
-            this.createSourceElem(urls[sourcesIndexes.previous]);
+            this.createSourceElem(sourcesIndexes.previous);
             break;
 
         case 'next':
@@ -251,7 +244,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             self.appendMethods.renderHolderNext(slide);
 
             //load next source
-            this.createSourceElem(urls[sourcesIndexes.next]);
+            this.createSourceElem(sourcesIndexes.next);
             break;
 
         case 'current':
@@ -260,7 +253,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             self.appendMethods.renderHolderCurrent(slide);
 
             // load previous source
-            this.createSourceElem(urls[sourcesIndexes.current]);
+            this.createSourceElem(sourcesIndexes.current);
             break;
     }
 };
