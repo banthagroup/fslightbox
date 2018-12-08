@@ -74,7 +74,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             case 'initial':
                 // add to temp array because loading is asynchronous so we can't depend on load order
                 tempSources[arrayIndex] = sourceHolder;
-                tempSources[arrayIndex] = sourceHolder;
                 const tempSourcesLength = Object.keys(tempSources).length;
 
                 if(urls.length >= 3) {
@@ -136,16 +135,16 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     this.videoLoad = function (src, arrayIndex) {
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
-        source.src = src;
+        videoElem.onloadedmetadata = function () {
+            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
+        };
         videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
             '            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch\n' +
             '        with your favorite video player!';
 
         videoElem.setAttribute('controls', '');
         videoElem.appendChild(source);
-        videoElem.addEventListener('loadedmetadata', function () {
-            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
-        });
+        source.src = src;
     };
 
     this.invalidFile = function (arrayIndex) {

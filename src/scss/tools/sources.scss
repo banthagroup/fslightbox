@@ -5,8 +5,12 @@
   left: 0;
   top: 0;
   display: flex;
-  //justify-content: center;
   align-items: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .fslightbox-single-source {
@@ -17,6 +21,7 @@
   display: block;
   margin: auto;
   backface-visibility: hidden;
+
   transform: translateZ(0);
 }
 

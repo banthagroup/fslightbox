@@ -21,11 +21,11 @@
                 <img class="image" src="images/2.jpg">
         </a>
 
-        <a data-fslightbox="1" href="films/film.mp4">
+        <a data-fslightbox="2" href="https://www.youtube.com/watch?v=WlcO9d0flNY">
             <img class="image" src="images/2.jpg">
         </a>
 
-        <a data-fslightbox="1" href="images/2.jpg">
+        <a data-fslightbox="2" href="images/2.jpg">
             <img class="image" src="images/3.jpeg">
         </a>
 
@@ -53,6 +53,15 @@
     fsLightboxInstances.forEach(function (fsLightbox) {
         fsLightbox.element.addEventListener('close', function () {
             console.log('closed');
+        });
+        fsLightbox.element.addEventListener('init', function () {
+            console.log('init');
+        })
+        fsLightbox.element.addEventListener('show', function () {
+            console.log('show');
+        })
+        fsLightbox.element.addEventListener('open', function () {
+            console.log('open');
         });
     });
 </script>

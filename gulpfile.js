@@ -1,10 +1,8 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
-var concat = require('gulp-concat');
 var browserify = require('browserify');
 var source = require("vinyl-source-stream");
-var buffer = require("vinyl-buffer");
 var buffer = require("vinyl-buffer");
 var uglifyES = require('gulp-uglify-es').default;
 var cleanCSS = require('gulp-clean-css');
@@ -66,12 +64,6 @@ gulp.task('clone-js', function () {
 
 
 gulp.task('js', function () {
-    //   return gulp.src('src/js/**/*.js')
-    // //      .pipe(concat('app.js'))
-    //       .pipe(browserify({
-    //           debug: true
-    //       }))
-    //       .pipe(gulp.dest('src'));
     browserify({
         entries: [
             'src/js/index.js',
