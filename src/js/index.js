@@ -224,7 +224,10 @@ window.fsLightboxObject = function () {
         hideScrollbar: function () {
             document.documentElement.classList.remove('fslightbox-open');
             if (!self.data.isMobile) {
-                document.querySelector('.recompense-for-scrollbar').style.paddingRight = '0';
+                let recompense = document.querySelector('.recompense-for-scrollbar');
+                if(recompense) {
+                    recompense.style.paddingRight = '0';
+                }
                 document.documentElement.classList.remove('fslightbox-scrollbarfix');
             }
         },
@@ -232,7 +235,10 @@ window.fsLightboxObject = function () {
         showScrollbar: function () {
             document.documentElement.classList.add('fslightbox-open');
             if (!self.data.isMobile) {
-                document.querySelector('.recompense-for-scrollbar').style.paddingRight = '17px';
+                let recompense = document.querySelector('.recompense-for-scrollbar');
+                if(recompense) {
+                    recompense.style.paddingRight = '17px';
+                }
                 document.documentElement.classList.add('fslightbox-scrollbarfix');
             }
         }
