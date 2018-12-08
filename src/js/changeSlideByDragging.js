@@ -6,7 +6,6 @@ module.exports = function (self, DOMObject) {
     //to these elements are added mouse events
     const elements = {
         "mediaHolder": self.data.mediaHolder.holder,
-        "nav": self.data.nav,
         "invisibleHover": invisibleHover
     };
     //sources are transformed
