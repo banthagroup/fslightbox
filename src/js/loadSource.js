@@ -66,9 +66,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
         // set dimensions for the 1st time
         sourceDimensions(sourceElem, sourceWidth, sourceHeight);
-
         sourceHolder.appendChild(sourceElem);
-
 
         switch (typeOfLoad) {
             case 'initial':
@@ -76,38 +74,38 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 tempSources[arrayIndex] = sourceHolder;
                 const tempSourcesLength = Object.keys(tempSources).length;
 
-                if(urls.length >= 3) {
+                if (urls.length >= 3) {
                     // append sources only if all stage sources are loaded
-                    if(tempSourcesLength >= 3) {
+                    if (tempSourcesLength >= 3) {
                         appends.appendPrevious();
                         appends.appendCurrent();
                         appends.appendNext();
                     }
                 }
 
-                if(urls.length === 2) {
-                    if(tempSourcesLength >= 2) {
+                if (urls.length === 2) {
+                    if (tempSourcesLength >= 2) {
                         appends.appendPrevious();
                         appends.appendCurrent();
                     }
                 }
 
-                if(urls.length === 1) {
+                if (urls.length === 1) {
                     appends.appendCurrent();
                 }
 
                 break;
             case 'current':
                 // replace loader with loaded source
-                load(sources[sourcesIndexes.current], sourceElem);
+                load(sources[arrayIndex], sourceElem);
                 break;
             case 'next':
                 // replace loader with loaded source
-                load(sources[sourcesIndexes.next], sourceElem);
+                load(sources[arrayIndex], sourceElem);
                 break;
             case 'previous':
                 // replace loader with loaded source
-                load(sources[sourcesIndexes.previous], sourceElem);
+                load(sources[arrayIndex], sourceElem);
                 break;
         }
     };
@@ -179,8 +177,8 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
             const xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function () {
-                if(xhr.readyState === 2) {
-                    if(xhr.status === 200 || xhr.status === 206) {
+                if (xhr.readyState === 2) {
+                    if (xhr.status === 200 || xhr.status === 206) {
                         //check what type of file provided from link
                         let responseType = xhr.getResponseHeader('content-type');
                         responseType.indexOf('/');
@@ -211,48 +209,35 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    switch (typeOfLoad) {
-        case 'initial':
-            //append loader when loading initially
-            self.appendMethods.renderHolderInitial(self,slide,DOMObject);
+    if (typeOfLoad === 'initial') {
+        //append loader when loading initially
+        self.appendMethods.renderHolderInitial(self, slide, DOMObject);
 
-            if(urls.length >= 1) {
-                this.createSourceElem(sourcesIndexes.current);
-            }
+        if (urls.length >= 1) {
+            this.createSourceElem(sourcesIndexes.current);
+        }
 
-            if(urls.length >= 2) {
-                this.createSourceElem(sourcesIndexes.next);
-            }
+        if (urls.length >= 2) {
+            this.createSourceElem(sourcesIndexes.next);
+        }
 
-            if(urls.length >= 3) {
+        if (urls.length >= 3) {
+            this.createSourceElem(sourcesIndexes.previous);
+        }
+    } else {
+        // append loader when loading a next source
+        self.appendMethods.renderHolder(self, slide, typeOfLoad);
+
+        switch (typeOfLoad) {
+            case 'previous':
                 this.createSourceElem(sourcesIndexes.previous);
                 break;
-            }
-            break;
-
-        case 'previous':
-            // append loader when loading a next source
-            self.appendMethods.renderHolderPrevious(slide);
-
-            // load previous source
-            this.createSourceElem(sourcesIndexes.previous);
-            break;
-
-        case 'next':
-            // append loader when loading a next source
-            self.appendMethods.renderHolderNext(slide);
-
-            //load next source
-            this.createSourceElem(sourcesIndexes.next);
-            break;
-
-        case 'current':
-
-            // append loader when loading a next source
-            self.appendMethods.renderHolderCurrent(slide);
-
-            // load previous source
-            this.createSourceElem(sourcesIndexes.current);
-            break;
+            case 'current':
+                this.createSourceElem(sourcesIndexes.current);
+                break;
+            case 'next':
+                this.createSourceElem(sourcesIndexes.next);
+                break;
+        }
     }
 };
