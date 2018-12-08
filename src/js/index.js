@@ -1,8 +1,7 @@
 window.fsLightboxObject = function () {
 
-    /**
-     * @constructor
-     */
+    this.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
+
     this.data = {
         slide: 1,
         total_slides: 1,
@@ -16,7 +15,6 @@ window.fsLightboxObject = function () {
             "fullscreen": true
         },
 
-        element: null,
         isMobile: false,
 
         urls: [],
@@ -40,9 +38,6 @@ window.fsLightboxObject = function () {
     };
 
 
-    /**
-     * @type {Window}
-     */
     let self = this;
 
 
@@ -56,6 +51,8 @@ window.fsLightboxObject = function () {
         })(navigator.userAgent || navigator.vendor || window.opera);
         self.data.onResizeEvent = new onResizeEvent();
         new self.dom();
+        self.element.dispatchEvent(new Event('init'));
+        self.element.dispatchEvent(new Event('open'));
         require('./changeSlideByDragging.js')(self, DOMObject);
     };
 
@@ -64,11 +61,14 @@ window.fsLightboxObject = function () {
      * Show dom of fsLightbox instance if exists
      */
     this.show = function () {
+        const elem = self.element;
         self.scrollbar.showScrollbar();
-        self.data.element.classList.remove('fslightbox-container-fadeout');
-        document.body.appendChild(self.data.element);
-        self.data.element.classList.remove(['fslightbox-fade-in-animation']);
-        self.data.element.classList.add(['fslightbox-fade-in-animation']);
+        elem.classList.remove('fslightbox-container-fadeout');
+        document.body.appendChild(elem);
+        self.element.dispatchEvent(new Event('show'));
+        self.element.dispatchEvent(new Event('open'));
+        elem.classList.remove(['fslightbox-fade-in-animation']);
+        elem.classList.add(['fslightbox-fade-in-animation']);
     };
 
 
@@ -77,15 +77,15 @@ window.fsLightboxObject = function () {
      */
     this.hide = function () {
         if(self.data.fullscreen) self.toolbar.closeFullscreen();
-        self.data.element.classList.add('fslightbox-container-fadeout');
+        self.element.classList.add('fslightbox-container-fadeout');
         self.data.fadingOut = true;
+        self.element.dispatchEvent(new Event('close'));
         setTimeout(function () {
             self.scrollbar.hideScrollbar();
             self.data.fadingOut = false;
-            document.body.removeChild(self.data.element);
+            document.body.removeChild(self.element);
         },250);
     };
-
 
     /**
      * Render all library elements

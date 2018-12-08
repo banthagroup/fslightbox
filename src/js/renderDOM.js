@@ -46,21 +46,18 @@ module.exports = function (self, DOMObject) {
 
     //disable scrolling and add fix for jumping site if not mobile
     self.scrollbar.showScrollbar();
-
-    //create container
-    self.data.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
-    self.data.element.id = "fslightbox-container";
-    document.body.appendChild(self.data.element);
+    self.element.id = "fslightbox-container";
+    document.body.appendChild(self.element);
 
     //render slide buttons and nav(toolbar)
-    privateMethods.renderNav(self.data.element);
+    privateMethods.renderNav(self.element);
 
     if(self.data.total_slides > 1) {
-        privateMethods.renderSlideButtons(self.data.element);
+        privateMethods.renderSlideButtons(self.element);
     }
 
     self.data.mediaHolder = new self.mediaHolder();
-    self.data.mediaHolder.renderHolder(self.data.element);
-    self.data.element.classList.add(['fslightbox-fade-in-animation']);
+    self.data.mediaHolder.renderHolder(self.element);
+    self.element.classList.add(['fslightbox-fade-in-animation']);
     self.data.isfirstTimeLoad = true;
 };
