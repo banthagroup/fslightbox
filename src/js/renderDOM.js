@@ -56,8 +56,10 @@ module.exports = function (self, DOMObject) {
         privateMethods.renderSlideButtons(self.element);
     }
 
+    self.data.holderWrapper = new DOMObject('div').addClassesAndCreate(['fslightbox-holder-wrapper']);
+    self.element.appendChild(self.data.holderWrapper);
     self.data.mediaHolder = new self.mediaHolder();
-    self.data.mediaHolder.renderHolder(self.element);
+    self.data.mediaHolder.renderHolder(self.data.holderWrapper);
     self.element.classList.add(['fslightbox-fade-in-animation']);
     self.data.isfirstTimeLoad = true;
 };

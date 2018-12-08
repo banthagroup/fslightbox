@@ -6,11 +6,11 @@ module.exports = function (self, DOMObject) {
     //to these elements are added mouse events
     const elements = {
         "mediaHolder": self.data.mediaHolder.holder,
-        "invisibleHover": invisibleHover
+        "invisibleHover": invisibleHover,
+        "holderWrapper": self.data.holderWrapper
     };
     //sources are transformed
     const sources = self.data.sources;
-    const mediaHolder = self.data.mediaHolder.holder;
 
     // if there are only 2 or 1 urls transforms will be different
     const urlsLength = self.data.urls.length;
@@ -42,8 +42,8 @@ module.exports = function (self, DOMObject) {
 
         mouseUpEvent: function () {
 
-            if (mediaHolder.contains(invisibleHover)) {
-                mediaHolder.removeChild(invisibleHover);
+            if (self.element.contains(invisibleHover)) {
+                self.element.removeChild(invisibleHover);
             }
             let sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
@@ -151,7 +151,7 @@ module.exports = function (self, DOMObject) {
                 clientX = e.touches[0].clientX :
                 clientX = e.clientX;
 
-            mediaHolder.appendChild(invisibleHover);
+            self.element.appendChild(invisibleHover);
             difference = clientX - mouseDownClientX;
             const sourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
 
@@ -170,6 +170,10 @@ module.exports = function (self, DOMObject) {
                     + (self.data.slideDistance * window.innerWidth + difference)
                     + 'px,0)';
             }
+        },
+
+        preventDefaultEvent: function (e) {
+            e.preventDefault();
         }
     };
 
@@ -184,4 +188,5 @@ module.exports = function (self, DOMObject) {
     invisibleHover.addEventListener('touchend', eventListeners.mouseUpEvent);
     window.addEventListener('mousemove', eventListeners.mouseMoveEvent);
     window.addEventListener('touchmove', eventListeners.mouseMoveEvent);
+    self.data.nav.addEventListener('mousedown', eventListeners.preventDefaultEvent);
 };

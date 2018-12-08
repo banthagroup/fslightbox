@@ -23,6 +23,7 @@ window.fsLightboxObject = function () {
         rememberedSourcesDimensions: [],
         videos: [],
 
+        holderWrapper: {},
         mediaHolder: {},
         nav: {},
         toolbar: {},
@@ -51,8 +52,8 @@ window.fsLightboxObject = function () {
         })(navigator.userAgent || navigator.vendor || window.opera);
         self.data.onResizeEvent = new onResizeEvent();
         new self.dom();
-        self.element.dispatchEvent(new Event('init'));
-        self.element.dispatchEvent(new Event('open'));
+        self.throwEvent('init');
+        self.throwEvent('open');
         require('./changeSlideByDragging.js')(self, DOMObject);
     };
 
@@ -65,8 +66,8 @@ window.fsLightboxObject = function () {
         self.scrollbar.showScrollbar();
         elem.classList.remove('fslightbox-container-fadeout');
         document.body.appendChild(elem);
-        self.element.dispatchEvent(new Event('show'));
-        self.element.dispatchEvent(new Event('open'));
+        self.throwEvent('show');
+        self.throwEvent('open');
         elem.classList.remove(['fslightbox-fade-in-animation']);
         elem.classList.add(['fslightbox-fade-in-animation']);
     };
@@ -76,15 +77,15 @@ window.fsLightboxObject = function () {
      * Hide dom of existing fsLightbox instance
      */
     this.hide = function () {
-        if(self.data.fullscreen) self.toolbar.closeFullscreen();
+        if (self.data.fullscreen) self.toolbar.closeFullscreen();
         self.element.classList.add('fslightbox-container-fadeout');
         self.data.fadingOut = true;
-        self.element.dispatchEvent(new Event('close'));
+        self.throwEvent('close');
         setTimeout(function () {
             self.scrollbar.hideScrollbar();
             self.data.fadingOut = false;
             document.body.removeChild(self.element);
-        },250);
+        }, 250);
     };
 
     /**
@@ -93,6 +94,21 @@ window.fsLightboxObject = function () {
      */
     this.dom = function () {
         require('./renderDOM.js')(self, DOMObject);
+    };
+
+
+    /**
+     * Create event and dispatch it to self.element
+     */
+    this.throwEvent = function(eventName) {
+        let event;
+        if (typeof(Event) === 'function') {
+            event = new Event(eventName);
+        } else {
+            event = document.createEvent('Event');
+            event.initEvent(eventName, true, true);
+        }
+        self.element.dispatchEvent(event);
     };
 
 
@@ -127,7 +143,7 @@ window.fsLightboxObject = function () {
             const stageSources = self.getSourcesIndexes.all(self.data.slide);
 
             for (let sourceIndex in sources) {
-                if(parseInt(sourceIndex) === stageSources.previous
+                if (parseInt(sourceIndex) === stageSources.previous
                     || parseInt(sourceIndex) === stageSources.current
                     || parseInt(sourceIndex) === stageSources.next) {
                     continue;
@@ -156,11 +172,11 @@ window.fsLightboxObject = function () {
             for (let sourceIndex in sources) {
 
                 // add tranforms to stage sources
-                if(self.data.urls.length > 2) {
+                if (self.data.urls.length > 2) {
                     self.transforms.transformMinus(sources[stageSourcesIndexes.previous]);
                 }
                 self.transforms.transformNull(sources[stageSourcesIndexes.current]);
-                if(self.data.urls.length > 1) {
+                if (self.data.urls.length > 1) {
                     self.transforms.transformPlus(sources[stageSourcesIndexes.next]);
                 }
 
@@ -230,7 +246,7 @@ window.fsLightboxObject = function () {
         //  <svg> with added 'fslightbox-svg-icon' class
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
 
-         // child of svg empty <path>
+        // child of svg empty <path>
         this.path = document.createElementNS('http://www.w3.org/2000/svg', "path");
         this.svg.setAttributeNS(null, 'class', 'fslightbox-svg-icon');
         this.svg.setAttributeNS(null, 'viewBox', '0 0 15 15');
@@ -289,7 +305,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     let toolbarModule = require('./toolbar');
-    this.toolbar = new toolbarModule(self,DOMObject);
+    this.toolbar = new toolbarModule(self, DOMObject);
 
 
     /**
@@ -498,8 +514,8 @@ window.fsLightboxObject = function () {
         }
 
         a[i].classList.add('fslightbox-fix-webkit-highlight');
-        const boxName =  a[i].getAttribute('data-fslightbox');
-        if(typeof fsLightboxInstances[boxName] === "undefined") {
+        const boxName = a[i].getAttribute('data-fslightbox');
+        if (typeof fsLightboxInstances[boxName] === "undefined") {
             fsLightbox = new fsLightboxObject();
             fsLightboxInstances[boxName] = fsLightbox;
         }
