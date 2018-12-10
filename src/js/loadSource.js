@@ -4,12 +4,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     const sourcesIndexes = self.getSourcesIndexes.all(slide);
     const urls = self.data.urls;
     const sources = self.data.sources;
-    let initialAppends = {
-        "prev": false,
-        "curr": false,
-        "next": false
-    };
-
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
 
