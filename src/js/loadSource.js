@@ -4,7 +4,12 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     const sourcesIndexes = self.getSourcesIndexes.all(slide);
     const urls = self.data.urls;
     const sources = self.data.sources;
-    let tempSources = {};
+    let initialAppends = {
+        "prev": false,
+        "curr": false,
+        "next": false
+    };
+
 
     let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
 
@@ -32,22 +37,8 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     let appendInitial = function (sourceHolder, sourceElem) {
         sourceHolder.innerHTML = '';
-        sourceHolder.appendChild(sourceElem.firstChild);
+        sourceHolder.appendChild(sourceElem);
         sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
-    };
-
-    let appends = {
-        appendPrevious: function () {
-            appendInitial(sources[sourcesIndexes.previous], tempSources[sourcesIndexes.previous]);
-        },
-
-        appendCurrent: function () {
-            appendInitial(sources[sourcesIndexes.current], tempSources[sourcesIndexes.current]);
-        },
-
-        appendNext: function () {
-            appendInitial(sources[sourcesIndexes.next], tempSources[sourcesIndexes.next]);
-        }
     };
 
     /**
@@ -68,45 +59,10 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         sourceDimensions(sourceElem, sourceWidth, sourceHeight);
         sourceHolder.appendChild(sourceElem);
 
-        switch (typeOfLoad) {
-            case 'initial':
-                // add to temp array because loading is asynchronous so we can't depend on load order
-                tempSources[arrayIndex] = sourceHolder;
-                const tempSourcesLength = Object.keys(tempSources).length;
-
-                if (urls.length >= 3) {
-                    // append sources only if all stage sources are loaded
-                    if (tempSourcesLength >= 3) {
-                        appends.appendPrevious();
-                        appends.appendCurrent();
-                        appends.appendNext();
-                    }
-                }
-
-                if (urls.length === 2) {
-                    if (tempSourcesLength >= 2) {
-                        appends.appendPrevious();
-                        appends.appendCurrent();
-                    }
-                }
-
-                if (urls.length === 1) {
-                    appends.appendCurrent();
-                }
-
-                break;
-            case 'current':
-                // replace loader with loaded source
-                load(sources[arrayIndex], sourceElem);
-                break;
-            case 'next':
-                // replace loader with loaded source
-                load(sources[arrayIndex], sourceElem);
-                break;
-            case 'previous':
-                // replace loader with loaded source
-                load(sources[arrayIndex], sourceElem);
-                break;
+        if(typeOfLoad === 'initial') {
+            appendInitial(sources[arrayIndex], sourceElem);
+        } else {
+            load(sources[arrayIndex], sourceElem);
         }
     };
 
