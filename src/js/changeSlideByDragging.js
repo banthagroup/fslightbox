@@ -26,7 +26,7 @@ module.exports = function (self, DOMObject) {
         mouseDownEvent: function (e) {
 
             // tag can't be video cause it would be unclickable in microsoft browsers
-            if (e.target.tagName !== 'VIDEO') {
+            if (e.target.tagName !== 'VIDEO' && !self.data.isMobile) {
                 e.preventDefault();
             }
             for (let elem in elements) {
@@ -180,7 +180,7 @@ module.exports = function (self, DOMObject) {
 
     for (let elem in elements) {
         elements[elem].addEventListener('mousedown', eventListeners.mouseDownEvent);
-        elements[elem].addEventListener('touchstart', eventListeners.mouseDownEvent);
+        elements[elem].addEventListener('touchstart', eventListeners.mouseDownEvent, {passive: true});
     }
     window.addEventListener('mouseup', eventListeners.mouseUpEvent);
     window.addEventListener('touchend', eventListeners.mouseUpEvent);
