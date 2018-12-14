@@ -81,18 +81,32 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
 
     this.videoLoad = function (src, arrayIndex) {
+        let videoLoaded = false;
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
-        let source = new DOMObject('source').elem;
+        videoElem.src = src;
         videoElem.onloadedmetadata = function () {
+            if(videoLoaded) {
+                return;
+            }
+            videoLoaded = true;
             onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
         };
+
+        // ON IE on load event dont work so we need to wait for dimensions with setTimeouts
+        let IEFix = setInterval(function () {
+            if(videoLoaded || !videoElem.videoWidth) {
+                return;
+            }
+            videoLoaded = true;
+            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
+            clearInterval(IEFix);
+        }, 100);
+
         videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
             '            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch\n' +
             '        with your favorite video player!';
 
         videoElem.setAttribute('controls', '');
-        videoElem.appendChild(source);
-        source.src = src;
     };
 
     this.invalidFile = function (arrayIndex) {

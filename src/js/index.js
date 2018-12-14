@@ -49,7 +49,6 @@ window.fsLightboxObject = function () {
      */
     this.init = function (initHref) {
 
-
         if (self.data.initiated) {
             self.initSetSlide(initHref);
             self.show();
