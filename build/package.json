@@ -1,32 +1,10 @@
 {
   "name": "fslightbox",
-  "version": "1.4",
-  "description": "Full screen media lightbox library in vanilla JS. FullscreenLightbox is a tool for displaying images, videos in nice overlaying box. Technologies: JavaScript, SCSS",
+  "version": "1.4.2",
+  "description": "Fullscreen media lightbox library in vanilla JS. Fullscreen Lightbox is a tool for displaying images, videos in nice overlaying box. Technologies: JavaScript, SCSS",
   "main": "index.js",
-  "dist-tags" : {
-    "latest": "1.4"
-  },
-  "dependencies": {
-    "gulp": "^3.9.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "babel-preset-es2015": "^6.24.1",
-    "babelify": "^10.0.0",
-    "browser-sync": "^2.26.3",
-    "browserify": "^16.2.3",
-    "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-uglify": "^3.0.1",
-    "gulp-uglify-es": "^1.0.4",
-    "gulp-util": "^3.0.8",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.11.0"
+  "dist-tags": {
+    "latest": "1.4.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -40,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/PiotrZdziarski/FullscreenLightbox/issues"
   },
-  "homepage": "https://github.com/PiotrZdziarski/FullscreenLightbox#readme"
+  "homepage": "http://fslightbox.com",
+  "keywords": [
+    "lightbox",
+    "fullscreen lightbox",
+    "fslightbox",
+    "media player",
+    "no jQuery"
+  ]
 }
