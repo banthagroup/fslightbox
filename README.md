@@ -1,4 +1,4 @@
-# Fullscreen Lightbox
+# Fullscreen Lightbox Pro
 
 ## Version - 1.4.2
 
