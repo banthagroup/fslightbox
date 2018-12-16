@@ -80,31 +80,59 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    this.videoLoad = function (src, arrayIndex) {
+    this.videoLoad = function (src, arrayIndex, type) {
         let videoLoaded = false;
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
-        videoElem.src = src;
+        let source = new DOMObject('source').elem;
+        source.src = src;
+        source.type = type;
+        videoElem.appendChild(source);
+        let width;
+        let height;
         videoElem.onloadedmetadata = function () {
-            if(videoLoaded) {
+            if (videoLoaded) {
                 return;
             }
+            // if browser don't support videoWidth and videoHeight we need to add default ones
+            if (!this.videoWidth || this.videoWidth === 0) {
+                width = 1920;
+                height = 1080;
+            } else {
+                width = this.videoWidth;
+                height = this.videoHeight;
+            }
             videoLoaded = true;
-            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
+            onloadListener(videoElem, width, height, arrayIndex);
         };
+
+        // if browser don't supprt both onloadmetadata or .videoWidth we will load it after 3000ms
+        let counter = 0;
 
         // ON IE on load event dont work so we need to wait for dimensions with setTimeouts
         let IEFix = setInterval(function () {
-            if(videoLoaded || !videoElem.videoWidth) {
+
+            if(videoLoaded) {
+                clearInterval(IEFix);
                 return;
             }
+
+            if (!videoElem.videoWidth || videoElem .videoWidth === 0) {
+                if(counter < 31) {
+                    counter++;
+                    return;
+                } else {
+                    width = 1920;
+                    height = 1080;
+                }
+            } else {
+                width = videoElem.videoWidth;
+                height = videoElem.videoHeight;
+            }
+
             videoLoaded = true;
-            onloadListener(videoElem, this.videoWidth, this.videoHeight, arrayIndex);
+            onloadListener(videoElem, width, height, arrayIndex);
             clearInterval(IEFix);
         }, 100);
-
-        videoElem.innerText = 'Sorry, your browser doesn\'t support embedded videos, <a\n' +
-            '            href="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4">download</a> and watch\n' +
-            '        with your favorite video player!';
 
         videoElem.setAttribute('controls', '');
     };
@@ -144,16 +172,15 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 if (xhr.readyState === 2) {
                     if (xhr.status === 200 || xhr.status === 206) {
                         //check what type of file provided from link
-                        let responseType = xhr.getResponseHeader('content-type');
-                        responseType.indexOf('/');
-                        responseType = responseType.slice(0, responseType.indexOf('/'));
+                        const responseType = xhr.getResponseHeader('content-type');
+                        const dataType = responseType.slice(0, responseType.indexOf('/'));
 
-                        if (responseType === 'image') {
+                        if (dataType === 'image') {
                             _this.imageLoad(urls[urlIndex], urlIndex);
                         }
 
-                        else if (responseType === 'video') {
-                            _this.videoLoad(urls[urlIndex], urlIndex);
+                        else if (dataType === 'video') {
+                            _this.videoLoad(urls[urlIndex], urlIndex, responseType);
                             self.data.videos[urlIndex] = true;
                         }
 

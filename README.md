@@ -1,6 +1,6 @@
-# Fullscreen Lightbox
+# Fullscreen Lightbox Basic
 
-## Version - 1.4.2
+## Version - 1.4.3
 
 ## Description
 JavaScript media box library for presenting images, videos.
@@ -9,7 +9,7 @@ Open source project.
 Technologies:
 - JavaScript
 - SCSS
-### No jQuery.
+### No jQuery and other dependencies.
 
 ## Instalation
 Clone repository cd to directory and run:
