@@ -115,7 +115,6 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                 clearInterval(IEFix);
                 return;
             }
-
             if (!videoElem.videoWidth || videoElem .videoWidth === 0) {
                 if(counter < 31) {
                     counter++;

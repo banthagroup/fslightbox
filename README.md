@@ -12,7 +12,7 @@ Technologies:
 ### No jQuery and other dependencies.
 
 ## Instalation
-Clone repository cd to directory and run:
+Clone repository cd to direc tory and run:
 ````
  npm install
  ````
