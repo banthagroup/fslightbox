@@ -190,6 +190,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                     else {
                         _this.invalidFile(urlIndex);
                     }
+                    xhr.abort();
                 }
             };
 
