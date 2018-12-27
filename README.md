@@ -1,9 +1,11 @@
 # Fullscreen Lightbox Basic
 
-## Version - 1.4.3
+## Version - 1.4.4
 
 ## Description
-JavaScript media box library for presenting images, videos.
+JavaScript lightbox library for presenting images, videos in overlaying box.
+
+Website: https://fslightbox.com
 
 Open source project.
 Technologies:
