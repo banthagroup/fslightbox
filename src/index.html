@@ -17,31 +17,31 @@
 
     <div class="images" id="images">
         <button onclick="fsLightbox.init()">init</button>
-        <a data-fslightbox="4" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">
+        <a fslightbox-gallery="4" fslightbox-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">
                 <img class="image" src="images/2.jpg">
         </a>
 
-        <a data-fslightbox="3" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">
+        <a fslightbox-gallery="3" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">
             <img class="image" src="images/2.jpg">
         </a>
 
-        <a data-fslightbox="2" href="images/2.jpg">
+        <a fslightbox-gallery="2" href="images/2.jpg">
             <img class="image" src="images/3.jpeg">
         </a>
 
-        <a data-fslightbox="1" href="images/4.jpeg">
+        <a fslightbox-gallery="1" href="images/4.jpeg">
             <img class="image" src="images/4.jpeg">
         </a>
 
-        <a data-fslightbox="1" href="images/5.jpg">
+        <a fslightbox-gallery="1" href="images/5.jpg">
             <img class="image" src="images/5.jpg">
         </a>
 
-        <a data-fslightbox="1" href="images/6.jpg">
+        <a fslightbox-gallery="1" href="images/6.jpg">
             <img class="image" src="images/6.jpg">
         </a>
 
-        <a data-fslightbox="1" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        <a fslightbox-gallery="1" fslightbox-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
             <img class="image" src="images/7.jpg">
         </a>
     </div>
@@ -54,6 +54,7 @@
 <!--SCRIPTS-->
 <script src="./app.js"></script>
 <script>
+    fsLightbox.init();
     fsLightboxInstances.forEach(function (fsLightbox) {
         // fsLightbox.data.toolbarButtons.fullscreen = false;
         // fsLightbox.data.toolbarButtons.close = false;

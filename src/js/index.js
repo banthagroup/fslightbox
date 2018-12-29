@@ -24,6 +24,7 @@ window.fsLightboxObject = function () {
         sourcesLoaded: [],
         rememberedSourcesDimensions: [],
         videos: [],
+        videosPosters: [],
 
         holderWrapper: {},
         mediaHolder: {},
@@ -41,7 +42,7 @@ window.fsLightboxObject = function () {
     };
 
 
-    let self = this;
+    const self = this;
 
 
     /**
@@ -57,20 +58,20 @@ window.fsLightboxObject = function () {
 
         self.checkIfMobile();
         self.data.onResizeEvent = new onResizeEvent();
-
         let gallery = self.data.name;
 
         let urls = [];
         const a = fsLightboxHelpers.a;
         for (let i = 0; i < a.length; i++) {
-            if (!a[i].hasAttribute('data-fslightbox')) {
+            if (!a[i].hasAttribute('fslightbox-gallery'))
                 continue;
-            }
-            if (a[i].getAttribute('data-fslightbox') === gallery) {
-                urls.push(a[i].getAttribute('href'));
+
+            if (a[i].getAttribute('fslightbox-gallery') === gallery) {
+                let urlsLength = urls.push(a[i].getAttribute('href'));
+                if (a[i].hasAttribute('fslightbox-video-poster'))
+                    self.data.videosPosters[urlsLength - 1] = a[i].getAttribute('fslightbox-video-poster');
             }
         }
-
         self.data.urls = urls;
         self.data.total_slides = urls.length;
         new self.dom();
@@ -149,7 +150,7 @@ window.fsLightboxObject = function () {
      */
     this.throwEvent = function (eventName) {
         let event;
-        if (typeof(Event) === 'function') {
+        if (typeof (Event) === 'function') {
             event = new Event(eventName);
         } else {
             event = document.createEvent('Event');
@@ -193,7 +194,7 @@ window.fsLightboxObject = function () {
 
         const sources = self.data.sources;
 
-        this.transforms = function () {
+        const transforms = function () {
 
             const sources = self.data.sources;
             const stageSources = self.getSourcesIndexes.all(self.data.slide);
@@ -220,7 +221,7 @@ window.fsLightboxObject = function () {
             }
         };
 
-        this.sourcesDimensions = function () {
+        const sourcesDimensions = function () {
 
             const stageSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
             const rememberedSourceDimension = self.data.rememberedSourcesDimensions;
@@ -259,8 +260,8 @@ window.fsLightboxObject = function () {
         window.onresize = function () {
             self.checkIfMobile();
             _this.mediaHolderDimensions();
-            _this.sourcesDimensions();
-            _this.transforms();
+            sourcesDimensions();
+            transforms();
         };
     }
 
@@ -443,17 +444,17 @@ window.fsLightboxObject = function () {
     this.stopVideos = function () {
 
         const videos = self.data.videos;
+        const sources = self.data.sources;
 
         // true is html5 video, false is youtube video
         for (let videoIndex in videos) {
 
             if (videos[videoIndex] === true) {
-                if (typeof self.data.sources[videoIndex].firstChild.pause !== "undefined") {
-                    self.data.sources[videoIndex].firstChild.pause();
+                if (typeof sources[videoIndex].firstChild.pause !== "undefined") {
+                    sources[videoIndex].firstChild.pause();
                 }
-            }
-            else {
-                self.data.sources[videoIndex].firstChild.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
+            } else {
+                sources[videoIndex].firstChild.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
             }
         }
     };
@@ -536,12 +537,11 @@ window.fsLightboxObject = function () {
 
     for (let i = 0; i < a.length; i++) {
 
-        if (!a[i].hasAttribute('data-fslightbox')) {
+        if (!a[i].hasAttribute('fslightbox-gallery')) {
             continue;
         }
 
-        a[i].classList.add('fslightbox-fix-webkit-highlight');
-        const boxName = a[i].getAttribute('data-fslightbox');
+        const boxName = a[i].getAttribute('fslightbox-gallery');
         if (typeof fsLightboxInstances[boxName] === "undefined") {
             fsLightbox = new fsLightboxObject();
             fsLightbox.data.name = boxName;
@@ -550,7 +550,7 @@ window.fsLightboxObject = function () {
 
         a[i].addEventListener('click', function (e) {
             e.preventDefault();
-            let gallery = this.getAttribute('data-fslightbox');
+            let gallery = this.getAttribute('fslightbox-gallery');
             if (fsLightboxInstances[gallery].data.initiated) {
                 fsLightboxInstances[gallery].setSlide(
                     fsLightboxInstances[gallery].data.urls.indexOf(this.getAttribute('href')) + 1

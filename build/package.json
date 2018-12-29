@@ -1,10 +1,10 @@
 {
   "name": "fslightbox",
-  "version": "1.4.4",
-  "description": "Fullscreen media lightbox library in vanilla JS. Fullscreen Lightbox is a tool for displaying images, videos in nice overlaying box. Technologies: JavaScript, SCSS",
+  "version": "1.5",
+  "description": "Fullscreen media lightbox library written in vanilla JS. Technologies: JavaScript, SCSS",
   "main": "index.js",
   "dist-tags": {
-    "latest": "1.4.4"
+    "latest": "1.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
