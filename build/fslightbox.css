@@ -10,8 +10,7 @@
 .fslightbox-toolbar-button {
   height: 100%;
   width: 45px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  cursor: pointer; }
 
 .lds-ring {
   display: block;
@@ -54,18 +53,9 @@
   left: 0;
   top: 0;
   display: flex;
-  align-items: center;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent; }
+  align-items: center; }
 
 .fslightbox-single-source {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   display: block;
   margin: auto;
   backface-visibility: hidden;
@@ -79,10 +69,6 @@
   transition: transform .20s; }
 
 .fslightbox-invalid-file-wrapper {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   font-size: 22px;
   color: #eaebeb;
   margin: auto;
@@ -114,7 +100,9 @@
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   font-family: "Montserrat", sans-serif;
-  z-index: 9999999; }
+  z-index: 9999999;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; }
 
 .fslightbox-open {
   overflow: hidden;
@@ -122,9 +110,6 @@
 
 .fslightbox-scrollbarfix {
   padding-right: 17px; }
-
-.fslightbox-fix-webkit-highlight {
-  -webkit-tap-highlight-color: transparent; }
 
 .fslightbox-nav {
   height: 45px;
@@ -144,10 +129,6 @@
   z-index: 1;
   max-width: 46px; }
   .fslightbox-slide-number-container .fslightbox-slide-slide-number {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     padding: 0 2px; }
   .fslightbox-slide-number-container .fslightbox-slash {
     padding-top: .25rem;
@@ -170,8 +151,7 @@
   top: 50%;
   cursor: pointer;
   z-index: 1;
-  transform: translateY(-50%);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  transform: translateY(-50%); }
 
 .fslightbox-slide-btn-container:hover .fslightbox-svg-icon path,
 .fslightbox-slide-btn-container:hover .fslightbox-svg-icon polygon,

@@ -1,5 +1,4 @@
 @import "tools/toolbar";
-@import "tools/bottomNav";
 @import "tools/loader";
 @import "tools/sources";
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
@@ -15,6 +14,8 @@
   background: linear-gradient(rgba(30,30,30,0.9),rgba(0,0,0,1) 1810%);
   font-family: "Montserrat", sans-serif;
   z-index: 9999999;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -23,16 +24,8 @@
   height: 100%;
 }
 
-.recompense-for-scrollbar {
-
-}
-
 .fslightbox-scrollbarfix {
   padding-right: 17px;
-}
-
-.fslightbox-fix-webkit-highlight {
-  -webkit-tap-highlight-color: transparent;
 }
 
 .fslightbox-nav {
@@ -55,10 +48,6 @@
   max-width: 46px;
 
   .fslightbox-slide-slide-number {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     padding: 0 2px;
   }
 
@@ -88,7 +77,6 @@
   cursor: pointer;
   z-index: 1;
   transform: translateY(-50%);
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 

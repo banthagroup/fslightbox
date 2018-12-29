@@ -1,6 +1,5 @@
 module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
-    const _this = this;
     const sourcesIndexes = self.getSourcesIndexes.all(slide);
     const urls = self.data.urls;
     const sources = self.data.sources;
@@ -61,7 +60,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    this.loadYoutubevideo = function (videoId, arrayIndex) {
+    const loadYoutubevideo = function (videoId, arrayIndex) {
         let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
         iframe.src = '//www.youtube.com/embed/' + videoId + '?enablejsapi=1';
         iframe.setAttribute('allowfullscreen', '');
@@ -71,7 +70,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    this.imageLoad = function (src, arrayIndex) {
+    const imageLoad = function (src, arrayIndex) {
         let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
         sourceElem.src = src;
         sourceElem.addEventListener('load', function () {
@@ -80,10 +79,14 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
     };
 
 
-    this.videoLoad = function (src, arrayIndex, type) {
+    const videoLoad = function (src, arrayIndex, type) {
         let videoLoaded = false;
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
+        if(self.data.videosPosters[arrayIndex]) {
+            videoElem.poster = self.data.videosPosters[arrayIndex];
+            videoElem.style.objectFit = 'cover';
+        }
         source.src = src;
         source.type = type;
         videoElem.appendChild(source);
@@ -136,7 +139,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         videoElem.setAttribute('controls', '');
     };
 
-    this.invalidFile = function (arrayIndex) {
+    const invalidFile = function (arrayIndex) {
         let invalidFileWrapper = new DOMObject('div').addClassesAndCreate(['fslightbox-invalid-file-wrapper']);
         invalidFileWrapper.innerHTML = 'Invalid file';
 
@@ -163,7 +166,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
         if (parser.hostname === 'www.youtube.com') {
             self.data.videos[urlIndex] = false;
-            this.loadYoutubevideo(getId(sourceUrl), urlIndex);
+            loadYoutubevideo(getId(sourceUrl), urlIndex);
         } else {
             const xhr = new XMLHttpRequest();
 
@@ -175,20 +178,20 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
                         const dataType = responseType.slice(0, responseType.indexOf('/'));
 
                         if (dataType === 'image') {
-                            _this.imageLoad(urls[urlIndex], urlIndex);
+                            imageLoad(urls[urlIndex], urlIndex);
                         }
 
                         else if (dataType === 'video') {
-                            _this.videoLoad(urls[urlIndex], urlIndex, responseType);
+                            videoLoad(urls[urlIndex], urlIndex, responseType);
                             self.data.videos[urlIndex] = true;
                         }
 
                         else {
-                            _this.invalidFile(urlIndex);
+                            invalidFile(urlIndex);
                         }
                     }
                     else {
-                        _this.invalidFile(urlIndex);
+                        invalidFile(urlIndex);
                     }
                     xhr.abort();
                 }

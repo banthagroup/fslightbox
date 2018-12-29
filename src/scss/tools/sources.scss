@@ -6,22 +6,12 @@
   top: 0;
   display: flex;
   align-items: center;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .fslightbox-single-source {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   display: block;
   margin: auto;
   backface-visibility: hidden;
-
   transform: translateZ(0);
 }
 
@@ -34,10 +24,6 @@
 }
 
 .fslightbox-invalid-file-wrapper {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   font-size: 22px;
   color: #eaebeb;
   margin: auto;

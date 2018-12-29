@@ -1,79 +1,78 @@
 module.exports = function (self, DOMObject) {
 
-    let privateMethods = {
 
-        renderNav: function (container) {
-            self.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
-            self.toolbar.renderToolbar(self.data.nav);
+    /**
+     * Slide counter object - upper left corner of fsLightbox
+     * @constructor
+     */
+    const slideCounter = function () {
+        let numberContainer = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-number-container']);
+        self.data.slideCounterElem = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
 
-            const slideCounter = new this.slideCounter();
-            slideCounter.renderSlideCounter(self.data.nav);
-            container.appendChild(self.data.nav);
+        self.data.slideCounterElem.innerHTML = self.data.slide;
+        self.data.slideCounterElem.id = 'current_slide';
 
-        },
+        let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number', 'fslightbox-slash']);
+        space.innerHTML = '/';
 
-        createBTN: function (buttonContainer, container, d) {
-            let btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'button-style']);
-            btn.appendChild(
-                new self.SVGIcon().getSVGIcon('0 0 20 20', '1em', d)
-            );
-            buttonContainer.appendChild(btn);
-            container.appendChild(buttonContainer);
-        },
+        let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
+        slides.innerHTML = self.data.total_slides;
 
-        renderSlideButtons: function (container) {
-            if (self.data.slideButtons === false) {
-                return false;
-            }
-            //render left btn
-            let left_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-left-container']);
-            this.createBTN(left_btn_container, container, 'M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z');
+        numberContainer.appendChild(self.data.slideCounterElem);
+        numberContainer.appendChild(space);
+        numberContainer.appendChild(slides);
 
-            //go to previous slide onclick
-            left_btn_container.onclick = function () {
-                self.appendMethods.previousSlideViaButton(self, self.data.slide);
-            };
+        // this method is called after switching slides
+        self.data.updateSlideNumber = function (number) {
+            self.data.slide = number;
+            self.data.slideCounterElem.innerHTML = number;
+        };
 
-            let right_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-right-container']);
-            this.createBTN(right_btn_container, container, 'M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z');
-            // go to next slide on click
-            right_btn_container.onclick = function () {
-                self.appendMethods.nextSlideViaButton(self, self.data.slide);
-            };
-        },
-
-        /**
-         * Slide counter object - upper left corner of fsLightbox
-         * @constructor
-         */
-        slideCounter: function () {
-            let numberContainer = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-number-container']);
-            self.data.slideCounterElem = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
-
-            self.data.slideCounterElem.innerHTML = self.data.slide;
-            self.data.slideCounterElem.id = 'current_slide';
-
-            let space = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number', 'fslightbox-slash']);
-            space.innerHTML = '/';
-
-            let slides = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-slide-number']);
-            slides.innerHTML = self.data.total_slides;
-
-            numberContainer.appendChild(self.data.slideCounterElem);
-            numberContainer.appendChild(space);
-            numberContainer.appendChild(slides);
-
-            // this method is called after switching slides
-            self.data.updateSlideNumber = function (number) {
-                self.data.slide = number;
-                self.data.slideCounterElem.innerHTML = number;
-            };
-
-            this.renderSlideCounter = function (nav) {
-                if (self.data.slideCounter)
-                    nav.appendChild(numberContainer);
-            }
+        this.renderSlideCounter = function (nav) {
+            if (self.data.slideCounter)
+                nav.appendChild(numberContainer);
         }
+    };
+
+
+    const renderNav = function (container) {
+        self.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
+        self.toolbar.renderToolbar(self.data.nav);
+
+        const counter = new slideCounter();
+        counter.renderSlideCounter(self.data.nav);
+        container.appendChild(self.data.nav);
+
+    };
+
+    const createBTN = function (buttonContainer, container, d) {
+        let btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'button-style']);
+        btn.appendChild(
+            new self.SVGIcon().getSVGIcon('0 0 20 20', '1em', d)
+        );
+        buttonContainer.appendChild(btn);
+        container.appendChild(buttonContainer);
+    };
+
+    const renderSlideButtons = function (container) {
+        if (self.data.slideButtons === false) {
+            return false;
+        }
+        //render left btn
+        let left_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-left-container']);
+        createBTN(left_btn_container, container, 'M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z');
+
+        //go to previous slide onclick
+        left_btn_container.onclick = function () {
+            self.appendMethods.previousSlideViaButton(self, self.data.slide);
+        };
+
+        let right_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-right-container']);
+        createBTN(right_btn_container, container, 'M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z');
+        // go to next slide on click
+        right_btn_container.onclick = function () {
+            self.appendMethods.nextSlideViaButton(self, self.data.slide);
+        };
     };
 
     //disable scrolling and add fix for jumping site if not mobile
@@ -82,10 +81,10 @@ module.exports = function (self, DOMObject) {
     document.body.appendChild(self.element);
 
     //render slide buttons and nav(toolbar)
-    privateMethods.renderNav(self.element);
+    renderNav(self.element);
 
     if (self.data.total_slides > 1) {
-        privateMethods.renderSlideButtons(self.element);
+        renderSlideButtons(self.element);
     }
 
     self.data.holderWrapper = new DOMObject('div').addClassesAndCreate(['fslightbox-holder-wrapper']);
