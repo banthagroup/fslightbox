@@ -116,8 +116,8 @@ window.fsLightboxObject = function () {
         document.body.appendChild(elem);
         self.throwEvent('show');
         self.throwEvent('open');
-        elem.classList.remove(['fslightbox-fade-in-animation']);
-        elem.classList.add(['fslightbox-fade-in-animation']);
+        elem.classList.remove(['fslightbox-fade-in-window']);
+        elem.classList.add(['fslightbox-fade-in-window']);
     };
 
 
@@ -212,12 +212,13 @@ window.fsLightboxObject = function () {
 
 
         this.mediaHolderDimensions = function () {
+            const mediaHolderStyle= self.data.mediaHolder.holder.style;
             if (window.innerWidth > 1000) {
-                self.data.mediaHolder.holder.style.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
-                self.data.mediaHolder.holder.style.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
+                mediaHolderStyle.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
+                mediaHolderStyle.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
             } else {
-                self.data.mediaHolder.holder.style.width = window.innerWidth + 'px';
-                self.data.mediaHolder.holder.style.height = window.innerHeight + 'px';
+                mediaHolderStyle.width = window.innerWidth + 'px';
+                mediaHolderStyle.height = window.innerHeight + 'px';
             }
         };
 
@@ -225,6 +226,7 @@ window.fsLightboxObject = function () {
 
             const stageSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
             const rememberedSourceDimension = self.data.rememberedSourcesDimensions;
+
 
             for (let sourceIndex in sources) {
 
@@ -238,6 +240,7 @@ window.fsLightboxObject = function () {
                 }
 
                 const elem = sources[sourceIndex].firstChild;
+
 
                 let sourceWidth = rememberedSourceDimension[sourceIndex].width;
                 let sourceHeight = rememberedSourceDimension[sourceIndex].height;
@@ -257,12 +260,12 @@ window.fsLightboxObject = function () {
             }
         };
 
-        window.onresize = function () {
+        window.addEventListener('resize', function () {
             self.checkIfMobile();
             _this.mediaHolderDimensions();
             sourcesDimensions();
             transforms();
-        };
+        });
     }
 
 

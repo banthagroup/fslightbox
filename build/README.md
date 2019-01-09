@@ -1,6 +1,6 @@
 # Fullscreen Lightbox Basic
 
-## Version - 1.5
+## Version - 1.5.1
 
 ## Description
 JavaScript lightbox library for presenting images, videos in overlaying box.
