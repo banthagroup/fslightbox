@@ -2,6 +2,7 @@ module.exports = function (self, DOMObject) {
 
     //we will hover all windows with div with high z-index to be sure mouseup is triggered
     const invisibleHover = new DOMObject('div').addClassesAndCreate(['fslightbox-invisible-hover']);
+    const transformTransition = 'fslightbox-transform-transition';
 
     //to these elements are added mouse events
     const elements = {
@@ -63,9 +64,9 @@ module.exports = function (self, DOMObject) {
         slideaAble = false;
 
         // add transition if user slide to source
-        sources[sourcesIndexes.previous].classList.add('fslightbox-transform-transition');
-        sources[sourcesIndexes.current].classList.add('fslightbox-transform-transition');
-        sources[sourcesIndexes.next].classList.add('fslightbox-transform-transition');
+        sources[sourcesIndexes.previous].classList.add(transformTransition);
+        sources[sourcesIndexes.current].classList.add(transformTransition);
+        sources[sourcesIndexes.next].classList.add(transformTransition);
 
 
         // slide previous
@@ -127,13 +128,13 @@ module.exports = function (self, DOMObject) {
         setTimeout(function () {
 
             // remove transition because with dragging it looks awful
-            sources[sourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
-            sources[sourcesIndexes.current].classList.remove('fslightbox-transform-transition');
-            sources[sourcesIndexes.next].classList.remove('fslightbox-transform-transition');
+            sources[sourcesIndexes.previous].classList.remove(transformTransition);
+            sources[sourcesIndexes.current].classList.remove(transformTransition);
+            sources[sourcesIndexes.next].classList.remove(transformTransition);
 
             // user shouldn't be able to slide when animation is running
             slideaAble = true;
-        }, 250);
+        }, 300);
     };
 
 
