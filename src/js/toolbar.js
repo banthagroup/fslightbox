@@ -1,5 +1,6 @@
-module.exports = function (self, DOMObject) {
+module.exports = function (self) {
 
+    const DOMObject = require('./DOMObject');
     this.toolbarElem = new DOMObject('div').addClassesAndCreate(['fslightbox-toolbar']);
     const _this = this;
 

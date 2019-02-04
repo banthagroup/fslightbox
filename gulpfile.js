@@ -67,11 +67,6 @@ gulp.task('js', function () {
     browserify({
         entries: [
             'src/js/index.js',
-            'src/js/renderDOM.js',
-            'src/js/loadSource.js',
-            'src/js/appendSource.js',
-            'src/js/changeSlideByDragging.js',
-            'src/js/toolbar.js'
         ],
         debug: true
     })
