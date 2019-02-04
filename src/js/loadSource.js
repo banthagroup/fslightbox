@@ -1,4 +1,6 @@
-module.exports = function (self, DOMObject, typeOfLoad, slide) {
+module.exports = function (self, typeOfLoad, slide) {
+
+    const DOMObject = require('./DOMObject');
 
     const sourcesIndexes = self.getSourcesIndexes.all(slide);
     const urls = self.data.urls;
@@ -20,23 +22,14 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         }
     };
 
-
-    let load = function (sourceHolder, sourceElem) {
+    const append = function (sourceHolder, sourceElem) {
         sourceHolder.innerHTML = '';
         sourceHolder.appendChild(sourceElem);
         void sourceHolder.firstChild.offsetWidth;
         sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
     };
 
-    let appendInitial = function (sourceHolder, sourceElem) {
-        sourceHolder.innerHTML = '';
-        sourceHolder.appendChild(sourceElem);
-        sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
-    };
 
-    /**
-     * add fade in class and dimension function
-     */
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
         let sourceHolder = new DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
@@ -51,12 +44,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         // set dimensions for the 1st time
         sourceDimensions(sourceElem, sourceWidth, sourceHeight);
         sourceHolder.appendChild(sourceElem);
-
-        if(typeOfLoad === 'initial') {
-            appendInitial(sources[arrayIndex], sourceElem);
-        } else {
-            load(sources[arrayIndex], sourceElem);
-        }
+        append(sources[arrayIndex], sourceElem);
     };
 
 
@@ -205,7 +193,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
 
     if (typeOfLoad === 'initial') {
         //append loader when loading initially
-        self.appendMethods.renderHolderInitial(self, slide, DOMObject);
+        self.appendMethods.renderHolderInitial(slide, DOMObject);
 
         if (urls.length >= 1) {
             this.createSourceElem(sourcesIndexes.current);
@@ -220,7 +208,7 @@ module.exports = function (self, DOMObject, typeOfLoad, slide) {
         }
     } else {
         // append loader when loading a next source
-        self.appendMethods.renderHolder(self, slide, typeOfLoad);
+        self.appendMethods.renderHolder(slide, typeOfLoad);
 
         switch (typeOfLoad) {
             case 'previous':
