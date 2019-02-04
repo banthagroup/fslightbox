@@ -42,8 +42,7 @@ h1 {
 .fslightbox-toolbar-button {
   height: 100%;
   width: 45px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  cursor: pointer; }
 
 .lds-ring {
   display: block;
@@ -86,35 +85,18 @@ h1 {
   left: 0;
   top: 0;
   display: flex;
-  align-items: center;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent; }
+  align-items: center; }
 
 .fslightbox-single-source {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   display: block;
   margin: auto;
   backface-visibility: hidden;
   transform: translateZ(0); }
 
 .fslightbox-transform-transition {
-  -webkit-transition: transform .20s;
-  -moz-transition: transform .20s;
-  -ms-transition: transform .20s;
-  -o-transition: transform .20s;
-  transition: transform .20s; }
+  transition: transform .3s; }
 
 .fslightbox-invalid-file-wrapper {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   font-size: 22px;
   color: #eaebeb;
   margin: auto;
@@ -126,15 +108,26 @@ h1 {
   opacity: 1 !important; }
 
 .fslightbox-fade-in-animation {
-  -webkit-animation: fade-in .10s linear;
-  -o-animation: fade-in .10s linear;
-  animation: fade-in .10s linear; }
+  -webkit-animation: fade-in .25s linear;
+  -o-animation: fade-in .25s linear;
+  animation: fade-in .25s linear; }
 
 @keyframes fade-in {
   0% {
     opacity: 0; }
   100% {
     opacity: 1; } }
+
+.fslightbox-fade-out-animation {
+  -webkit-animation: fslightbox-fade-out-anim .25s linear;
+  -o-animation: fslightbox-fade-out-anim .25s linear;
+  animation: fslightbox-fade-out-anim .25s linear; }
+
+@keyframes fslightbox-fade-out-anim {
+  0% {
+    opacity: .2; }
+  100% {
+    opacity: 0; } }
 
 .fslightbox-container {
   position: fixed;
@@ -146,7 +139,9 @@ h1 {
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   font-family: "Montserrat", sans-serif;
-  z-index: 9999999; }
+  z-index: 9999999;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; }
 
 .fslightbox-open {
   overflow: hidden;
@@ -154,9 +149,6 @@ h1 {
 
 .fslightbox-scrollbarfix {
   padding-right: 17px; }
-
-.fslightbox-fix-webkit-highlight {
-  -webkit-tap-highlight-color: transparent; }
 
 .fslightbox-nav {
   height: 45px;
@@ -176,14 +168,10 @@ h1 {
   z-index: 1;
   max-width: 46px; }
   .fslightbox-slide-number-container .fslightbox-slide-slide-number {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     padding: 0 2px; }
   .fslightbox-slide-number-container .fslightbox-slash {
-    padding-top: .25rem;
-    font-size: 10px; }
+    padding-top: .15rem;
+    font-size: 12px; }
 
 .fslightbox-svg-icon path,
 .fslightbox-svg-icon polygon,
@@ -202,8 +190,7 @@ h1 {
   top: 50%;
   cursor: pointer;
   z-index: 1;
-  transform: translateY(-50%);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  transform: translateY(-50%); }
 
 .fslightbox-slide-btn-container:hover .fslightbox-svg-icon path,
 .fslightbox-slide-btn-container:hover .fslightbox-svg-icon polygon,
@@ -265,6 +252,11 @@ h1 {
 .button-style:hover .fslightbox-svg-icon polygon,
 .button-style:hover .fslightbox-svg-icon rect {
   fill: #fff; }
+
+.fslightbox-fade-in-window {
+  -webkit-animation: fade-in .1s linear;
+  -o-animation: fade-in .1s linear;
+  animation: fade-in .1s linear; }
 
 .fslightbox-container-fadeout {
   opacity: 0;

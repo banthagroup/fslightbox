@@ -2,12 +2,21 @@ module.exports = {
 
     loader: '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>',
     DOMObject: '',
+    transition: 'fslightbox-transform-transition',
+    fadeIn: 'fslightbox-fade-in-animation',
+    fadeOut: 'fslightbox-fade-out-animation',
 
     createHolder: function (self, index) {
         let sourceHolder = new this.DOMObject('div').addClassesAndCreate(['fslightbox-source-holder']);
         sourceHolder.innerHTML = this.loader;
         self.data.sources[index] = sourceHolder;
         return sourceHolder;
+    },
+
+    runFadeOutAnimationOnSlide(self, elem) {
+        elem.classList.remove(this.fadeOut);
+        void elem.offsetWidth;
+        elem.classList.add(this.fadeOut);
     },
 
 
@@ -114,21 +123,20 @@ module.exports = {
         const currentSource = sources[newSourcesIndexes.current];
         const nextSource = sources[newSourcesIndexes.next];
 
-        nextSource.classList.remove('fslightbox-transform-transition');
-        currentSource.classList.remove('fslightbox-transform-transition');
-        sources[newSourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
+        nextSource.classList.remove(this.transition);
+        currentSource.classList.remove(this.transition);
+        sources[newSourcesIndexes.previous].classList.remove(this.transition);
 
-        nextSource.classList.remove('fslightbox-fade-in-animation');
-        void nextSource.offsetWidth;
-        nextSource.classList.add('fslightbox-fade-in-animation');
+        this.runFadeOutAnimationOnSlide(self, nextSource);
 
-
-        currentSource.classList.remove('fslightbox-fade-in-animation');
+        currentSource.classList.remove(this.fadeOut);
         void currentSource.offsetWidth;
-        currentSource.classList.add('fslightbox-fade-in-animation');
+        currentSource.classList.add(this.fadeIn);
 
         self.transforms.transformNull(currentSource);
-        self.transforms.transformPlus(nextSource);
+        setTimeout(function () {
+            self.transforms.transformPlus(nextSource);
+        }, 230);
     },
 
 
@@ -156,21 +164,20 @@ module.exports = {
         const currentSource = sources[newSourcesIndexes.current];
         const previousSource = sources[newSourcesIndexes.previous];
 
-        previousSource.classList.remove('fslightbox-transform-transition');
-        currentSource.classList.remove('fslightbox-transform-transition');
-        sources[newSourcesIndexes.next].classList.remove('fslightbox-transform-transition');
+        previousSource.classList.remove(this.transition);
+        currentSource.classList.remove(this.transition);
+        sources[newSourcesIndexes.next].classList.remove(this.transition);
 
-        previousSource.classList.remove('fslightbox-fade-in-animation');
-        void previousSource.offsetWidth;
-        previousSource.classList.add('fslightbox-fade-in-animation');
-
-
-        currentSource.classList.remove('fslightbox-fade-in-animation');
+        currentSource.classList.remove(this.fadeOut);
         void currentSource.offsetWidth;
-        currentSource.classList.add('fslightbox-fade-in-animation');
+        currentSource.classList.add(this.fadeIn);
+
+        this.runFadeOutAnimationOnSlide(self, previousSource);
 
 
         self.transforms.transformNull(currentSource);
-        self.transforms.transformMinus(previousSource);
+        setTimeout(function () {
+            self.transforms.transformMinus(previousSource);
+        }, 230);
     }
 };
