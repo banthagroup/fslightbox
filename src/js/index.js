@@ -1,5 +1,6 @@
 window.fsLightboxObject = function () {
 
+    const DOMObject = require('./DOMObject');
     this.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
 
     this.data = {
@@ -37,8 +38,6 @@ window.fsLightboxObject = function () {
         fadingOut: false,
 
         onResizeEvent: {},
-        updateSlideNumber: function () {
-        },
     };
 
 
@@ -111,13 +110,13 @@ window.fsLightboxObject = function () {
      */
     this.show = function () {
         const elem = self.element;
-        self.scrollbar.showScrollbar();
+        self.scrollbarMethods.showScrollbar();
         elem.classList.remove('fslightbox-container-fadeout');
         document.body.appendChild(elem);
         self.throwEvent('show');
         self.throwEvent('open');
-        elem.classList.remove(['fslightbox-fade-in-window']);
-        elem.classList.add(['fslightbox-fade-in-window']);
+        elem.classList.remove('fslightbox-fade-in-window');
+        elem.classList.add('fslightbox-fade-in-window');
     };
 
 
@@ -130,7 +129,7 @@ window.fsLightboxObject = function () {
         self.data.fadingOut = true;
         self.throwEvent('close');
         setTimeout(function () {
-            self.scrollbar.hideScrollbar();
+            self.scrollbarMethods.hideScrollbar();
             self.data.fadingOut = false;
             document.body.removeChild(self.element);
         }, 250);
@@ -141,7 +140,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     this.dom = function () {
-        require('./renderDOM.js')(self, DOMObject);
+        require('./renderDOM.js')(self);
     };
 
 
@@ -161,28 +160,10 @@ window.fsLightboxObject = function () {
 
 
     this.checkIfMobile = function () {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            self.data.isMobile = true;
-        } else {
+        (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ?
+            self.data.isMobile = true:
             self.data.isMobile = false;
-        }
     };
-
-
-    /**
-     * Generate dom element with classes
-     * @constructor
-     */
-    function DOMObject(tag) {
-        this.elem = document.createElement(tag);
-
-        this.addClassesAndCreate = function (classes) {
-            for (let index in classes) {
-                this.elem.classList.add(classes[index]);
-            }
-            return this.elem
-        }
-    }
 
 
     /**
@@ -213,12 +194,15 @@ window.fsLightboxObject = function () {
 
         this.mediaHolderDimensions = function () {
             const mediaHolderStyle= self.data.mediaHolder.holder.style;
-            if (window.innerWidth > 1000) {
-                mediaHolderStyle.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
-                mediaHolderStyle.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            if (windowWidth > 1000) {
+                mediaHolderStyle.width = (windowWidth - 0.1 * windowWidth) + 'px';
+                mediaHolderStyle.height = (windowHeight - 0.1 * windowHeight) + 'px';
             } else {
-                mediaHolderStyle.width = window.innerWidth + 'px';
-                mediaHolderStyle.height = window.innerHeight + 'px';
+                mediaHolderStyle.width = windowWidth + 'px';
+                mediaHolderStyle.height = windowHeight + 'px';
             }
         };
 
@@ -270,33 +254,10 @@ window.fsLightboxObject = function () {
 
 
     /**
-     * Contains methods that takes care of scrollbar
-     * @type {{hideScrollbar: Window.scrollbar.hideScrollbar, showScrollbar: Window.scrollbar.showScrollbar}}
+     * Contains methods that takes care of scrollbarMethods
+     * @type {{hideScrollbar: Window.scrollbarMethods.hideScrollbar, showScrollbar: Window.scrollbarMethods.showScrollbar}}
      */
-    this.scrollbar = {
-
-        hideScrollbar: function () {
-            if (document.documentElement.classList.contains('fslightbox-scrollbarfix')) {
-                let recompense = document.querySelector('.recompense-for-scrollbar');
-                if (recompense) {
-                    recompense.style.paddingRight = '0';
-                }
-                document.documentElement.classList.remove('fslightbox-scrollbarfix');
-            }
-            document.documentElement.classList.remove('fslightbox-open');
-        },
-
-        showScrollbar: function () {
-            if (!self.data.isMobile && document.documentElement.offsetHeight >= window.innerHeight) {
-                let recompense = document.querySelector('.recompense-for-scrollbar');
-                if (recompense) {
-                    recompense.style.paddingRight = '17px';
-                }
-                document.documentElement.classList.add('fslightbox-scrollbarfix');
-            }
-            document.documentElement.classList.add('fslightbox-open');
-        }
-    };
+    this.scrollbarMethods = new(require('./scrollbarMethods'))(self);
 
 
     /**
@@ -333,7 +294,7 @@ window.fsLightboxObject = function () {
      * @constructor
      */
     let toolbarModule = require('./toolbar');
-    this.toolbar = new toolbarModule(self, DOMObject);
+    this.toolbar = new toolbarModule(self);
 
 
     /**
@@ -359,7 +320,6 @@ window.fsLightboxObject = function () {
     /**
      * Return object with stage sources indexes depending on provided slide
      * @param slide
-     * @returns {{previous: number, current: number, next: number}}
      */
     this.getSourcesIndexes = {
 
@@ -512,7 +472,7 @@ window.fsLightboxObject = function () {
      * Methods that appends sources to mediaHolder depending on action
      * @type {{initialAppend, previousAppend, nextAppend}|*}
      */
-    this.appendMethods = require('./appendSource');
+    this.appendMethods = new (require('./appendMethods'))(self);
 
 
     /**
@@ -525,7 +485,7 @@ window.fsLightboxObject = function () {
      */
     this.loadsources = function (typeOfLoad, slide) {
         const loadsourcemodule = require("./loadSource.js");
-        return new loadsourcemodule(self, DOMObject, typeOfLoad, slide);
+        return new loadsourcemodule(self, typeOfLoad, slide);
     };
 };
 
