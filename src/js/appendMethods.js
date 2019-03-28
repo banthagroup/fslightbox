@@ -1,46 +1,55 @@
-module.exports = function (self) {
-    const loader = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+module.exports = function (fsLightbox) {
+    const loader = '<div class="fslightbox-loader"><div></div><div></div><div></div><div></div></div>';
     const transition = 'fslightbox-transform-transition';
-    const fadeIn = 'fslightbox-fade-in-animation';
-    const fadeOut = 'fslightbox-fade-out-animation';
-
+    const fadeIn = 'fslightbox-fade-in';
+    const fadeOut = 'fslightbox-fade-out';
 
     const createHolder = function (index) {
-        const sourceHolder = new(require('./DOMObject'))('div').addClassesAndCreate(['fslightbox-source-holder']);
+        const sourceHolder = new (require('./Components/DOMObject'))('div').addClassesAndCreate(['fslightbox-source-holder', 'fslightbox-full-dimension']);
         sourceHolder.innerHTML = loader;
-        self.data.sources[index] = sourceHolder;
+        fsLightbox.data.sources[index] = sourceHolder;
         return sourceHolder;
     };
 
-
-    const runFadeOutAnimationOnSlide = function (elem) {
-        elem.classList.remove(fadeOut);
-        void elem.offsetWidth;
-        elem.classList.add(fadeOut);
+    const runAnimationOnSource = function (elem) {
+        elem.firstChild.classList.add(fadeIn);
     };
 
+    const clearAnimationOnSource = function (elem) {
+        const src = elem.firstChild;
+        src.classList.remove(fadeIn);
+        src.classList.remove(fadeOut);
+        void src.offsetWidth;
+    };
+
+    const runFadeOutAnimationOnSource = function (elem) {
+        const src = elem.firstChild;
+        src.style.animation = '';
+        void src.offsetWidth;
+        src.classList.add(fadeOut);
+    };
 
     /**
      * Renders loader when loading fsLightbox initially
      * @param slide
      */
     this.renderHolderInitial = function (slide) {
-        const sourcesIndexes = self.getSourcesIndexes.all(slide);
-        const totalSlides = self.data.total_slides;
+        const sourcesIndexes = fsLightbox.stageSourceIndexes.all(slide);
+        const totalSlides = fsLightbox.data.totalSlides;
 
         if (totalSlides >= 3) {
             const prev = createHolder(sourcesIndexes.previous);
-            self.transforms.transformMinus(prev);
-            self.data.mediaHolder.holder.appendChild(prev);
+            fsLightbox.slideTransformer.minus(prev);
+            fsLightbox.mediaHolder.appendChild(prev);
         }
         if (totalSlides >= 1) {
             const curr = createHolder(sourcesIndexes.current);
-            self.data.mediaHolder.holder.appendChild(curr);
+            fsLightbox.mediaHolder.appendChild(curr);
         }
         if (totalSlides >= 2) {
             const next = createHolder(sourcesIndexes.next);
-            self.transforms.transformPlus(next);
-            self.data.mediaHolder.holder.appendChild(next);
+            fsLightbox.slideTransformer.plus(next);
+            fsLightbox.mediaHolder.appendChild(next);
         }
     };
 
@@ -61,43 +70,43 @@ module.exports = function (self) {
 
 
     const renderHolderPrevious = function (slide) {
-        const previousSourceIndex = self.getSourcesIndexes.previous(slide);
+        const previousSourceIndex = fsLightbox.stageSourceIndexes.previous(slide);
         const prev = createHolder(previousSourceIndex);
-        self.transforms.transformMinus(prev);
-        self.data.mediaHolder.holder.insertAdjacentElement('afterbegin', prev);
+        fsLightbox.slideTransformer.minus(prev);
+        fsLightbox.mediaHolder.insertAdjacentElement('afterbegin', prev);
     };
 
 
     const renderHolderNext = function (slide) {
-        const nextSourceIndex = self.getSourcesIndexes.next(slide);
+        const nextSourceIndex = fsLightbox.stageSourceIndexes.next(slide);
         const next = createHolder(nextSourceIndex);
-        self.transforms.transformPlus(next);
-        self.data.mediaHolder.holder.appendChild(next);
+        fsLightbox.slideTransformer.plus(next);
+        fsLightbox.mediaHolder.appendChild(next);
     };
 
 
     const renderHolderCurrent = function (slide) {
-        const sourcesIndexes = self.getSourcesIndexes.all(slide);
+        const sourcesIndexes = fsLightbox.stageSourceIndexes.all(slide);
         const curr = createHolder(sourcesIndexes.current);
-        self.transforms.transformNull(curr);
-        self.data.mediaHolder.holder.insertBefore(curr, self.data.sources[sourcesIndexes.next]);
+        fsLightbox.slideTransformer.zero(curr);
+        fsLightbox.mediaHolder.insertBefore(curr, fsLightbox.data.sources[sourcesIndexes.next]);
     };
 
 
     this.previousSlideViaButton = function (previousSlide) {
         if (previousSlide === 1) {
-            self.data.slide = self.data.total_slides;
+            fsLightbox.data.slide = fsLightbox.data.totalSlides;
         } else {
-            self.data.slide -= 1;
+            fsLightbox.data.slide -= 1;
         }
 
         const newSourcesIndexes = stopVideosUpdateSlideAndReturnSlideNumberIndexes();
 
-        if (typeof self.data.sources[newSourcesIndexes.previous] === "undefined") {
-            self.loadsources('previous', self.data.slide);
+        if (typeof fsLightbox.data.sources[newSourcesIndexes.previous] === "undefined") {
+            fsLightbox.loadsources('previous', fsLightbox.data.slide);
         }
 
-        const sources = self.data.sources;
+        const sources = fsLightbox.data.sources;
         const currentSource = sources[newSourcesIndexes.current];
         const nextSource = sources[newSourcesIndexes.next];
 
@@ -105,33 +114,33 @@ module.exports = function (self) {
         currentSource.classList.remove(transition);
         sources[newSourcesIndexes.previous].classList.remove(transition);
 
-        runFadeOutAnimationOnSlide(nextSource);
 
-        currentSource.classList.remove(fadeOut);
-        void currentSource.offsetWidth;
-        currentSource.classList.add(fadeIn);
+        clearAnimationOnSource(currentSource);
+        runAnimationOnSource(currentSource);
+        runFadeOutAnimationOnSource(nextSource);
 
-        self.transforms.transformNull(currentSource);
+        fsLightbox.slideTransformer.zero(currentSource);
         setTimeout(function () {
-            self.transforms.transformPlus(nextSource);
+            fsLightbox.slideTransformer.plus(nextSource);
+            nextSource.firstChild.classList.remove(fadeOut);
         }, 220);
     };
 
 
     this.nextSlideViaButton = function (previousSlide) {
-        if (previousSlide === self.data.total_slides) {
-            self.data.slide = 1;
+        if (previousSlide === fsLightbox.data.totalSlides) {
+            fsLightbox.data.slide = 1;
         } else {
-            self.data.slide += 1;
+            fsLightbox.data.slide += 1;
         }
 
         const newSourcesIndexes = stopVideosUpdateSlideAndReturnSlideNumberIndexes();
 
-        if (typeof self.data.sources[newSourcesIndexes.next] === "undefined") {
-            self.loadsources('next', self.data.slide);
+        if (typeof fsLightbox.data.sources[newSourcesIndexes.next] === "undefined") {
+            fsLightbox.loadsources('next', fsLightbox.data.slide);
         }
 
-        const sources = self.data.sources;
+        const sources = fsLightbox.data.sources;
         const currentSource = sources[newSourcesIndexes.current];
         const previousSource = sources[newSourcesIndexes.previous];
 
@@ -139,23 +148,20 @@ module.exports = function (self) {
         currentSource.classList.remove(transition);
         sources[newSourcesIndexes.next].classList.remove(transition);
 
-        currentSource.classList.remove(fadeOut);
-        void currentSource.offsetWidth;
-        currentSource.classList.add(fadeIn);
+        clearAnimationOnSource(currentSource);
+        runAnimationOnSource(currentSource);
+        runFadeOutAnimationOnSource(previousSource);
+        fsLightbox.slideTransformer.zero(currentSource);
 
-        runFadeOutAnimationOnSlide(previousSource);
-
-
-        self.transforms.transformNull(currentSource);
         setTimeout(function () {
-            self.transforms.transformMinus(previousSource);
+            fsLightbox.slideTransformer.minus(previousSource);
+            previousSource.firstChild.classList.remove(fadeOut);
         }, 220);
     };
 
-
     const stopVideosUpdateSlideAndReturnSlideNumberIndexes = function () {
-        self.stopVideos();
-        self.data.updateSlideNumber(self.data.slide);
-        return self.getSourcesIndexes.all(self.data.slide);
+        fsLightbox.stopVideos();
+        fsLightbox.updateSlideNumber(fsLightbox.data.slide);
+        return fsLightbox.stageSourceIndexes.all(fsLightbox.data.slide);
     };
 };

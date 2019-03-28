@@ -1,0 +1,12 @@
+.fslightbox-container {
+  font-family: "Montserrat", sans-serif;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
+  z-index: 9999999;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: fslightbox-fade-in-complete .25s forwards;
+}

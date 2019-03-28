@@ -1,0 +1,19 @@
+.fslightbox-slide-btn-right-container {
+  right: 0;
+  padding-left: 12px;
+  padding-right: 3px;
+
+  @media (min-width: 476px) {
+    padding-left: 22px;
+  }
+
+  @media (min-width: 768px) {
+    padding-left: 30px;
+  }
+}
+
+@media (min-width: 476px) {
+  .fslightbox-slide-btn-right-container {
+    padding-right: 6px;
+  }
+}

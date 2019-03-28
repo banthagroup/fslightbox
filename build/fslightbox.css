@@ -75,26 +75,40 @@
 .fslightbox-fade-in {
   opacity: 1 !important; }
 
-.fslightbox-fade-in-animation {
-  -webkit-animation: fade-in .25s linear;
-  -o-animation: fade-in .25s linear;
-  animation: fade-in .25s linear; }
+.fslightbox-fade-in {
+  animation: fslightbox-fade-in 0.25s cubic-bezier(0, 0, 0.7, 1); }
 
-@keyframes fade-in {
-  0% {
-    opacity: 0; }
-  100% {
+@keyframes fslightbox-fade-in {
+  from {
+    opacity: .65; }
+  to {
     opacity: 1; } }
 
-.fslightbox-fade-out-animation {
-  -webkit-animation: fslightbox-fade-out-anim .25s linear;
-  -o-animation: fslightbox-fade-out-anim .25s linear;
-  animation: fslightbox-fade-out-anim .25s linear; }
+.fslightbox-fade-out {
+  animation: fslightbox-fade-out .25s ease; }
 
-@keyframes fslightbox-fade-out-anim {
-  0% {
-    opacity: .2; }
-  100% {
+@keyframes fslightbox-fade-out {
+  from {
+    opacity: .35; }
+  to {
+    opacity: 0; } }
+
+.fslightbox-fade-in-complete {
+  animation: fslightbox-fade-in-complete 0.25s cubic-bezier(0, 0, 0.7, 1) forwards; }
+
+@keyframes fslightbox-fade-in-complete {
+  from {
+    opacity: .3; }
+  to {
+    opacity: 1; } }
+
+.fslightbox-fade-out-complete {
+  animation: fslightbox-fade-out-complete .25s ease !important; }
+
+@keyframes fslightbox-fade-out-complete {
+  from {
+    opacity: 1; }
+  to {
     opacity: 0; } }
 
 .fslightbox-container {
@@ -104,6 +118,7 @@
   right: 0;
   width: 100%;
   height: 100%;
+  opacity: 0;
   background: #1e1e1e;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   font-family: "Montserrat", sans-serif;
@@ -141,9 +156,7 @@
     padding-top: .15rem;
     font-size: 12px; }
 
-.fslightbox-svg-icon path,
-.fslightbox-svg-icon polygon,
-.fslightbox-svg-icon rect {
+.fslightbox-svg-icon path {
   fill: #ddd; }
 
 .fslightbox-svg-icon circle {
@@ -160,9 +173,7 @@
   z-index: 1;
   transform: translateY(-50%); }
 
-.fslightbox-slide-btn-container:hover .fslightbox-svg-icon path,
-.fslightbox-slide-btn-container:hover .fslightbox-svg-icon polygon,
-.fslightbox-slide-btn-container:hover .fslightbox-svg-icon rect {
+.fslightbox-slide-btn-container:hover .fslightbox-svg-icon path {
   fill: #f1f1f1; }
 
 .fslightbox-slide-btn {
@@ -216,15 +227,11 @@
 .fslightbox-cursor-grabbing {
   cursor: grabbing; }
 
-.button-style:hover .fslightbox-svg-icon path,
-.button-style:hover .fslightbox-svg-icon polygon,
-.button-style:hover .fslightbox-svg-icon rect {
+.button-style:hover .fslightbox-svg-icon path {
   fill: #fff; }
 
 .fslightbox-fade-in-window {
-  -webkit-animation: fade-in .1s linear;
-  -o-animation: fade-in .1s linear;
-  animation: fade-in .1s linear; }
+  animation: fade-in .5s forwards; }
 
 .fslightbox-container-fadeout {
   opacity: 0;

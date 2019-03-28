@@ -1,34 +1,17 @@
-module.exports = function (self, typeOfLoad, slide) {
+module.exports = function (fsLightbox, typeOfLoad, slide) {
 
-    const DOMObject = require('./DOMObject');
+    const DOMObject = require('./Components/DOMObject');
 
-    const sourcesIndexes = self.getSourcesIndexes.all(slide);
-    const urls = self.data.urls;
-    const sources = self.data.sources;
+    const sourcesIndexes = fsLightbox.stageSourceIndexes.all(slide);
+    const urls = fsLightbox.data.urls;
+    const sources = fsLightbox.data.sources;
 
-    let sourceDimensions = function (sourceElem, sourceWidth, sourceHeight) {
-
-        const coefficient = sourceWidth / sourceHeight;
-        const deviceWidth = parseInt(self.data.mediaHolder.holder.style.width);
-        const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
-        let newHeight = deviceWidth / coefficient;
-        if (newHeight < deviceHeight - 60) {
-            sourceElem.style.height = newHeight + "px";
-            sourceElem.style.width = deviceWidth + "px";
-        } else {
-            newHeight = deviceHeight - 60;
-            sourceElem.style.height = newHeight + "px";
-            sourceElem.style.width = newHeight * coefficient + "px";
-        }
-    };
 
     const append = function (sourceHolder, sourceElem) {
         sourceHolder.innerHTML = '';
         sourceHolder.appendChild(sourceElem);
         void sourceHolder.firstChild.offsetWidth;
-        sourceHolder.firstChild.classList.add('fslightbox-fade-in-animation');
     };
-
 
     let onloadListener = function (sourceElem, sourceWidth, sourceHeight, arrayIndex) {
 
@@ -36,15 +19,13 @@ module.exports = function (self, typeOfLoad, slide) {
 
         //normal source dimensions needs to be stored in array
         //it will be needed when resizing a source
-        self.data.rememberedSourcesDimensions[arrayIndex] = {
+        fsLightbox.data.rememberedSourcesDimensions[arrayIndex] = {
             "width": sourceWidth,
             "height": sourceHeight
         };
-
-        // set dimensions for the 1st time
-        sourceDimensions(sourceElem, sourceWidth, sourceHeight);
         sourceHolder.appendChild(sourceElem);
         append(sources[arrayIndex], sourceElem);
+        fsLightbox.onResizeEvent.scaleSource(arrayIndex);
     };
 
 
@@ -53,7 +34,7 @@ module.exports = function (self, typeOfLoad, slide) {
         iframe.src = '//www.youtube.com/embed/' + videoId + '?enablejsapi=1';
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
-        self.data.mediaHolder.holder.appendChild(iframe);
+        fsLightbox.mediaHolder.appendChild(iframe);
         onloadListener(iframe, 1920, 1080, arrayIndex);
     };
 
@@ -71,8 +52,8 @@ module.exports = function (self, typeOfLoad, slide) {
         let videoLoaded = false;
         let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
         let source = new DOMObject('source').elem;
-        if(self.data.videosPosters[arrayIndex]) {
-            videoElem.poster = self.data.videosPosters[arrayIndex];
+        if(fsLightbox.data.videosPosters[arrayIndex]) {
+            videoElem.poster = fsLightbox.data.videosPosters[arrayIndex];
             videoElem.style.objectFit = 'cover';
         }
         source.src = src;
@@ -137,7 +118,7 @@ module.exports = function (self, typeOfLoad, slide) {
 
     this.createSourceElem = function (urlIndex) {
         const parser = document.createElement('a');
-        const sourceUrl = self.data.urls[urlIndex];
+        const sourceUrl = fsLightbox.data.urls[urlIndex];
 
         parser.href = sourceUrl;
 
@@ -153,7 +134,7 @@ module.exports = function (self, typeOfLoad, slide) {
         }
 
         if (parser.hostname === 'www.youtube.com') {
-            self.data.videos[urlIndex] = false;
+            fsLightbox.data.videos[urlIndex] = false;
             loadYoutubevideo(getId(sourceUrl), urlIndex);
         } else {
             const xhr = new XMLHttpRequest();
@@ -171,7 +152,7 @@ module.exports = function (self, typeOfLoad, slide) {
 
                         else if (dataType === 'video') {
                             videoLoad(urls[urlIndex], urlIndex, responseType);
-                            self.data.videos[urlIndex] = true;
+                            fsLightbox.data.videos[urlIndex] = true;
                         }
 
                         else {
@@ -193,7 +174,7 @@ module.exports = function (self, typeOfLoad, slide) {
 
     if (typeOfLoad === 'initial') {
         //append loader when loading initially
-        self.appendMethods.renderHolderInitial(slide, DOMObject);
+        fsLightbox.appendMethods.renderHolderInitial(slide, DOMObject);
 
         if (urls.length >= 1) {
             this.createSourceElem(sourcesIndexes.current);
@@ -208,7 +189,7 @@ module.exports = function (self, typeOfLoad, slide) {
         }
     } else {
         // append loader when loading a next source
-        self.appendMethods.renderHolder(slide, typeOfLoad);
+        fsLightbox.appendMethods.renderHolder(slide, typeOfLoad);
 
         switch (typeOfLoad) {
             case 'previous':
