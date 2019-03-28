@@ -1,6 +1,6 @@
 # Fullscreen Lightbox Basic
 
-## Version - 1.5.0
+## Version - 1.6.0
 
 ## Description
 Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
