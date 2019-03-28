@@ -107,7 +107,7 @@ h1 {
 .fslightbox-fade-in {
   opacity: 1 !important; }
 
-.fslightbox-fade-in-animation {
+.fslightbox-fade-in {
   -webkit-animation: fade-in .25s linear;
   -o-animation: fade-in .25s linear;
   animation: fade-in .25s linear; }
@@ -118,7 +118,7 @@ h1 {
   100% {
     opacity: 1; } }
 
-.fslightbox-fade-out-animation {
+.fslightbox-fade-out {
   -webkit-animation: fslightbox-fade-out-anim .25s linear;
   -o-animation: fslightbox-fade-out-anim .25s linear;
   animation: fslightbox-fade-out-anim .25s linear; }

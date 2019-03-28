@@ -13,7 +13,7 @@ gulp.task('reload', function () {
     browserSync.reload();
 });
 
-gulp.task('serve', function () {
+gulp.task('start', function () {
 
     browserSync({
         server: 'src'
@@ -26,7 +26,7 @@ gulp.task('serve', function () {
 
 
 gulp.task('sass', function () {
-    return gulp.src('src/scss/root.scss')
+    return gulp.src('src/scss/FsLightbox.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('src/css'))
         .pipe(browserSync.reload({stream: true}));
@@ -34,7 +34,7 @@ gulp.task('sass', function () {
 
 
 gulp.task('build-css',function () {
-   return  gulp.src('src/scss/app.scss')
+   return  gulp.src('src/scss/FsLightbox.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCSS())
         .pipe(rename('fslightbox.min.css'))
@@ -86,6 +86,6 @@ gulp.task('js', function () {
         .pipe(gulp.dest('src'))
 });
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['start']);
 gulp.task('build', ['build-css', 'build-js', 'clone-css', 'clone-js']);
 

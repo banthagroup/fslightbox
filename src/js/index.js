@@ -1,11 +1,9 @@
-window.fsLightboxObject = function () {
-
-    const DOMObject = require('./DOMObject');
-    this.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container']);
+window.fsLightboxClass = function () {
+    const DOMObject = require('./Components/DOMObject');
 
     this.data = {
         slide: 1,
-        total_slides: 1,
+        totalSlides: 1,
         slideDistance: 1.3,
         slideCounter: true,
         slideButtons: true,
@@ -17,8 +15,8 @@ window.fsLightboxObject = function () {
         },
 
         name: '',
-
-        isMobile: false,
+        recompenseClassName: '',
+        scrollbarWidth: 0,
 
         urls: [],
         sources: [],
@@ -36,50 +34,46 @@ window.fsLightboxObject = function () {
         initiated: false,
         fullscreen: false,
         fadingOut: false,
-
-        onResizeEvent: {},
     };
 
-
-    const self = this;
-
+    const _this = this;
 
     /**
      * Init a new fsLightbox instance
      */
     this.init = function (initHref) {
-
-        if (self.data.initiated) {
-            self.initSetSlide(initHref);
-            self.show();
+        if (this.data.initiated) {
+            this.initSetSlide(initHref);
+            this.show();
             return;
         }
-
-        self.checkIfMobile();
-        self.data.onResizeEvent = new onResizeEvent();
-        let gallery = self.data.name;
+        let gallery = this.data.name;
 
         let urls = [];
         const a = fsLightboxHelpers.a;
         for (let i = 0; i < a.length; i++) {
-            if (!a[i].hasAttribute('fslightbox-gallery'))
+            if (!a[i].hasAttribute('data-fslightbox'))
                 continue;
 
-            if (a[i].getAttribute('fslightbox-gallery') === gallery) {
+            if (a[i].getAttribute('data-fslightbox') === gallery) {
                 let urlsLength = urls.push(a[i].getAttribute('href'));
-                if (a[i].hasAttribute('fslightbox-video-poster'))
-                    self.data.videosPosters[urlsLength - 1] = a[i].getAttribute('fslightbox-video-poster');
+                if (a[i].hasAttribute('data-video-poster'))
+                    this.data.videosPosters[urlsLength - 1] = a[i].getAttribute('data-video-poster');
             }
         }
-        self.data.urls = urls;
-        self.data.total_slides = urls.length;
-        new self.dom();
-        self.throwEvent('init');
-        self.throwEvent('open');
-        require('./changeSlideByDragging.js')(self, DOMObject);
 
-        self.initSetSlide(initHref);
-        self.data.initiated = true;
+        this.data.urls = urls;
+        this.data.totalSlides = urls.length;
+        domRenderer.renderDOM();
+        document.documentElement.classList.add('fslightbox-open');
+        this.scrollbarRecompensor.addRecompense();
+        this.onResizeEvent.init();
+        this.throwEvent('init');
+        this.throwEvent('open');
+        require('./Core/SlideSwiping.js')(this);
+        this.initSetSlide(initHref);
+        this.data.initiated = true;
+        this.element.classList.add('fslightbox-open');
     };
 
 
@@ -88,18 +82,16 @@ window.fsLightboxObject = function () {
      * @param slide
      */
     this.initSetSlide = function (slide) {
-
         const type = typeof slide;
-
         switch (type) {
             case "string":
-                self.setSlide(self.data.urls.indexOf(slide) + 1);
+                this.setSlide(this.data.urls.indexOf(slide) + 1);
                 break;
             case "number":
-                self.setSlide(slide);
+                this.setSlide(slide);
                 break;
             case "undefined":
-                self.setSlide(1);
+                this.setSlide(1);
                 break;
         }
     };
@@ -109,14 +101,16 @@ window.fsLightboxObject = function () {
      * Show dom of fsLightbox instance if exists
      */
     this.show = function () {
-        const elem = self.element;
-        self.scrollbarMethods.showScrollbar();
-        elem.classList.remove('fslightbox-container-fadeout');
+        const elem = this.element;
+        this.scrollbarRecompensor.addRecompense();
+        elem.classList.remove('fslightbox-fade-out-complete');
+        document.documentElement.classList.add('fslightbox-open');
+        void elem.offsetWidth;
+        elem.classList.add('fslightbox-fade-in-complete');
         document.body.appendChild(elem);
-        self.throwEvent('show');
-        self.throwEvent('open');
-        elem.classList.remove('fslightbox-fade-in-window');
-        elem.classList.add('fslightbox-fade-in-window');
+        this.onResizeEvent.addListener();
+        this.throwEvent('show');
+        this.throwEvent('open');
     };
 
 
@@ -124,29 +118,25 @@ window.fsLightboxObject = function () {
      * Hide dom of existing fsLightbox instance
      */
     this.hide = function () {
-        if (self.data.fullscreen) self.toolbar.closeFullscreen();
-        self.element.classList.add('fslightbox-container-fadeout');
-        self.data.fadingOut = true;
-        self.throwEvent('close');
+        if (this.data.fullscreen) this.toolbar.closeFullscreen();
+        this.element.classList.add('fslightbox-fade-out-complete');
+        this.data.fadingOut = true;
+        this.throwEvent('close');
+        this.onResizeEvent.removeListener();
         setTimeout(function () {
-            self.scrollbarMethods.hideScrollbar();
-            self.data.fadingOut = false;
-            document.body.removeChild(self.element);
+            _this.scrollbarRecompensor.removeRecompense();
+            document.documentElement.classList.remove('fslightbox-open');
+            _this.data.fadingOut = false;
+            document.body.removeChild(_this.element);
         }, 250);
     };
 
-    /**
-     * Render all library elements
-     * @constructor
-     */
-    this.dom = function () {
-        require('./renderDOM.js')(self);
+    this.updateSlideNumber = function (number) {
+        this.data.slide = number;
+        if (this.data.totalSlides > 1)
+            this.data.slideCounterElem.innerHTML = number;
     };
 
-
-    /**
-     * Create event and dispatch it to self.element
-     */
     this.throwEvent = function (eventName) {
         let event;
         if (typeof (Event) === 'function') {
@@ -155,249 +145,32 @@ window.fsLightboxObject = function () {
             event = document.createEvent('Event');
             event.initEvent(eventName, true, true);
         }
-        self.element.dispatchEvent(event);
+        this.element.dispatchEvent(event);
     };
 
-
-    this.checkIfMobile = function () {
-        (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ?
-            self.data.isMobile = true:
-            self.data.isMobile = false;
-    };
-
-
-    /**
-     * Object that contains all actions that fslightbox is doing during running
-     * @constructor
-     */
-    function onResizeEvent() {
-        let _this = this;
-
-        const sources = self.data.sources;
-
-        const transforms = function () {
-
-            const sources = self.data.sources;
-            const stageSources = self.getSourcesIndexes.all(self.data.slide);
-
-            for (let sourceIndex in sources) {
-                if (parseInt(sourceIndex) === stageSources.previous
-                    || parseInt(sourceIndex) === stageSources.current
-                    || parseInt(sourceIndex) === stageSources.next) {
-                    continue;
-                }
-                sources[sourceIndex].classList.remove('fslightbox-transform-transition');
-                self.transforms.transformMinus(sources[sourceIndex]);
-            }
-        };
-
-
-        this.mediaHolderDimensions = function () {
-            const mediaHolderStyle= self.data.mediaHolder.holder.style;
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-
-            if (windowWidth > 1000) {
-                mediaHolderStyle.width = (windowWidth - 0.1 * windowWidth) + 'px';
-                mediaHolderStyle.height = (windowHeight - 0.1 * windowHeight) + 'px';
-            } else {
-                mediaHolderStyle.width = windowWidth + 'px';
-                mediaHolderStyle.height = windowHeight + 'px';
-            }
-        };
-
-        const sourcesDimensions = function () {
-
-            const stageSourcesIndexes = self.getSourcesIndexes.all(self.data.slide);
-            const rememberedSourceDimension = self.data.rememberedSourcesDimensions;
-
-
-            for (let sourceIndex in sources) {
-
-                // add tranforms to stage sources
-                if (self.data.urls.length > 2) {
-                    self.transforms.transformMinus(sources[stageSourcesIndexes.previous]);
-                }
-                self.transforms.transformNull(sources[stageSourcesIndexes.current]);
-                if (self.data.urls.length > 1) {
-                    self.transforms.transformPlus(sources[stageSourcesIndexes.next]);
-                }
-
-                const elem = sources[sourceIndex].firstChild;
-
-
-                let sourceWidth = rememberedSourceDimension[sourceIndex].width;
-                let sourceHeight = rememberedSourceDimension[sourceIndex].height;
-
-                const coefficient = sourceWidth / sourceHeight;
-                const deviceWidth = parseInt(self.data.mediaHolder.holder.style.width);
-                const deviceHeight = parseInt(self.data.mediaHolder.holder.style.height);
-                let newHeight = deviceWidth / coefficient;
-                if (newHeight < deviceHeight - 60) {
-                    elem.style.height = newHeight + "px";
-                    elem.style.width = deviceWidth + "px";
-                } else {
-                    newHeight = deviceHeight - 60;
-                    elem.style.height = newHeight + "px";
-                    elem.style.width = newHeight * coefficient + "px";
-                }
-            }
-        };
-
-        window.addEventListener('resize', function () {
-            self.checkIfMobile();
-            _this.mediaHolderDimensions();
-            sourcesDimensions();
-            transforms();
-        });
-    }
-
+    this.element = new DOMObject('div').addClassesAndCreate(['fslightbox-container', 'fslightbox-full-dimension']);
+    this.mediaHolder = new (require('./Components/MediaHolder'));
+    const domRenderer = new (require('./Core/DomRenderer'))(this);
+    this.stageSourceIndexes = new (require('./Core/StageSourcesIndexes'))(this.data);
+    new (require('./Core/ScrollbarWidthGetter'))(this.data).getWidth();
+    this.onResizeEvent = new (require('./onResizeEvent'))(this);
+    this.scrollbarRecompensor = new (require('./Core/ScrollbarRecompensor'))(this.data.scrollbarWidth);
+    this.slideTransformer = new (require('./Core/SlideTransformer'))(this.data.slideDistance);
+    this.toolbar = new (require('./Components/Toolbar'))(this);
+    this.SVGIcon = require('./Components/SVGIcon');
+    this.appendMethods = new (require('./appendMethods'))(this);
 
     /**
-     * Contains methods that takes care of scrollbarMethods
-     * @type {{hideScrollbar: Window.scrollbarMethods.hideScrollbar, showScrollbar: Window.scrollbarMethods.showScrollbar}}
-     */
-    this.scrollbarMethods = new(require('./scrollbarMethods'))(self);
-
-
-    /**
-     * SVGIcon object with getSVGIcon method which return <svg> element with <path> child
-     * @returns {Element}
-     * @constructor
-     */
-    this.SVGIcon = function () {
-        //  <svg> with added 'fslightbox-svg-icon' class
-        this.svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
-
-        // child of svg empty <path>
-        this.path = document.createElementNS('http://www.w3.org/2000/svg', "path");
-        this.svg.setAttributeNS(null, 'class', 'fslightbox-svg-icon');
-        this.svg.setAttributeNS(null, 'viewBox', '0 0 15 15');
-
-        /**
-         * Returns DOM <svg> icon containing <path> child with d attribute from parameter
-         * @param d
-         * @returns {*}
-         */
-        this.getSVGIcon = function (viewBox, dimension, d) {
-            this.path.setAttributeNS(null, 'd', d);
-            this.svg.setAttributeNS(null, 'viewBox', viewBox);
-            this.svg.setAttributeNS(null, 'width', dimension);
-            this.svg.setAttributeNS(null, 'height', dimension);
-            this.svg.appendChild(this.path);
-            return this.svg;
-        }
-    };
-
-    /**
-     * Toolbar object which contains toolbar buttons
-     * @constructor
-     */
-    let toolbarModule = require('./toolbar');
-    this.toolbar = new toolbarModule(self);
-
-
-    /**
-     * Div that holds source elem
-     */
-    this.mediaHolder = function () {
-        this.holder = new DOMObject('div').addClassesAndCreate(['fslightbox-media-holder']);
-
-        if (window.innerWidth > 1000) {
-            this.holder.style.width = (window.innerWidth - 0.1 * window.innerWidth) + 'px';
-            this.holder.style.height = (window.innerHeight - 0.1 * window.innerHeight) + 'px';
-        } else {
-            this.holder.style.width = window.innerWidth + 'px';
-            this.holder.style.height = window.innerHeight + 'px';
-        }
-
-        this.renderHolder = function (container) {
-            container.appendChild(this.holder);
-        };
-    };
-
-
-    /**
-     * Return object with stage sources indexes depending on provided slide
+     * Display source (images, HTML5 video, YouTube video) depending on given url from user
+     * Or if display is initial display 3 initial sources
+     * If there are >= 3 initial sources there will be always 3 in stage
+     * @param typeOfLoad
      * @param slide
+     * @returns {module.exports}
      */
-    this.getSourcesIndexes = {
-
-        previous: function (slide) {
-            let previousSlideIndex;
-            const arrayIndex = slide - 1;
-
-            // previous
-            if (arrayIndex === 0) {
-                previousSlideIndex = self.data.total_slides - 1;
-            } else {
-                previousSlideIndex = arrayIndex - 1;
-            }
-
-            return previousSlideIndex;
-        },
-
-
-        next: function (slide) {
-
-            let nextSlideIndex;
-            const arrayIndex = slide - 1;
-
-            //next
-            if (slide === self.data.total_slides) {
-                nextSlideIndex = 0;
-            } else {
-                nextSlideIndex = arrayIndex + 1;
-            }
-
-            return nextSlideIndex;
-        },
-
-
-        all: function (slide) {
-            // sources are stored in array indexed from 0
-            const arrayIndex = slide - 1;
-            const sourcesIndexes = {
-                previous: 0,
-                current: 0,
-                next: 0
-            };
-
-            // previous
-            if (arrayIndex === 0) {
-                sourcesIndexes.previous = self.data.total_slides - 1;
-            } else {
-                sourcesIndexes.previous = arrayIndex - 1;
-            }
-
-            // current
-            sourcesIndexes.current = arrayIndex;
-
-            //next
-            if (slide === self.data.total_slides) {
-                sourcesIndexes.next = 0;
-            } else {
-                sourcesIndexes.next = arrayIndex + 1;
-            }
-
-            return sourcesIndexes;
-        },
-    };
-
-
-    this.transforms = {
-
-        transformMinus: function (elem) {
-            elem.style.transform = 'translate(' + (-self.data.slideDistance * window.innerWidth) + 'px,0)';
-        },
-
-        transformNull: function (elem) {
-            elem.style.transform = 'translate(0,0)';
-        },
-
-        transformPlus: function (elem) {
-            elem.style.transform = 'translate(' + self.data.slideDistance * window.innerWidth + 'px,0)';
-        }
+    this.loadsources = function (typeOfLoad, slide) {
+        const loadsourcemodule = require("./loadSource.js");
+        return new loadsourcemodule(this, typeOfLoad, slide);
     };
 
 
@@ -405,13 +178,11 @@ window.fsLightboxObject = function () {
      * Stop videos after changing slide
      */
     this.stopVideos = function () {
-
-        const videos = self.data.videos;
-        const sources = self.data.sources;
+        const videos = this.data.videos;
+        const sources = this.data.sources;
 
         // true is html5 video, false is youtube video
         for (let videoIndex in videos) {
-
             if (videos[videoIndex] === true) {
                 if (typeof sources[videoIndex].firstChild.pause !== "undefined") {
                     sources[videoIndex].firstChild.pause();
@@ -424,25 +195,24 @@ window.fsLightboxObject = function () {
 
 
     this.setSlide = function (slide) {
-
-        self.data.slide = slide;
-        self.data.updateSlideNumber(slide);
-        const sourcesIndexes = self.getSourcesIndexes.all(slide);
-        const sources = self.data.sources;
+        this.data.slide = slide;
+        this.updateSlideNumber(slide);
+        const sourcesIndexes = this.stageSourceIndexes.all(slide);
+        const sources = this.data.sources;
 
         if (sources.length === 0) {
-            self.loadsources('initial', slide);
+            this.loadsources('initial', slide);
         } else {
             if (typeof sources[sourcesIndexes.previous] === "undefined")
-                self.loadsources('previous', slide);
+                this.loadsources('previous', slide);
 
 
             if (typeof sources[sourcesIndexes.current] === "undefined")
-                self.loadsources('current', slide);
+                this.loadsources('current', slide);
 
 
             if (typeof sources[sourcesIndexes.next] === "undefined")
-                self.loadsources('next', slide);
+                this.loadsources('next', slide);
         }
 
         for (let sourceIndex in sources) {
@@ -451,41 +221,20 @@ window.fsLightboxObject = function () {
             // sources length needs to be higher than 1 because if there is only 1 slide
             // sourcesIndexes.previous will be 0 so it would return a bad transition
             if (sourceIndex == sourcesIndexes.previous && sources.length > 1) {
-                self.transforms.transformMinus(sources[sourcesIndexes.previous]);
+                this.slideTransformer.minus(sources[sourcesIndexes.previous]);
                 continue;
             }
             if (sourceIndex == sourcesIndexes.current) {
-                self.transforms.transformNull(sources[sourcesIndexes.current]);
+                this.slideTransformer.zero(sources[sourcesIndexes.current]);
                 continue;
             }
             if (sourceIndex == sourcesIndexes.next) {
-                self.transforms.transformPlus(sources[sourcesIndexes.next]);
+                this.slideTransformer.plus(sources[sourcesIndexes.next]);
                 continue;
             }
 
-            self.transforms.transformMinus(sources[sourceIndex]);
+            this.slideTransformer.minus(sources[sourceIndex]);
         }
-    };
-
-
-    /**
-     * Methods that appends sources to mediaHolder depending on action
-     * @type {{initialAppend, previousAppend, nextAppend}|*}
-     */
-    this.appendMethods = new (require('./appendMethods'))(self);
-
-
-    /**
-     * Display source (images, HTML5 video, YouTube video) depending on given url from user
-     * Or if display is initial display 3 initial sources
-     * If there are >= 3 initial sources there will be always 3 in stage
-     * @param typeOfLoad
-     * @param slide
-     * @returns {module.exports}
-     */
-    this.loadsources = function (typeOfLoad, slide) {
-        const loadsourcemodule = require("./loadSource.js");
-        return new loadsourcemodule(self, typeOfLoad, slide);
     };
 };
 
@@ -496,32 +245,32 @@ window.fsLightboxObject = function () {
         "a": document.getElementsByTagName('a')
     };
 
-    let a = fsLightboxHelpers.a;
+    let a = window.fsLightboxHelpers.a;
 
     for (let i = 0; i < a.length; i++) {
 
-        if (!a[i].hasAttribute('fslightbox-gallery')) {
+        if (!a[i].hasAttribute('data-fslightbox')) {
             continue;
         }
 
-        const boxName = a[i].getAttribute('fslightbox-gallery');
-        if (typeof fsLightboxInstances[boxName] === "undefined") {
-            fsLightbox = new fsLightboxObject();
-            fsLightbox.data.name = boxName;
-            fsLightboxInstances[boxName] = fsLightbox;
+        const boxName = a[i].getAttribute('data-fslightbox');
+        if (typeof window.fsLightboxInstances[boxName] === "undefined") {
+            window.fsLightbox = new window.fsLightboxClass();
+            window.fsLightbox.data.name = boxName;
+            window.fsLightboxInstances[boxName] = window.fsLightbox;
         }
 
         a[i].addEventListener('click', function (e) {
             e.preventDefault();
-            let gallery = this.getAttribute('fslightbox-gallery');
-            if (fsLightboxInstances[gallery].data.initiated) {
-                fsLightboxInstances[gallery].setSlide(
-                    fsLightboxInstances[gallery].data.urls.indexOf(this.getAttribute('href')) + 1
+            let gallery = this.getAttribute('data-fslightbox');
+            if (window.fsLightboxInstances[gallery].data.initiated) {
+                window.fsLightboxInstances[gallery].setSlide(
+                    window.fsLightboxInstances[gallery].data.urls.indexOf(this.getAttribute('href')) + 1
                 );
-                fsLightboxInstances[gallery].show();
+                window.fsLightboxInstances[gallery].show();
                 return;
             }
-            fsLightboxInstances[gallery].init(this.getAttribute('href'));
+            window.fsLightboxInstances[gallery].init(this.getAttribute('href'));
         });
     }
 }(document, window);

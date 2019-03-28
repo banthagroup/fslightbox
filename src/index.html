@@ -7,46 +7,58 @@
     <title>FsLightbox</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="./css/root.css">
+    <link rel="stylesheet" href="./css/FsLightbox.css">
     <link rel="icon" href="images/icon.png">
 
 </head>
 <body>
+<div class="recompense-for-scrollbar"></div>
+<div class="recompense-for-scrollbar"></div>
 <div id="app">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .image {
+            max-width: 80%;
+            max-height: 80%;
+        }
+    </style>
     <h1 style="font-size: 20px;">FsLightbox</h1>
 
     <div class="images" id="images">
         <button onclick="fsLightbox.init()">init</button>
-        <a fslightbox-gallery="4" fslightbox-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">
-                <img class="image" src="images/2.jpg">
-        </a>
-
-        <a fslightbox-gallery="3" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">
+        <a data-fslightbox="4" data-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">
             <img class="image" src="images/2.jpg">
         </a>
 
-        <a fslightbox-gallery="2" href="images/2.jpg">
+        <a data-fslightbox="3" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4">
+            <img class="image" src="images/2.jpg">
+        </a>
+
+        <a data-fslightbox="2" href="images/2.jpg">
             <img class="image" src="images/3.jpeg">
         </a>
 
-        <a fslightbox-gallery="1" href="images/4.jpeg">
+        <a data-fslightbox="1" href="images/4.jpeg">
             <img class="image" src="images/4.jpeg">
         </a>
 
-        <a fslightbox-gallery="1" href="images/5.jpg">
+        <a data-fslightbox="1" href="images/5.jpg">
             <img class="image" src="images/5.jpg">
         </a>
 
-        <a fslightbox-gallery="1" href="images/6.jpg">
+        <a data-fslightbox="1" href="images/6.jpg">
             <img class="image" src="images/6.jpg">
         </a>
 
-        <a fslightbox-gallery="1" fslightbox-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        <a data-fslightbox="1" data-video-poster="images/2.jpg" href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
             <img class="image" src="images/7.jpg">
         </a>
     </div>
 
-    <!--<div class="fixed recompense-for-scrollbarMethods" style="width: 100%; height: 100px; background:#fff; position: fixed; top: 0;left: 0;">-->
+    <!--<div class="fixed recompense-for-scrollbarRecompensor" style="width: 100%; height: 100px; background:#fff; position: fixed; top: 0;left: 0;">-->
         <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget fermentum est. Vivamus a ornare ex, eu mollis augue. Nullam mattis nisl sit amet magna ultricies ultrices. Mauris laoreet auctor nisl, id sollicitudin erat suscipit eget. Cras est erat, aliquam a ornare nec, facilisis in nulla. Donec accumsan metus a urna fringilla tristique id quis dolor. Praesent ac ligula vel mi eleifend elementum vitae non tellus. Aliquam vitae finibus nisi. Duis tincidunt quam sit amet dui posuere feugiat. Aliquam sed risus tempor, vehicula arcu vel, ullamcorper magna. Pellentesque sodales urna in pharetra porta. In quis pharetra ligula. Maecenas efficitur, nisi eu porttitor viverra, urna eros pretium sapien, ac porta ipsum mi sit amet quam.-->
     <!--</div>-->
 </div>
