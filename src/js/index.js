@@ -15,7 +15,6 @@ window.fsLightboxClass = function () {
         },
 
         name: '',
-        recompenseClassName: '',
         scrollbarWidth: 0,
 
         urls: [],
