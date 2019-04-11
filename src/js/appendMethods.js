@@ -23,10 +23,7 @@ module.exports = function (fsLightbox) {
     };
 
     const runFadeOutAnimationOnSource = function (elem) {
-        const src = elem.firstChild;
-        src.style.animation = '';
-        void src.offsetWidth;
-        src.classList.add(fadeOut);
+        elem.firstChild.classList.add(fadeOut);
     };
 
     /**

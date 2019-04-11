@@ -39,8 +39,6 @@ module.exports = function (self) {
         if (self.element.contains(invisibleHover)) {
             self.element.removeChild(invisibleHover);
         }
-        let sourcesIndexes = self.stageSourceIndexes.all(self.data.slide);
-
         for (let elem in elements) {
             elements[elem].classList.remove('fslightbox-cursor-grabbing');
         }
@@ -52,11 +50,12 @@ module.exports = function (self) {
             return;
         }
 
-        //we can slide only if previous animation has finished
+        // we can slide only if previous animation has finished
         if (!slideAble) {
             return;
         }
         slideAble = false;
+        let sourcesIndexes = self.stageSourceIndexes.all(self.data.slide);
 
         // add transition if user slide to source
         sources[sourcesIndexes.previous].classList.add('fslightbox-transform-transition');
