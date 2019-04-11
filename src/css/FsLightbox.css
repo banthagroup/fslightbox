@@ -1,12 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400");
 .fslightbox-container {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
   opacity: 0;
   position: fixed;
   top: 0;
   left: 0;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   z-index: 9999999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   animation: fslightbox-fade-in-complete .25s forwards; }
@@ -70,6 +73,11 @@
   transition: fill .15s ease;
   fill: #ddd; }
 
+.fslightbox-svg-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 .fslightbox-media-holder {
   position: absolute;
   z-index: 2;
@@ -89,12 +97,14 @@
   font-size: 14px;
   color: #d7d7d7;
   z-index: 0;
-  max-width: 46px; }
+  max-width: 55px; }
   .fslightbox-slide-number-container div {
-    padding: 0 2px; }
+    padding: 0 1px; }
 
 .fslightbox-slash {
-  padding-top: .15rem; }
+  font-size: 16px;
+  margin-top: -2px;
+  padding: 0 2px 0 3px !important; }
 
 .fslightbox-toolbar {
   position: absolute;

@@ -3,13 +3,15 @@
   font-size: 14px;
   color: #d7d7d7;
   z-index: 0;
-  max-width: 46px;
+  max-width: 55px;
 
   div {
-    padding: 0 2px;
+    padding: 0 1px;
   }
 }
 
 .fslightbox-slash {
-  padding-top: .15rem;
+  font-size: 16px;
+  margin-top: -2px;
+  padding: 0 2px 0 3px !important;
 }
