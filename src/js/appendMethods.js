@@ -118,7 +118,8 @@ module.exports = function (fsLightbox) {
 
         fsLightbox.slideTransformer.zero(currentSource);
         setTimeout(function () {
-            fsLightbox.slideTransformer.plus(nextSource);
+            if (newSourcesIndexes.next !== fsLightbox.data.slide - 1)
+                fsLightbox.slideTransformer.plus(nextSource);
             nextSource.firstChild.classList.remove(fadeOut);
         }, 220);
     };
@@ -151,7 +152,8 @@ module.exports = function (fsLightbox) {
         fsLightbox.slideTransformer.zero(currentSource);
 
         setTimeout(function () {
-            fsLightbox.slideTransformer.minus(previousSource);
+            if (newSourcesIndexes.previous !== fsLightbox.data.slide - 1)
+                fsLightbox.slideTransformer.minus(previousSource);
             previousSource.firstChild.classList.remove(fadeOut);
         }, 220);
     };

@@ -109,7 +109,8 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
     };
 
     const invalidFile = function (arrayIndex) {
-        let invalidFileWrapper = new DOMObject('div').addClassesAndCreate(['fslightbox-invalid-file-wrapper']);
+        let invalidFileWrapper = new DOMObject('div')
+            .addClassesAndCreate(['fslightbox-invalid-file-wrapper', 'fslightbox-flex-centered']);
         invalidFileWrapper.innerHTML = 'Invalid file';
 
         onloadListener(invalidFileWrapper, window.innerWidth, window.innerHeight, arrayIndex);
