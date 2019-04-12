@@ -44,7 +44,7 @@ module.exports = function (fsLightbox) {
         fsLightbox.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
         fsLightbox.toolbar.renderToolbar(fsLightbox.data.nav);
 
-        if(fsLightbox.data.totalSlides > 2) {
+        if(fsLightbox.data.totalSlides > 1) {
             const counter = new slideCounter();
             counter.renderSlideCounter(fsLightbox.data.nav);
         }
