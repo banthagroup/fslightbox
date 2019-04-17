@@ -4,8 +4,9 @@ module.exports = function (self) {
 
     //to these elements are added mouse events
     const elements = {
-        "mediaHolder": self.mediaHolder,
-        "invisibleHover": invisibleHover,
+        mediaHolder: self.mediaHolder,
+        invisibleHover: invisibleHover,
+        downEventDetector: self.data.downEventDetector
     };
     //sources are transformed
     const sources = self.data.sources;
@@ -171,11 +172,22 @@ module.exports = function (self) {
         elements[elem].addEventListener('mousedown', mouseDownEvent);
         elements[elem].addEventListener('touchstart', mouseDownEvent, { passive: true });
     }
-    window.addEventListener('mouseup', mouseUpEvent);
-    window.addEventListener('touchend', mouseUpEvent);
+
+    this.addWindowEvents = () => {
+        window.addEventListener('mouseup', mouseUpEvent);
+        window.addEventListener('touchend', mouseUpEvent);
+        window.addEventListener('mousemove', mouseMoveEvent);
+        window.addEventListener('touchmove', mouseMoveEvent, { passive: true });
+    };
+
+    this.removeWindowEvents = () => {
+        window.removeEventListener('mouseup', mouseUpEvent);
+        window.removeEventListener('touchend', mouseUpEvent);
+        window.removeEventListener('mousemove', mouseMoveEvent);
+        window.removeEventListener('touchmove', mouseMoveEvent);
+    };
+
     invisibleHover.addEventListener('mouseup', mouseUpEvent);
     invisibleHover.addEventListener('touchend', mouseUpEvent, { passive: true });
-    window.addEventListener('mousemove', mouseMoveEvent);
-    window.addEventListener('touchmove', mouseMoveEvent, { passive: true });
     self.data.nav.addEventListener('mousedown', preventDefaultEvent);
 };

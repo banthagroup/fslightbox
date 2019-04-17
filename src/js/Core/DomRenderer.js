@@ -12,7 +12,13 @@ module.exports = function (fsLightbox) {
             renderSlideButtons(fsLightbox.element);
         }
         fsLightbox.element.appendChild(fsLightbox.mediaHolder);
+        fsLightbox.element.appendChild(getDownEventDetector());
         fsLightbox.data.isfirstTimeLoad = true;
+    };
+
+    const getDownEventDetector = () => {
+        return fsLightbox.data.downEventDetector = new DOMObject('div')
+            .addClassesAndCreate(['fslightbox-down-event-detector', 'fslightbox-full-dimension']);
     };
 
     const slideCounter = function () {
@@ -44,7 +50,7 @@ module.exports = function (fsLightbox) {
         fsLightbox.data.nav = new DOMObject('div').addClassesAndCreate(['fslightbox-nav']);
         fsLightbox.toolbar.renderToolbar(fsLightbox.data.nav);
 
-        if(fsLightbox.data.totalSlides > 1) {
+        if (fsLightbox.data.totalSlides > 1) {
             const counter = new slideCounter();
             counter.renderSlideCounter(fsLightbox.data.nav);
         }
