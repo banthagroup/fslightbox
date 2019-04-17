@@ -24,11 +24,12 @@ window.fsLightboxClass = function () {
         videos: [],
         videosPosters: [],
 
-        holderWrapper: {},
-        mediaHolder: {},
-        nav: {},
-        toolbar: {},
-        slideCounterElem: {},
+        holderWrapper: null,
+        mediaHolder: null,
+        nav: null,
+        toolbar: null,
+        slideCounterElem: null,
+        downEventDetector: null,
 
         initiated: false,
         fullscreen: false,
@@ -69,7 +70,8 @@ window.fsLightboxClass = function () {
         this.onResizeEvent.init();
         this.throwEvent('init');
         this.throwEvent('open');
-        require('./Core/SlideSwiping.js')(this);
+        this.slideSwiping =  new (require('./Core/SlideSwiping.js'))(this);
+        this.slideSwiping.addWindowEvents();
         this.initSetSlide(initHref);
         this.data.initiated = true;
         this.element.classList.add('fslightbox-open');
@@ -108,6 +110,8 @@ window.fsLightboxClass = function () {
         elem.classList.add('fslightbox-fade-in-complete');
         document.body.appendChild(elem);
         this.onResizeEvent.addListener();
+        this.onResizeEvent.resizeListener();
+        this.slideSwiping.addWindowEvents();
         this.throwEvent('show');
         this.throwEvent('open');
     };
@@ -122,6 +126,7 @@ window.fsLightboxClass = function () {
         this.data.fadingOut = true;
         this.throwEvent('close');
         this.onResizeEvent.removeListener();
+        this.slideSwiping.removeWindowEvents();
         setTimeout(function () {
             _this.scrollbarRecompensor.removeRecompense();
             document.documentElement.classList.remove('fslightbox-open');
@@ -155,6 +160,7 @@ window.fsLightboxClass = function () {
     this.onResizeEvent = new (require('./onResizeEvent'))(this);
     this.scrollbarRecompensor = new (require('./Core/ScrollbarRecompensor'))(this.data.scrollbarWidth);
     this.slideTransformer = new (require('./Core/SlideTransformer'))(this.data.slideDistance);
+    this.slideSwiping = null;
     this.toolbar = new (require('./Components/Toolbar'))(this);
     this.SVGIcon = require('./Components/SVGIcon');
     this.appendMethods = new (require('./appendMethods'))(this);

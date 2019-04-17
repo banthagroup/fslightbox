@@ -86,15 +86,15 @@ module.exports = function (fsLightbox) {
     };
 
     this.addListener = function() {
-        window.addEventListener('resize', resizeListener);
+        window.addEventListener('resize', this.resizeListener);
     };
 
-    const resizeListener = function()  {
+     this.resizeListener = function()  {
         _this.mediaHolderDimensions();
         _this.scaleAndTransformSources();
     };
 
     this.removeListener = function() {
-        window.removeEventListener('resize', resizeListener);
+        window.removeEventListener('resize', this.resizeListener);
     };
 };
