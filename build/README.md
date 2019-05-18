@@ -1,6 +1,6 @@
 # Fullscreen Lightbox Basic
 
-## Version - 1.7.0
+## Version - 2.0.0
 
 ## Description
 Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
@@ -23,3 +23,6 @@ To run gulp server with tasks:
 ````
  gulp
  ````
+ 
+ ## Demo
+ Available at: https://fslightbox.com/javascript
