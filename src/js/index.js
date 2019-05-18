@@ -68,9 +68,10 @@ window.fsLightboxClass = function () {
         document.documentElement.classList.add('fslightbox-open');
         this.scrollbarRecompensor.addRecompense();
         this.onResizeEvent.init();
+        this.eventsControllers.document.keyDown.attachListener();
         this.throwEvent('init');
         this.throwEvent('open');
-        this.slideSwiping =  new (require('./Core/SlideSwiping.js'))(this);
+        this.slideSwiping = new (require('./Core/SlideSwiping.js'))(this);
         this.slideSwiping.addWindowEvents();
         this.initSetSlide(initHref);
         this.data.initiated = true;
@@ -111,6 +112,7 @@ window.fsLightboxClass = function () {
         document.body.appendChild(elem);
         this.onResizeEvent.addListener();
         this.onResizeEvent.resizeListener();
+        this.eventsControllers.document.keyDown.attachListener();
         this.slideSwiping.addWindowEvents();
         this.throwEvent('show');
         this.throwEvent('open');
@@ -127,6 +129,7 @@ window.fsLightboxClass = function () {
         this.throwEvent('close');
         this.onResizeEvent.removeListener();
         this.slideSwiping.removeWindowEvents();
+        this.eventsControllers.document.keyDown.removeListener();
         setTimeout(function () {
             _this.scrollbarRecompensor.removeRecompense();
             document.documentElement.classList.remove('fslightbox-open');
@@ -156,6 +159,7 @@ window.fsLightboxClass = function () {
     this.mediaHolder = new (require('./Components/MediaHolder'));
     const domRenderer = new (require('./Core/DomRenderer'))(this);
     this.stageSourceIndexes = new (require('./Core/StageSourcesIndexes'))(this.data);
+    this.keyboardController = new (require('./Core/KeyboardController'))(this);
     new (require('./Core/ScrollbarWidthGetter'))(this.data).getWidth();
     this.onResizeEvent = new (require('./onResizeEvent'))(this);
     this.scrollbarRecompensor = new (require('./Core/ScrollbarRecompensor'))(this.data.scrollbarWidth);
@@ -164,6 +168,13 @@ window.fsLightboxClass = function () {
     this.toolbar = new (require('./Components/Toolbar'))(this);
     this.SVGIcon = require('./Components/SVGIcon');
     this.appendMethods = new (require('./appendMethods'))(this);
+
+    // events-controllers
+    this.eventsControllers = {
+        document: {
+            keyDown: new (require('./Core/events-controllers/DocumentKeyDownEventController'))(this)
+        }
+    };
 
     /**
      * Display source (images, HTML5 video, YouTube video) depending on given url from user
