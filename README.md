@@ -12,17 +12,9 @@ Technologies:
 - JavaScript
 - SCSS
 ### No jQuery and other dependencies.
+ 
+## Demo
+Available at: https://fslightbox.com/javascript
 
-## Installation
-Clone repository cd to directory and run:
-````
- npm install
- ````
- 
-To run gulp server with tasks:
-````
- gulp
- ````
- 
- ## Demo
- Available at: https://fslightbox.com/javascript
+## Documentation
+Available at: https://fslightbox.com/javascript/documentation
