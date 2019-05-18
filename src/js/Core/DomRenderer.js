@@ -16,7 +16,7 @@ module.exports = function (fsLightbox) {
         fsLightbox.data.isfirstTimeLoad = true;
     };
 
-    const getDownEventDetector = () => {
+    const getDownEventDetector = function () {
         return fsLightbox.data.downEventDetector = new DOMObject('div')
             .addClassesAndCreate(['fslightbox-down-event-detector', 'fslightbox-full-dimension']);
     };
@@ -61,7 +61,7 @@ module.exports = function (fsLightbox) {
     const createBTN = function (buttonContainer, container, d) {
         let btn = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn', 'fslightbox-flex-centered']);
         btn.appendChild(
-            new fsLightbox.SVGIcon().getSVGIcon('0 0 20 20', '1em', d)
+            new fsLightbox.SVGIcon().getSVGIcon('0 0 20 20', '22px', d)
         );
         buttonContainer.appendChild(btn);
         container.appendChild(buttonContainer);
@@ -73,7 +73,7 @@ module.exports = function (fsLightbox) {
         }
         //render left btn
         let left_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-left-container']);
-        createBTN(left_btn_container, container, 'M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z');
+        createBTN(left_btn_container, container, 'M18.271,9.212H3.615l4.184-4.184c0.306-0.306,0.306-0.801,0-1.107c-0.306-0.306-0.801-0.306-1.107,0L1.21,9.403C1.194,9.417,1.174,9.421,1.158,9.437c-0.181,0.181-0.242,0.425-0.209,0.66c0.005,0.038,0.012,0.071,0.022,0.109c0.028,0.098,0.075,0.188,0.142,0.271c0.021,0.026,0.021,0.061,0.045,0.085c0.015,0.016,0.034,0.02,0.05,0.033l5.484,5.483c0.306,0.307,0.801,0.307,1.107,0c0.306-0.305,0.306-0.801,0-1.105l-4.184-4.185h14.656c0.436,0,0.788-0.353,0.788-0.788S18.707,9.212,18.271,9.212z');
 
         //go to previous slide onclick
         left_btn_container.onclick = function () {
@@ -81,7 +81,7 @@ module.exports = function (fsLightbox) {
         };
 
         let right_btn_container = new DOMObject('div').addClassesAndCreate(['fslightbox-slide-btn-container', 'fslightbox-slide-btn-right-container']);
-        createBTN(right_btn_container, container, 'M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z');
+        createBTN(right_btn_container, container, 'M1.729,9.212h14.656l-4.184-4.184c-0.307-0.306-0.307-0.801,0-1.107c0.305-0.306,0.801-0.306,1.106,0l5.481,5.482c0.018,0.014,0.037,0.019,0.053,0.034c0.181,0.181,0.242,0.425,0.209,0.66c-0.004,0.038-0.012,0.071-0.021,0.109c-0.028,0.098-0.075,0.188-0.143,0.271c-0.021,0.026-0.021,0.061-0.045,0.085c-0.015,0.016-0.034,0.02-0.051,0.033l-5.483,5.483c-0.306,0.307-0.802,0.307-1.106,0c-0.307-0.305-0.307-0.801,0-1.105l4.184-4.185H1.729c-0.436,0-0.788-0.353-0.788-0.788S1.293,9.212,1.729,9.212z');
         // go to next slide on click
         right_btn_container.onclick = function () {
             fsLightbox.appendMethods.nextSlideViaButton(fsLightbox.data.slide);

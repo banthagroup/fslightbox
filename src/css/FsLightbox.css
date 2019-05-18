@@ -142,13 +142,13 @@
   fill: #f1f1f1; }
 
 .fslightbox-slide-btn {
-  padding: 7px;
+  padding: 8px;
   font-size: 26px;
   background: rgba(35, 35, 35, 0.65); }
 
 @media (min-width: 476px) {
   .fslightbox-slide-btn {
-    padding: 8px; } }
+    padding: 9px; } }
 
 .fslightbox-slide-btn-left-container {
   left: 0; }
@@ -224,7 +224,7 @@
   100% {
     transform: rotate(360deg); } }
 
-.fslightbox-single-source {
+.fslightbox-source {
   margin: auto;
   display: block;
   backface-visibility: hidden;

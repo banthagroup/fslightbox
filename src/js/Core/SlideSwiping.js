@@ -16,6 +16,7 @@ module.exports = function (self) {
 
     let is_dragging = false;
     let mouseDownClientX;
+    let isSourceDownEventTarget;
     let difference;
     let slideAble = true;
 
@@ -25,14 +26,21 @@ module.exports = function (self) {
         if (e.target.tagName !== 'VIDEO' && !e.touches) {
             e.preventDefault();
         }
+        if (e.target.classList.contains('fslightbox-source')) {
+            isSourceDownEventTarget = true;
+        }
+        is_dragging = true;
+        difference = 0;
+
+        if (self.data.totalSlides === 1) {
+            return;
+        }
         for (let elem in elements) {
             elements[elem].classList.add('fslightbox-cursor-grabbing');
         }
-        is_dragging = true;
         (e.touches) ?
             mouseDownClientX = e.touches[0].clientX :
             mouseDownClientX = e.clientX;
-        difference = 0;
     };
 
 
@@ -44,18 +52,25 @@ module.exports = function (self) {
             elements[elem].classList.remove('fslightbox-cursor-grabbing');
         }
 
-        is_dragging = false;
-
-        // if user didn't slide none animation should work
-        if (difference === 0) {
+        if (!is_dragging) {
             return;
         }
+        is_dragging = false;
 
-        // we can slide only if previous animation has finished
+        if (difference === 0) {
+            if (!isSourceDownEventTarget) {
+                self.hide();
+            }
+            isSourceDownEventTarget = false;
+            return;
+        }
+        isSourceDownEventTarget = false;
+
         if (!slideAble) {
             return;
         }
         slideAble = false;
+
         let sourcesIndexes = self.stageSourceIndexes.all(self.data.slide);
 
         // add transition if user slide to source
@@ -136,14 +151,21 @@ module.exports = function (self) {
         if (!is_dragging || !slideAble) {
             return;
         }
-
         let clientX;
         (e.touches) ?
             clientX = e.touches[0].clientX :
             clientX = e.clientX;
 
-        self.element.appendChild(invisibleHover);
         difference = clientX - mouseDownClientX;
+        // if user swiped but there is only one slide we dont want further code to execute but we want to prevent lightbox
+        // from closing so we set difference to 1
+        if (difference !== 0 && self.data.totalSlides === 1) {
+            difference = 1;
+            return;
+        }
+        if (!self.element.contains(invisibleHover)) {
+            self.element.appendChild(invisibleHover);
+        }
         const sourcesIndexes = self.stageSourceIndexes.all(self.data.slide);
 
         if (urlsLength >= 3) {
@@ -173,14 +195,14 @@ module.exports = function (self) {
         elements[elem].addEventListener('touchstart', mouseDownEvent, { passive: true });
     }
 
-    this.addWindowEvents = () => {
+    this.addWindowEvents = function () {
         window.addEventListener('mouseup', mouseUpEvent);
         window.addEventListener('touchend', mouseUpEvent);
         window.addEventListener('mousemove', mouseMoveEvent);
         window.addEventListener('touchmove', mouseMoveEvent, { passive: true });
     };
 
-    this.removeWindowEvents = () => {
+    this.removeWindowEvents = function () {
         window.removeEventListener('mouseup', mouseUpEvent);
         window.removeEventListener('touchend', mouseUpEvent);
         window.removeEventListener('mousemove', mouseMoveEvent);

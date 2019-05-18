@@ -30,7 +30,7 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
 
 
     const loadYoutubevideo = function (videoId, arrayIndex) {
-        let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-single-source']);
+        let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-source']);
         iframe.src = '//www.youtube.com/embed/' + videoId + '?enablejsapi=1';
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
@@ -40,7 +40,7 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
 
 
     const imageLoad = function (src, arrayIndex) {
-        let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-single-source']);
+        let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-source']);
         sourceElem.src = src;
         sourceElem.addEventListener('load', function () {
             onloadListener(sourceElem, this.width, this.height, arrayIndex);
@@ -50,9 +50,9 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
 
     const videoLoad = function (src, arrayIndex, type) {
         let videoLoaded = false;
-        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-single-source']);
+        let videoElem = new DOMObject('video').addClassesAndCreate(['fslightbox-source']);
         let source = new DOMObject('source').elem;
-        if(fsLightbox.data.videosPosters[arrayIndex]) {
+        if (fsLightbox.data.videosPosters[arrayIndex]) {
             videoElem.poster = fsLightbox.data.videosPosters[arrayIndex];
             videoElem.style.objectFit = 'cover';
         }
@@ -83,12 +83,12 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
         // ON IE on load event dont work so we need to wait for dimensions with setTimeouts
         let IEFix = setInterval(function () {
 
-            if(videoLoaded) {
+            if (videoLoaded) {
                 clearInterval(IEFix);
                 return;
             }
-            if (!videoElem.videoWidth || videoElem .videoWidth === 0) {
-                if(counter < 31) {
+            if (!videoElem.videoWidth || videoElem.videoWidth === 0) {
+                if (counter < 31) {
                     counter++;
                     return;
                 } else {
@@ -149,18 +149,13 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
 
                         if (dataType === 'image') {
                             imageLoad(urls[urlIndex], urlIndex);
-                        }
-
-                        else if (dataType === 'video') {
+                        } else if (dataType === 'video') {
                             videoLoad(urls[urlIndex], urlIndex, responseType);
                             fsLightbox.data.videos[urlIndex] = true;
-                        }
-
-                        else {
+                        } else {
                             invalidFile(urlIndex);
                         }
-                    }
-                    else {
+                    } else {
                         invalidFile(urlIndex);
                     }
                     xhr.abort();
