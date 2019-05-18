@@ -9,12 +9,10 @@ module.exports = function (self) {
                 self.hide();
                 break;
             case LEFT_ARROW:
-                const previousIndex = self.stageSourceIndexes.previous(self.data.slide) + 1;
-                self.setSlide(previousIndex);
+                self.appendMethods.previousSlideViaButton(self.data.slide);
                 break;
             case RIGHT_ARROW:
-                const nextIndex = self.stageSourceIndexes.next(self.data.slide) + 1;
-                self.setSlide(nextIndex);
+                self.appendMethods.nextSlideViaButton(self.data.slide);
                 break;
         }
     }
