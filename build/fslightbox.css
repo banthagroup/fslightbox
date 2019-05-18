@@ -55,7 +55,7 @@
   display: flex;
   align-items: center; }
 
-.fslightbox-single-source {
+.fslightbox-source {
   display: block;
   margin: auto;
   backface-visibility: hidden;
