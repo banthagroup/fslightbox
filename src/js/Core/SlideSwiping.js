@@ -1,6 +1,8 @@
 module.exports = function (self) {
     //we will hover all windows with div with high z-index to be sure mouseup is triggered
     const invisibleHover = new (require('../Components/DOMObject'))('div').addClassesAndCreate(['fslightbox-invisible-hover']);
+    const CURSOR_GRABBING_CLASS_NAME = 'fslightbox-cursor-grabbing';
+    const TRANSFORM_TRANSITION_CLASS_NAME = 'fslightbox-transform-transition';
 
     //to these elements are added mouse events
     const elements = {
@@ -35,9 +37,7 @@ module.exports = function (self) {
         if (self.data.totalSlides === 1) {
             return;
         }
-        for (let elem in elements) {
-            elements[elem].classList.add('fslightbox-cursor-grabbing');
-        }
+
         (e.touches) ?
             mouseDownClientX = e.touches[0].clientX :
             mouseDownClientX = e.clientX;
@@ -45,17 +45,18 @@ module.exports = function (self) {
 
 
     const mouseUpEvent = function () {
-        if (self.element.contains(invisibleHover)) {
-            self.element.removeChild(invisibleHover);
-        }
-        for (let elem in elements) {
-            elements[elem].classList.remove('fslightbox-cursor-grabbing');
-        }
-
         if (!is_dragging) {
             return;
         }
         is_dragging = false;
+
+        if (self.element.contains(invisibleHover)) {
+            self.element.removeChild(invisibleHover);
+        }
+
+        if (self.element.classList.contains(CURSOR_GRABBING_CLASS_NAME)) {
+            self.element.classList.remove(CURSOR_GRABBING_CLASS_NAME);
+        }
 
         if (difference === 0) {
             if (!isSourceDownEventTarget) {
@@ -74,9 +75,9 @@ module.exports = function (self) {
         let sourcesIndexes = self.stageSourceIndexes.all(self.data.slide);
 
         // add transition if user slide to source
-        sources[sourcesIndexes.previous].classList.add('fslightbox-transform-transition');
-        sources[sourcesIndexes.current].classList.add('fslightbox-transform-transition');
-        sources[sourcesIndexes.next].classList.add('fslightbox-transform-transition');
+        sources[sourcesIndexes.previous].classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
+        sources[sourcesIndexes.current].classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
+        sources[sourcesIndexes.next].classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
 
 
         // slide previous
@@ -137,9 +138,9 @@ module.exports = function (self) {
 
         setTimeout(function () {
             // remove transition because with dragging it looks awful
-            sources[sourcesIndexes.previous].classList.remove('fslightbox-transform-transition');
-            sources[sourcesIndexes.current].classList.remove('fslightbox-transform-transition');
-            sources[sourcesIndexes.next].classList.remove('fslightbox-transform-transition');
+            sources[sourcesIndexes.previous].classList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
+            sources[sourcesIndexes.current].classList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
+            sources[sourcesIndexes.next].classList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
 
             // user shouldn't be able to slide when animation is running
             slideAble = true;
@@ -163,6 +164,10 @@ module.exports = function (self) {
             difference = 1;
             return;
         }
+
+        if (!self.element.classList.contains(CURSOR_GRABBING_CLASS_NAME))
+            self.element.classList.add(CURSOR_GRABBING_CLASS_NAME);
+
         if (!self.element.contains(invisibleHover)) {
             self.element.appendChild(invisibleHover);
         }

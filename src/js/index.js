@@ -168,8 +168,6 @@ window.fsLightboxClass = function () {
     this.toolbar = new (require('./Components/Toolbar'))(this);
     this.SVGIcon = require('./Components/SVGIcon');
     this.appendMethods = new (require('./appendMethods'))(this);
-
-    // events-controllers
     this.eventsControllers = {
         document: {
             keyDown: new (require('./Core/events-controllers/DocumentKeyDownEventController'))(this)

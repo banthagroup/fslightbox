@@ -9,10 +9,12 @@ module.exports = function (self) {
                 self.hide();
                 break;
             case LEFT_ARROW:
-                self.appendMethods.previousSlideViaButton(self.data.slide);
+                if (self.data.totalSlides > 1)
+                    self.appendMethods.previousSlideViaButton(self.data.slide);
                 break;
             case RIGHT_ARROW:
-                self.appendMethods.nextSlideViaButton(self.data.slide);
+                if (self.data.totalSlides > 1)
+                    self.appendMethods.nextSlideViaButton(self.data.slide);
                 break;
         }
     }
