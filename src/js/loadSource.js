@@ -38,6 +38,15 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
         onloadListener(iframe, 1920, 1080, arrayIndex);
     };
 
+    const loadVimeovideo = function (videoId, arrayIndex) {
+        let iframe = new DOMObject('iframe').addClassesAndCreate(['fslightbox-source']);
+        iframe.src = '//player.vimeo.com/video/' + videoId;
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('frameborder', '0');
+        fsLightbox.mediaHolder.appendChild(iframe);
+        onloadListener(iframe, 1920, 1080, arrayIndex);
+    };
+
 
     const imageLoad = function (src, arrayIndex) {
         let sourceElem = new DOMObject('img').addClassesAndCreate(['fslightbox-source']);
@@ -123,7 +132,7 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
 
         parser.href = sourceUrl;
 
-        function getId(sourceUrl) {
+        function getYoutubeId(sourceUrl) {
             let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             let match = sourceUrl.match(regExp);
 
@@ -134,9 +143,23 @@ module.exports = function (fsLightbox, typeOfLoad, slide) {
             }
         }
 
+        function getVimeoId(sourceUrl) {
+            let regExp = /(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i;
+            let match = sourceUrl.match(regExp);
+
+            if (match) {
+                return match[1];
+            } else {
+                return 'error';
+            }
+        }
+
         if (parser.hostname === 'www.youtube.com') {
             fsLightbox.data.videos[urlIndex] = false;
-            loadYoutubevideo(getId(sourceUrl), urlIndex);
+            loadYoutubevideo(getYoutubeId(sourceUrl), urlIndex);
+        } else if (parser.hostname === 'vimeo.com') {
+            fsLightbox.data.videos[urlIndex] = false;
+            loadVimeovideo(getVimeoId(sourceUrl), urlIndex);
         } else {
             const xhr = new XMLHttpRequest();
 
