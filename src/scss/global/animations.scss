@@ -1,0 +1,53 @@
+.fslightbox-fade-in {
+  animation: fslightbox-fade-in .25s cubic-bezier(0, 0, .7, 1);
+}
+
+.fslightbox-fade-out {
+  animation: fslightbox-fade-out .25s ease;
+}
+
+.fslightbox-fade-in-strong {
+  animation: fslightbox-fade-in-strong .25s cubic-bezier(0, 0, .7, 1);
+}
+
+.fslightbox-fade-out-strong {
+  animation: fslightbox-fade-out-strong .25s ease;
+}
+
+@keyframes fslightbox-fade-in {
+  from {
+    opacity: .65;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fslightbox-fade-out {
+  from {
+    opacity: .35;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fslightbox-fade-in-strong {
+  from {
+    opacity: .3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fslightbox-fade-out-strong {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

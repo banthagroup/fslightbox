@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp production",
-    "watch": "webpack --mode development --watch"
+    "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp",
+    "watch": "webpack-dev-server --mode development --open --host"
   },
   "repository": {
     "type": "git",
@@ -18,15 +18,6 @@
     "url": "https://github.com/banthalightbox/fslightbox/issues"
   },
   "homepage": "https://fslightbox.com",
-  "jest": {
-    "verbose": true,
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/demo/",
-      "/dist/"
-    ],
-    "collectCoverage": false
-  },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -35,7 +26,6 @@
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",
     "babel-polyfill": "^6.26.0",
-    "browser-sync": "^2.26.7",
     "copy-webpack-plugin": "^5.0.3",
     "core-js": "^3.0.1",
     "css-loader": "^2.1.0",
@@ -56,3 +46,4 @@
     "webpack-dev-server": "^3.3.1"
   }
 }
+
