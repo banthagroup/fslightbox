@@ -1,6 +1,5 @@
 .fslightbox-container {
   font-family: "Roboto", sans-serif;
-  opacity: 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -11,5 +10,8 @@
   -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  animation: fslightbox-fade-in-complete .25s forwards;
+
+  * {
+    box-sizing: border-box;
+  }
 }

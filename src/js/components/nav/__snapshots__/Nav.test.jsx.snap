@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Nav DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={Object {}}
+  />
+  <SlideNumber
+    fsLightbox={Object {}}
+  />
+</div>
+`;
+
+exports[`data.sourcesCount > 2 - rendering SlideNumber and testing DOM 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+  <SlideNumber
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+</div>
+`;
+
+exports[`data.sourcesCount > 2 - rendering SlideNumber and testing DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+  <SlideNumber
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+</div>
+`;
+
+exports[`data.sourcesCount > 2 - rendering SlideNumber and testing DOM should match snapshow 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+  <SlideNumber
+    fsLightbox={
+      Object {
+        "data": Object {
+          "sourcesCount": 2,
+        },
+      }
+    }
+  />
+</div>
+`;
+
+exports[`nav DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={Object {}}
+  />
+  <SlideNumber
+    fsLightbox={Object {}}
+  />
+</div>
+`;
+
+exports[`testing DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={Object {}}
+  />
+  <SlideNumber
+    fsLightbox={Object {}}
+  />
+</div>
+`;

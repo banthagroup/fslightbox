@@ -1,0 +1,36 @@
+.fslightbox-slide-btn-container {
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 12px 6px;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  z-index: 3;
+  transform: translateY(-50%);
+
+  @media (min-width: 476px) {
+    padding: 22px 22px 22px 6px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 30px 30px 30px 6px;
+  }
+}
+
+.fslightbox-slide-btn-container:hover .fslightbox-svg-path {
+  fill: #f1f1f1;
+}
+
+.fslightbox-slide-btn {
+  padding: 9px;
+  font-size: 26px;
+  background: rgba(35, 35, 35, 0.65);
+
+  @media (min-width: 768px) {
+    padding: 10px;
+  }
+
+  @media (min-width: 1600px) {
+    padding: 11px;
+  }
+}

@@ -1,0 +1,10 @@
+.fslightbox-source {
+  position: relative;
+  margin: auto;
+  opacity: 0;
+  z-index: 2;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: opacity .3s;
+  will-change: opacity;
+}
