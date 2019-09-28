@@ -5,7 +5,6 @@ import { createSources } from "./createSources";
 import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
 const fsLightbox = {
-    data: { sourcesCount: 4 },
     props: {
         sources: [document.createElement('div'), 'second-source', 'third-source', 'fourth-source'],
     },

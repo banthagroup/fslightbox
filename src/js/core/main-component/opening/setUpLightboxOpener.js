@@ -16,17 +16,20 @@ export function setUpLightboxOpener(fsLightbox) {
         stageIndexes
     } = fsLightbox;
 
-    self.open = () => {
-        stageManager.updateStageIndexes();
-        document.documentElement.classList.add(OPEN_CLASS_NAME);
-        // windowResizeActioner.runActions();
-        // scrollbarRecompensor.addRecompense();
-        // globalEventsController.attachListeners();
-        // sourcesOutersTransformers[stageIndexes.current].zero();
-        // eventsDispatcher.dispatch('onOpen');
+    self.open = (index = 0) => {
+        stageIndexes.current = index;
 
         (data.isInitialized) ?
             eventsDispatcher.dispatch('onShow') :
             initializeLightbox(fsLightbox);
+
+        stageManager.updateStageIndexes();
+        document.documentElement.classList.add(OPEN_CLASS_NAME);
+        scrollbarRecompensor.addRecompense();
+        // globalEventsController.attachListeners();
+        eventsDispatcher.dispatch('onOpen');
+
+        sourcesOutersTransformers[stageIndexes.current].zero();
+        windowResizeActioner.runActions();
     };
 }

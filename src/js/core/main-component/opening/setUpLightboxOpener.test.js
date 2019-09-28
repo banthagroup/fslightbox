@@ -13,7 +13,7 @@ const fsLightbox = {
         windowResizeActioner: { runActions: jest.fn() }
     },
     data: { isInitialized: true },
-    stageIndexes: { current: 0 }
+    stageIndexes: {}
 };
 
 const eventsDispatcher = fsLightbox.core.eventsDispatcher;
@@ -28,7 +28,8 @@ setUpLightboxOpener(fsLightbox);
 document.documentElement.classList.add = jest.fn();
 
 test('open', () => {
-    lightboxOpener.open();
+    lightboxOpener.open(1);
+    expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(stageManager.updateStageIndexes).toBeCalled();
     expect(document.documentElement.classList.add).toBeCalledWith(OPEN_CLASS_NAME);
     expect(windowResizeActioner.runActions).toBeCalled();
@@ -41,6 +42,7 @@ test('open', () => {
 
     fsLightbox.data.isInitialized = false;
     lightboxOpener.open();
+    expect(fsLightbox.stageIndexes.current).toBe(0);
     expect(eventsDispatcher.dispatch).toBeCalledTimes(3);
     expect(initializeLightboxObject.initializeLightbox).toBeCalled();
 });

@@ -5,12 +5,10 @@ export function setUpSlideChangeFacade(
             slideIndexChanger,
             stageManager
         },
-        data: {
-            sourcesCount
-        }
+        props: { sources }
     }
 ) {
-    if (sourcesCount > 1) {
+    if (sources.length > 1) {
         self.changeToPrevious = () => {
             slideIndexChanger.jumpTo(stageManager.getPreviousSlideIndex());
         };

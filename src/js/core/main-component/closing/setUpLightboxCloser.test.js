@@ -13,11 +13,11 @@ const lightboxCloser = fsLightbox.core.lightboxCloser;
 const lightboxCloseActioner = { runActions: jest.fn(), isLightboxFadingOut: true };
 setUpLightboxCloser(fsLightbox);
 
-test('closeLightbox', () => {
-    lightboxCloser.closeLightbox();
+test('close', () => {
+    lightboxCloser.close();
     expect(lightboxCloseActioner.runActions).not.toBeCalled();
 
     lightboxCloseActioner.isLightboxFadingOut = false;
-    lightboxCloser.closeLightbox();
+    lightboxCloser.close();
     expect(lightboxCloseActioner.runActions).toBeCalled();
 }); 

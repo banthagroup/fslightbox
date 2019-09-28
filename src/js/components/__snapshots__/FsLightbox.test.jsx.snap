@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DOM lightbox is open or not isOpen === true should match snapshot 1`] = `
-"<div className=\\"fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long\\">
-  <SwipingInvisibleHover fsLightbox={{...}} />
-  <Nav fsLightbox={{...}} />
-  <SourcesHoldersWrapper fsLightbox={{...}} />
-</div>"
-`;

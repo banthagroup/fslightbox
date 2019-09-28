@@ -13,5 +13,5 @@ export function renderSourceOuter(fsLightbox, i) {
     sourcesOuters[i].innerHTML = '<div class="fslightbox-loader"><div></div><div></div><div></div><div></div></div>';
     sourcesOutersWrapper.appendChild(sourcesOuters[i]);
 
-    renderSourceInner(fsLightbox, 0);
+    renderSourceInner(fsLightbox, i);
 }

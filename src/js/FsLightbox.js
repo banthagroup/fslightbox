@@ -1,13 +1,10 @@
-import { getSourcesHoldersTransformersCollection } from "./core/collections/getSourcesHoldersTransformersCollection";
-import { getSourcesCount } from "./core/sources/getSourcesCount";
 import { setUpCore } from "./core/setUpCore";
 
 window.FsLightbox = function () {
     /**
      * @property { Array } sources
      *
-     * @property { Array } maxWidths
-     * @property { Array } maxHeights
+     * @property { Array } maxDimensions
      * @property { Object } globalMaxDimensions
      *
      * @property { Function } onOpen
@@ -32,12 +29,12 @@ window.FsLightbox = function () {
     };
 
     this.data = {
-        sourcesCount: getSourcesCount(this),
         isInitialized: false,
         maxSourceWidth: 0,
         maxSourceHeight: 0,
         scrollbarWidth: 0,
-        slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3
+        slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3,
+        isFullscreenOpen: false
     };
 
     this.slideSwipingProps = {
@@ -65,13 +62,19 @@ window.FsLightbox = function () {
         sourcesComponents: []
     };
 
+    this.componentsServices = {
+        setSlideNumber: null,
+        enterFullscreen: null,
+        exitFullscreen: null,
+    };
+
     this.resolve = (dependency, params = []) => {
         params.unshift(this);
         return new dependency(...params);
     };
 
     this.collections = {
-        sourcesOutersTransformers: getSourcesHoldersTransformersCollection(this),
+        sourcesOutersTransformers: [],
         sourcesLoadsHandlers: [],
         // after source load its size adjuster will be stored in this array so it may be later resized
         sourcesStylers: [],
@@ -86,7 +89,6 @@ window.FsLightbox = function () {
         globalEventsController: {},
         lightboxCloser: {},
         lightboxOpener: {},
-        lightboxOpenActioner: {},
         lightboxUpdater: {},
         scrollbarRecompensor: {},
         slideChangeFacade: {},

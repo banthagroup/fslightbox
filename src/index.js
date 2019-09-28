@@ -1,4 +1,3 @@
-import './scss/FsLightbox.scss';
 import './js/FsLightbox';
 
 window.fsLightboxInstances = {};
@@ -26,6 +25,8 @@ for (let i = 0; i < a.length; i++) {
     fsLightboxInstances[instanceName].elements.a.push(a[i]);
 
     const currentIndex = fsLightboxInstances[instanceName].props.sources.length - 1;
+
+    a[i].onclick = () => fsLightboxInstances[instanceName].open(currentIndex);
 
     setUpProp('types', 'data-type');
     setUpProp('videosPosters', 'data-video-poster');

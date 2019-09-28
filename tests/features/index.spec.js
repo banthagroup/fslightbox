@@ -59,4 +59,8 @@ test('lol', () => {
     expect(fsLightboxInstances['gallery-first']).toBeInstanceOf(FsLightbox);
     expect(fsLightboxInstances['gallery-second']).toBeInstanceOf(FsLightbox);
     expect(fsLightbox).toBe(fsLightboxInstances['gallery-second']);
+
+    fsLightboxInstances['gallery-first'].open = jest.fn();
+    fourthA.dispatchEvent(new Event('click'));
+    expect(fsLightboxInstances['gallery-first'].open).toBeCalledWith(2);
 });
