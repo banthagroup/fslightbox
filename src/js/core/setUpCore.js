@@ -1,23 +1,22 @@
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
-import { setUpLightboxOpenActioner } from "./main-component/opening/setUpLightboxOpenActioner";
-import { setUpStageManager } from "./stage/setUpStageManager";
 import { setUpClassFacade } from "./elements/setUpClassFacade";
 import { setUpEventsDispatcher } from "./events/setUpEventsDispatcher";
+import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
+import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
+import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
+import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
 
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
     setUpEventsDispatcher(fsLightbox);
-    // setUpFullscreenToggler(fsLightbox);
+    setUpFullscreenToggler(fsLightbox);
     // setUpGlobalEventsController(fsLightbox);
-    // setUpLightboxCloser(fsLightbox);
+    setUpLightboxCloser(fsLightbox);
     setUpLightboxOpener(fsLightbox);
-    setUpLightboxOpenActioner(fsLightbox);
     // setUpLightboxUpdater(fsLightbox);
-    // setUpScrollbarRecompensor(fsLightbox);
-    // setUpSlideChangeFacade(fsLightbox);
+    setUpScrollbarRecompensor(fsLightbox);
     // setUpSlideIndexChanger(fsLightbox);
     // setUpSlideSwipingDown(fsLightbox);
-    setUpStageManager(fsLightbox);
-    // setUpWindowResizeActioner(fsLightbox);
+    setUpWindowResizeActioner(fsLightbox);
 }
 

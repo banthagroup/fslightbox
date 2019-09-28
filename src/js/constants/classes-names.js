@@ -9,6 +9,10 @@ export const OPEN_CLASS_NAME = `${ PREFIX }open`;
 export const TRANSFORM_TRANSITION_CLASS_NAME = `${ PREFIX }transform-transition`;
 export const ABSOLUTED_CLASS_NAME = `${ PREFIX }absoluted`;
 
+// slide buttons
+export const SLIDE_BTN = `${ PREFIX }slide-btn`;
+export const SLIDE_BTN_CONTAINER = `${ SLIDE_BTN }-container`;
+
 // animations
 export const FADE_IN_CLASS_NAME = `${ PREFIX }fade-in`;
 export const FADE_OUT_CLASS_NAME = `${ PREFIX }fade-out`;

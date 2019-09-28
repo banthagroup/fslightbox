@@ -19,23 +19,19 @@ export function DetectedTypeActioner(fsLightbox) {
 
         switch (type) {
             case IMAGE_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForImage();
-                renderImage();
+                renderImage(fsLightbox, i);
                 break;
             case VIDEO_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForVideo();
-                renderVideo();
+                renderVideo(fsLightbox, i);
                 break;
             case YOUTUBE_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForYoutube();
-                renderYoutube();
+                renderYoutube(fsLightbox, i);
                 break;
             case CUSTOM_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForCustom();
-                renderCustom();
+                renderCustom(fsLightbox, i);
                 break;
             default:
-                renderInvalid();
+                renderInvalid(fsLightbox, i);
                 break;
         }
     };

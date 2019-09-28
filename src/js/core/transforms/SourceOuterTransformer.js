@@ -1,13 +1,7 @@
-export function SourceOuterTransformer({ data: { slideDistance } }) {
+export function SourceOuterTransformer({ data: { slideDistance }, elements: { sourcesOuters } }, i) {
     const realSlideDistance = slideDistance + 1;
-    let sourceHolder;
     let additionalTransformValue = 0;
 
-    this.setSourceHolder = (sourceHolderElement) => {
-        sourceHolder = sourceHolderElement;
-    };
-
-    /** @return { this } */
     this.byValue = (value) => {
         additionalTransformValue = value;
         return this;
@@ -26,7 +20,7 @@ export function SourceOuterTransformer({ data: { slideDistance } }) {
     };
 
     const setFinalTransformAndCleanTransformer = (value) => {
-        sourceHolder.current.style.transform = `translateX(${ value + additionalTransformValue }px)`;
+        sourcesOuters[i].style.transform = `translateX(${ value + additionalTransformValue }px)`;
         additionalTransformValue = 0;
     };
 

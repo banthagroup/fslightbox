@@ -2,14 +2,14 @@ import { SourceStyler } from "./SourceStyler";
 
 const fsLightbox = {
     data: {},
-    elements: { sources: [{ current: { style: {} } }], },
+    elements: { sources: [{ style: {} }], },
 };
 const sourceStyler = new SourceStyler(fsLightbox, 0, 2000, 2000);
 
 test('styleSize', () => {
     const assertDimensions = (width, height) => {
-        expect(fsLightbox.elements.sources[0].current.style.width).toBe(width + 'px');
-        expect(fsLightbox.elements.sources[0].current.style.height).toBe(height + 'px');
+        expect(fsLightbox.elements.sources[0].style.width).toBe(width + 'px');
+        expect(fsLightbox.elements.sources[0].style.height).toBe(height + 'px');
     };
 
     fsLightbox.data.maxSourceWidth = 1500;

@@ -30,8 +30,7 @@ export function SourceStyler({ data, elements: { sources } }, i, defaultWidth, d
     };
 
     const updateDimensions = () => {
-        const style = sources[i].current.style;
-        style.width = newHeight * ratio + 'px';
-        style.height = newHeight + 'px';
+        sources[i].style.width = newHeight * ratio + 'px';
+        sources[i].style.height = newHeight + 'px';
     }
 }

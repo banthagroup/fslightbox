@@ -3,13 +3,13 @@ import { ANIMATION_TIME } from "../../../constants/css-constants";
 
 export function LightboxCloseActioner(
     {
-        componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: {
             eventsDispatcher,
             fullscreenToggler,
             globalEventsController,
             scrollbarRecompensor
         },
+        data,
         elements: { container: lightboxContainer },
         setMainComponentState,
         slideSwipingProps
@@ -22,7 +22,7 @@ export function LightboxCloseActioner(
         lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
         globalEventsController.removeListeners();
 
-        if (isFullscreenOpenState.get()) {
+        if (data.isFullscreenOpen) {
             fullscreenToggler.enterFullscreen();
         }
 
