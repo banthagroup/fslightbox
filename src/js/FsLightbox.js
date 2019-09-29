@@ -7,6 +7,8 @@ window.FsLightbox = function () {
      * @property { Array } maxDimensions
      * @property { Object } globalMaxDimensions
      *
+     * @property { Array } customClasses
+     *
      * @property { Function } onOpen
      * @property { Function } onClose
      * @property { Function } onInit
@@ -22,8 +24,8 @@ window.FsLightbox = function () {
      */
     this.props = {
         sources: [],
-        maxWidths: [],
-        maxHeights: [],
+        maxDimensions: [],
+        customClasses: [],
         types: [],
         videosPosters: []
     };

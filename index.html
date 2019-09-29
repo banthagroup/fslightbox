@@ -9,19 +9,32 @@
 </head>
 <body>
 <div>
-    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
-        first
+    <a data-fslightbox="gallery" href="https://i.imgur.com/fsyrScY.jpg">
+        image
     </a>
 
-    <a data-fslightbox="gallery" href="/demo/img/2.jpg">
-        second
+    <a data-fslightbox="gallery"
+       data-video-poster="https://i.imgur.com/fsyrScY.jpg"
+       href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        video
     </a>
 
-    <a data-fslightbox="gallery" href="#custom-source">
+    <a data-fslightbox="gallery"
+       href="https://www.youtube.com/watch?v=xshEZzpS4CQ">
+        video
+    </a>
+
+    <a data-fslightbox="gallery" href="invalid">
+        invalid
+    </a>
+
+    <a data-fslightbox="gallery" data-width="100" data-height="200" data-custom-class="fslightbox-custom"
+       href="#custom-source">
         custom
     </a>
 
-    <div id="custom-source" data-class="fslightbox-custom" style="display: none">
+    <div id="custom-source"
+         style="display: none; background: black">
 
     </div>
 </div>
@@ -35,7 +48,7 @@
 <script src="demo/index.js">
 </script>
 <script>
-    // fsLightboxInstances['gallery'].open();
+    fsLightboxInstances['gallery'].open(3);
 </script>
 </body>
 </html>
