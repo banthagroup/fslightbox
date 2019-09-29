@@ -3,12 +3,14 @@ import { SlideSwipingUpActioner } from "./SlideSwipingUpActioner";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
 
 const fsLightbox = {
-    componentsStates: { isSlideSwipingHovererShown: { set: jest.fn() } },
     core: {
-        lightboxCloser: { closeLightbox: jest.fn() },
+        lightboxCloser: { close: jest.fn() },
         swipingActioner: { runTopActionsForProps: jest.fn() }
     },
-    elements: { container: { current: { classList: { remove: jest.fn() } } } },
+    elements: {
+        container: { classList: { remove: jest.fn() }, removeChild: jest.fn() },
+        slideSwipingHoverer: 'slide-swiping-hoverer'
+    },
     resolve: (constructorDependency) => {
         if (constructorDependency === SlideSwipingUpActionerBucket) {
             return slideSwipingUpActionsBucket;
@@ -28,19 +30,19 @@ const slideSwipingUpActions = new SlideSwipingUpActioner(fsLightbox);
 
 test('resetSwiping', () => {
     slideSwipingUpActions.runNoSwipeActions();
-    expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.close).not.toBeCalled();
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
     fsLightbox.slideSwipingProps.isSourceDownEventTarget = false;
     slideSwipingUpActions.runNoSwipeActions();
-    expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.close).toBeCalled();
 });
 
 test('runActions', () => {
     slideSwipingUpActions.runActions();
     expect(slideSwipingUpActionsBucket.runPositiveSwipedXActions).toBeCalled();
     expect(slideSwipingUpActionsBucket.runNegativeSwipedXActions).not.toBeCalled();
-    expect(fsLightbox.componentsStates.isSlideSwipingHovererShown.set).toBeCalledWith(false);
-    expect(fsLightbox.elements.container.current.classList.remove).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
+    expect(fsLightbox.elements.container.removeChild).toBeCalledWith('slide-swiping-hoverer');
+    expect(fsLightbox.elements.container.classList.remove).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
 
     fsLightbox.slideSwipingProps.swipedX = -1;

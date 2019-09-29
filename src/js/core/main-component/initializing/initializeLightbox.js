@@ -6,6 +6,8 @@ import { fillSourcesOutersTransformersCollection } from "../../collections/fillS
 import { renderSlideButtons } from "../../../components/renderSlideButtons";
 import { setUpSlideChangeFacade } from "../../slide/setUpSlideChangeFacade";
 import { setUpStageManager } from "../../stage/setUpStageManager";
+import { renderSlideSwipingHoverer } from "../../../components/renderSlideSwipingHoverer";
+import { setUpGlobalEventsController } from "../../events/setUpGlobalEventsController";
 
 export function initializeLightbox(fsLightbox) {
     const { core: { eventsDispatcher }, data, elements, props: { sources } } = fsLightbox;
@@ -19,13 +21,15 @@ export function initializeLightbox(fsLightbox) {
 
     elements.container = document.createElement('div');
     elements.container.className = `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ FADE_IN_STRONG_CLASS_NAME }`;
-    document.body.appendChild(elements.container);
 
+    renderSlideSwipingHoverer(fsLightbox);
     renderNav(fsLightbox);
     renderSourcesOutersWrapper(fsLightbox);
     if (sources.length > 1) {
         renderSlideButtons(fsLightbox);
     }
+
+    setUpGlobalEventsController(fsLightbox);
 
     createSources(fsLightbox);
 

@@ -13,6 +13,7 @@ export function setUpLightboxOpener(fsLightbox) {
             windowResizeActioner
         },
         data,
+        elements,
         stageIndexes
     } = fsLightbox;
 
@@ -23,10 +24,11 @@ export function setUpLightboxOpener(fsLightbox) {
             eventsDispatcher.dispatch('onShow') :
             initializeLightbox(fsLightbox);
 
+        document.body.appendChild(elements.container);
         stageManager.updateStageIndexes();
         document.documentElement.classList.add(OPEN_CLASS_NAME);
         scrollbarRecompensor.addRecompense();
-        // globalEventsController.attachListeners();
+        globalEventsController.attachListeners();
         eventsDispatcher.dispatch('onOpen');
 
         sourcesOutersTransformers[stageIndexes.current].zero();

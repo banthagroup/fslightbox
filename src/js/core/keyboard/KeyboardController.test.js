@@ -1,6 +1,7 @@
 import { KeyboardController } from "./KeyboardController";
 
 const fsLightbox = {
+    componentsServices: { enterFullscreen: jest.fn() },
     core: {
         lightboxCloser: { closeLightbox: jest.fn() },
         fullscreenToggler: { enterFullscreen: jest.fn() },
@@ -26,6 +27,7 @@ test('listener', () => {
     expect(slideChangeFacade.changeToPrevious).not.toBeCalled();
     expect(slideChangeFacade.changeToNext).not.toBeCalled();
     expect(e.preventDefault).not.toBeCalled();
+    expect(fsLightbox.componentsServices.enterFullscreen).not.toBeCalled();
     expect(fsLightbox.core.fullscreenToggler.enterFullscreen).not.toBeCalled();
 
     keyboardController.listener(getEventForKeyCode(37));
@@ -33,6 +35,7 @@ test('listener', () => {
     expect(slideChangeFacade.changeToPrevious).toBeCalled();
     expect(slideChangeFacade.changeToNext).not.toBeCalled();
     expect(e.preventDefault).not.toBeCalled();
+    expect(fsLightbox.componentsServices.enterFullscreen).not.toBeCalled();
     expect(fsLightbox.core.fullscreenToggler.enterFullscreen).not.toBeCalled();
 
     keyboardController.listener(getEventForKeyCode(39));
@@ -40,6 +43,7 @@ test('listener', () => {
     expect(slideChangeFacade.changeToPrevious).toBeCalledTimes(1);
     expect(slideChangeFacade.changeToNext).toBeCalled();
     expect(e.preventDefault).not.toBeCalled();
+    expect(fsLightbox.componentsServices.enterFullscreen).not.toBeCalled();
     expect(fsLightbox.core.fullscreenToggler.enterFullscreen).not.toBeCalled();
 
     keyboardController.listener(getEventForKeyCode(122));
@@ -47,5 +51,6 @@ test('listener', () => {
     expect(slideChangeFacade.changeToPrevious).toBeCalledTimes(1);
     expect(slideChangeFacade.changeToNext).toBeCalled();
     expect(e.preventDefault).toBeCalled();
+    expect(fsLightbox.componentsServices.enterFullscreen).toBeCalled();
     expect(fsLightbox.core.fullscreenToggler.enterFullscreen).toBeCalled();
 });

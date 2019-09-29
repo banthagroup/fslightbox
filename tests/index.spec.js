@@ -1,4 +1,4 @@
-test('lol', () => {
+test('index', () => {
     const firstA = document.createElement('a');
     firstA.setAttribute('data-fslightbox', 'gallery-first');
     firstA.setAttribute('href', 'image/1.jpg');
@@ -38,7 +38,7 @@ test('lol', () => {
     sixA.setAttribute('href', 'image/4.jpg');
     document.body.appendChild(sixA);
 
-    require('../../src/index');
+    require('../src');
 
     expect(fsLightboxInstances['gallery-first'].props.sources).toEqual([
         'image/1.jpg', customSourceFirst, 'image/2.jpg'
@@ -61,6 +61,9 @@ test('lol', () => {
     expect(fsLightbox).toBe(fsLightboxInstances['gallery-second']);
 
     fsLightboxInstances['gallery-first'].open = jest.fn();
-    fourthA.dispatchEvent(new Event('click'));
+    const event = new Event('click');
+    event.preventDefault = jest.fn();
+    fourthA.dispatchEvent(event);
+    expect(event.preventDefault).toBeCalled();
     expect(fsLightboxInstances['gallery-first'].open).toBeCalledWith(2);
 });

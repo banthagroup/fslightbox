@@ -8,7 +8,7 @@ const fsLightbox = {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
         slideSwipingDown: {},
     },
-    elements: { sources: [{ current: null }, { current: { contains: jest.fn(() => false) } }] },
+    elements: { sources: [null, { contains: jest.fn(() => false) }] },
     slideSwipingProps: {},
     stageIndexes: { current: 0 }
 };
@@ -41,11 +41,11 @@ test('listener', () => {
     fsLightbox.stageIndexes.current = 1;
     slideSwipingDown.listener(e);
     expect(e.preventDefault).not.toBeCalled();
-    expect(fsLightbox.elements.sources[1].current.contains).toBeCalledWith(e.target);
+    expect(fsLightbox.elements.sources[1].contains).toBeCalledWith(e.target);
     expect(fsLightbox.slideSwipingProps.isSourceDownEventTarget).toBe(false);
 
     e.target.tagName = 'VIDEO';
-    fsLightbox.elements.sources[1].current.contains = () => true;
+    fsLightbox.elements.sources[1].contains = () => true;
     slideSwipingDown.listener(e);
     expect(e.preventDefault).not.toBeCalled();
     expect(fsLightbox.slideSwipingProps.isSourceDownEventTarget).toBe(true);

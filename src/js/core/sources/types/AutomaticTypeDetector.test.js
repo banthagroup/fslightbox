@@ -1,10 +1,6 @@
-import {
-    TEST_IMAGE_URL,
-    TEST_YOUTUBE_URL,
-    TEST_VIDEO_URL
-} from "../../../../tests/__tests-vars__/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
 import { AutomaticTypeDetector } from "./AutomaticTypeDetector";
+import { TEST_IMAGE_URL, TEST_VIDEO_URL, TEST_YOUTUBE_URL } from "../../../../../tests/__tests-services__/testVars";
 
 const fsLightbox = {
     collections: {

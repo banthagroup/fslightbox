@@ -11,7 +11,7 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 export function setUpSlideIndexChanger(
     {
         collections: { sourcesOutersTransformers },
-        componentsStates: { slideNumberUpdater: slideNumberUpdaterState },
+        componentsServices,
         core: { classFacade, slideIndexChanger: self, stageManager },
         elements: { sourcesInners },
         stageIndexes
@@ -24,7 +24,7 @@ export function setUpSlideIndexChanger(
     self.changeTo = (i) => {
         stageIndexes.current = i;
         stageManager.updateStageIndexes();
-        slideNumberUpdaterState.set(!slideNumberUpdaterState.get());
+        componentsServices.setSlideNumber(i + 1);
     };
 
     self.jumpTo = (i) => {
@@ -35,11 +35,11 @@ export function setUpSlideIndexChanger(
 
         removeFromElementClassIfContains(sourcesInners[previousI], FADE_IN_STRONG_CLASS_NAME);
         removeFromElementClassIfContains(sourcesInners[previousI], FADE_IN_CLASS_NAME);
-        sourcesInners[previousI].current.classList.add(FADE_OUT_CLASS_NAME);
+        sourcesInners[previousI].classList.add(FADE_OUT_CLASS_NAME);
 
         removeFromElementClassIfContains(sourcesInners[i], FADE_IN_STRONG_CLASS_NAME);
         removeFromElementClassIfContains(sourcesInners[i], FADE_OUT_CLASS_NAME);
-        sourcesInners[i].current.classList.add(FADE_IN_CLASS_NAME);
+        sourcesInners[i].classList.add(FADE_IN_CLASS_NAME);
 
         // we need to remove fade out from all sources because if someone used slide swiping during animation timeout
         // we cannot detect what slide will be

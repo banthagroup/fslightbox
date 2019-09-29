@@ -3,7 +3,6 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names"
 import * as getClientXFromEventObject from "../../../../helpers/events/getClientXFromEvent";
 
 const fsLightbox = {
-    componentsStates: { isSlideSwipingHovererShown: { get: () => true, set: jest.fn() } },
     collections: {
         sourcesOutersTransformers: [
             {
@@ -15,7 +14,10 @@ const fsLightbox = {
             }
         ]
     },
-    elements: { container: { current: { classList: { add: jest.fn() } } } },
+    elements: {
+        container: { classList: { add: jest.fn() }, appendChild: jest.fn(), contains: jest.fn(() => true) },
+        slideSwipingHoverer: 'slide-swiping-hoverer'
+    },
     slideSwipingProps: { downClientX: null, swipedX: null, },
     stageIndexes: {
         previous: 0,
@@ -42,14 +44,14 @@ test('simple actions', () => {
     slideSwipingMoveActions = new SlideSwipingMoveActioner(fsLightbox);
     slideSwipingMoveActions.runActionsForEvent(e);
 
-    expect(fsLightbox.componentsStates.isSlideSwipingHovererShown.set).not.toBeCalled();
-    expect(fsLightbox.elements.container.current.classList.add).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
+    expect(fsLightbox.elements.container.contains).toBeCalledWith('slide-swiping-hoverer');
+    expect(fsLightbox.elements.container.appendChild).not.toBeCalled();
+    expect(fsLightbox.elements.container.classList.add).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     expect(fsLightbox.slideSwipingProps.swipedX).toBe(-50);
 
-
-    fsLightbox.componentsStates.isSlideSwipingHovererShown.get = () => false;
+    fsLightbox.elements.container.contains = () => false;
     setUpAndCallRunActionsForEventWithEmptyEvent();
-    expect(fsLightbox.componentsStates.isSlideSwipingHovererShown.set).toBeCalledWith(true);
+    expect(fsLightbox.elements.container.appendChild).toBeCalledWith('slide-swiping-hoverer');
 });
 
 describe('transforming stage sources holders by swiped difference value', () => {

@@ -10,8 +10,7 @@ export function LightboxCloseActioner(
             scrollbarRecompensor
         },
         data,
-        elements: { container: lightboxContainer },
-        setMainComponentState,
+        elements,
         slideSwipingProps
     }
 ) {
@@ -19,7 +18,9 @@ export function LightboxCloseActioner(
 
     this.runActions = () => {
         this.isLightboxFadingOut = true;
-        lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
+
+        elements.container.classList.add(FADE_OUT_STRONG_CLASS_NAME);
+
         globalEventsController.removeListeners();
 
         if (data.isFullscreenOpen) {
@@ -28,16 +29,18 @@ export function LightboxCloseActioner(
 
         setTimeout(() => {
             this.isLightboxFadingOut = false;
+
             slideSwipingProps.isSwiping = false;
-            lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
+
+            elements.container.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
+
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
+
             scrollbarRecompensor.removeRecompense();
 
-            setMainComponentState({
-                isOpen: false
-            }, () => {
-                eventsDispatcher.dispatch('onClose');
-            });
+            document.body.removeChild(elements.container);
+
+            eventsDispatcher.dispatch('onClose');
         }, ANIMATION_TIME - 30);
     };
 }
