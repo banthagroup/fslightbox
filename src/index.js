@@ -26,15 +26,21 @@ for (let i = 0; i < a.length; i++) {
 
     const currentIndex = fsLightboxInstances[instanceName].props.sources.length - 1;
 
-    a[i].onclick = (e) =>  {
+    a[i].onclick = (e) => {
         e.preventDefault();
         fsLightboxInstances[instanceName].open(currentIndex);
     };
 
     setUpProp('types', 'data-type');
     setUpProp('videosPosters', 'data-video-poster');
-    setUpProp('maxWidths', 'data-max-width');
-    setUpProp('maxHeights', 'data-max-height');
+    setUpProp('customClasses', 'data-custom-class');
+
+    if (a[i].hasAttribute('data-width')) {
+        fsLightboxInstances[instanceName].props.maxDimensions[currentIndex] = {
+            width: parseInt(a[i].getAttribute('data-width')),
+            height: parseInt(a[i].getAttribute('data-height'))
+        };
+    }
 
     function setUpProp(propName, attributeName) {
         if (a[i].hasAttribute(attributeName)) {

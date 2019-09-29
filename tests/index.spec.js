@@ -8,8 +8,9 @@ test('index', () => {
     secondA.setAttribute('data-fslightbox', 'gallery-first');
     secondA.setAttribute('data-type', 'image');
     secondA.setAttribute('data-video-poster', 'img/video-poster.jpg');
-    secondA.setAttribute('data-max-width', '1000');
-    secondA.setAttribute('data-max-height', '500');
+    secondA.setAttribute('data-width', '1000');
+    secondA.setAttribute('data-height', '500');
+    secondA.setAttribute('data-custom-class', 'example-class');
     secondA.setAttribute('href', '#custom-source-1');
     const customSourceFirst = document.createElement('div');
     customSourceFirst.id = 'custom-source-1';
@@ -54,8 +55,8 @@ test('index', () => {
     ]);
     expect(fsLightboxInstances['gallery-first'].props.types[1]).toBe('image');
     expect(fsLightboxInstances['gallery-first'].props.videosPosters[1]).toBe('img/video-poster.jpg');
-    expect(fsLightboxInstances['gallery-first'].props.maxWidths[1]).toBe('1000');
-    expect(fsLightboxInstances['gallery-first'].props.maxHeights[1]).toBe('500');
+    expect(fsLightboxInstances['gallery-first'].props.maxDimensions[1]).toEqual({ width: 1000, height: 500 });
+    expect(fsLightboxInstances['gallery-first'].props.customClasses[1]).toBe('example-class');
     expect(fsLightboxInstances['gallery-first']).toBeInstanceOf(FsLightbox);
     expect(fsLightboxInstances['gallery-second']).toBeInstanceOf(FsLightbox);
     expect(fsLightbox).toBe(fsLightboxInstances['gallery-second']);
