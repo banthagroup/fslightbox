@@ -5,18 +5,18 @@ import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
 import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
+import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
+import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDown";
 
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
     setUpEventsDispatcher(fsLightbox);
     setUpFullscreenToggler(fsLightbox);
-    // setUpGlobalEventsController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
     setUpLightboxOpener(fsLightbox);
-    // setUpLightboxUpdater(fsLightbox);
     setUpScrollbarRecompensor(fsLightbox);
-    // setUpSlideIndexChanger(fsLightbox);
-    // setUpSlideSwipingDown(fsLightbox);
+    setUpSlideIndexChanger(fsLightbox);
+    setUpSlideSwipingDown(fsLightbox);
     setUpWindowResizeActioner(fsLightbox);
 }
 

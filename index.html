@@ -9,19 +9,33 @@
 </head>
 <body>
 <div>
-    <h1>Lol</h1>
     <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
-
+        first
     </a>
 
     <a data-fslightbox="gallery" href="/demo/img/2.jpg">
-
+        second
     </a>
+
+    <a data-fslightbox="gallery" href="#custom-source">
+        custom
+    </a>
+
+    <div id="custom-source" data-class="fslightbox-custom" style="display: none">
+
+    </div>
 </div>
+
+<style>
+    .fslightbox-custom {
+        display: block !important;
+    }
+</style>
+
 <script src="demo/index.js">
 </script>
 <script>
-    fsLightboxInstances['gallery'].open();
+    // fsLightboxInstances['gallery'].open();
 </script>
 </body>
 </html>

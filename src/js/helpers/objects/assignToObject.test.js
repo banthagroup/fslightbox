@@ -1,4 +1,4 @@
-import { assignToObject } from "../../../src/helpers/objects/assignToObject";
+import { assignToObject } from "./assignToObject";
 
 const firstObject = {
     property1: 1,

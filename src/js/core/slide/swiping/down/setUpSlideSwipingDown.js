@@ -23,7 +23,7 @@ export function setUpSlideSwipingDown(
             e.preventDefault();
         }
 
-        const currentElement = sources[stageIndexes.current].current;
+        const currentElement = sources[stageIndexes.current];
         (currentElement && currentElement.contains(e.target)) ?
             slideSwipingProps.isSourceDownEventTarget = true :
             slideSwipingProps.isSourceDownEventTarget = false;

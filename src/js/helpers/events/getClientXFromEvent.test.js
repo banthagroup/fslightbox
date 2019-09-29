@@ -1,4 +1,4 @@
-import { getClientXFromEvent } from "../../../src/helpers/events/getClientXFromEvent";
+import { getClientXFromEvent } from "./getClientXFromEvent";
 
 test('touch event', () => {
     expect(getClientXFromEvent({

@@ -26,7 +26,10 @@ for (let i = 0; i < a.length; i++) {
 
     const currentIndex = fsLightboxInstances[instanceName].props.sources.length - 1;
 
-    a[i].onclick = () => fsLightboxInstances[instanceName].open(currentIndex);
+    a[i].onclick = (e) =>  {
+        e.preventDefault();
+        fsLightboxInstances[instanceName].open(currentIndex);
+    };
 
     setUpProp('types', 'data-type');
     setUpProp('videosPosters', 'data-video-poster');

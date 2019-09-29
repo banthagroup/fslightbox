@@ -15,11 +15,11 @@ renderSlideNumberObject.renderSlideNumber = jest.fn();
 
 test('renderNav', () => {
     renderNav(fsLightbox);
-    expect(renderToolbarObject.renderToolbar).toBeCalledWith(fsLightbox);
+    expect(renderToolbarObject.renderToolbar).toBeCalledWith(fsLightbox, nav);
     expect(renderSlideNumberObject.renderSlideNumber).not.toBeCalled();
     expect(fsLightbox.elements.container.appendChild).toBeCalledWith(nav);
 
     fsLightbox.props.sources.length = 2;
     renderNav(fsLightbox);
-    expect(renderSlideNumberObject.renderSlideNumber).toBeCalledWith(fsLightbox);
+    expect(renderSlideNumberObject.renderSlideNumber).toBeCalledWith(fsLightbox, nav);
 });

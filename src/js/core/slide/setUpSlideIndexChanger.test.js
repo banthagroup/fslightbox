@@ -12,16 +12,16 @@ import * as getQueuedActionObject from "../timeouts/getQueuedAction";
 
 const fsLightbox = {
     collections: { sourcesOutersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }] },
-    componentsStates: { slideNumberUpdater: { get: () => true, set: jest.fn() } },
     core: {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
         slideIndexChanger: {},
         stageManager: { updateStageIndexes: jest.fn() }
     },
+    componentsServices: { setSlideNumber: jest.fn() },
     elements: {
         sourcesInners: [
-            { current: { classList: { add: jest.fn() } } },
-            { current: { classList: { add: jest.fn() } } }
+            { classList: { add: jest.fn() } },
+            { classList: { add: jest.fn() } }
         ]
     },
     stageIndexes: {}
@@ -44,7 +44,7 @@ test('changeTo', () => {
     slideIndexChanger.changeTo(1);
     expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(fsLightbox.core.stageManager.updateStageIndexes).toBeCalled();
-    expect(fsLightbox.componentsStates.slideNumberUpdater.set).toBeCalledWith(false);
+    expect(fsLightbox.componentsServices.setSlideNumber).toBeCalledWith(2);
 });
 
 test('jumpTo', () => {
@@ -64,14 +64,14 @@ test('jumpTo', () => {
         fsLightbox.elements.sourcesInners[0], FADE_IN_CLASS_NAME
     );
 
-    expect(fsLightbox.elements.sourcesInners[0].current.classList.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
+    expect(fsLightbox.elements.sourcesInners[0].classList.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
         fsLightbox.elements.sourcesInners[1], FADE_IN_STRONG_CLASS_NAME
     );
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
         fsLightbox.elements.sourcesInners[1], FADE_OUT_CLASS_NAME
     );
-    expect(fsLightbox.elements.sourcesInners[1].current.classList.add).toBeCalledWith(FADE_IN_CLASS_NAME);
+    expect(fsLightbox.elements.sourcesInners[1].classList.add).toBeCalledWith(FADE_IN_CLASS_NAME);
     expect(fsLightbox.collections.sourcesOutersTransformers[1].zero).toBeCalled();
     expect(runQueuedRemoveFadeOut).toBeCalled()
     expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();

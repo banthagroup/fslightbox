@@ -1,4 +1,9 @@
-export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, slideChangeFacade } }) {
+export function KeyboardController(
+    {
+        componentsServices,
+        core: { lightboxCloser, fullscreenToggler, slideChangeFacade }
+    }
+) {
     this.listener = (e) => {
         switch (e.keyCode) {
             case 27:
@@ -12,6 +17,7 @@ export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, 
                 break;
             case 122:
                 e.preventDefault();
+                componentsServices.enterFullscreen();
                 fullscreenToggler.enterFullscreen();
                 break;
         }

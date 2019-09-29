@@ -55,6 +55,7 @@ window.FsLightbox = function () {
         // array of <a> tags lightbox was created from
         a: [],
         container: null,
+        slideSwipingHoverer: null,
         sourcesOutersWrapper: null,
         sources: [],
         sourcesOuters: [],
@@ -65,7 +66,7 @@ window.FsLightbox = function () {
     this.componentsServices = {
         setSlideNumber: null,
         enterFullscreen: null,
-        exitFullscreen: null,
+        exitFullscreen: null
     };
 
     this.resolve = (dependency, params = []) => {

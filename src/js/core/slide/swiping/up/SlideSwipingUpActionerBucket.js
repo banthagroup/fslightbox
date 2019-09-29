@@ -29,7 +29,7 @@ export function SlideSwipingUpActionerBucket(
     };
 
     const addTransitionToCurrentSourceHolderAndTransformItToPosition = (position) => {
-        sourcesOuters[stageIndexes.current].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
+        sourcesOuters[stageIndexes.current].classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
         sourcesOutersTransformers[stageIndexes.current][position]();
     };
 }
