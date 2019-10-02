@@ -10,7 +10,6 @@ const parent = document.createElement('div');
 
 test('renderSlideNumber', () => {
     renderSlideNumber(fsLightbox, parent);
-    expect(parent.firstChild.children[0].innerHTML).toBe('1');
     expect(parent.firstChild.children[2].innerHTML).toBe('5');
 
     fsLightbox.componentsServices.setSlideNumber(3);

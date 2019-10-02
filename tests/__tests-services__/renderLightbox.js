@@ -1,4 +1,4 @@
-export function renderAndGetLightbox() {
+export function renderLightbox() {
     let a = document.createElement('a');
     a.setAttribute('data-fslightbox', 'gallery');
     a.setAttribute('href', 'https://i.imgur.com/Ys15LQF.jpg');
@@ -27,4 +27,6 @@ export function renderAndGetLightbox() {
     a.setAttribute('data-fslightbox', 'gallery');
     a.setAttribute('href', 'invalid');
     document.body.appendChild(a);
+
+    require('../../src/index');
 }

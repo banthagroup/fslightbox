@@ -4,6 +4,7 @@ import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 
 const fsLightbox = {
     collections: { sourcesOutersTransformers: [{ zero: jest.fn }, { zero: jest.fn() }] },
+    componentsServices: { setSlideNumber: jest.fn() },
     core: {
         eventsDispatcher: { dispatch: jest.fn(), },
         lightboxOpener: {},
@@ -34,6 +35,7 @@ test('open', () => {
     lightboxOpener.open(1);
     expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(stageManager.updateStageIndexes).toBeCalled();
+    expect(fsLightbox.componentsServices.setSlideNumber).toBeCalledWith(2);
     expect(document.body.appendChild).toBeCalledWith(fsLightbox.elements.container);
     expect(document.documentElement.classList.add).toBeCalledWith(OPEN_CLASS_NAME);
     expect(windowResizeActioner.runActions).toBeCalled();
