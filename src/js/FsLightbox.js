@@ -1,4 +1,5 @@
 import { setUpCore } from "./core/setUpCore";
+import { initializeLightbox } from "./core/main-component/initializing/initializeLightbox";
 
 window.FsLightbox = function () {
     /**
@@ -106,7 +107,7 @@ window.FsLightbox = function () {
 
     this.open = this.core.lightboxOpener.open;
 
-    this.close = () => {
+    this.close = this.core.lightboxCloser.close;
 
-    };
+    this.reinit = initializeLightbox;
 };

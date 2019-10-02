@@ -7,7 +7,7 @@ export function KeyboardController(
     this.listener = (e) => {
         switch (e.keyCode) {
             case 27:
-                lightboxCloser.closeLightbox();
+                lightboxCloser.close();
                 break;
             case 37:
                 slideChangeFacade.changeToPrevious();

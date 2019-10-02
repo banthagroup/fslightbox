@@ -4,6 +4,7 @@ import { initializeLightbox } from "../initializing/initializeLightbox";
 export function setUpLightboxOpener(fsLightbox) {
     const {
         collections: { sourcesOutersTransformers },
+        componentsServices,
         core: {
             eventsDispatcher,
             lightboxOpener: self,
@@ -24,6 +25,7 @@ export function setUpLightboxOpener(fsLightbox) {
             eventsDispatcher.dispatch('onShow') :
             initializeLightbox(fsLightbox);
 
+        componentsServices.setSlideNumber(stageIndexes.current + 1);
         document.body.appendChild(elements.container);
         stageManager.updateStageIndexes();
         document.documentElement.classList.add(OPEN_CLASS_NAME);

@@ -5,7 +5,6 @@ export function renderSlideNumber({ componentsServices, props: { sources }, stag
     slideNumber.className = `${ PREFIX }slide-number-container ${ FLEX_CENTERED_CLASS_NAME }`;
 
     const currentNumber = document.createElement('div');
-    currentNumber.innerHTML = stageIndexes.current + 1;
     componentsServices.setSlideNumber = (number) => currentNumber.innerHTML = number;
 
     const slash = document.createElement('div');

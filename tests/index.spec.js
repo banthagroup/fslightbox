@@ -67,4 +67,23 @@ test('index', () => {
     fourthA.dispatchEvent(event);
     expect(event.preventDefault).toBeCalled();
     expect(fsLightboxInstances['gallery-first'].open).toBeCalledWith(2);
+
+    // testing updating lightboxes - on opened one
+    fsLightboxInstances['gallery-second'].open();
+    thirdA.setAttribute('href', 'invalid-updated');
+    const seventhA = document.createElement('a');
+    seventhA.setAttribute('data-fslightbox', 'gallery-second');
+    seventhA.setAttribute('href', 'image/5.jpg');
+    document.body.appendChild(seventhA);
+    // test adding new gallery
+    const eighthA = document.createElement('a');
+    eighthA.setAttribute('data-fslightbox', 'gallery-third');
+    eighthA.setAttribute('href', 'image/6.jpg');
+    document.body.appendChild(eighthA);
+
+    updateFsLightbox();
+    expect(fsLightboxInstances['gallery-second'].props.sources).toEqual([
+        'invalid-updated', 'image/3.jpg', 'image/5.jpg'
+    ]);
+    expect(fsLightboxInstances['gallery-third'].props.sources).toEqual(['image/6.jpg']);
 });

@@ -21,7 +21,7 @@
 
     <a data-fslightbox="gallery"
        href="https://www.youtube.com/watch?v=xshEZzpS4CQ">
-        video
+        youtube
     </a>
 
     <a data-fslightbox="gallery" href="invalid">
@@ -48,7 +48,16 @@
 <script src="demo/index.js">
 </script>
 <script>
-    fsLightboxInstances['gallery'].open(3);
+    fsLightboxInstances['gallery'].open(1);
+
+    setTimeout(() => {
+        const a = document.createElement('a');
+        a.setAttribute('data-fslightbox', 'gallery');
+        a.setAttribute('href', 'some invalid');
+        document.body.appendChild(a);
+
+        updateFsLightbox();
+    }, 1000);
 </script>
 </body>
 </html>
