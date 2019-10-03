@@ -9,83 +9,100 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var gutil = require('gulp-util');
 
-gulp.task('reload', function () {
-    browserSync.reload();
-});
 
-gulp.task('start', function () {
-
-    browserSync({
-        server: 'src'
-    });
-
-    gulp.watch("src/scss/**/*.scss", ['sass']);
-    gulp.watch('src/js/**/*.js', ['reload', 'js']);
-    gulp.watch('src/*.html', ['reload']);
-});
-
-
-gulp.task('sass', function () {
+/* ******** */
+/* CSS Task */
+/* ******** */
+const sassTask = () => {
     return gulp.src('src/scss/FsLightbox.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('src/css'))
         .pipe(browserSync.reload({stream: true}));
-});
+}
 
-
-gulp.task('build-css',function () {
-   return  gulp.src('src/scss/FsLightbox.scss')
+const buildCSSTask = () => {
+    return  gulp.src('src/scss/FsLightbox.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCSS())
         .pipe(rename('fslightbox.min.css'))
         .pipe(gulp.dest('build'));
-});
+}
 
-gulp.task('clone-css', function () {
-    return gulp.src('src/scss/app.scss')
+const cloneCSSTask = () => {
+    return gulp.src('src/scss/FsLightbox.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(rename('fslightbox.css'))
         .pipe(gulp.dest('build'));
-});
+}
 
-gulp.task('build-js', function f() {
-     return gulp.src('src/app.js')
+/* ******* */
+/* JS Task */
+/* ******* */
+const buildJSTask = () => {
+    return gulp.src('src/app.js')
         .pipe(uglifyES())
          .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(rename('fslightbox.min.js'))
         .pipe(gulp.dest('build'));
-});
+}
 
-gulp.task('clone-js', function () {
+const cloneJSTask = () => {
     return gulp.src('src/app.js')
         .pipe(rename('fslightbox.js'))
         .pipe(gulp.dest('build'));
-});
+}
 
-
-gulp.task('js', function () {
-    browserify({
+const jsTask = () => {
+    return browserify({
         entries: [
             'src/js/index.js',
         ],
         debug: true
     })
-        .bundle()
-        .on('error', function(err){
-            // print the error (can replace with gulp-util)
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            console.log(err.message);
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            // end this stream
-            this.emit('end');
-        })
-        .pipe(source('app.js'))
-        .pipe(buffer())
-        .pipe(gulp.dest('src'))
-});
+    .bundle()
+    .on('error', function(err){
+        // print the error (can replace with gulp-util)
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log(err.message);
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        // end this stream
+        this.emit('end');
+    })
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest('src'));
+}
 
-gulp.task('default', ['start']);
-gulp.task('build', ['build-css', 'build-js', 'clone-css', 'clone-js']);
+/* *********** */
+/* Server Task */
+/* *********** */
+const reload = (done) => {
+    browserSync.reload();
+    done();
+}
 
+const start = () => {
+    browserSync({
+        server: 'src'
+    });
+    
+    gulp.watch("src/scss/**/*.scss", sassTask);
+    gulp.watch('src/js/**/*.js', gulp.series([jsTask, reload]));
+    gulp.watch('src/*.html', reload);
+}
+
+
+/* ********* */
+/* GULP Task */
+/* ********* */
+// Default task : use it using `$ gulp`
+gulp.task('default', gulp.series([start], done => {
+    done();
+}))
+
+// Build task : use it using `$ gulp build`
+gulp.task('build', gulp.series([buildCSSTask, buildJSTask, cloneCSSTask, cloneJSTask], done => {
+    done();
+}));
