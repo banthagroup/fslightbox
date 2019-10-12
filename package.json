@@ -9,7 +9,7 @@
     "slider",
     "carousel"
   ],
-  "main": "index.js",
+  "main": "fslightbox.js",
   "scripts": {
     "test": "jest",
     "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp production",

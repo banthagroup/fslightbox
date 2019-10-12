@@ -21,7 +21,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
-            { from: './index.js', to: './dist' },
+            { from: './index.js', to: './dist/fslightbox.js' },
             { from: './package.json', to: './dist' },
             { from: './README.md', to: './dist' },
             { from: './LICENSE', to: './dist' }
