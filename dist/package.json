@@ -1,7 +1,7 @@
 {
   "name": "fslightbox",
   "version": "3.0.0",
-  "description": "Powerful lightbox plugin without any dependencies! Slide gallery, slide show, image modal - these are no longer your problems.",
+  "description": "Modern and easy plugin for displaying images and videos in clean overlaying box.\nDisplay single source or create beautiful gallery with powerful lightbox.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/banthalightbox/fslightbox"
+    "url": "git+https://github.com/banthagroup/fslightbox"
   },
   "author": "banthagroup",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/banthalightbox/fslightbox/issues"
+    "url": "https://github.com/banthagroup/fslightbox/issues"
   },
   "homepage": "https://fslightbox.com",
   "jest": {
