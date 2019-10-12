@@ -5,7 +5,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         path: path.join(__dirname, ''),
-        libraryTarget: "commonjs2",
+        libraryTarget: "umd",
         filename: "./index.js",
     },
     module: {
@@ -23,7 +23,8 @@ module.exports = {
         new CopyPlugin([
             { from: './index.js', to: './dist' },
             { from: './package.json', to: './dist' },
-            { from: './README.md', to: './dist' }
+            { from: './README.md', to: './dist' },
+            { from: './LICENSE', to: './dist' }
         ])
     ]
 };
