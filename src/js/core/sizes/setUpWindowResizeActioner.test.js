@@ -11,7 +11,7 @@ const fsLightbox = {
     componentsServices: { exitFullscreen: jest.fn() },
     data: { isFullscreenOpen: false },
     elements: { sourcesOuters: ['first-source-outer', 'second-source-outer'] },
-    props: { sources: {length: 2}},
+    props: { sources: { length: 2 } },
     stageIndexes: { current: 0 }
 };
 innerWidth = 991;
