@@ -1,13 +1,10 @@
-import { setUpCore } from "./core/setUpCore";
-import { initializeLightbox } from "./core/main-component/initializing/initializeLightbox";
+import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
 
 window.FsLightbox = function () {
     /**
      * @property { Array } sources
      *
-     * @property { Array } maxDimensions
-     * @property { Object } globalMaxDimensions
-     *
+     * @property { Array } maxYoutubeDimensions
      * @property { Array } customClasses
      *
      * @property { Function } onOpen
@@ -28,7 +25,8 @@ window.FsLightbox = function () {
         maxDimensions: [],
         customClasses: [],
         types: [],
-        videosPosters: []
+        videosPosters: [],
+        slideDistance: 0.3
     };
 
     this.data = {
@@ -36,7 +34,6 @@ window.FsLightbox = function () {
         maxSourceWidth: 0,
         maxSourceHeight: 0,
         scrollbarWidth: 0,
-        slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3,
         isFullscreenOpen: false
     };
 
@@ -63,7 +60,6 @@ window.FsLightbox = function () {
         sources: [],
         sourcesOuters: [],
         sourcesInners: [],
-        sourcesComponents: []
     };
 
     this.componentsServices = {
@@ -82,8 +78,6 @@ window.FsLightbox = function () {
         sourcesLoadsHandlers: [],
         // after source load its size adjuster will be stored in this array so it may be later resized
         sourcesStylers: [],
-        // if lightbox is unmounted pending xhrs need to be aborted
-        xhrs: []
     };
 
     this.core = {
@@ -103,11 +97,11 @@ window.FsLightbox = function () {
         windowResizeActioner: {}
     };
 
-    setUpCore(this);
+    this.setup = () => {
+        setUpLightboxOpener(this);
+    };
 
-    this.open = this.core.lightboxOpener.open;
+    this.open = (i) => this.core.lightboxOpener.open(i);
 
     this.close = this.core.lightboxCloser.close;
-
-    this.reinit = initializeLightbox;
 };

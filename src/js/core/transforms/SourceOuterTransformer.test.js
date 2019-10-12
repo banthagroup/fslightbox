@@ -1,15 +1,14 @@
 import { SourceOuterTransformer } from "./SourceOuterTransformer";
 
 const fsLightbox = {
-    data: { slideDistance: 0 },
-    elements: { sourcesOuters: [document.createElement('div')] }
+    elements: { sourcesOuters: [document.createElement('div')] },
+    props: {}
 };
 // window width for all tests is 1000
 window.innerWidth = 1000;
-// slide distance for all tests is .4
-fsLightbox.data.slideDistance = .4;
-
 const sourceHolderTransformer = new SourceOuterTransformer(fsLightbox, 0);
+// slide distance for all tests is .4
+fsLightbox.props.slideDistance = .4;
 
 describe('default transforming (depends on window width and slide distance)', () => {
     test('negative', () => {

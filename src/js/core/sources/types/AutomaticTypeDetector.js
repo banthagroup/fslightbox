@@ -6,7 +6,7 @@ import {
 } from "../../../constants/core-constants";
 import { getAutomaticTypeDetectorBucket } from "./getAutomaticTypeDetectorBucket";
 
-export function AutomaticTypeDetector({ collections: { xhrs } }) {
+export function AutomaticTypeDetector() {
     const automaticTypeDetectorBucket = getAutomaticTypeDetectorBucket();
 
     let url;
@@ -29,7 +29,6 @@ export function AutomaticTypeDetector({ collections: { xhrs } }) {
         }
         resolveSourceType = callback;
         xhr = new XMLHttpRequest();
-        xhrs.push(xhr);
         xhr.open('GET', url, true);
         xhr.onreadystatechange = onRequestStateChange;
         xhr.send();

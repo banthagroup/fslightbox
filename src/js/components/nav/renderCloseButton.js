@@ -2,7 +2,7 @@ import { renderAndGetToolbarButton } from "./renderAndGetToolbarButton";
 import { renderAndGetSvg } from "../helpers/renderSvg";
 
 export function renderCloseButton(fsLightbox, parent) {
-    const closeButton = renderAndGetToolbarButton(parent);
+    const closeButton = renderAndGetToolbarButton(parent, 'Close');
 
     closeButton.onclick = fsLightbox.core.lightboxCloser.close;
 

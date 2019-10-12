@@ -55,7 +55,7 @@ test('index', () => {
     ]);
     expect(fsLightboxInstances['gallery-first'].props.types[1]).toBe('image');
     expect(fsLightboxInstances['gallery-first'].props.videosPosters[1]).toBe('img/video-poster.jpg');
-    expect(fsLightboxInstances['gallery-first'].props.maxDimensions[1]).toEqual({ width: 1000, height: 500 });
+    expect(fsLightboxInstances['gallery-first'].props.maxYoutubeDimensions).toEqual({ width: 1000, height: 500 });
     expect(fsLightboxInstances['gallery-first'].props.customClasses[1]).toBe('example-class');
     expect(fsLightboxInstances['gallery-first']).toBeInstanceOf(FsLightbox);
     expect(fsLightboxInstances['gallery-second']).toBeInstanceOf(FsLightbox);
@@ -81,9 +81,11 @@ test('index', () => {
     eighthA.setAttribute('href', 'image/6.jpg');
     document.body.appendChild(eighthA);
 
+    fsLightboxInstances['gallery-second'].props.videosPosters = ['video poster should not be cleared'];
     updateFsLightbox();
     expect(fsLightboxInstances['gallery-second'].props.sources).toEqual([
         'invalid-updated', 'image/3.jpg', 'image/5.jpg'
     ]);
+    expect(fsLightboxInstances['gallery-second'].props.videosPosters).toEqual(['video poster should not be cleared']);
     expect(fsLightboxInstances['gallery-third'].props.sources).toEqual(['image/6.jpg']);
 });

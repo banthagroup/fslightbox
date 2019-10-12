@@ -1,5 +1,4 @@
-export function SourceOuterTransformer({ data: { slideDistance }, elements: { sourcesOuters } }, i) {
-    const realSlideDistance = slideDistance + 1;
+export function SourceOuterTransformer({ elements: { sourcesOuters }, props }, i) {
     let additionalTransformValue = 0;
 
     this.byValue = (value) => {
@@ -24,5 +23,5 @@ export function SourceOuterTransformer({ data: { slideDistance }, elements: { so
         additionalTransformValue = 0;
     };
 
-    const getDefaultTransformDistance = () => realSlideDistance * innerWidth;
+    const getDefaultTransformDistance = () => (1 + props.slideDistance) * innerWidth;
 }

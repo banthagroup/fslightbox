@@ -1,7 +1,7 @@
 import { SOURCES_TYPES_KEY } from "../../../constants/local-storage-constants";
 import { assignToObject } from "../../../helpers/objects/assignToObject";
 
-export function CreatingSourcesLocalStorageManager({ props: { disableLocalStorage } }) {
+export function CreatingSourcesLocalStorageManager({ props }) {
     const NOT_YET_DETECTED = false;
     let decodedSourceTypes;
     let newSourceTypesToDetect = 0;
@@ -18,7 +18,11 @@ export function CreatingSourcesLocalStorageManager({ props: { disableLocalStorag
         if (newTypes[url] !== undefined) {
             newSourceTypesToDetect--;
             newTypes[url] = sourceType;
-            ifAllNewTypesAreDetectedStoreAllTypesToLocalStorage();
+
+            if (newSourceTypesToDetect === 0) {
+                assignToObject(decodedSourceTypes, newTypes);
+                localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify(decodedSourceTypes));
+            }
         }
     };
 
@@ -27,14 +31,7 @@ export function CreatingSourcesLocalStorageManager({ props: { disableLocalStorag
         newTypes[url] = NOT_YET_DETECTED;
     };
 
-    const ifAllNewTypesAreDetectedStoreAllTypesToLocalStorage = () => {
-        if (newSourceTypesToDetect === 0) {
-            assignToObject(decodedSourceTypes, newTypes);
-            localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify(decodedSourceTypes));
-        }
-    };
-
-    if (!disableLocalStorage) {
+    if (!props.disableLocalStorage) {
         decodedSourceTypes = JSON.parse(localStorage.getItem(SOURCES_TYPES_KEY));
         // we are checking if detected source types contains at certain key source type
         // when localStorage will be empty we can overwrite this method because we are sure
