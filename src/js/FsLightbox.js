@@ -1,4 +1,5 @@
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
+import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 
 window.FsLightbox = function () {
     /**
@@ -33,7 +34,7 @@ window.FsLightbox = function () {
         isInitialized: false,
         maxSourceWidth: 0,
         maxSourceHeight: 0,
-        scrollbarWidth: 0,
+        scrollbarWidth: getScrollbarWidth(),
         isFullscreenOpen: false
     };
 

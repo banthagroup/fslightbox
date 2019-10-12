@@ -9,14 +9,14 @@ export function setUpScrollbarRecompensor(
     self.addRecompense = () => {
         (document.readyState === "complete") ?
             ifBodyIsHigherThanWindowAddRecompenseToScrollbar() :
-            window.addEventListener('load', () => {
+            addEventListener('load', () => {
                 ifBodyIsHigherThanWindowAddRecompenseToScrollbar();
                 self.addRecompense = ifBodyIsHigherThanWindowAddRecompenseToScrollbar;
             });
     };
 
     const ifBodyIsHigherThanWindowAddRecompenseToScrollbar = () => {
-        if (document.body.offsetHeight > window.innerHeight) {
+        if (document.body.offsetHeight > innerHeight) {
             document.body.style.marginRight = data.scrollbarWidth + 'px';
         }
     };
