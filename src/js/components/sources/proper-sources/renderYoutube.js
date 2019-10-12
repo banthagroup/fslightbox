@@ -12,7 +12,7 @@ export function renderYoutube(
     sourcesElements[i].src = `https://www.youtube.com/embed/${ getYoutubeVideoIdFromUrl(sources[i]) }`;
     sourcesElements[i].allowFullscreen = true;
     sourcesInners[i].appendChild(sourcesElements[i]);
-    sourcesLoadsHandlers[i].handleMaxDimensionsSourceLoad();
+    sourcesLoadsHandlers[i].handleYoutubeLoad();
 
     function getYoutubeVideoIdFromUrl(url) {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

@@ -12,13 +12,20 @@ export function renderFullscreenButton({ core: { fullscreenToggler }, components
 
     const fullscreenButton = renderAndGetToolbarButton(parent);
 
+    let svg;
     data.isFullscreenOpen = !!document.fullscreenElement;
-    const svg = (data.isFullscreenOpen) ?
-        renderAndGetSvg(fullscreenButton, exitSize, exitViewBox, exitD) :
-        renderAndGetSvg(fullscreenButton, enterSize, enterViewBox, enterD);
+
+    if (data.isFullscreenOpen) {
+        svg = renderAndGetSvg(fullscreenButton, exitSize, exitViewBox, exitD);
+        fullscreenButton.title = 'Exit fullscreen';
+    } else {
+        svg = renderAndGetSvg(fullscreenButton, enterSize, enterViewBox, enterD);
+        fullscreenButton.title = 'Enter fullscreen';
+    }
 
     componentsServices.enterFullscreen = () => {
         data.isFullscreenOpen = true;
+        fullscreenButton.title = 'Exit fullscreen';
         svg.setAttributeNS(null, 'width', exitSize);
         svg.setAttributeNS(null, 'height', exitSize);
         svg.setAttributeNS(null, 'viewBox', exitViewBox);
@@ -27,6 +34,7 @@ export function renderFullscreenButton({ core: { fullscreenToggler }, components
 
     componentsServices.exitFullscreen = () => {
         data.isFullscreenOpen = false;
+        fullscreenButton.title = 'Enter fullscreen';
         svg.setAttributeNS(null, 'width', enterSize);
         svg.setAttributeNS(null, 'height', enterSize);
         svg.setAttributeNS(null, 'viewBox', enterViewBox);

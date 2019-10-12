@@ -1,8 +1,8 @@
 import './js/FsLightbox';
 
-function detectLightboxes() {
-    window.fsLightboxInstances = {};
+window.fsLightboxInstances = {};
 
+function setupLightboxesFromDOM() {
     const a = document.getElementsByTagName('a');
 
     for (let i = 0; i < a.length; i++) {
@@ -15,6 +15,7 @@ function detectLightboxes() {
 
         if (!fsLightboxInstances[instanceName]) {
             fsLightboxInstances[instanceName] = new FsLightbox();
+            fsLightboxInstances[instanceName].setup();
         }
 
         let source = null;
@@ -37,7 +38,7 @@ function detectLightboxes() {
         setUpProp('customClasses', 'data-custom-class');
 
         if (a[i].hasAttribute('data-width')) {
-            fsLightboxInstances[instanceName].props.maxDimensions[currentIndex] = {
+            fsLightboxInstances[instanceName].props.maxYoutubeDimensions = {
                 width: parseInt(a[i].getAttribute('data-width')),
                 height: parseInt(a[i].getAttribute('data-height'))
             };
@@ -54,5 +55,18 @@ function detectLightboxes() {
     window.fsLightbox = fsLightboxInstances[fsLightboxKeys[fsLightboxKeys.length - 1]];
 }
 
-window.updateFsLightbox = detectLightboxes;
-detectLightboxes();
+
+window.updateFsLightbox = () => {
+    for (let name in fsLightboxInstances) {
+        const tempProps = fsLightboxInstances[name].props;
+        fsLightboxInstances[name] = new FsLightbox();
+        fsLightboxInstances[name].props = tempProps;
+        fsLightboxInstances[name].props.sources = [];
+        fsLightboxInstances[name].elements.a = [];
+        fsLightboxInstances[name].setup();
+    }
+
+    setupLightboxesFromDOM();
+};
+
+setupLightboxesFromDOM();

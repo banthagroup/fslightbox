@@ -19,5 +19,5 @@ export function renderCustom(
 
     sourcesInners[i].appendChild(sourcesElements[i]);
 
-    sourcesLoadsHandlers[i].handleMaxDimensionsSourceLoad();
+    sourcesLoadsHandlers[i].handleCustomLoad();
 }

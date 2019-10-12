@@ -28,27 +28,29 @@
         invalid
     </a>
 
-    <a data-fslightbox="gallery" data-width="100" data-height="200" data-custom-class="fslightbox-custom"
+    <a data-fslightbox="gallery" data-width="500" data-height="400" data-custom-class="fslightbox-custom"
        href="#custom-source">
         custom
     </a>
 
     <div id="custom-source"
          style="display: none; background: black">
-
     </div>
 </div>
 
 <style>
     .fslightbox-custom {
         display: block !important;
+        width: 2000px;
+        height: 2000px;
     }
 </style>
 
 <script src="demo/index.js">
 </script>
 <script>
-    fsLightboxInstances['gallery'].open(1);
+    fsLightboxInstances['gallery'].props.slideDistance = .4;
+    fsLightboxInstances['gallery'].open(4);
 
     setTimeout(() => {
         const a = document.createElement('a');

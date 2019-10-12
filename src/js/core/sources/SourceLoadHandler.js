@@ -1,6 +1,6 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
-export function SourceLoadHandler({ props, resolve, }, i) {
+export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i) {
     this.handleImageLoad = ({ target: { width, height } }) => {
         this.handleImageLoad = loadInitiallyAndGetNormalLoad(width, height);
     };
@@ -9,23 +9,27 @@ export function SourceLoadHandler({ props, resolve, }, i) {
         this.handleVideoLoad = loadInitiallyAndGetNormalLoad(videoWidth, videoHeight);
     };
 
-    this.handleMaxDimensionsSourceLoad = () => {
+    this.handleYoutubeLoad = () => {
         let width = 1920;
         let height = 1080;
 
-        if (props.maxDimensions && props.maxDimensions[i]) {
-            width = props.maxDimensions[i].width;
-            height = props.maxDimensions[i].height;
-        } else if (props.globalMaxDimensions) {
-            width = props.globalMaxDimensions.width;
-            height = props.globalMaxDimensions.height;
+        if (props.maxYoutubeDimensions) {
+            width = props.maxYoutubeDimensions.width;
+            height = props.maxYoutubeDimensions.height;
         }
 
-        this.handleMaxDimensionsSourceLoad = loadInitiallyAndGetNormalLoad(width, height);
+        this.handleYoutubeLoad = loadInitiallyAndGetNormalLoad(width, height);
+    };
+
+    this.handleCustomLoad = () => {
+        setTimeout(() => {
+            this.handleCustomLoad = loadInitiallyAndGetNormalLoad(sources[i].offsetWidth, sources[i].offsetHeight);
+        });
     };
 
     const loadInitiallyAndGetNormalLoad = (defaultWidth, defaultHeight) => {
         const sourceLoadActioner = resolve(SourceLoadActioner, [i, defaultWidth, defaultHeight]);
+
         sourceLoadActioner.runInitialLoadActions();
 
         return sourceLoadActioner.runNormalLoadActions;

@@ -4,10 +4,8 @@ import { renderSourcesOutersWrapper } from "../../../components/sources/renderSo
 import { renderNav } from "../../../components/nav/renderNav";
 import { fillSourcesOutersTransformersCollection } from "../../collections/fillSourcesOutersTransformersCollection";
 import { renderSlideButtons } from "../../../components/renderSlideButtons";
-import { setUpSlideChangeFacade } from "../../slide/setUpSlideChangeFacade";
-import { setUpStageManager } from "../../stage/setUpStageManager";
 import { renderSlideSwipingHoverer } from "../../../components/renderSlideSwipingHoverer";
-import { setUpGlobalEventsController } from "../../events/setUpGlobalEventsController";
+import { setUpCore } from "../../setUpCore";
 
 export function initializeLightbox(fsLightbox) {
     const { core: { eventsDispatcher }, data, elements, props: { sources } } = fsLightbox;
@@ -16,8 +14,7 @@ export function initializeLightbox(fsLightbox) {
 
     fillSourcesOutersTransformersCollection(fsLightbox);
 
-    setUpStageManager(fsLightbox);
-    setUpSlideChangeFacade(fsLightbox);
+    setUpCore(fsLightbox);
 
     elements.container = document.createElement('div');
     elements.container.className = `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ FADE_IN_STRONG_CLASS_NAME }`;
@@ -28,8 +25,6 @@ export function initializeLightbox(fsLightbox) {
     if (sources.length > 1) {
         renderSlideButtons(fsLightbox);
     }
-
-    setUpGlobalEventsController(fsLightbox);
 
     createSources(fsLightbox);
 

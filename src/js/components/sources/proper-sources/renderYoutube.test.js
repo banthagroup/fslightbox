@@ -1,7 +1,7 @@
 import { renderYoutube } from "./renderYoutube";
 
 const fsLightbox = {
-    collections: { sourcesLoadsHandlers: [null, { handleMaxDimensionsSourceLoad: jest.fn() }] },
+    collections: { sourcesLoadsHandlers: [null, { handleYoutubeLoad: jest.fn() }] },
     elements: { sources: [], sourcesInners: [null, { appendChild: jest.fn() }] },
     props: { sources: [null, 'https://www.youtube.com/watch?v=xshEZzpS4CQ'] }
 };
@@ -14,5 +14,5 @@ test('renderYoutube', () => {
     expect(fsLightbox.elements.sources[1]).toBe(iframe);
     expect(fsLightbox.elements.sources[1].src).toBe('https://www.youtube.com/embed/xshEZzpS4CQ');
     expect(fsLightbox.elements.sourcesInners[1].appendChild).toBeCalledWith(iframe);
-    expect(fsLightbox.collections.sourcesLoadsHandlers[1].handleMaxDimensionsSourceLoad).toBeCalled();
+    expect(fsLightbox.collections.sourcesLoadsHandlers[1].handleYoutubeLoad).toBeCalled();
 });
