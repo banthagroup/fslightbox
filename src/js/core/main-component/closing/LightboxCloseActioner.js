@@ -24,7 +24,7 @@ export function LightboxCloseActioner(
         globalEventsController.removeListeners();
 
         if (data.isFullscreenOpen) {
-            fullscreenToggler.enterFullscreen();
+            fullscreenToggler.exitFullscreen();
         }
 
         setTimeout(() => {

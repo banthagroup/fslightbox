@@ -3,13 +3,13 @@ import { SlideSwipingMove } from "./SlideSwipingMove";
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 
 const fsLightbox = {
-    data: { sourcesCount: 2 },
+    props: { sources: { length: 2 } },
     resolve: (constructor) => {
         if (constructor === SlideSwipingMoveActioner) {
             return slideSwipingMoveActioner;
         } else throw new Error('Invalid dependency');
     },
-    slideSwipingProps: { isSwiping: false }
+    slideSwipingProps: { isSwiping: false },
 };
 const slideSwipingMoveActioner = { runActionsForEvent: jest.fn() };
 let slideSwipingMove;
@@ -45,7 +45,7 @@ test('listener', () => {
     expect(fsLightbox.slideSwipingProps.swipedX).toBeUndefined();
     expect(slideSwipingMoveActioner.runActionsForEvent).toBeCalledWith(e);
 
-    fsLightbox.data.sourcesCount = 1;
+    fsLightbox.props.sources.length = 1;
     setUp();
     expect(fsLightbox.slideSwipingProps.swipedX).toBe(1);
     expect(slideSwipingMoveActioner.runActionsForEvent).toBeCalledTimes(1);

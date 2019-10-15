@@ -5,7 +5,7 @@ import { ANIMATION_TIME } from "../../../constants/css-constants";
 const fsLightbox = {
     core: {
         eventsDispatcher: { dispatch: jest.fn() },
-        fullscreenToggler: { enterFullscreen: jest.fn() },
+        fullscreenToggler: { exitFullscreen: jest.fn() },
         globalEventsController: { removeListeners: jest.fn() },
         scrollbarRecompensor: { removeRecompense: jest.fn() }
     },
@@ -33,11 +33,11 @@ test('before fadeOut (instant actions)', () => {
     expect(fsLightbox.core.globalEventsController.removeListeners).toBeCalled();
 
     lightboxCloseActions.runActions();
-    expect(fullscreenToggler.enterFullscreen).not.toBeCalled();
+    expect(fullscreenToggler.exitFullscreen).not.toBeCalled();
 
     fsLightbox.data.isFullscreenOpen = true;
     lightboxCloseActions.runActions();
-    expect(fullscreenToggler.enterFullscreen).toBeCalled();
+    expect(fullscreenToggler.exitFullscreen).toBeCalled();
 });
 
 test('after fade out', () => {

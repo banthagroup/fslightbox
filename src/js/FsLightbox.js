@@ -64,7 +64,7 @@ window.FsLightbox = function () {
     };
 
     this.componentsServices = {
-        setSlideNumber: null,
+        setSlideNumber: () => {},
         enterFullscreen: null,
         exitFullscreen: null
     };
@@ -104,5 +104,5 @@ window.FsLightbox = function () {
 
     this.open = (i) => this.core.lightboxOpener.open(i);
 
-    this.close = this.core.lightboxCloser.close;
+    this.close = () => this.core.lightboxCloser.close();
 };

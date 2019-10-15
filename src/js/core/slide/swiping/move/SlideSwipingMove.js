@@ -1,11 +1,11 @@
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 import { getAnimationDebounce } from "../../../animations/getAnimationDebounce";
 
-export function SlideSwipingMove({ data, resolve, slideSwipingProps }) {
+export function SlideSwipingMove({ props: { sources }, resolve, slideSwipingProps }) {
     const slideSwipingMoveActioner = resolve(SlideSwipingMoveActioner);
     const isPreviousAnimationDebounced = getAnimationDebounce();
 
-    (data.sourcesCount === 1) ?
+    (sources.length === 1) ?
         this.listener = () => {
             // if there is only one slide we need to simulate swipe to prevent lightbox from closing
             slideSwipingProps.swipedX = 1;

@@ -8,7 +8,7 @@ const fsLightbox = {
         swipingActioner: { runTopActionsForProps: jest.fn() }
     },
     elements: {
-        container: { classList: { remove: jest.fn() }, removeChild: jest.fn() },
+        container: { classList: { remove: jest.fn() }, removeChild: jest.fn(), contains: jest.fn(() => false) },
         slideSwipingHoverer: 'slide-swiping-hoverer'
     },
     resolve: (constructorDependency) => {
@@ -41,12 +41,15 @@ test('runActions', () => {
     slideSwipingUpActions.runActions();
     expect(slideSwipingUpActionsBucket.runPositiveSwipedXActions).toBeCalled();
     expect(slideSwipingUpActionsBucket.runNegativeSwipedXActions).not.toBeCalled();
-    expect(fsLightbox.elements.container.removeChild).toBeCalledWith('slide-swiping-hoverer');
+    expect(fsLightbox.elements.container.contains).toBeCalledWith('slide-swiping-hoverer');
+    expect(fsLightbox.elements.container.removeChild).not.toBeCalled();
     expect(fsLightbox.elements.container.classList.remove).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
 
     fsLightbox.slideSwipingProps.swipedX = -1;
+    fsLightbox.elements.container.contains = () => true;
     slideSwipingUpActions.runActions();
     expect(slideSwipingUpActionsBucket.runPositiveSwipedXActions).toBeCalledTimes(1);
     expect(slideSwipingUpActionsBucket.runNegativeSwipedXActions).toBeCalled();
+    expect(fsLightbox.elements.container.removeChild).toBeCalledWith('slide-swiping-hoverer');
 });

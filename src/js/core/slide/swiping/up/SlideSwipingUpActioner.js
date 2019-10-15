@@ -26,7 +26,9 @@ export function SlideSwipingUpActioner(
             slideSwipingUpActionsBucket.runNegativeSwipedXActions();
         }
 
-        elements.container.removeChild(elements.slideSwipingHoverer);
+        if (elements.container.contains(elements.slideSwipingHoverer)) {
+            elements.container.removeChild(elements.slideSwipingHoverer);
+        }
 
         elements.container.classList.remove(CURSOR_GRABBING_CLASS_NAME);
 
