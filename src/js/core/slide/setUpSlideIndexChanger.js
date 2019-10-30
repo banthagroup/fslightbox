@@ -10,10 +10,11 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 
 export function setUpSlideIndexChanger(
     {
-        collections: { sourcesOutersTransformers },
+        collections: { sourcesOutersTransformers, sourcesRenderFunctions },
         componentsServices,
         core: { classFacade, slideIndexChanger: self, stageManager },
         elements: { sourcesInners },
+        props,
         stageIndexes
     }
 ) {
@@ -25,6 +26,13 @@ export function setUpSlideIndexChanger(
         stageIndexes.current = i;
         stageManager.updateStageIndexes();
         componentsServices.setSlideNumber(i + 1);
+
+        for (let j = 0; j < props.sources.length; j++) {
+            if (sourcesRenderFunctions[j] && stageManager.isSourceInStage(j)) {
+                sourcesRenderFunctions[j]();
+                delete sourcesRenderFunctions[j];
+            }
+        }
     };
 
     self.jumpTo = (i) => {

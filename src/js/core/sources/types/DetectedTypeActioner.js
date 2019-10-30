@@ -8,7 +8,8 @@ import { renderInvalid } from "../../../components/sources/proper-sources/render
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
-        collections: { sourcesLoadsHandlers },
+        collections: { sourcesLoadsHandlers, sourcesRenderFunctions },
+        core: { stageManager },
         resolve
     } = fsLightbox;
 
@@ -17,22 +18,28 @@ export function DetectedTypeActioner(fsLightbox) {
             sourcesLoadsHandlers[i] = resolve(SourceLoadHandler, [i]);
         }
 
+        let renderFunction;
+
         switch (type) {
             case IMAGE_TYPE:
-                renderImage(fsLightbox, i);
+                renderFunction = renderImage;
                 break;
             case VIDEO_TYPE:
-                renderVideo(fsLightbox, i);
+                renderFunction = renderVideo;
                 break;
             case YOUTUBE_TYPE:
-                renderYoutube(fsLightbox, i);
+                renderFunction = renderYoutube;
                 break;
             case CUSTOM_TYPE:
-                renderCustom(fsLightbox, i);
+                renderFunction = renderCustom;
                 break;
             default:
-                renderInvalid(fsLightbox, i);
+                renderFunction = renderInvalid;
                 break;
         }
+
+        (stageManager.isSourceInStage(i)) ?
+            renderFunction(fsLightbox, i) :
+            sourcesRenderFunctions[i] = () => renderFunction(fsLightbox, i);
     };
 }
