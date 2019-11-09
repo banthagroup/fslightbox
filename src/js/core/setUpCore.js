@@ -8,8 +8,9 @@ import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor
 import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
 import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDown";
 import { setUpGlobalEventsController } from "./events/setUpGlobalEventsController";
-import { setUpStageManager } from "./stage/setUpStageManager";
 import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
+import { setUpSourceDisplayFacade } from "./sources/setUpSourceDisplayFacade";
+import { setUpStageManager } from "./stage/setUpStageManager";
 
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
@@ -22,6 +23,7 @@ export function setUpCore(fsLightbox) {
     setUpSlideChangeFacade(fsLightbox);
     setUpSlideIndexChanger(fsLightbox);
     setUpSlideSwipingDown(fsLightbox);
+    setUpSourceDisplayFacade(fsLightbox);
     setUpStageManager(fsLightbox);
     setUpWindowResizeActioner(fsLightbox);
 }

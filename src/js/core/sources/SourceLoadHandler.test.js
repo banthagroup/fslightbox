@@ -37,6 +37,22 @@ test('handleVideoLoad', () => {
     expect(sourceLoadHandler.handleVideoLoad).toBe(sourceLoadActioner.runNormalLoadActions);
 });
 
+test('handleNotMetaDatedVideoLoad', () => {
+    expectedSourceLoadActionerParams = [0, 2000, 1000];
+
+    let tempYoutubeLoad = sourceLoadHandler.handleYoutubeLoad;
+    sourceLoadHandler.handleYoutubeLoad = jest.fn();
+
+    sourceLoadHandler.handleNotMetaDatedVideoLoad();
+    expect(sourceLoadHandler.handleYoutubeLoad).toBeCalled();
+
+    sourceLoadHandler.handleVideoLoad({ target: { videoWidth: 2000, videoHeight: 1000 } });
+    sourceLoadHandler.handleNotMetaDatedVideoLoad();
+    expect(sourceLoadHandler.handleYoutubeLoad).toBeCalledTimes(1);
+
+    sourceLoadHandler.handleYoutubeLoad = tempYoutubeLoad;
+});
+
 test('handleYoutubeLoad', () => {
     expectedSourceLoadActionerParams = [0, 1920, 1080];
     sourceLoadHandler.handleYoutubeLoad();

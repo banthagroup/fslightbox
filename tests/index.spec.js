@@ -8,8 +8,6 @@ test('index', () => {
     secondA.setAttribute('data-fslightbox', 'gallery-first');
     secondA.setAttribute('data-type', 'image');
     secondA.setAttribute('data-video-poster', 'img/video-poster.jpg');
-    secondA.setAttribute('data-width', '1000');
-    secondA.setAttribute('data-height', '500');
     secondA.setAttribute('data-custom-class', 'example-class');
     secondA.setAttribute('href', '#custom-source-1');
     const customSourceFirst = document.createElement('div');
@@ -55,7 +53,6 @@ test('index', () => {
     ]);
     expect(fsLightboxInstances['gallery-first'].props.types[1]).toBe('image');
     expect(fsLightboxInstances['gallery-first'].props.videosPosters[1]).toBe('img/video-poster.jpg');
-    expect(fsLightboxInstances['gallery-first'].props.maxYoutubeDimensions).toEqual({ width: 1000, height: 500 });
     expect(fsLightboxInstances['gallery-first'].props.customClasses[1]).toBe('example-class');
     expect(fsLightboxInstances['gallery-first']).toBeInstanceOf(FsLightbox);
     expect(fsLightboxInstances['gallery-second']).toBeInstanceOf(FsLightbox);
@@ -82,7 +79,7 @@ test('index', () => {
     document.body.appendChild(eighthA);
 
     fsLightboxInstances['gallery-second'].props.videosPosters = ['video poster should not be cleared'];
-    updateFsLightbox();
+    refreshFsLightbox();
     expect(fsLightboxInstances['gallery-second'].props.sources).toEqual([
         'invalid-updated', 'image/3.jpg', 'image/5.jpg'
     ]);

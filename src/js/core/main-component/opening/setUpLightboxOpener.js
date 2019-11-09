@@ -10,6 +10,7 @@ export function setUpLightboxOpener(fsLightbox) {
             lightboxOpener: self,
             globalEventsController,
             scrollbarRecompensor,
+            sourceDisplayFacade,
             stageManager,
             windowResizeActioner
         },
@@ -21,18 +22,20 @@ export function setUpLightboxOpener(fsLightbox) {
     self.open = (index = 0) => {
         stageIndexes.current = index;
 
-        (data.isInitialized) ?
-            eventsDispatcher.dispatch('onShow') :
+        if (!data.isInitialized) {
             initializeLightbox(fsLightbox);
+        } else {
+            eventsDispatcher.dispatch('onShow');
+        }
 
+        stageManager.updateStageIndexes();
+        sourceDisplayFacade.displayStageSourcesIfNotYet();
         componentsServices.setSlideNumber(stageIndexes.current + 1);
         document.body.appendChild(elements.container);
-        stageManager.updateStageIndexes();
         document.documentElement.classList.add(OPEN_CLASS_NAME);
         scrollbarRecompensor.addRecompense();
         globalEventsController.attachListeners();
         eventsDispatcher.dispatch('onOpen');
-
         sourcesOutersTransformers[stageIndexes.current].zero();
         windowResizeActioner.runActions();
     };

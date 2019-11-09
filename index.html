@@ -5,31 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>fslightbox.js</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/demo/index.css"/>
 </head>
 <body>
 <div>
-    <div style="height: 1500px"></div>
+    <div style="height: 500px"></div>
     <a data-fslightbox="gallery" href="https://i.imgur.com/fsyrScY.jpg">
         image
     </a>
 
+    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
+        image
+    </a>
+
+    <a data-fslightbox="gallery" href="/demo/img/5.jpg">
+        image
+    </a>
+
     <a data-fslightbox="gallery"
-       data-video-poster="https://i.imgur.com/fsyrScY.jpg"
+       data-video-poster="/demo/img/4.jpeg"
        href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
         video
     </a>
 
-    <a data-fslightbox="gallery"
-       href="https://www.youtube.com/watch?v=xshEZzpS4CQ">
-        youtube
-    </a>
+    <!--    <a data-fslightbox="gallery"-->
+    <!--       href="https://www.youtube.com/watch?v=xshEZzpS4CQ">-->
+    <!--        youtube-->
+    <!--    </a>-->
 
     <a data-fslightbox="gallery" href="invalid">
         invalid
     </a>
 
-    <a data-fslightbox="gallery" data-width="500" data-height="400" data-custom-class="fslightbox-custom"
+    <a data-fslightbox="gallery"
+       data-custom-class="fslightbox-custom"
        href="#custom-source">
         custom
     </a>
@@ -51,6 +60,7 @@
 </script>
 <script>
     fsLightboxInstances['gallery'].props.slideDistance = .4;
+    fsLightboxInstances['gallery'].props.maxYoutubeDimensions = { width: 1000, height: 1000 };
     fsLightboxInstances['gallery'].open(4);
 
     setTimeout(() => {
@@ -59,7 +69,7 @@
         a.setAttribute('href', 'some invalid');
         document.body.appendChild(a);
 
-        updateFsLightbox();
+        refreshFsLightbox();
     }, 1000);
 </script>
 </body>

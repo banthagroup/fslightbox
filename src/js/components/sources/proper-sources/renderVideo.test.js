@@ -1,10 +1,17 @@
 import { renderVideo } from "./renderVideo";
 
 const fsLightbox = {
-    collections: { sourcesLoadsHandlers: [null, { handleVideoLoad: jest.fn() }] },
+    collections: {
+        sourcesLoadsHandlers: [null, {
+            handleVideoLoad: jest.fn(),
+            handleNotMetaDatedVideoLoad: jest.fn()
+        }]
+    },
     elements: { sources: [], sourcesInners: [null, { appendChild: jest.fn() }] },
     props: { sources: [null, 'image/1.jpg'], videosPosters: [] }
 };
+
+jest.useFakeTimers();
 
 const video = document.createElement('video');
 const source = document.createElement('source');
@@ -22,5 +29,9 @@ test('renderVideo', () => {
 
     fsLightbox.props.videosPosters = [null, 'https://www.google.com/'];
     renderVideo(fsLightbox, 1);
-    expect(fsLightbox.elements.sources[1].poster).toBe('https://www.google.com/')
+    expect(fsLightbox.elements.sources[1].poster).toBe('https://www.google.com/');
+
+    expect(fsLightbox.collections.sourcesLoadsHandlers[1].handleNotMetaDatedVideoLoad).not.toBeCalled();
+    jest.runTimersToTime(3000);
+    expect(fsLightbox.collections.sourcesLoadsHandlers[1].handleNotMetaDatedVideoLoad).toBeCalled();
 });

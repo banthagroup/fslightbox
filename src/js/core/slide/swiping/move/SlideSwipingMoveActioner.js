@@ -1,5 +1,6 @@
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
 import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
+import { addToElementClassIfNotContains } from "../../../../helpers/elements/addToElementClassIfNotContains";
 
 export function SlideSwipingMoveActioner(
     {
@@ -16,7 +17,7 @@ export function SlideSwipingMoveActioner(
             elements.container.appendChild(elements.slideSwipingHoverer);
         }
 
-        elements.container.classList.add(CURSOR_GRABBING_CLASS_NAME);
+        addToElementClassIfNotContains(elements.container, CURSOR_GRABBING_CLASS_NAME);
 
         slideSwipingProps.swipedX = getClientXFromEvent(e) - slideSwipingProps.downClientX;
 

@@ -11,6 +11,7 @@ const fsLightbox = {
         globalEventsController: { attachListeners: jest.fn() },
         scrollbarRecompensor: { addRecompense: jest.fn() },
         stageManager: { updateStageIndexes: jest.fn() },
+        sourceDisplayFacade: { displayStageSourcesIfNotYet: jest.fn() },
         windowResizeActioner: { runActions: jest.fn() }
     },
     data: { isInitialized: true },
@@ -35,6 +36,7 @@ test('open', () => {
     lightboxOpener.open(1);
     expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(stageManager.updateStageIndexes).toBeCalled();
+    expect(fsLightbox.core.sourceDisplayFacade.displayStageSourcesIfNotYet).toBeCalled();
     expect(fsLightbox.componentsServices.setSlideNumber).toBeCalledWith(2);
     expect(document.body.appendChild).toBeCalledWith(fsLightbox.elements.container);
     expect(document.documentElement.classList.add).toBeCalledWith(OPEN_CLASS_NAME);

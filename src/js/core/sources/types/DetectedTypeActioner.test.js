@@ -6,7 +6,6 @@ import * as  renderVideoObject from "../../../components/sources/proper-sources/
 import * as renderYoutubeObject from "../../../components/sources/proper-sources/renderYoutube";
 import * as renderCustomObject from "../../../components/sources/proper-sources/renderCustom";
 import * as renderInvalidObject from "../../../components/sources/proper-sources/renderInvalid";
-import { renderImage } from "../../../components/sources/proper-sources/renderImage";
 
 const fsLightbox = {
     collections: { sourcesLoadsHandlers: [], sourcesRenderFunctions: [] },

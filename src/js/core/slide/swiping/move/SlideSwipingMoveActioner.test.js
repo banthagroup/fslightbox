@@ -1,6 +1,7 @@
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
 import * as getClientXFromEventObject from "../../../../helpers/events/getClientXFromEvent";
+import * as addToElementClassIfNotContainsObject from "../../../../helpers/elements/addToElementClassIfNotContains";
 
 const fsLightbox = {
     collections: {
@@ -26,6 +27,7 @@ const fsLightbox = {
     }
 };
 let slideSwipingMoveActions;
+addToElementClassIfNotContainsObject.addToElementClassIfNotContains = jest.fn();
 
 const setUpAndCallRunActionsForEventWithEmptyEvent = () => {
     slideSwipingMoveActions = new SlideSwipingMoveActioner(fsLightbox);
@@ -46,7 +48,8 @@ test('simple actions', () => {
 
     expect(fsLightbox.elements.container.contains).toBeCalledWith('slide-swiping-hoverer');
     expect(fsLightbox.elements.container.appendChild).not.toBeCalled();
-    expect(fsLightbox.elements.container.classList.add).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
+    expect(addToElementClassIfNotContainsObject.addToElementClassIfNotContains)
+        .toBeCalledWith(fsLightbox.elements.container, CURSOR_GRABBING_CLASS_NAME);
     expect(fsLightbox.slideSwipingProps.swipedX).toBe(-50);
 
     fsLightbox.elements.container.contains = () => false;

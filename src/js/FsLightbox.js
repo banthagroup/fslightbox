@@ -1,11 +1,11 @@
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
+import { setUpStageManager } from "./core/stage/setUpStageManager";
 
 window.FsLightbox = function () {
     /**
      * @property { Array } sources
      *
-     * @property { Array } maxYoutubeDimensions
      * @property { Array } customClasses
      *
      * @property { Function } onOpen
@@ -19,14 +19,14 @@ window.FsLightbox = function () {
      *
      * @property { Array } videosPosters
      * @property { Number } slideDistance
-     * @property { Boolean } openOnMount
+     * @property { Number } videosPosters
      */
     this.props = {
         sources: [],
-        maxDimensions: [],
         customClasses: [],
         types: [],
         videosPosters: [],
+        maxYoutubeDimensions: null,
         slideDistance: 0.3
     };
 
@@ -77,9 +77,9 @@ window.FsLightbox = function () {
     this.collections = {
         sourcesOutersTransformers: [],
         sourcesLoadsHandlers: [],
+        sourcesRenderFunctions: [],
         // after source load its size adjuster will be stored in this array so it may be later resized
         sourcesStylers: [],
-        sourcesRenderFunctions: []
     };
 
     this.core = {
@@ -94,7 +94,7 @@ window.FsLightbox = function () {
         slideChangeFacade: {},
         slideIndexChanger: {},
         slideSwipingDown: {},
-        sourceLoadActioner: {},
+        sourceDisplayFacade: {},
         stageManager: {},
         windowResizeActioner: {}
     };

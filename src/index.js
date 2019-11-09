@@ -38,13 +38,6 @@ function setupLightboxesFromDOM() {
         setUpProp('videosPosters', 'data-video-poster');
         setUpProp('customClasses', 'data-custom-class');
 
-        if (a[i].hasAttribute('data-width')) {
-            fsLightboxInstances[instanceName].props.maxYoutubeDimensions = {
-                width: parseInt(a[i].getAttribute('data-width')),
-                height: parseInt(a[i].getAttribute('data-height'))
-            };
-        }
-
         function setUpProp(propName, attributeName) {
             if (a[i].hasAttribute(attributeName)) {
                 fsLightboxInstances[instanceName].props[propName][currentIndex] = a[i].getAttribute(attributeName);
@@ -57,7 +50,7 @@ function setupLightboxesFromDOM() {
 }
 
 
-window.updateFsLightbox = () => {
+window.refreshFsLightbox = () => {
     for (let name in fsLightboxInstances) {
         const tempProps = fsLightboxInstances[name].props;
         fsLightboxInstances[name] = new FsLightbox();
