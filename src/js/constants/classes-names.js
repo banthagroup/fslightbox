@@ -8,6 +8,7 @@ export const FLEX_CENTERED_CLASS_NAME = `${ PREFIX }flex-centered`;
 export const OPEN_CLASS_NAME = `${ PREFIX }open`;
 export const TRANSFORM_TRANSITION_CLASS_NAME = `${ PREFIX }transform-transition`;
 export const ABSOLUTED_CLASS_NAME = `${ PREFIX }absoluted`;
+export const HUDDEN_CLASS_NAME = `${ PREFIX }hidden`;
 
 // slide buttons
 export const SLIDE_BTN = `${ PREFIX }slide-btn`;
