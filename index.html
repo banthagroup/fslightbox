@@ -5,71 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>fslightbox.js</title>
-    <link rel="stylesheet" href="/demo/index.css"/>
+    <!--    <link rel="stylesheet" href="/demo/index.css"/>-->
 </head>
 <body>
 <div>
     <div style="height: 500px"></div>
+    <a data-fslightbox="gallery" data-type="video"
+       href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        <div class="embed-container">
+            xd
+            <!--            <img src="../assets/placeholder.jpg">-->
+        </div>
+    </a>
+
     <a data-fslightbox="gallery" href="https://i.imgur.com/fsyrScY.jpg">
         image
     </a>
 
-    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
-        image
-    </a>
-
-    <a data-fslightbox="gallery" href="/demo/img/5.jpg">
-        image
-    </a>
-
-    <a data-fslightbox="gallery"
-       data-video-poster="/demo/img/4.jpeg"
-       href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-        video
-    </a>
-
-    <!--    <a data-fslightbox="gallery"-->
-    <!--       href="https://www.youtube.com/watch?v=xshEZzpS4CQ">-->
-    <!--        youtube-->
-    <!--    </a>-->
-
-    <a data-fslightbox="gallery" href="invalid">
-        invalid
-    </a>
-
-    <a data-fslightbox="gallery"
-       data-custom-class="fslightbox-custom"
-       href="#custom-source">
-        custom
-    </a>
-
-    <div id="custom-source"
-         style="display: none; background: black">
-    </div>
+    <!--    <iframe id="custom-source"-->
+    <!--            frameborder="0"-->
+    <!--            width="720px"-->
+    <!--            height="520px"-->
+    <!--            allow="autoplay; fullscreen"-->
+    <!--            src="https://www.youtube.com/embed/xshEZzpS4CQ?autoplay=1">-->
+    <!--    </iframe>-->
 </div>
 
 <style>
     .fslightbox-custom {
         display: block !important;
-        width: 2000px;
-        height: 2000px;
     }
 </style>
 
-<script src="/demo/index.js">
+<script src="/dist/fslightbox.js">
 </script>
 <script>
     fsLightboxInstances['gallery'].props.slideDistance = .4;
-    fsLightboxInstances['gallery'].props.maxYoutubeDimensions = { width: 1000, height: 1000 };
-    fsLightboxInstances['gallery'].open(4);
+    fsLightboxInstances['gallery'].props.onOpen = () => {
+        console.log(fsLightboxInstances['gallery'].stageIndexes);
+        console.log(document.getElementsByClassName('fslightbox-slide-btn').length);
+    };
+    fsLightboxInstances['gallery'].open();
+
 
     setTimeout(() => {
-        const a = document.createElement('a');
-        a.setAttribute('data-fslightbox', 'gallery');
-        a.setAttribute('href', 'some invalid');
-        document.body.appendChild(a);
+        // const a = document.createElement('a');
+        // a.setAttribute('data-fslightbox', 'gallery');
+        // a.setAttribute('href', 'some invalid');
+        // document.body.appendChild(a);
 
-        refreshFsLightbox();
+        // refreshFsLightbox();
     }, 1000);
 </script>
 </body>

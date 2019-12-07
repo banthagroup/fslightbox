@@ -8,7 +8,6 @@ export const FLEX_CENTERED_CLASS_NAME = `${ PREFIX }flex-centered`;
 export const OPEN_CLASS_NAME = `${ PREFIX }open`;
 export const TRANSFORM_TRANSITION_CLASS_NAME = `${ PREFIX }transform-transition`;
 export const ABSOLUTED_CLASS_NAME = `${ PREFIX }absoluted`;
-export const HUDDEN_CLASS_NAME = `${ PREFIX }hidden`;
 
 // slide buttons
 export const SLIDE_BTN = `${ PREFIX }slide-btn`;
@@ -22,10 +21,8 @@ export const FADE_OUT_STRONG_CLASS_NAME = FADE_OUT_CLASS_NAME + '-strong';
 
 // opacity
 const opacityBaseClassName = `${ PREFIX }opacity-`;
-export const OPACITY_0_CLASS_NAME = `${ opacityBaseClassName }0`;
 export const OPACITY_1_CLASS_NAME = `${ opacityBaseClassName }1`;
 
 // sources
 export const SOURCE_CLASS_NAME = `${ PREFIX }source`;
 export const SOURCE_OUTER_CLASS_NAME = `${ SOURCE_CLASS_NAME }-outer`;
-export const SOURCES_OUTERS_WRAPPER = `${ SOURCE_OUTER_CLASS_NAME }s-outers-wrapper`;
