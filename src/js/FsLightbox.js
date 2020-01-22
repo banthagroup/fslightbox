@@ -1,7 +1,7 @@
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 
-window.FsLightbox = function () {
+window.FsLightbox = function() {
     /**
      * @property { Array } sources
      *
@@ -16,6 +16,7 @@ window.FsLightbox = function () {
      * @property { Array } types
      * @property { String } type
      *
+     * @property { Boolean } loadOnlyCurrentSource
      * @property { Array } videosPosters
      * @property { Number } slideDistance
      * @property { Number } videosPosters

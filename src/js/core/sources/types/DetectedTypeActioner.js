@@ -9,7 +9,7 @@ import { renderInvalid } from "../../../components/sources/proper-sources/render
 export function DetectedTypeActioner(fsLightbox) {
     const {
         collections: { sourcesLoadsHandlers, sourcesRenderFunctions },
-        core: { stageManager },
+        core: { sourceDisplayFacade },
         resolve
     } = fsLightbox;
 
@@ -38,8 +38,7 @@ export function DetectedTypeActioner(fsLightbox) {
                 break;
         }
 
-        (stageManager.isSourceInStage(i)) ?
-            renderFunction(fsLightbox, i) :
-            sourcesRenderFunctions[i] = () => renderFunction(fsLightbox, i);
+        sourcesRenderFunctions[i] = () => renderFunction(fsLightbox, i);
+        sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
     };
 }

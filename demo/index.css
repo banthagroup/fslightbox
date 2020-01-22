@@ -94,18 +94,26 @@
   left: 0; }
 
 .fslightbox-slide-number-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   height: 100%;
   font-size: 15px;
   color: #d7d7d7;
   z-index: 0;
-  max-width: 55px; }
-  .fslightbox-slide-number-container div {
-    padding: 0 2px; }
+  max-width: 55px;
+  text-align: left; }
+  .fslightbox-slide-number-container .fslightbox-flex-centered {
+    height: 100%; }
 
 .fslightbox-slash {
-  margin-top: 2px;
-  font-size: 16px;
-  font-weight: 500; }
+  display: block;
+  margin: 0 5px;
+  width: 1px;
+  height: 12px;
+  transform: rotate(15deg);
+  background: #fff; }
 
 .fslightbox-toolbar {
   position: absolute;

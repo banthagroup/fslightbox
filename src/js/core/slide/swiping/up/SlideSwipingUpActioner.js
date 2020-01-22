@@ -1,5 +1,6 @@
 import { SlideSwipingUpActionerBucket } from "./SlideSwipingUpActionerBucket";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
+import { removeFromElementChildIfContains } from '../../../../helpers/elements/removeFromElementChildIfContains';
 
 export function SlideSwipingUpActioner(
     {
@@ -12,6 +13,8 @@ export function SlideSwipingUpActioner(
     const slideSwipingUpActionsBucket = resolve(SlideSwipingUpActionerBucket);
 
     this.runNoSwipeActions = () => {
+        removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
+
         if (!slideSwipingProps.isSourceDownEventTarget) {
             lightboxCloser.close();
         }
@@ -26,9 +29,7 @@ export function SlideSwipingUpActioner(
             slideSwipingUpActionsBucket.runNegativeSwipedXActions();
         }
 
-        if (elements.container.contains(elements.slideSwipingHoverer)) {
-            elements.container.removeChild(elements.slideSwipingHoverer);
-        }
+        removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
 
         elements.container.classList.remove(CURSOR_GRABBING_CLASS_NAME);
 

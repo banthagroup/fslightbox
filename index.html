@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>fslightbox.js</title>
-    <!--    <link rel="stylesheet" href="/demo/index.css"/>-->
+    <link rel="stylesheet" href="/demo/index.css" />
 </head>
 <body>
 <div>
@@ -16,10 +16,6 @@
             xd
             <!--            <img src="../assets/placeholder.jpg">-->
         </div>
-    </a>
-
-    <a data-fslightbox="gallery" href="https://i.imgur.com/fsyrScY.jpg">
-        image
     </a>
 
     <!--    <iframe id="custom-source"-->
@@ -37,24 +33,24 @@
     }
 </style>
 
-<script src="/dist/fslightbox.js">
+<script src="/demo/index.js">
 </script>
 <script>
     fsLightboxInstances['gallery'].props.slideDistance = .4;
+    fsLightboxInstances['gallery'].props.loadOnlyCurrentSource = true;
     fsLightboxInstances['gallery'].props.onOpen = () => {
-        console.log(fsLightboxInstances['gallery'].stageIndexes);
-        console.log(document.getElementsByClassName('fslightbox-slide-btn').length);
     };
     fsLightboxInstances['gallery'].open();
 
 
     setTimeout(() => {
-        // const a = document.createElement('a');
-        // a.setAttribute('data-fslightbox', 'gallery');
-        // a.setAttribute('href', 'some invalid');
-        // document.body.appendChild(a);
+        const a = document.createElement('a');
+        a.setAttribute('data-fslightbox', 'gallery');
+        a.setAttribute('href', 'some invalid');
+        document.body.appendChild(a);
 
-        // refreshFsLightbox();
+        refreshFsLightbox();
+        fsLightboxInstances['gallery'].open();
     }, 1000);
 </script>
 </body>

@@ -17,7 +17,7 @@ export function initializeLightbox(fsLightbox) {
     setUpCore(fsLightbox);
 
     elements.container = document.createElement('div');
-    elements.container.className = `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ FADE_IN_STRONG_CLASS_NAME }`;
+    elements.container.className = `${PREFIX}container ${FULL_DIMENSION_CLASS_NAME} ${FADE_IN_STRONG_CLASS_NAME}`;
 
     renderSlideSwipingHoverer(fsLightbox);
     renderNav(fsLightbox);

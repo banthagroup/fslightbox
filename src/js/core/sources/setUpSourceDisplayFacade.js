@@ -2,15 +2,25 @@ export function setUpSourceDisplayFacade(
     {
         collections: { sourcesRenderFunctions },
         core: { sourceDisplayFacade: self },
+        props: { loadOnlyCurrentSource },
         stageIndexes
     }
 ) {
-    self.displayStageSourcesIfNotYet = () => {
+    self.displaySourcesWhichShouldBeDisplayed = () => {
+        if (loadOnlyCurrentSource) {
+            runRenderActionsForSourceWithIndex(stageIndexes.current);
+            return;
+        }
+
         for (let i in stageIndexes) {
-            if (sourcesRenderFunctions[stageIndexes[i]]) {
-                sourcesRenderFunctions[stageIndexes[i]]();
-                delete sourcesRenderFunctions[stageIndexes[i]];
-            }
+            runRenderActionsForSourceWithIndex(stageIndexes[i]);
         }
     };
+
+    function runRenderActionsForSourceWithIndex(i) {
+        if (sourcesRenderFunctions[i]) {
+            sourcesRenderFunctions[i]();
+            delete sourcesRenderFunctions[i];
+        }
+    }
 }

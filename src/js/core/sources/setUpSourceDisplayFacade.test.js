@@ -3,30 +3,42 @@ import { setUpSourceDisplayFacade } from "./setUpSourceDisplayFacade";
 const fsLightbox = {
     collections: {
         sourcesRenderFunctions: [
-            null,
             () => wasFirstSourceRenderCalled = true,
-            null,
-            () => wasThirdSourceRenderCalled = true,
-            jest.fn()
+            () => wasSecondSourceRenderCalled = true,
+            undefined,
+            () => wasFourthSourceRenderCalled = true
         ]
     },
     core: { sourceDisplayFacade: {} },
+    props: { loadOnlyCurrentSource: true },
     stageIndexes: {
-        previous: 1,
-        current: 2,
-        next: 3
+        previous: 0,
+        current: 1,
+        next: 2
     }
 };
-let wasFirstSourceRenderCalled;
-let wasThirdSourceRenderCalled;
+let wasFirstSourceRenderCalled = false;
+let wasSecondSourceRenderCalled = false;
+let wasFourthSourceRenderCalled = false;
 const sourceDisplayFacade = fsLightbox.core.sourceDisplayFacade;
 setUpSourceDisplayFacade(fsLightbox);
 
-test('displayStageSourcesIfNotYet', () => {
-    sourceDisplayFacade.displayStageSourcesIfNotYet();
-    expect(wasFirstSourceRenderCalled).toBe(true);
-    expect(wasThirdSourceRenderCalled).toBe(true);
+test('displaySourcesWhichShouldBeDisplayed', () => {
+    sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
+    expect(wasFirstSourceRenderCalled).toBe(false);
+    expect(wasSecondSourceRenderCalled).toBe(true);
+    expect(wasFourthSourceRenderCalled).toBe(false);
+    expect(fsLightbox.collections.sourcesRenderFunctions[0]).not.toBeUndefined();
     expect(fsLightbox.collections.sourcesRenderFunctions[1]).toBeUndefined();
-    expect(fsLightbox.collections.sourcesRenderFunctions[3]).toBeUndefined();
-    expect(fsLightbox.collections.sourcesRenderFunctions[4]).not.toBeCalled();
+    expect(fsLightbox.collections.sourcesRenderFunctions[3]).not.toBeUndefined();
+
+    fsLightbox.props.loadOnlyCurrentSource = false;
+    setUpSourceDisplayFacade(fsLightbox);
+    sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
+    expect(wasFirstSourceRenderCalled).toBe(true);
+    expect(wasSecondSourceRenderCalled).toBe(true);
+    expect(wasFourthSourceRenderCalled).toBe(false);
+    expect(fsLightbox.collections.sourcesRenderFunctions[0]).toBeUndefined();
+    expect(fsLightbox.collections.sourcesRenderFunctions[1]).toBeUndefined();
+    expect(fsLightbox.collections.sourcesRenderFunctions[3]).not.toBeUndefined();
 });

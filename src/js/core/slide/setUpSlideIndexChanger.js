@@ -28,7 +28,7 @@ export function setUpSlideIndexChanger(
 
         componentsServices.setSlideNumber(i + 1);
 
-        sourceDisplayFacade.displayStageSourcesIfNotYet();
+        sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
     };
 
     self.jumpTo = (i) => {

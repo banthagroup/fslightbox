@@ -29,7 +29,7 @@ export function setUpLightboxOpener(fsLightbox) {
         }
 
         stageManager.updateStageIndexes();
-        sourceDisplayFacade.displayStageSourcesIfNotYet();
+        sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
         componentsServices.setSlideNumber(stageIndexes.current + 1);
         document.body.appendChild(elements.container);
         document.documentElement.classList.add(OPEN_CLASS_NAME);

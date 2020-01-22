@@ -1,6 +1,7 @@
 import { SlideSwipingUpActionerBucket } from "./SlideSwipingUpActionerBucket";
 import { SlideSwipingUpActioner } from "./SlideSwipingUpActioner";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
+import * as removeFromElementChildIfContainsObject from '../../../../helpers/elements/removeFromElementChildIfContains';
 
 const fsLightbox = {
     core: {
@@ -8,7 +9,7 @@ const fsLightbox = {
         swipingActioner: { runTopActionsForProps: jest.fn() }
     },
     elements: {
-        container: { classList: { remove: jest.fn() }, removeChild: jest.fn(), contains: jest.fn(() => false) },
+        container: { classList: { remove: jest.fn() } },
         slideSwipingHoverer: 'slide-swiping-hoverer'
     },
     resolve: (constructorDependency) => {
@@ -26,10 +27,13 @@ const slideSwipingUpActionsBucket = {
     runNegativeSwipedXActions: jest.fn(),
     runZoomSwipeActions: jest.fn()
 };
+removeFromElementChildIfContainsObject.removeFromElementChildIfContains = jest.fn();
 const slideSwipingUpActions = new SlideSwipingUpActioner(fsLightbox);
 
 test('resetSwiping', () => {
     slideSwipingUpActions.runNoSwipeActions();
+    expect(removeFromElementChildIfContainsObject.removeFromElementChildIfContains)
+        .toBeCalledWith(fsLightbox.elements.container, 'slide-swiping-hoverer');
     expect(fsLightbox.core.lightboxCloser.close).not.toBeCalled();
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
     fsLightbox.slideSwipingProps.isSourceDownEventTarget = false;
@@ -41,15 +45,13 @@ test('runActions', () => {
     slideSwipingUpActions.runActions();
     expect(slideSwipingUpActionsBucket.runPositiveSwipedXActions).toBeCalled();
     expect(slideSwipingUpActionsBucket.runNegativeSwipedXActions).not.toBeCalled();
-    expect(fsLightbox.elements.container.contains).toBeCalledWith('slide-swiping-hoverer');
-    expect(fsLightbox.elements.container.removeChild).not.toBeCalled();
+    expect(removeFromElementChildIfContainsObject.removeFromElementChildIfContains)
+        .toBeCalledWith(fsLightbox.elements.container, 'slide-swiping-hoverer');
     expect(fsLightbox.elements.container.classList.remove).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
 
     fsLightbox.slideSwipingProps.swipedX = -1;
-    fsLightbox.elements.container.contains = () => true;
     slideSwipingUpActions.runActions();
     expect(slideSwipingUpActionsBucket.runPositiveSwipedXActions).toBeCalledTimes(1);
     expect(slideSwipingUpActionsBucket.runNegativeSwipedXActions).toBeCalled();
-    expect(fsLightbox.elements.container.removeChild).toBeCalledWith('slide-swiping-hoverer');
 });
