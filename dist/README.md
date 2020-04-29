@@ -48,7 +48,7 @@ In HTML file
 Available at: https://fslightbox.com/javascript
 
 ## Documentation
-Available at: https://fslightbox.com/javascript/documentation/basic
+Available at: https://fslightbox.com/javascript/documentation
 
 ## Browser Compatibility
 
