@@ -1,5 +1,7 @@
-export function setUpFullscreenToggler({ core: { fullscreenToggler: self } }) {
+export function setUpFullscreenToggler({ componentsServices, core: { fullscreenToggler: self } }) {
     self.enterFullscreen = () => {
+        componentsServices.enterFullscreen();
+
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -13,6 +15,8 @@ export function setUpFullscreenToggler({ core: { fullscreenToggler: self } }) {
     };
 
     self.exitFullscreen = () => {
+        componentsServices.exitFullscreen();
+
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

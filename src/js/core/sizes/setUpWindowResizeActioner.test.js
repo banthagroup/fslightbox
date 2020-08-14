@@ -9,15 +9,13 @@ const fsLightbox = {
     },
     core: { windowResizeActioner: {} },
     componentsServices: { exitFullscreen: jest.fn() },
-    data: { isFullscreenOpen: false },
+    data: { maxSourceWidth: null, maxSourceHeight: null },
     elements: { sourcesOuters: ['first-source-outer', 'second-source-outer'] },
     props: { sources: { length: 2 } },
     stageIndexes: { current: 0 }
 };
 innerWidth = 991;
 innerHeight = 1000;
-delete window.screen;
-window.screen = { height: 1000 };
 const windowResizeActioner = fsLightbox.core.windowResizeActioner;
 setUpWindowResizeActioner(fsLightbox);
 removeFromElementClassIfContainsObject.removeFromElementClassIfContains = jest.fn();
@@ -38,13 +36,7 @@ test('runActions', () => {
     expect(fsLightbox.collections.sourcesStylers[1].styleSize).toBeCalled();
 
     innerWidth = 992;
-    window.screen.height = 999;
     windowResizeActioner.runActions();
     expect(fsLightbox.data.maxSourceWidth).toBe(0.9 * 992);
     expect(fsLightbox.data.maxSourceHeight).toBe(900);
-    expect(fsLightbox.componentsServices.exitFullscreen).not.toBeCalled();
-
-    fsLightbox.data.isFullscreenOpen = true;
-    windowResizeActioner.runActions();
-    expect(fsLightbox.componentsServices.exitFullscreen).toBeCalled();
 });

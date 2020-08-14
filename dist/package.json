@@ -1,6 +1,6 @@
 {
   "name": "fslightbox",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Modern and easy plugin for displaying images and videos in clean overlaying box. Display single source or create beautiful gallery with powerful lightbox.",
   "keywords": [
     "lightbox",
@@ -12,8 +12,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp production",
-    "watch": "webpack --mode development --watch"
+    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp",
+    "watch": "webpack-dev-server  --mode development --host 0.0.0.0"
   },
   "repository": {
     "type": "git",

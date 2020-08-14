@@ -16,7 +16,7 @@ export function SlideSwipingUpActioner(
         removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
 
         if (!slideSwipingProps.isSourceDownEventTarget) {
-            lightboxCloser.close();
+            lightboxCloser.closeLightbox();
         }
 
         slideSwipingProps.isSwiping = false;

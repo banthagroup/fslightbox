@@ -1,23 +1,15 @@
 import { SOURCE_CLASS_NAME } from "../../../constants/classes-names";
+import { setUpSourceClassName } from "../../../helpers/source/setUpSourceClassName";
 
-export function renderCustom(
-    {
+export function renderCustom(fsLightbox, i) {
+    const {
         collections: { sourcesLoadsHandlers },
         elements: { sources: sourcesElements, sourcesInners },
-        props
-    }, i
-) {
-    const { sources } = props;
+        props: { sources }
+    } = fsLightbox;
 
     sourcesElements[i] = sources[i];
-
-    sourcesElements[i].classList.add(SOURCE_CLASS_NAME);
-
-    if (props.customClasses[i]) {
-        sourcesElements[i].classList.add(props.customClasses[i]);
-    }
-
+    setUpSourceClassName(fsLightbox, i, `${sourcesElements[i].className} ${SOURCE_CLASS_NAME}`);
     sourcesInners[i].appendChild(sourcesElements[i]);
-
     sourcesLoadsHandlers[i].handleCustomLoad();
 }

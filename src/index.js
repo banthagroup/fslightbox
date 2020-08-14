@@ -36,7 +36,23 @@ function setupLightboxesFromDOM() {
 
         setUpProp('types', 'data-type');
         setUpProp('videosPosters', 'data-video-poster');
+        setUpProp('customClasses', 'data-class');
         setUpProp('customClasses', 'data-custom-class');
+
+        // setting up custom attributes
+        const LIGHTBOX_ATTRIBUTES = ['href', 'data-fslightbox', 'data-type', 'data-video-poster', 'data-class', 'data-custom-class'];
+        const attributes = a[i].attributes;
+        const currentInstanceCustomAttributes = fsLightboxInstances[instanceName].props.customAttributes;
+        for (let j = 0; j < attributes.length; j++) {
+            if (LIGHTBOX_ATTRIBUTES.indexOf(attributes[j].name) === -1) { // if is custom attribute
+                if (!currentInstanceCustomAttributes[currentIndex]) {
+                    currentInstanceCustomAttributes[currentIndex] = {};
+                }
+
+                const attributeName = attributes[j].name.substr(5); // removing 'data-' from attribute
+                currentInstanceCustomAttributes[currentIndex][attributeName] = attributes[j].value;
+            }
+        }
 
         function setUpProp(propName, attributeName) {
             if (a[i].hasAttribute(attributeName)) {

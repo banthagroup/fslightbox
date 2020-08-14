@@ -7,7 +7,7 @@ test('slide-jumping', () => {
     fsLightbox.open(3);
     expect(fsLightbox.stageIndexes).toEqual({ previous: 2, current: 3, next: 4 });
 
-    keydownEvent.keyCode = 39;
+    keydownEvent.key = 'ArrowRight';
     document.dispatchEvent(keydownEvent);
     expect(fsLightbox.stageIndexes).toEqual({ previous: 3, current: 4, next: 0 });
 

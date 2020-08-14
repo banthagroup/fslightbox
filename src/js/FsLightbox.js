@@ -1,11 +1,9 @@
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 
-window.FsLightbox = function() {
+window.FsLightbox = function () {
     /**
      * @property { Array } sources
-     *
-     * @property { Array } customClasses
      *
      * @property { Function } onOpen
      * @property { Function } onClose
@@ -16,17 +14,21 @@ window.FsLightbox = function() {
      * @property { Array } types
      * @property { String } type
      *
+     * @property { Array } customAttributes
+     * @property { Array } customClasses
+     * @property { Object } maxYoutubeDimensions
+     * @property { Array } videosPosters // deprecated 3.2.0
+     *
+     * @property { Boolean } exitFullscreenOnClose
      * @property { Boolean } loadOnlyCurrentSource
-     * @property { Array } videosPosters
      * @property { Number } slideDistance
-     * @property { Number } videosPosters
      */
     this.props = {
         sources: [],
+        customAttributes: [],
         customClasses: [],
         types: [],
-        videosPosters: [],
-        maxYoutubeDimensions: null,
+        videosPosters: [], // deprecated 3.2.0
         slideDistance: 0.3
     };
 
@@ -64,9 +66,10 @@ window.FsLightbox = function() {
     };
 
     this.componentsServices = {
-        setSlideNumber: () => {},
         enterFullscreen: null,
-        exitFullscreen: null
+        exitFullscreen: null,
+        // if there is one slide SlideNumber is not rendered so we need to prevent calling undefined function
+        setSlideNumber: () => {}
     };
 
     this.resolve = (dependency, params = []) => {
@@ -105,5 +108,5 @@ window.FsLightbox = function() {
 
     this.open = (i) => this.core.lightboxOpener.open(i);
 
-    this.close = () => this.core.lightboxCloser.close();
+    this.close = () => this.core.lightboxCloser.closeLightbox();
 };

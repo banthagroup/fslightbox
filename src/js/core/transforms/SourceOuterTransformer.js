@@ -19,7 +19,7 @@ export function SourceOuterTransformer({ elements: { sourcesOuters }, props }, i
     };
 
     const setFinalTransformAndCleanTransformer = (value) => {
-        sourcesOuters[i].style.transform = `translateX(${ value + additionalTransformValue }px)`;
+        sourcesOuters[i].style.transform = `translateX(${value + additionalTransformValue}px)`;
         additionalTransformValue = 0;
     };
 

@@ -5,7 +5,6 @@ export function setUpWindowResizeActioner(
     {
         collections: { sourcesOutersTransformers, sourcesStylers },
         core: { windowResizeActioner: self },
-        componentsServices,
         data,
         elements: { sourcesOuters },
         props,
@@ -18,10 +17,6 @@ export function setUpWindowResizeActioner(
             data.maxSourceWidth = innerWidth :
             data.maxSourceWidth = 0.9 * innerWidth;
         data.maxSourceHeight = 0.9 * innerHeight;
-
-        if (data.isFullscreenOpen && screen.height !== innerHeight) {
-            componentsServices.exitFullscreen();
-        }
 
         for (let i = 0; i < props.sources.length; i++) {
             removeFromElementClassIfContains(sourcesOuters[i], TRANSFORM_TRANSITION_CLASS_NAME);

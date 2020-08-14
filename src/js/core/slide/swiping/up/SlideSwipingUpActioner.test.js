@@ -5,7 +5,7 @@ import * as removeFromElementChildIfContainsObject from '../../../../helpers/ele
 
 const fsLightbox = {
     core: {
-        lightboxCloser: { close: jest.fn() },
+        lightboxCloser: { closeLightbox: jest.fn() },
         swipingActioner: { runTopActionsForProps: jest.fn() }
     },
     elements: {
@@ -34,11 +34,11 @@ test('resetSwiping', () => {
     slideSwipingUpActions.runNoSwipeActions();
     expect(removeFromElementChildIfContainsObject.removeFromElementChildIfContains)
         .toBeCalledWith(fsLightbox.elements.container, 'slide-swiping-hoverer');
-    expect(fsLightbox.core.lightboxCloser.close).not.toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
     fsLightbox.slideSwipingProps.isSourceDownEventTarget = false;
     slideSwipingUpActions.runNoSwipeActions();
-    expect(fsLightbox.core.lightboxCloser.close).toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
 });
 
 test('runActions', () => {

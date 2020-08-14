@@ -1,12 +1,7 @@
-const path = require('path');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    entry: "./src/index.js",
-    output: {
-        path: path.join(__dirname, ''),
-        libraryTarget: "umd",
-        filename: "./demo/index.js",
-    },
+    entry: "./src/dev.js",
     module: {
         rules: [
             {
@@ -38,5 +33,11 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: "index.html",
+            filename: "index.html"
+        })
+    ]
 };

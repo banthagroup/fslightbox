@@ -30,7 +30,7 @@ describe('calling callback with right sources types', () => {
     });
 
     test('invalid type', (testDone) => {
-        automaticTypeDetector.setUrlToCheck('https://cors-anywhere.herokuapp.com/');
+        automaticTypeDetector.setUrlToCheck('https://corsproxy.github.io/');
         return automaticTypeDetector.getSourceType((sourceType) => {
             expect(sourceType).toEqual(INVALID_TYPE);
             testDone();
