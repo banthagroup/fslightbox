@@ -3,6 +3,20 @@ import './js/FsLightbox';
 
 window.fsLightboxInstances = {};
 
+setupLightboxesFromDOM();
+
+window.refreshFsLightbox = () => {
+    for (let name in fsLightboxInstances) {
+        const tempProps = fsLightboxInstances[name].props;
+        fsLightboxInstances[name] = new FsLightbox();
+        fsLightboxInstances[name].props = tempProps;
+        fsLightboxInstances[name].props.sources = [];
+        fsLightboxInstances[name].elements.a = [];
+    }
+
+    setupLightboxesFromDOM();
+};
+
 function setupLightboxesFromDOM() {
     const a = document.getElementsByTagName('a');
 
@@ -16,7 +30,6 @@ function setupLightboxesFromDOM() {
 
         if (!fsLightboxInstances[instanceName]) {
             fsLightboxInstances[instanceName] = new FsLightbox();
-            fsLightboxInstances[instanceName].setup();
         }
 
         let source = null;
@@ -64,19 +77,3 @@ function setupLightboxesFromDOM() {
     const fsLightboxKeys = Object.keys(fsLightboxInstances);
     window.fsLightbox = fsLightboxInstances[fsLightboxKeys[fsLightboxKeys.length - 1]];
 }
-
-
-window.refreshFsLightbox = () => {
-    for (let name in fsLightboxInstances) {
-        const tempProps = fsLightboxInstances[name].props;
-        fsLightboxInstances[name] = new FsLightbox();
-        fsLightboxInstances[name].props = tempProps;
-        fsLightboxInstances[name].props.sources = [];
-        fsLightboxInstances[name].elements.a = [];
-        fsLightboxInstances[name].setup();
-    }
-
-    setupLightboxesFromDOM();
-};
-
-setupLightboxesFromDOM();

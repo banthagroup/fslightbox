@@ -1,48 +1,49 @@
-test('index', () => {
-    const firstA = document.createElement('a');
-    firstA.setAttribute('data-fslightbox', 'gallery-first');
-    firstA.setAttribute('href', 'image/1.jpg');
-    firstA.setAttribute('data-class', 'example-class');
-    firstA.setAttribute('data-custom-class', 'example-custom-class');
-    document.body.appendChild(firstA);
+let firstA, secondA, thirdA, fourthA, fifthA, sixthA, seventhA, eighthA;
+let customSourceFirst, customSourceSecond;
 
-    const secondA = document.createElement('a');
-    secondA.setAttribute('data-fslightbox', 'gallery-first');
-    secondA.setAttribute('data-type', 'image');
-    secondA.setAttribute('data-video-poster', 'img/video-poster.jpg');
-    secondA.setAttribute('data-custom-class', 'example-class');
-    secondA.setAttribute('data-poster', 'example-poster');
-    secondA.setAttribute('data-alt', 'example-alt');
-    secondA.setAttribute('href', '#custom-source-1');
-    const customSourceFirst = document.createElement('div');
-    customSourceFirst.id = 'custom-source-1';
-    document.body.appendChild(customSourceFirst);
-    document.body.appendChild(secondA);
+firstA = document.createElement('a');
+firstA.setAttribute('data-fslightbox', 'gallery-first');
+firstA.setAttribute('href', 'image/1.jpg');
+document.body.appendChild(firstA);
 
-    const thirdA = document.createElement('a');
-    thirdA.setAttribute('data-fslightbox', 'gallery-second');
-    thirdA.setAttribute('href', '#custom-source-2');
-    const customSourceSecond = document.createElement('div');
-    customSourceSecond.id = 'custom-source-2';
-    document.body.appendChild(customSourceSecond);
-    document.body.appendChild(thirdA);
+secondA = document.createElement('a');
+secondA.setAttribute('data-fslightbox', 'gallery-first');
+secondA.setAttribute('data-type', 'image');
+secondA.setAttribute('data-video-poster', 'img/video-poster.jpg');
+secondA.setAttribute('data-custom-class', 'example-class');
+secondA.setAttribute('data-poster', 'example-poster');
+secondA.setAttribute('data-alt', 'example-alt');
+secondA.setAttribute('href', '#custom-source-1');
+customSourceFirst = document.createElement('div');
+customSourceFirst.id = 'custom-source-1';
+document.body.appendChild(customSourceFirst);
+document.body.appendChild(secondA);
 
-    const fourthA = document.createElement('a');
-    fourthA.setAttribute('data-fslightbox', 'gallery-first');
-    fourthA.setAttribute('href', 'image/2.jpg');
-    document.body.appendChild(fourthA);
+thirdA = document.createElement('a');
+thirdA.setAttribute('data-fslightbox', 'gallery-second');
+thirdA.setAttribute('href', '#custom-source-2');
+customSourceSecond = document.createElement('div');
+customSourceSecond.id = 'custom-source-2';
+document.body.appendChild(customSourceSecond);
+document.body.appendChild(thirdA);
 
-    const fifthA = document.createElement('a');
-    fifthA.setAttribute('data-fslightbox', 'gallery-second');
-    fifthA.setAttribute('href', 'image/3.jpg');
-    document.body.appendChild(fifthA);
+fourthA = document.createElement('a');
+fourthA.setAttribute('data-fslightbox', 'gallery-first');
+fourthA.setAttribute('href', 'image/2.jpg');
+document.body.appendChild(fourthA);
 
-    const sixA = document.createElement('a');
-    sixA.setAttribute('href', 'image/4.jpg');
-    document.body.appendChild(sixA);
+fifthA = document.createElement('a');
+fifthA.setAttribute('data-fslightbox', 'gallery-second');
+fifthA.setAttribute('href', 'image/3.jpg');
+document.body.appendChild(fifthA);
 
-    require('../src');
+sixthA = document.createElement('a');
+sixthA.setAttribute('href', 'image/4.jpg');
+document.body.appendChild(sixthA);
 
+require('../src/index.js');
+
+test('setting up lightboxes with proper props', () => {
     expect(fsLightboxInstances['gallery-first'].props.sources).toEqual([
         'image/1.jpg', customSourceFirst, 'image/2.jpg'
     ]);
@@ -68,15 +69,18 @@ test('index', () => {
     expect(fsLightboxInstances['gallery-first']).toBeInstanceOf(FsLightbox);
     expect(fsLightboxInstances['gallery-second']).toBeInstanceOf(FsLightbox);
     expect(fsLightbox).toBe(fsLightboxInstances['gallery-second']);
+});
 
+test('opening lightbox via <a> tag click', () => {
     fsLightboxInstances['gallery-first'].open = jest.fn();
     const event = new Event('click');
     event.preventDefault = jest.fn();
     fourthA.dispatchEvent(event);
     expect(event.preventDefault).toBeCalled();
     expect(fsLightboxInstances['gallery-first'].open).toBeCalledWith(2);
+});
 
-    // testing updating lightboxes - on opened one
+test('testing refreshing lightboxes - on opened one', () => {
     fsLightboxInstances['gallery-second'].open();
     thirdA.setAttribute('href', 'invalid-updated');
     const seventhA = document.createElement('a');

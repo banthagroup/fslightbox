@@ -102,9 +102,7 @@ window.FsLightbox = function () {
         windowResizeActioner: {}
     };
 
-    this.setup = () => {
-        setUpLightboxOpener(this);
-    };
+    setUpLightboxOpener(this);
 
     this.open = (i) => this.core.lightboxOpener.open(i);
 
