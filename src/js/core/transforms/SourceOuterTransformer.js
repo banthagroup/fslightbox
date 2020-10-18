@@ -1,4 +1,4 @@
-export function SourceOuterTransformer({ elements: { sourcesOuters }, props }, i) {
+export function SourceOuterTransformer({ elements: { sourceMainWrappers }, props }, i) {
     let additionalTransformValue = 0;
 
     this.byValue = (value) => {
@@ -19,7 +19,7 @@ export function SourceOuterTransformer({ elements: { sourcesOuters }, props }, i
     };
 
     const setFinalTransformAndCleanTransformer = (value) => {
-        sourcesOuters[i].style.transform = `translateX(${value + additionalTransformValue}px)`;
+        sourceMainWrappers[i].style.transform = `translateX(${value + additionalTransformValue}px)`;
         additionalTransformValue = 0;
     };
 

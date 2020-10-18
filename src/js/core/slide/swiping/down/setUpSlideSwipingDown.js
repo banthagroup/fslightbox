@@ -1,5 +1,5 @@
 import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
-import { SOURCES_OUTERS } from "../../../../constants/elements";
+import { SOURCE_MAIN_WRAPPERS } from "../../../../constants/elements";
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-names";
 
 export function setUpSlideSwipingDown(
@@ -28,7 +28,7 @@ export function setUpSlideSwipingDown(
             slideSwipingProps.isSourceDownEventTarget = true :
             slideSwipingProps.isSourceDownEventTarget = false;
 
-        classFacade.removeFromEachElementClassIfContains(SOURCES_OUTERS, TRANSFORM_TRANSITION_CLASS_NAME);
+        classFacade.removeFromEachElementClassIfContains(SOURCE_MAIN_WRAPPERS, TRANSFORM_TRANSITION_CLASS_NAME);
     };
 }
 

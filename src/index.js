@@ -57,7 +57,8 @@ function setupLightboxesFromDOM() {
         const attributes = a[i].attributes;
         const currentInstanceCustomAttributes = fsLightboxInstances[instanceName].props.customAttributes;
         for (let j = 0; j < attributes.length; j++) {
-            if (LIGHTBOX_ATTRIBUTES.indexOf(attributes[j].name) === -1) { // if is custom attribute
+            if (LIGHTBOX_ATTRIBUTES.indexOf(attributes[j].name) === -1
+                && attributes[j].name.substr(0, 5) === 'data-') { // if is custom attribute
                 if (!currentInstanceCustomAttributes[currentIndex]) {
                     currentInstanceCustomAttributes[currentIndex] = {};
                 }

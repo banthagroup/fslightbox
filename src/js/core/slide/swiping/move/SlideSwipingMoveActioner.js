@@ -4,7 +4,7 @@ import { addToElementClassIfNotContains } from "../../../../helpers/elements/add
 
 export function SlideSwipingMoveActioner(
     {
-        collections: { sourcesOutersTransformers },
+        collections: { sourceMainWrappersTransformers },
         elements,
         slideSwipingProps,
         stageIndexes
@@ -31,7 +31,7 @@ export function SlideSwipingMoveActioner(
     };
 
     const transformSourceHolderAtIndexToPosition = (index, position) => {
-        sourcesOutersTransformers[index]
+        sourceMainWrappersTransformers[index]
             .byValue(slideSwipingProps.swipedX)
             [position]();
     };

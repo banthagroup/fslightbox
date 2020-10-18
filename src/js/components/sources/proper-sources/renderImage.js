@@ -5,7 +5,7 @@ import { setUpSourceCustomAttributes } from "../../../helpers/source/setUpSource
 export function renderImage(fsLightbox, i) {
     const {
         collections: { sourcesLoadsHandlers },
-        elements: { sources: sourcesElements, sourcesInners },
+        elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
     } = fsLightbox;
 
@@ -14,5 +14,5 @@ export function renderImage(fsLightbox, i) {
     sourcesElements[i].src = sources[i];
     sourcesElements[i].onload = sourcesLoadsHandlers[i].handleImageLoad;
     setUpSourceCustomAttributes(fsLightbox, i);
-    sourcesInners[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
 }

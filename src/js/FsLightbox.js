@@ -59,10 +59,10 @@ window.FsLightbox = function () {
         a: [],
         container: null,
         slideSwipingHoverer: null,
-        sourcesOutersWrapper: null,
+        sourceWrappersContainer: null,
         sources: [],
-        sourcesOuters: [],
-        sourcesInners: [],
+        sourceMainWrappers: [],
+        sourceAnimationWrappers: [],
     };
 
     this.componentsServices = {
@@ -78,7 +78,7 @@ window.FsLightbox = function () {
     };
 
     this.collections = {
-        sourcesOutersTransformers: [],
+        sourceMainWrappersTransformers: [],
         sourcesLoadsHandlers: [],
         sourcesRenderFunctions: [],
         // after source load its size adjuster will be stored in this array so it may be later resized

@@ -2,12 +2,12 @@ import { SourceOuterTransformer } from "../transforms/SourceOuterTransformer";
 
 export function fillSourcesOutersTransformersCollection(
     {
-        collections: { sourcesOutersTransformers },
+        collections: { sourceMainWrappersTransformers },
         props: { sources },
         resolve
     }
 ) {
     for (let i = 0; i < sources.length; i++) {
-        sourcesOutersTransformers[i] = resolve(SourceOuterTransformer, [i]);
+        sourceMainWrappersTransformers[i] = resolve(SourceOuterTransformer, [i]);
     }
 }

@@ -1,6 +1,6 @@
 import { setUpSlideIndexChanger } from "./setUpSlideIndexChanger";
 import { ANIMATION_TIME } from "../../constants/css-constants";
-import { SOURCES_INNERS, SOURCES_OUTERS } from "../../constants/elements";
+import { SOURCE_ANIMATION_WRAPPERS, SOURCE_MAIN_WRAPPERS } from "../../constants/elements";
 import {
     FADE_IN_CLASS_NAME,
     FADE_IN_STRONG_CLASS_NAME,
@@ -12,7 +12,7 @@ import * as getQueuedActionObject from "../timeouts/getQueuedAction";
 
 const fsLightbox = {
     collections: {
-        sourcesOutersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }],
+        sourceMainWrappersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }],
     },
     core: {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
@@ -27,7 +27,7 @@ const fsLightbox = {
     },
     componentsServices: { setSlideNumber: jest.fn() },
     elements: {
-        sourcesInners: [
+        sourceAnimationWrappers: [
             { classList: { add: jest.fn() } },
             { classList: { add: jest.fn() } }
         ]
@@ -44,7 +44,7 @@ test('removeFadeOutQueue', () => {
     expect(getQueuedActionObject.getQueuedAction.mock.calls[0][1]).toBe(ANIMATION_TIME);
     getQueuedActionObject.getQueuedAction.mock.calls[0][0]();
     expect(fsLightbox.core.classFacade.removeFromEachElementClassIfContains).toBeCalledWith(
-        SOURCES_INNERS, FADE_OUT_CLASS_NAME
+        SOURCE_ANIMATION_WRAPPERS, FADE_OUT_CLASS_NAME
     );
 });
 
@@ -64,30 +64,30 @@ test('jumpTo', () => {
     slideIndexChanger.jumpTo(1);
     expect(slideIndexChanger.changeTo).toBeCalledWith(1);
     expect(fsLightbox.core.classFacade.removeFromEachElementClassIfContains).toBeCalledWith(
-        SOURCES_OUTERS, TRANSFORM_TRANSITION_CLASS_NAME
+        SOURCE_MAIN_WRAPPERS, TRANSFORM_TRANSITION_CLASS_NAME
     );
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
-        fsLightbox.elements.sourcesInners[0], FADE_IN_STRONG_CLASS_NAME
+        fsLightbox.elements.sourceAnimationWrappers[0], FADE_IN_STRONG_CLASS_NAME
     );
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
-        fsLightbox.elements.sourcesInners[0], FADE_IN_CLASS_NAME
+        fsLightbox.elements.sourceAnimationWrappers[0], FADE_IN_CLASS_NAME
     );
 
-    expect(fsLightbox.elements.sourcesInners[0].classList.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
+    expect(fsLightbox.elements.sourceAnimationWrappers[0].classList.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
-        fsLightbox.elements.sourcesInners[1], FADE_IN_STRONG_CLASS_NAME
+        fsLightbox.elements.sourceAnimationWrappers[1], FADE_IN_STRONG_CLASS_NAME
     );
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
-        fsLightbox.elements.sourcesInners[1], FADE_OUT_CLASS_NAME
+        fsLightbox.elements.sourceAnimationWrappers[1], FADE_OUT_CLASS_NAME
     );
-    expect(fsLightbox.elements.sourcesInners[1].classList.add).toBeCalledWith(FADE_IN_CLASS_NAME);
-    expect(fsLightbox.collections.sourcesOutersTransformers[1].zero).toBeCalled();
+    expect(fsLightbox.elements.sourceAnimationWrappers[1].classList.add).toBeCalledWith(FADE_IN_CLASS_NAME);
+    expect(fsLightbox.collections.sourceMainWrappersTransformers[1].zero).toBeCalled();
     expect(runQueuedRemoveFadeOut).toBeCalled()
-    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();
+    expect(fsLightbox.collections.sourceMainWrappersTransformers[0].negative).not.toBeCalled();
     expect(window.setTimeout.mock.calls[0][1]).toBe(ANIMATION_TIME - 30);
     window.setTimeout.mock.calls[0][0]();
-    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();
+    expect(fsLightbox.collections.sourceMainWrappersTransformers[0].negative).not.toBeCalled();
     fsLightbox.stageIndexes.current = 1;
     window.setTimeout.mock.calls[0][0]();
-    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).toBeCalled();
+    expect(fsLightbox.collections.sourceMainWrappersTransformers[0].negative).toBeCalled();
 });

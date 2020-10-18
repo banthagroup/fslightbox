@@ -1,3 +1,3 @@
-const sourcesBaseName = 'sources';
-export const SOURCES_OUTERS = sourcesBaseName + 'Outers';
-export const SOURCES_INNERS = sourcesBaseName + 'Inners';
+const sourcesBaseName = 'source';
+export const SOURCE_MAIN_WRAPPERS = sourcesBaseName + 'MainWrappers';
+export const SOURCE_ANIMATION_WRAPPERS = sourcesBaseName + 'AnimationWrappers';

@@ -5,7 +5,7 @@ import { setUpSourceCustomAttributes } from "../../../helpers/source/setUpSource
 export function renderVideo(fsLightbox, i) {
     const {
         collections: { sourcesLoadsHandlers },
-        elements: { sources: sourcesElements, sourcesInners },
+        elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources, videosPosters }
     } = fsLightbox;
 
@@ -27,5 +27,5 @@ export function renderVideo(fsLightbox, i) {
 
     setTimeout(sourcesLoadsHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
-    sourcesInners[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
 }

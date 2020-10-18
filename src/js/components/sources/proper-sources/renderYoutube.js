@@ -5,7 +5,7 @@ import { setUpSourceCustomAttributes } from "../../../helpers/source/setUpSource
 export function renderYoutube(fsLightbox, i) {
     const {
         collections: { sourcesLoadsHandlers },
-        elements: { sources: sourcesElements, sourcesInners },
+        elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
     } = fsLightbox;
 
@@ -14,7 +14,7 @@ export function renderYoutube(fsLightbox, i) {
     sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl(sources[i])}`;
     sourcesElements[i].allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
-    sourcesInners[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
     sourcesLoadsHandlers[i].handleYoutubeLoad();
 
     function getYoutubeVideoIdFromUrl(url) {

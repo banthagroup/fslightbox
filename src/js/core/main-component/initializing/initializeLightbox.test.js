@@ -1,6 +1,6 @@
 import { initializeLightbox } from "./initializeLightbox";
 import * as createSourcesObject from "../../sources/creating/createSources";
-import * as renderSourcesOutersWrapperObject from "../../../components/sources/renderSourcesOutersWrapper";
+import * as renderSourcesOutersWrapperObject from "../../../components/sources/renderSourceWrappersContainer";
 import * as fillSourcesOutersTransformersCollectionObject
     from "../../collections/fillSourcesOutersTransformersCollection";
 import * as renderNavObject from "../../../components/nav/renderNav";
@@ -18,7 +18,7 @@ const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 fillSourcesOutersTransformersCollectionObject.fillSourcesOutersTransformersCollection = jest.fn();
 setUpCoreObject.setUpCore = jest.fn();
 createSourcesObject.createSources = jest.fn();
-renderSourcesOutersWrapperObject.renderSourcesOutersWrapper = jest.fn();
+renderSourcesOutersWrapperObject.renderSourceWrappersContainer = jest.fn();
 renderNavObject.renderNav = jest.fn();
 renderSlideButtonsObject.renderSlideButtons = jest.fn();
 
@@ -30,7 +30,7 @@ test('init actions', () => {
     expect(fsLightbox.data.isInitialized).toBe(true);
     expect(fillSourcesOutersTransformersCollectionObject.fillSourcesOutersTransformersCollection).toBeCalledWith(fsLightbox);
     expect(setUpCoreObject.setUpCore).toBeCalledWith(fsLightbox);
-    expect(renderSourcesOutersWrapperObject.renderSourcesOutersWrapper).toBeCalledWith(fsLightbox);
+    expect(renderSourcesOutersWrapperObject.renderSourceWrappersContainer).toBeCalledWith(fsLightbox);
     expect(renderNavObject.renderNav).toBeCalled();
     expect(renderSlideButtonsObject.renderSlideButtons).not.toBeCalled();
     expect(createSourcesObject.createSources).toBeCalledWith(fsLightbox);

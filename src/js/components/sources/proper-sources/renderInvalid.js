@@ -2,7 +2,7 @@ import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../
 
 export function renderInvalid(
     {
-        elements: { sources: sourcesElements, sourcesInners, sourcesOuters },
+        elements: { sources: sourcesElements, sourceAnimationWrappers, sourceMainWrappers },
         props: { sources }
     }, i
 ) {
@@ -10,10 +10,10 @@ export function renderInvalid(
     sourcesElements[i].className = `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }`;
     sourcesElements[i].innerHTML = 'Invalid source';
 
-    sourcesInners[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
+    sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
 
-    sourcesInners[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
 
     // remove loader
-    sourcesOuters[i].removeChild(sourcesOuters[i].firstChild);
+    sourceMainWrappers[i].removeChild(sourceMainWrappers[i].firstChild);
 }

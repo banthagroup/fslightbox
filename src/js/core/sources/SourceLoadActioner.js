@@ -1,23 +1,23 @@
-import { SourceStyler } from "./SourceStyler";
+import { SourceSizer } from "./SourceSizer";
 import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants/classes-names";
 
 export function SourceLoadActioner(
     {
         collections: { sourcesStylers },
-        elements: { sources, sourcesInners, sourcesOuters },
+        elements: { sources, sourceAnimationWrappers, sourceMainWrappers },
         resolve
     }, i, defaultWidth, defaultHeight
 ) {
     this.runNormalLoadActions = () => {
         sources[i].classList.add(OPACITY_1_CLASS_NAME);
-        sourcesInners[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
-        sourcesOuters[i].removeChild(sourcesOuters[i].firstChild);
+        sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
+        sourceMainWrappers[i].removeChild(sourceMainWrappers[i].firstChild);
     };
 
     this.runInitialLoadActions = () => {
         this.runNormalLoadActions();
-        const sourceStyler = resolve(SourceStyler, [i, defaultWidth, defaultHeight]);
-        sourceStyler.styleSize();
+        const sourceStyler = resolve(SourceSizer, [i, defaultWidth, defaultHeight]);
+        sourceStyler.adjustSize();
         sourcesStylers[i] = sourceStyler;
     };
 }

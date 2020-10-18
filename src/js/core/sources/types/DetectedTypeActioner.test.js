@@ -10,7 +10,7 @@ import * as renderInvalidObject from "../../../components/sources/proper-sources
 const fsLightbox = {
     collections: { sourcesLoadsHandlers: [], sourcesRenderFunctions: [] },
     core: { sourceDisplayFacade: { displaySourcesWhichShouldBeDisplayed: jest.fn() } },
-    componentsStates: { sourcesInnersUpdatersCollection: [{ set: jest.fn() }] },
+    componentsStates: { sourceAnimationWrappersUpdatersCollection: [{ set: jest.fn() }] },
     elements: { sourcesComponents: [] },
     resolve: (constructorDependency, params) => {
         if (constructorDependency === SourceLoadHandler) {

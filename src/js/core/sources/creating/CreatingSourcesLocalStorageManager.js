@@ -2,7 +2,7 @@ import { SOURCES_TYPES_KEY } from "../../../constants/local-storage-constants";
 import { assignToObject } from "../../../helpers/objects/assignToObject";
 
 export function CreatingSourcesLocalStorageManager({ props }) {
-    const NOT_YET_DETECTED = false;
+    const NEW_TYPE_SHOULD_BE_ADDED_HERE = false;
     let decodedSourceTypes;
     let newSourceTypesToDetect = 0;
     const newTypes = {};
@@ -15,9 +15,15 @@ export function CreatingSourcesLocalStorageManager({ props }) {
     };
 
     this.handleReceivedSourceTypeForUrl = (sourceType, url) => {
-        if (newTypes[url] !== undefined) {
+        if (newTypes[url] === NEW_TYPE_SHOULD_BE_ADDED_HERE) {
             newSourceTypesToDetect--;
-            newTypes[url] = sourceType;
+
+            // not storing invalid types
+            if (sourceType !== 'invalid') {
+                newTypes[url] = sourceType;
+            } else {
+                delete newTypes[url];
+            }
 
             if (newSourceTypesToDetect === 0) {
                 assignToObject(decodedSourceTypes, newTypes);
@@ -28,7 +34,7 @@ export function CreatingSourcesLocalStorageManager({ props }) {
 
     const addNewUrlToDetect = (url) => {
         newSourceTypesToDetect++;
-        newTypes[url] = NOT_YET_DETECTED;
+        newTypes[url] = NEW_TYPE_SHOULD_BE_ADDED_HERE;
     };
 
     if (!props.disableLocalStorage) {

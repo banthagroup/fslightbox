@@ -2,7 +2,7 @@ import { SourceOuterTransformer } from "../transforms/SourceOuterTransformer";
 import { fillSourcesOutersTransformersCollection } from "./fillSourcesOutersTransformersCollection";
 
 const fsLightbox = {
-    collections: { sourcesOutersTransformers: [] },
+    collections: { sourceMainWrappersTransformers: [] },
     resolve: (constructorDependency) => {
         if (constructorDependency === SourceOuterTransformer) {
             return 'source-outer-transformer';
@@ -14,7 +14,7 @@ const fsLightbox = {
 it('should return array containing SourceOuterTransformer instances', () => {
     fillSourcesOutersTransformersCollection(fsLightbox);
 
-    expect(fsLightbox.collections.sourcesOutersTransformers).toEqual(
+    expect(fsLightbox.collections.sourceMainWrappersTransformers).toEqual(
         ['source-outer-transformer', 'source-outer-transformer']
     );
 });

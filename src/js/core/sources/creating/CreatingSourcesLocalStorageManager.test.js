@@ -64,10 +64,15 @@ describe('handleRetrievedSourceTypeFromUrl', () => {
                 // calling getSourceTypeFromLocalStorageFromUrl for those urls to init waiting for types to come
                 creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('second-url');
                 creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('third-url');
+                creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('fifth-url');
             });
 
+            test('calling handleRetrieveSourceTypeForUrl with types that are already in local storage (it should not crash further calls)', () => {
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('image', 'first-url');
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('video', 'fourth-url');
+            });
 
-            test('calling handleRetrieveSourceTypeForUrl for one missing url', () => {
+            test('calling handleRetrieveSourceTypeForUrl for first missing url', () => {
                 creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('youtube', 'second-url');
 
                 expect(localStorage.getItem(SOURCES_TYPES_KEY)).toEqual(JSON.stringify({
@@ -77,13 +82,22 @@ describe('handleRetrievedSourceTypeFromUrl', () => {
             });
 
             test('calling handleRetrieveSourceTypeForUrl for second missing url', () => {
-                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('invalid', 'third-url');
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('image', 'third-url');
+
+                expect(localStorage.getItem(SOURCES_TYPES_KEY)).toEqual(JSON.stringify({
+                    'first-url': 'image',
+                    'fourth-url': 'video'
+                }));
+            });
+
+            test('calling handleRetrieveSourceTypeForUrl for last missing url (it should not store invalid type)', () => {
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('invalid', 'fifth-url');
 
                 expect(localStorage.getItem(SOURCES_TYPES_KEY)).toEqual(JSON.stringify({
                     'first-url': 'image',
                     'fourth-url': 'video',
                     'second-url': 'youtube',
-                    'third-url': 'invalid'
+                    'third-url': 'image'
                 }));
             });
         });
@@ -97,22 +111,22 @@ describe('handleRetrievedSourceTypeFromUrl', () => {
                 creatingSourcesLocalStorageManager = new CreatingSourcesLocalStorageManager(fsLightbox);
 
                 // calling getSourceTypeFromLocalStorageFromUrl for those urls to init waiting for types to come
-                creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('fifth-url');
-                creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('sixth-url');
+                creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('first-url');
+                creatingSourcesLocalStorageManager.getSourceTypeFromLocalStorageByUrl('second-url');
             });
 
             test('calling handleRetrieveSourceTypeForUrl for one missing url', () => {
-                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('image', 'fifth-url');
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('image', 'first-url');
 
                 expect(localStorage.getItem(SOURCES_TYPES_KEY)).toBeNull();
             });
 
             test('calling handleRetrieveSourceTypeForUrl for second missing url', () => {
-                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('video', 'sixth-url');
+                creatingSourcesLocalStorageManager.handleReceivedSourceTypeForUrl('video', 'second-url');
 
                 expect(localStorage.getItem(SOURCES_TYPES_KEY)).toEqual(JSON.stringify({
-                    'fifth-url': 'image',
-                    'sixth-url': 'video',
+                    'first-url': 'image',
+                    'second-url': 'video',
                 }));
             });
         });

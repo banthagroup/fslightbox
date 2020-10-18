@@ -13,6 +13,7 @@ secondA.setAttribute('data-video-poster', 'img/video-poster.jpg');
 secondA.setAttribute('data-custom-class', 'example-class');
 secondA.setAttribute('data-poster', 'example-poster');
 secondA.setAttribute('data-alt', 'example-alt');
+secondA.setAttribute('class', 'just to test if not crashes with different attributes');
 secondA.setAttribute('href', '#custom-source-1');
 customSourceFirst = document.createElement('div');
 customSourceFirst.id = 'custom-source-1';
