@@ -1,9 +1,8 @@
 .fslightbox-source {
-  position: relative;
-  margin: auto;
-  opacity: 0;
-  z-index: 2;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  transition: opacity .3s;
+    position: relative;
+    z-index: 2;
+    opacity: 0; // source needs to have opacity 0 at start because on load it might be visible for short moment (if is big enough to be visible after translate)
+    transform: translateZ(0);
+    margin: auto;
+    backface-visibility: hidden;
 }

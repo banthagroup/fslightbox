@@ -1,4 +1,4 @@
-import * as renderSourceOuterObject from "./renderSourceMainWrapper";
+import * as renderSourceMainWrapperObject from "./renderSourceMainWrapper";
 import { renderSourceWrappersContainer } from "./renderSourceWrappersContainer";
 
 const fsLightbox = {
@@ -7,16 +7,16 @@ const fsLightbox = {
     props: { sources: ['first', 'second'] },
 };
 
-renderSourceOuterObject.renderSourceMainWrapper = jest.fn();
+renderSourceMainWrapperObject.renderSourceMainWrapper = jest.fn();
 const sourceMainWrapperWrapper = { key: 'sources-outers-wrapper', addEventListener: jest.fn() };
 document.createElement = () => sourceMainWrapperWrapper;
 
-test('renderSourceOuterWrapper', () => {
+test('render SourceWrappersContainer', () => {
     renderSourceWrappersContainer(fsLightbox);
     expect(fsLightbox.elements.sourceWrappersContainer).toEqual(sourceMainWrapperWrapper);
     expect(fsLightbox.elements.container.appendChild).toBeCalledWith(sourceMainWrapperWrapper);
     expect(fsLightbox.elements.sourceWrappersContainer.addEventListener).toBeCalledWith('mousedown', 'listener');
     expect(fsLightbox.elements.sourceWrappersContainer.addEventListener).toBeCalledWith('touchstart', 'listener', { passive: true });
-    expect(renderSourceOuterObject.renderSourceMainWrapper).toBeCalledWith(fsLightbox, 0);
-    expect(renderSourceOuterObject.renderSourceMainWrapper).toBeCalledWith(fsLightbox, 1);
+    expect(renderSourceMainWrapperObject.renderSourceMainWrapper).toBeCalledWith(fsLightbox, 0);
+    expect(renderSourceMainWrapperObject.renderSourceMainWrapper).toBeCalledWith(fsLightbox, 1);
 });

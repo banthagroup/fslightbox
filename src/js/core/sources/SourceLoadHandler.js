@@ -4,12 +4,12 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
     let wasVideoLoadCalled;
 
     this.handleImageLoad = ({ target: { width, height } }) => {
-        this.handleImageLoad = loadInitiallyAndGetNormalLoad(width, height);
+        loadSourceWithDimensions(width, height);
     };
 
     this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
         wasVideoLoadCalled = true;
-        this.handleVideoLoad = loadInitiallyAndGetNormalLoad(videoWidth, videoHeight);
+        loadSourceWithDimensions(videoWidth, videoHeight);
     };
 
     this.handleNotMetaDatedVideoLoad = () => {
@@ -27,20 +27,17 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
             height = props.maxYoutubeDimensions.height;
         }
 
-        this.handleYoutubeLoad = loadInitiallyAndGetNormalLoad(width, height);
+        loadSourceWithDimensions(width, height);
     };
 
     this.handleCustomLoad = () => {
         setTimeout(() => {
-            this.handleCustomLoad = loadInitiallyAndGetNormalLoad(sources[i].offsetWidth, sources[i].offsetHeight);
+            loadSourceWithDimensions(sources[i].offsetWidth, sources[i].offsetHeight);
         });
     };
 
-    const loadInitiallyAndGetNormalLoad = (defaultWidth, defaultHeight) => {
+    const loadSourceWithDimensions = (defaultWidth, defaultHeight) => {
         const sourceLoadActioner = resolve(SourceLoadActioner, [i, defaultWidth, defaultHeight]);
-
-        sourceLoadActioner.runInitialLoadActions();
-
-        return sourceLoadActioner.runNormalLoadActions;
+        sourceLoadActioner.runActions();
     };
 }

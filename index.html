@@ -9,11 +9,21 @@
 </head>
 <body>
 <div>
-    <div style="height: 500px"></div>
+    <a data-fslightbox="swipe-test" href="https://i.imgur.com/FUsyxR5.jpg">
+        third
+    </a>
+    <a data-fslightbox="swipe-test" href="https://i.imgur.com/OTaodxO.jpg">
+        fourth
+    </a>
+    <a data-fslightbox="swipe-test" href="https://i.imgur.com/OG8Cs0s.jpg">
+        fifth
+    </a>
+
     <a data-fslightbox="gallery" data-alt="siema" data-xd="elo" data-turbocustom="turbocustom"
        data-class="siema"
        data-autoplay
        class="siema"
+       style="height: 200px"
        data-srcset="demo/img/1.jpeg 300w, demo/img/2.jpg 640w, demo/img/7.jpg 1280w"
        href="demo/img/2.jpg">
         <div class="embed-container">
@@ -81,22 +91,9 @@
 
 <script>
 setTimeout(() => {
-    // const lightbox = new FsLightbox();
-    // lightbox.setup();
-    // lightbox.props.sources = ['demo/img/2.jpg', 'demo/img/3.jpeg'];
-    // lightbox.open();
-    //
-    // setTimeout(() => {
-    //     lightbox.close();
-    // }, 1000)
-})
-
-// setTimeout(() => {
-//     fsLightboxInstances['gallery'].props.slideDistance = .4;
-//     fsLightboxInstances['gallery'].props.loadOnlyCurrentSource = true;
-//     fsLightboxInstances['gallery'].props.exitFullscreenOnClose = true;
-//     fsLightboxInstances['gallery'].open();
-// });
+    fsLightboxInstances['swipe-test'].props.loadOnlyCurrentSource = true;
+    fsLightboxInstances['swipe-test'].props.disableLocalStorage = true;
+}, 200);
 </script>
 </body>
 </html>

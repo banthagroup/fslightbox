@@ -4,7 +4,7 @@ const fsLightbox = {
     data: {},
     elements: { sources: [{ style: {} }], },
 };
-const sourceStyler = new SourceSizer(fsLightbox, 0, 2000, 2000);
+const sourceSizer = new SourceSizer(fsLightbox, 0, 2000, 2000);
 
 test('adjustSize', () => {
     const assertDimensions = (width, height) => {
@@ -14,21 +14,21 @@ test('adjustSize', () => {
 
     fsLightbox.data.maxSourceWidth = 1500;
     fsLightbox.data.maxSourceHeight = 1400;
-    sourceStyler.adjustSize();
+    sourceSizer.adjustSize();
     assertDimensions(1400, 1400);
 
     fsLightbox.data.maxSourceWidth = 1500;
     fsLightbox.data.maxSourceHeight = 2500;
-    sourceStyler.adjustSize();
+    sourceSizer.adjustSize();
     assertDimensions(1500, 1500);
 
     fsLightbox.data.maxSourceWidth = 2500;
     fsLightbox.data.maxSourceHeight = 1500;
-    sourceStyler.adjustSize();
+    sourceSizer.adjustSize();
     assertDimensions(1500, 1500);
 
     fsLightbox.data.maxSourceWidth = 2500;
     fsLightbox.data.maxSourceHeight = 2400;
-    sourceStyler.adjustSize();
+    sourceSizer.adjustSize();
     assertDimensions(2000, 2000);
 });

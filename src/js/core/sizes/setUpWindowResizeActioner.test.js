@@ -5,7 +5,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/classes-names";
 const fsLightbox = {
     collections: {
         sourceMainWrappersTransformers: [{ negative: jest.fn() }, { negative: jest.fn() }],
-        sourcesStylers: [undefined, { adjustSize: jest.fn() }]
+        sourceSizers: [undefined, { adjustSize: jest.fn() }]
     },
     core: { windowResizeActioner: {} },
     componentsServices: { exitFullscreen: jest.fn() },
@@ -33,7 +33,7 @@ test('runActions', () => {
     );
     expect(fsLightbox.collections.sourceMainWrappersTransformers[0].negative).not.toBeCalled();
     expect(fsLightbox.collections.sourceMainWrappersTransformers[1].negative).toBeCalled();
-    expect(fsLightbox.collections.sourcesStylers[1].adjustSize).toBeCalled();
+    expect(fsLightbox.collections.sourceSizers[1].adjustSize).toBeCalled();
 
     innerWidth = 992;
     windowResizeActioner.runActions();

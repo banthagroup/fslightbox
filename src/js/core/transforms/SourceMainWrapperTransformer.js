@@ -1,4 +1,4 @@
-export function SourceOuterTransformer({ elements: { sourceMainWrappers }, props }, i) {
+export function SourceMainWrapperTransformer({ elements: { sourceMainWrappers }, props }, i) {
     let additionalTransformValue = 0;
 
     this.byValue = (value) => {

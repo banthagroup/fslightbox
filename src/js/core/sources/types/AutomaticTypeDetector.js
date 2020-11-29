@@ -10,10 +10,8 @@ export function AutomaticTypeDetector() {
     const automaticTypeDetectorBucket = getAutomaticTypeDetectorBucket();
 
     let url;
-    let sourceType;
     let resolveSourceType;
     let xhr;
-    let isResolved;
 
     this.setUrlToCheck = (urlToCheck) => {
         url = urlToCheck;
@@ -21,7 +19,7 @@ export function AutomaticTypeDetector() {
 
     /**
      * Asynchronous method takes callback which will be called after source type is received with source type as param.
-     * @param { Function } callback
+     * @param {Function} callback
      */
     this.getSourceType = (callback) => {
         if (automaticTypeDetectorBucket.isUrlYoutubeOne(url)) {
@@ -29,56 +27,44 @@ export function AutomaticTypeDetector() {
         }
         resolveSourceType = callback;
         xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
         xhr.onreadystatechange = onRequestStateChange;
+        xhr.open('GET', url, true);
         xhr.send();
     };
 
-
-    const onRequestStateChange = () => {
-        // we need to use isResolved helper because logic after readyState 2 is complex enough that readyState 4 is called
-        // before request is aborted
-        if (xhr.readyState === 4 && xhr.status === 0 && !isResolved) {
-            return resolveInvalidType();
+    function onRequestStateChange() {
+        // If state 4 is executed without state 2 - request has failed (most likely by CORS) so need to resolve invalid type.
+        // No need to abort request because it is already finished.
+        if (xhr.readyState === 4) {
+            resolveSourceType(INVALID_TYPE);
+            return;
         }
+
         if (xhr.readyState !== 2) {
             return;
         }
-        if (xhr.status !== 200 && xhr.status !== 206) {
-            // we are setting isResolved to true so readyState 4 won't be called before forwarding logic
-            isResolved = true;
-            return resolveInvalidType();
-        }
-        // we are setting isResolved to true so readyState 4 won't be called before forwarding logic
-        isResolved = true;
-        setSourceTypeDependingOnResponseContentType(
-            automaticTypeDetectorBucket.getTypeFromResponseContentType(
-                xhr.getResponseHeader('content-type')
-            )
+
+        const headerType = automaticTypeDetectorBucket.getTypeFromResponseContentType(
+            xhr.getResponseHeader('content-type')
         );
-        abortRequestAndResolvePromise();
-    };
 
-    const resolveInvalidType = () => {
-        sourceType = INVALID_TYPE;
-        abortRequestAndResolvePromise();
-    };
-
-    const abortRequestAndResolvePromise = () => {
-        xhr.abort();
-        resolveSourceType(sourceType);
-    };
-
-    const setSourceTypeDependingOnResponseContentType = (type) => {
-        switch (type) {
+        let finalType;
+        switch (headerType) {
             case 'image':
-                sourceType = IMAGE_TYPE;
+                finalType = IMAGE_TYPE;
                 break;
             case 'video':
-                sourceType = VIDEO_TYPE;
+                finalType = VIDEO_TYPE;
                 break;
             default:
-                sourceType = INVALID_TYPE;
+                finalType = INVALID_TYPE;
         }
-    };
+
+        // Need to reset onreadystatechange because after xhr.abort() if request is sent (xhr.send())
+        // xhr will call onreadystatechange with readyState 4: https://xhr.spec.whatwg.org/#the-abort()-method
+        xhr.onreadystatechange = null;
+        xhr.abort();
+
+        resolveSourceType(finalType);
+    }
 }

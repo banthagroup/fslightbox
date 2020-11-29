@@ -3,7 +3,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/classes-names";
 
 export function setUpWindowResizeActioner(
     {
-        collections: { sourceMainWrappersTransformers, sourcesStylers },
+        collections: { sourceMainWrappersTransformers, sourceSizers },
         core: { windowResizeActioner: self },
         data,
         elements: { sourceMainWrappers },
@@ -25,10 +25,10 @@ export function setUpWindowResizeActioner(
                 sourceMainWrappersTransformers[i].negative();
             }
 
-            // if source is Invalid or if lightbox is initialized there are no sourcesStylers
+            // if source is Invalid or if lightbox is initialized there are no sourceSizers
             // so we need to check if it exists
-            if (sourcesStylers[i]) {
-                sourcesStylers[i].adjustSize();
+            if (sourceSizers[i]) {
+                sourceSizers[i].adjustSize();
             }
         }
     };

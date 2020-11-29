@@ -23,6 +23,7 @@ document.body.appendChild(secondA);
 thirdA = document.createElement('a');
 thirdA.setAttribute('data-fslightbox', 'gallery-second');
 thirdA.setAttribute('href', '#custom-source-2');
+thirdA.setAttribute('data-custom-class', 'custom-class');
 customSourceSecond = document.createElement('div');
 customSourceSecond.id = 'custom-source-2';
 document.body.appendChild(customSourceSecond);
@@ -84,6 +85,7 @@ test('opening lightbox via <a> tag click', () => {
 test('testing refreshing lightboxes - on opened one', () => {
     fsLightboxInstances['gallery-second'].open();
     thirdA.setAttribute('href', 'invalid-updated');
+    thirdA.setAttribute('data-custom-class', 'updated-custom-class');
     const seventhA = document.createElement('a');
     seventhA.setAttribute('data-fslightbox', 'gallery-second');
     seventhA.setAttribute('href', 'image/5.jpg');
@@ -100,5 +102,6 @@ test('testing refreshing lightboxes - on opened one', () => {
         'invalid-updated', 'image/3.jpg', 'image/5.jpg'
     ]);
     expect(fsLightboxInstances['gallery-second'].props.videosPosters).toEqual(['video poster should not be cleared']);
+    expect(fsLightboxInstances['gallery-second'].props.customClasses).toEqual(['updated-custom-class']); // testing replaced prop
     expect(fsLightboxInstances['gallery-third'].props.sources).toEqual(['image/6.jpg']);
 });
