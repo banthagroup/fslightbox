@@ -9,26 +9,12 @@
 </head>
 <body>
 <div>
-    <a data-fslightbox="swipe-test" href="https://i.imgur.com/FUsyxR5.jpg">
-        third
-    </a>
-    <a data-fslightbox="swipe-test" href="https://i.imgur.com/OTaodxO.jpg">
-        fourth
-    </a>
-    <a data-fslightbox="swipe-test" href="https://i.imgur.com/OG8Cs0s.jpg">
-        fifth
-    </a>
-
-    <a data-fslightbox="gallery" data-alt="siema" data-xd="elo" data-turbocustom="turbocustom"
-       data-class="siema"
-       data-autoplay
-       class="siema"
-       style="height: 200px"
-       data-srcset="demo/img/1.jpeg 300w, demo/img/2.jpg 640w, demo/img/7.jpg 1280w"
-       href="demo/img/2.jpg">
-        <div class="embed-container">
-            image
-        </div>
+    <a data-fslightbox
+       data-type="image"
+       data-srcset="/demo/img/IMG_0594-small.jpeg 600w, /demo/img/IMG_0594.jpeg 1461w"
+       data-sizes="(max-width: 600px) 600px, 1461px"
+       href="/demo/img/IMG_0594.jpeg">
+        open lightbox
     </a>
 
     <a data-fslightbox="gallery2" href="demo/img/brave.jpg">
@@ -67,6 +53,8 @@
        data-class="custom-in-lightbox">
         custom
     </a>
+
+    <div id="output"></div>
 
     <iframe id="custom-source"
             frameborder="0"

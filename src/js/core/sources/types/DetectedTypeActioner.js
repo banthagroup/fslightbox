@@ -8,14 +8,14 @@ import { renderInvalid } from "../../../components/sources/proper-sources/render
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
-        collections: { sourcesLoadsHandlers, sourcesRenderFunctions },
+        collections: { sourceLoadHandlers, sourcesRenderFunctions },
         core: { sourceDisplayFacade },
         resolve
     } = fsLightbox;
 
     this.runActionsForSourceTypeAndIndex = (type, i) => {
         if (type !== INVALID_TYPE) {
-            sourcesLoadsHandlers[i] = resolve(SourceLoadHandler, [i]);
+            sourceLoadHandlers[i] = resolve(SourceLoadHandler, [i]);
         }
 
         let renderFunction;

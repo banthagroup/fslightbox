@@ -4,7 +4,7 @@ import { setUpSourceCustomAttributes } from "../../../helpers/source/setUpSource
 
 export function renderYoutube(fsLightbox, i) {
     const {
-        collections: { sourcesLoadsHandlers },
+        collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
     } = fsLightbox;
@@ -15,7 +15,7 @@ export function renderYoutube(fsLightbox, i) {
     sourcesElements[i].allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
     sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
-    sourcesLoadsHandlers[i].handleYoutubeLoad();
+    sourceLoadHandlers[i].handleYoutubeLoad();
 
     function getYoutubeVideoIdFromUrl(url) {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

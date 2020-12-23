@@ -1,15 +1,17 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
 export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i) {
+    const sourceLoadActioner = resolve(SourceLoadActioner, [i]);
+
     let wasVideoLoadCalled;
 
-    this.handleImageLoad = ({ target: { width, height } }) => {
-        loadSourceWithDimensions(width, height);
+    this.handleImageLoad = ({ target: { naturalWidth, naturalHeight } }) => {
+        sourceLoadActioner.runActions(naturalWidth, naturalHeight)
     };
 
     this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
         wasVideoLoadCalled = true;
-        loadSourceWithDimensions(videoWidth, videoHeight);
+        sourceLoadActioner.runActions(videoWidth, videoHeight)
     };
 
     this.handleNotMetaDatedVideoLoad = () => {
@@ -27,17 +29,13 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
             height = props.maxYoutubeDimensions.height;
         }
 
-        loadSourceWithDimensions(width, height);
+        sourceLoadActioner.runActions(width, height);
     };
 
     this.handleCustomLoad = () => {
         setTimeout(() => {
-            loadSourceWithDimensions(sources[i].offsetWidth, sources[i].offsetHeight);
+            const source = sources[i];
+            sourceLoadActioner.runActions(source.offsetWidth, source.offsetHeight);
         });
-    };
-
-    const loadSourceWithDimensions = (defaultWidth, defaultHeight) => {
-        const sourceLoadActioner = resolve(SourceLoadActioner, [i, defaultWidth, defaultHeight]);
-        sourceLoadActioner.runActions();
     };
 }

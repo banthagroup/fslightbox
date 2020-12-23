@@ -8,7 +8,7 @@ import * as renderCustomObject from "../../../components/sources/proper-sources/
 import * as renderInvalidObject from "../../../components/sources/proper-sources/renderInvalid";
 
 const fsLightbox = {
-    collections: { sourcesLoadsHandlers: [], sourcesRenderFunctions: [] },
+    collections: { sourceLoadHandlers: [], sourcesRenderFunctions: [] },
     core: { sourceDisplayFacade: { displaySourcesWhichShouldBeDisplayed: jest.fn() } },
     componentsStates: { sourceAnimationWrappersUpdatersCollection: [{ set: jest.fn() }] },
     elements: { sourcesComponents: [] },
@@ -37,7 +37,7 @@ let detectedTypeActions = new DetectedTypeActioner(fsLightbox);
 test('runActionsForSourceTypeAndIndex', () => {
     expectedSourceLoadHandlerParams = [0];
     detectedTypeActions.runActionsForSourceTypeAndIndex(IMAGE_TYPE, 0);
-    expect(fsLightbox.collections.sourcesLoadsHandlers[0]).toBe(sourceLoadHandler);
+    expect(fsLightbox.collections.sourceLoadHandlers[0]).toBe(sourceLoadHandler);
     expect(renderImageObject.renderImage).not.toBeCalled();
     expect(renderVideoObject.renderVideo).not.toBeCalled();
     expect(renderYoutubeObject.renderYoutube).not.toBeCalled();

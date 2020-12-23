@@ -68,6 +68,7 @@ window.FsLightbox = function () {
     this.componentsServices = {
         enterFullscreen: null,
         exitFullscreen: null,
+        hideSourceLoaderIfNotYetCollection: [],
         // if there is one slide SlideNumber is not rendered so we need to prevent calling undefined function
         setSlideNumber: () => {}
     };
@@ -79,7 +80,7 @@ window.FsLightbox = function () {
 
     this.collections = {
         sourceMainWrappersTransformers: [],
-        sourcesLoadsHandlers: [],
+        sourceLoadHandlers: [],
         sourcesRenderFunctions: [],
         // after source load its size adjuster will be stored in this array so it may be later resized
         sourceSizers: [],

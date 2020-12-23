@@ -3,7 +3,7 @@ import { setUpSourceClassName } from "../../../helpers/source/setUpSourceClassNa
 
 export function renderCustom(fsLightbox, i) {
     const {
-        collections: { sourcesLoadsHandlers },
+        collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
     } = fsLightbox;
@@ -11,5 +11,5 @@ export function renderCustom(fsLightbox, i) {
     sourcesElements[i] = sources[i];
     setUpSourceClassName(fsLightbox, i, `${sourcesElements[i].className} ${SOURCE_CLASS_NAME}`);
     sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
-    sourcesLoadsHandlers[i].handleCustomLoad();
+    sourceLoadHandlers[i].handleCustomLoad();
 }
