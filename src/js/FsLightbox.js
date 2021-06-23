@@ -34,15 +34,15 @@ window.FsLightbox = function () {
 
     this.data = {
         isInitialized: false,
+        isFullscreenOpen: false,
         maxSourceWidth: 0,
         maxSourceHeight: 0,
-        scrollbarWidth: getScrollbarWidth(),
-        isFullscreenOpen: false
+        scrollbarWidth: 0
     };
 
-    this.slideSwipingProps = {
-        isSwiping: false,
-        downClientX: null,
+    this.sourcePointerProps = {
+        downScreenX: null,
+        isPointering: false,
         isSourceDownEventTarget: false,
         swipedX: 0
     };
@@ -97,7 +97,7 @@ window.FsLightbox = function () {
         scrollbarRecompensor: {},
         slideChangeFacade: {},
         slideIndexChanger: {},
-        slideSwipingDown: {},
+        sourcesPointerDown: {},
         sourceDisplayFacade: {},
         stageManager: {},
         windowResizeActioner: {}

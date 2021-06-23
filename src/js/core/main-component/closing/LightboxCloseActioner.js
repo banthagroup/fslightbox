@@ -12,7 +12,7 @@ export function LightboxCloseActioner(
         data,
         elements,
         props,
-        slideSwipingProps
+        sourcePointerProps
     }
 ) {
     this.isLightboxFadingOut = false;
@@ -31,7 +31,7 @@ export function LightboxCloseActioner(
         setTimeout(() => {
             this.isLightboxFadingOut = false;
 
-            slideSwipingProps.isSwiping = false;
+            sourcePointerProps.isPointering = false;
 
             elements.container.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
             document.documentElement.classList.remove(OPEN_CLASS_NAME);

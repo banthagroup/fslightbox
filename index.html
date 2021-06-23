@@ -9,79 +9,21 @@
 </head>
 <body>
 <div>
-    <a data-fslightbox
-       data-type="image"
-       data-srcset="/demo/img/IMG_0594-small.jpeg 600w, /demo/img/IMG_0594.jpeg 1461w"
-       data-sizes="(max-width: 600px) 600px, 1461px"
-       href="/demo/img/IMG_0594.jpeg">
-        open lightbox
+    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
+        image
     </a>
 
-    <a data-fslightbox="gallery2" href="demo/img/brave.jpg">
-        gallery2
-    </a>
-
-    <a data-fslightbox="gallery2" href="demo/img/5.jpg">
-        gallery2 two
-    </a>
-
-    <a data-fslightbox="gallery" data-alt="siema" data-xd="elo" data-turbocustom="turbocustom"
-       data-poster="https://i.imgur.com/fsyrScY.jpg" data-class="siema"
+    <a data-fslightbox="gallery"
        href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-        <div class="embed-container">
-            video
-        </div>
+        video
     </a>
 
-    <a data-fslightbox="gallery" data-alt="siema" data-xd="elo" data-turbocustom="turbocustom"
-       data-class="siema"
-       href="https://www.youtube.com/watch?v=xshEZzpS4CQ">
-        <div class="embed-container">
-            youtube
-        </div>
-    </a>
-
-    <a data-fslightbox="gallery" data-alt="siema" data-xd="elo" data-turbocustom="turbocustom"
-       data-class="siema"
-       href="turboinvalid">
-        <div class="embed-container">
-            invalid
-        </div>
-    </a>
-
-    <a data-fslightbox="gallery" href="#custom-source" data-alt="test-alt" data-turbocustom="example-turbocustom"
-       data-class="custom-in-lightbox">
+    <a data-fslightbox="gallery" href="#custom-source" data-class="d-block">
         custom
     </a>
 
-    <div id="output"></div>
-
-    <iframe id="custom-source"
-            frameborder="0"
-            width="720px"
-            height="520px"
-            allow="fullscreen"
-            class="base-class second-base-class"
-            src="https://www.youtube.com/embed/xshEZzpS4CQ">
-    </iframe>
+    <img id="custom-source" src="/demo/img/2.jpg">
+    <img class="custom-source" src="/demo/img/2.jpg">
 </div>
-
-<style>
-    #custom-source {
-        display: none;
-        background: red;
-    }
-
-    .custom-in-lightbox {
-        display: block !important;
-    }
-</style>
-
-<script>
-setTimeout(() => {
-    fsLightboxInstances['swipe-test'].props.loadOnlyCurrentSource = true;
-    fsLightboxInstances['swipe-test'].props.disableLocalStorage = true;
-}, 200);
-</script>
 </body>
 </html>

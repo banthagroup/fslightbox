@@ -7,7 +7,7 @@ export function renderInvalid(
     }, i
 ) {
     sourcesElements[i] = document.createElement('div');
-    sourcesElements[i].className = `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }`;
+    sourcesElements[i].className = `${PREFIX}invalid-file-wrapper ${FLEX_CENTERED_CLASS_NAME}`;
     sourcesElements[i].innerHTML = 'Invalid source';
 
     sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);

@@ -1,17 +1,18 @@
 .fslightbox-container {
-  font-family: Arial, sans-serif;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
-  z-index: 1000000000;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+    font-family: Arial, sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
+    touch-action: none; // prevents scrolling top and bottom on Safari mobile
+    z-index: 1000000000;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 
-  * {
-    box-sizing: border-box;
-  }
+    * {
+        box-sizing: border-box;
+    }
 }

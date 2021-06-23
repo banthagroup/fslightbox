@@ -11,7 +11,7 @@ export function renderYoutube(fsLightbox, i) {
 
     sourcesElements[i] = document.createElement('iframe');
     setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`)
-    sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl(sources[i])}`;
+    sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl(sources[i])}?enablejsapi=1`;
     sourcesElements[i].allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
     sourceAnimationWrappers[i].appendChild(sourcesElements[i]);

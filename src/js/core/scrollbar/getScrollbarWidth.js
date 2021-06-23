@@ -2,10 +2,13 @@ import { getOuterElementOfWidthGetter } from "./getOuterElementOfWidthGetter";
 import { getInnerElementOfWidthGetter } from "./getInnerElementOfWidthGetter";
 import { SCROLLBAR_WIDTH_KEY } from "../../constants/local-storage-constants";
 
-export function getScrollbarWidth() {
-    const localStorageScrollbarWidth = localStorage.getItem(SCROLLBAR_WIDTH_KEY);
-    if (localStorageScrollbarWidth)
-        return localStorageScrollbarWidth;
+export function getScrollbarWidth({ props: { disableLocalStorage } }) {
+    if (!disableLocalStorage) {
+        const localStorageScrollbarWidth = localStorage.getItem(SCROLLBAR_WIDTH_KEY);
+        if (localStorageScrollbarWidth) {
+            return localStorageScrollbarWidth;
+        }
+    }
 
     const outer = getOuterElementOfWidthGetter();
     const inner = getInnerElementOfWidthGetter();
@@ -20,7 +23,9 @@ export function getScrollbarWidth() {
 
     const scrollbarWidth = widthNoScroll - widthWithScroll;
 
-    localStorage.setItem(SCROLLBAR_WIDTH_KEY, scrollbarWidth.toString());
+    if (!disableLocalStorage) {
+        localStorage.setItem(SCROLLBAR_WIDTH_KEY, scrollbarWidth.toString());
+    }
 
     return scrollbarWidth;
 }

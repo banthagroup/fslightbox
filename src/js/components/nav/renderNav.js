@@ -6,7 +6,7 @@ export function renderNav(fsLightbox) {
     const { props: { sources }, elements: { container } } = fsLightbox;
 
     const nav = document.createElement('div');
-    nav.className = `${ PREFIX }nav`;
+    nav.className = `${PREFIX}nav`;
     container.appendChild(nav);
 
     renderToolbar(fsLightbox, nav);

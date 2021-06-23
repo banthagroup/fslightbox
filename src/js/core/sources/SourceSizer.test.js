@@ -2,7 +2,7 @@ import { SourceSizer } from "./SourceSizer";
 
 const fsLightbox = {
     data: {},
-    elements: { sources: [{ style: {} }], },
+    elements: { sources: [{ style: {} }] },
 };
 const sourceSizer = new SourceSizer(fsLightbox, 0, 2000, 2000);
 

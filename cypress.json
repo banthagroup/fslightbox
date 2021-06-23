@@ -1,0 +1,8 @@
+{
+  "integrationFolder": "tests/cypress",
+  "fixturesFolder": "tests/__tests-services__/cypress/fixtures",
+  "pluginsFile": "tests/__tests-services__/cypress/plugins/index.js",
+  "supportFile": "tests/__tests-services__/cypress/support/index.js",
+  "viewportWidth": 800,
+  "viewportHeight": 600
+}

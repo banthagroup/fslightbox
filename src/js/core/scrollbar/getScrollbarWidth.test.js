@@ -2,6 +2,11 @@ import * as getOuterElementOfWidthGetterObject from "./getOuterElementOfWidthGet
 import * as getInnerElementOfWidthGetterObject from "./getInnerElementOfWidthGetter";
 import { getScrollbarWidth } from "./getScrollbarWidth";
 
+const fsLightbox = {
+    props: {
+        disableLocalStorage: false
+    }
+};
 const outer = {
     offsetWidth: 0,
     appendChild: () => {}
@@ -17,7 +22,7 @@ test('simple actions', () => {
     document.body.removeChild = jest.fn();
     outer.appendChild = jest.fn();
 
-    getScrollbarWidth();
+    getScrollbarWidth(fsLightbox);
 
     expect(getOuterElementOfWidthGetterObject.getOuterElementOfWidthGetter).toBeCalled();
     expect(getInnerElementOfWidthGetterObject.getInnerElementOfWidthGetter).toBeCalled();
@@ -27,7 +32,7 @@ test('simple actions', () => {
 });
 
 describe('returning right scrollbar width from divs or local storage', () => {
-    test('retrieved from divs', () => {
+    beforeAll(() => {
         const outer = document.createElement('div');
         const inner = document.createElement('div');
         // clearing local storage to be sure that width comes from detecting service
@@ -36,12 +41,28 @@ describe('returning right scrollbar width from divs or local storage', () => {
         jest.spyOn(inner, 'offsetWidth', 'get').mockReturnValue(10);
         getOuterElementOfWidthGetterObject.getOuterElementOfWidthGetter = () => outer;
         getInnerElementOfWidthGetterObject.getInnerElementOfWidthGetter = () => inner;
-        expect(getScrollbarWidth()).toBe(20);
+    });
+
+    test('retrieved from divs', () => {
+        expect(getScrollbarWidth(fsLightbox)).toBe(20);
         expect(localStorage.getItem('fslightbox-scrollbar-width')).toBe('20');
     });
 
-    test('retrieved from local storage', () => {
-        localStorage.setItem('fslightbox-scrollbar-width', '200px');
-        expect(getScrollbarWidth()).toBe('200px');
+    describe('retrieved from local storage', () => {
+        beforeEach(() => {
+            localStorage.setItem('fslightbox-scrollbar-width', '200px');
+        });
+
+        test('local storage disabled', () => {
+            fsLightbox.props.disableLocalStorage = true;
+            expect(getScrollbarWidth(fsLightbox)).toBe(20);
+            // it should also not set new width
+            expect(localStorage.getItem('fslightbox-scrollbar-width')).toBe('200px');
+        });
+
+        test('local storage enabled', () => {
+            delete fsLightbox.props.disableLocalStorage;
+            expect(getScrollbarWidth(fsLightbox)).toBe('200px');
+        });
     });
 });

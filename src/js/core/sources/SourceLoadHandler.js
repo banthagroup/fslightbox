@@ -6,12 +6,12 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
     let wasVideoLoadCalled;
 
     this.handleImageLoad = ({ target: { naturalWidth, naturalHeight } }) => {
-        sourceLoadActioner.runActions(naturalWidth, naturalHeight)
+        sourceLoadActioner.runActions(naturalWidth, naturalHeight);
     };
 
     this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
         wasVideoLoadCalled = true;
-        sourceLoadActioner.runActions(videoWidth, videoHeight)
+        sourceLoadActioner.runActions(videoWidth, videoHeight);
     };
 
     this.handleNotMetaDatedVideoLoad = () => {

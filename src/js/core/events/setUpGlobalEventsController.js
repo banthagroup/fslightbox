@@ -1,6 +1,6 @@
 import { KeyboardController } from "../keyboard/KeyboardController";
-import { SlideSwipingMove } from "../slide/swiping/move/SlideSwipingMove";
-import { SlideSwipingUp } from "../slide/swiping/up/SlideSwipingUp";
+import { SourcesPointerMove } from "../sources/pointering/move/SourcesPointerMove";
+import { SourcesPointerUp } from "../sources/pointering/up/SourcesPointerUp";
 
 export function setUpGlobalEventsController(
     {
@@ -9,15 +9,13 @@ export function setUpGlobalEventsController(
     }
 ) {
     const keyboardController = resolve(KeyboardController);
-    const slideSwipingMove = resolve(SlideSwipingMove);
-    const slideSwipingUp = resolve(SlideSwipingUp);
+    const sourcesPointerMove = resolve(SourcesPointerMove);
+    const sourcesPointerUp = resolve(SourcesPointerUp);
 
     self.attachListeners = () => {
-        document.addEventListener('mousemove', slideSwipingMove.listener);
-        document.addEventListener('touchmove', slideSwipingMove.listener, { passive: true });
+        document.addEventListener('pointermove', sourcesPointerMove.listener);
 
-        document.addEventListener('mouseup', slideSwipingUp.listener);
-        document.addEventListener('touchend', slideSwipingUp.listener, { passive: true });
+        document.addEventListener('pointerup', sourcesPointerUp.listener);
 
         addEventListener('resize', windowResizeActioner.runActions);
 
@@ -25,11 +23,9 @@ export function setUpGlobalEventsController(
     };
 
     self.removeListeners = () => {
-        document.removeEventListener('mousemove', slideSwipingMove.listener);
-        document.removeEventListener('touchmove', slideSwipingMove.listener);
+        document.removeEventListener('pointermove', sourcesPointerMove.listener);
 
-        document.removeEventListener('mouseup', slideSwipingUp.listener);
-        document.removeEventListener('touchend', slideSwipingUp.listener);
+        document.removeEventListener('pointerup', sourcesPointerUp.listener);
 
         removeEventListener('resize', windowResizeActioner.runActions);
 

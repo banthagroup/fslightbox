@@ -2,14 +2,19 @@ import { renderSourceMainWrapper } from "./renderSourceMainWrapper";
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../../constants/classes-names";
 
 export function renderSourceWrappersContainer(fsLightbox) {
-    const { core: { slideSwipingDown }, elements, props: { sources } } = fsLightbox;
+    const { core: { sourcesPointerDown }, elements, props: { sources } } = fsLightbox;
 
-    elements.sourceWrappersContainer = document.createElement('div');
-    elements.sourceWrappersContainer.className = `${ABSOLUTED_CLASS_NAME} ${FULL_DIMENSION_CLASS_NAME}`;
-    elements.container.appendChild(elements.sourceWrappersContainer);
+    const sourceWrappersContainer = document.createElement('div');
+    sourceWrappersContainer.className = `${ABSOLUTED_CLASS_NAME} ${FULL_DIMENSION_CLASS_NAME}`;
+    elements.container.appendChild(sourceWrappersContainer);
 
-    elements.sourceWrappersContainer.addEventListener('mousedown', slideSwipingDown.listener);
-    elements.sourceWrappersContainer.addEventListener('touchstart', slideSwipingDown.listener, { passive: true });
+    sourceWrappersContainer.addEventListener('pointerdown', sourcesPointerDown.listener);
+
+    if (process.env.NODE_ENV === 'development') {
+        sourceWrappersContainer.setAttribute('data-test-id', 'source-wrappers-container');
+    }
+
+    elements.sourceWrappersContainer = sourceWrappersContainer;
 
     for (let i = 0; i < sources.length; i++) {
         renderSourceMainWrapper(fsLightbox, i);
