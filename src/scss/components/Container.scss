@@ -4,7 +4,8 @@
     top: 0;
     left: 0;
     background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
-    touch-action: none; // prevents scrolling top and bottom on Safari mobile
+    // prevents scrolling top and bottom on Safari mobile and keeps zooming available
+    touch-action: pinch-zoom;
     z-index: 1000000000;
     -webkit-user-select: none;
     -moz-user-select: none;

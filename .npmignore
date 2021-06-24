@@ -5,6 +5,7 @@
 /src
 /tests
 .env
+.env.example
 .babelrc
 .gitignore
 .npmignore
