@@ -37,8 +37,10 @@ function setupLightboxesFromDOM() {
             source = document.getElementById(href.substring(1)) :
             source = href;
 
-        fsLightboxInstances[instanceName].props.sources.push(source);
-        fsLightboxInstances[instanceName].elements.a.push(a[i]);
+        if ( fsLightboxInstances[instanceName].props.sources.indexOf(source) === -1 ) {
+          fsLightboxInstances[instanceName].props.sources.push(source);
+          fsLightboxInstances[instanceName].elements.a.push(a[i]);
+        }
 
         const currentIndex = fsLightboxInstances[instanceName].props.sources.length - 1;
 
