@@ -7,7 +7,7 @@ export function renderAndGetSvg(parent, size, viewBox, d) {
     svg.setAttributeNS(null, 'viewBox', viewBox);
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttributeNS(null, 'class', `${ PREFIX }svg-path`);
+    path.setAttributeNS(null, 'class', `${PREFIX}svg-path`);
     path.setAttributeNS(null, 'd', d);
 
     svg.appendChild(path);

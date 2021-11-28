@@ -9,20 +9,39 @@
 </head>
 <body>
 <div>
-    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">
-        image
-    </a>
+    <!--    <a data-fslightbox="gallery" href="/demo/img/1.jpeg">-->
+    <!--        image-->
+    <!--    </a>-->
 
-    <a data-fslightbox="gallery"
-       href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-        video
-    </a>
+    <!--    <a data-fslightbox="gallery"-->
+    <!--       href="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">-->
+    <!--        video-->
+    <!--    </a>-->
 
-    <a data-fslightbox="gallery" href="#custom-source" data-class="d-block">
-        custom
-    </a>
+    <!--    <a data-fslightbox="gallery" href="#custom-source" data-class="d-block">-->
+    <!--        custom-->
+    <!--    </a>-->
+
+    <a data-fslightbox="gallery" href="#vimeo">Vimeo</a>
+
+    <iframe
+        src="https://player.vimeo.com/video/22439234"
+        id="vimeo"
+        width="1920px"
+        height="1080px"
+        frameBorder="0"
+        allow="autoplay; fullscreen"
+        allowFullScreen>
+    </iframe>
 
     <img id="custom-source" src="/demo/img/2.jpg">
+
+    <script>
+    setTimeout(() => {
+        refreshFsLightbox();
+        console.log('Hello there!');
+    }, 5000);
+    </script>
 </div>
 </body>
 </html>

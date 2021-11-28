@@ -1,5 +1,4 @@
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
-import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 
 window.FsLightbox = function () {
     /**

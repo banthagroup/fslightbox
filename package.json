@@ -1,6 +1,6 @@
 {
   "name": "fslightbox",
-  "version": "3.3.0-2",
+  "version": "3.3.1",
   "description": "Modern and easy plugin for displaying images and videos in clean overlaying box. Display single source or create beautiful gallery with powerful lightbox.",
   "author": "Bantha Apps Piotr Zdziarski",
   "license": "MIT",
@@ -27,6 +27,9 @@
     "cypress": "concurrently --kill-others \"webpack-dev-server --config ./webpack.cypress.config.js --mode development\" \"node ./node_modules/.bin/cypress open\""
   },
   "jest": {
+    "setupFiles": [
+      "./jest-setup.js"
+    ],
     "verbose": true,
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -39,7 +42,6 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.4.4",
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",

@@ -33,9 +33,12 @@ function setupLightboxesFromDOM() {
         }
 
         let source = null;
-        (href.charAt(0) === '#') ?
-            source = document.getElementById(href.substring(1)) :
+        if (href.charAt(0) === '#') {
+            source = document.getElementById(href.substring(1)).cloneNode(true);
+            source.removeAttribute('id');
+        } else {
             source = href;
+        }
 
         fsLightboxInstances[instanceName].props.sources.push(source);
         fsLightboxInstances[instanceName].elements.a.push(a[i]);

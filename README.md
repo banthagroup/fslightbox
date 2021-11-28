@@ -13,7 +13,7 @@ Website: https://fslightbox.com
 ### Installation
  
 ```
-npm install --save-dev fslightbox
+npm install fslightbox
 ``` 
 
 ### Example

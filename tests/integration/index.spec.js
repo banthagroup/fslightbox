@@ -46,11 +46,16 @@ document.body.appendChild(sixthA);
 require('../../src');
 
 test('setting up lightboxes with proper props', () => {
+    const customSourceFirstWithoutId = customSourceFirst.cloneNode(true);
+    customSourceFirstWithoutId.removeAttribute('id');
+    const customSourceSecondWithoutId = customSourceFirst.cloneNode(true);
+    customSourceSecondWithoutId.removeAttribute('id');
+
     expect(fsLightboxInstances['gallery-first'].props.sources).toEqual([
-        'image/1.jpg', customSourceFirst, 'image/2.jpg'
+        'image/1.jpg', customSourceFirstWithoutId, 'image/2.jpg'
     ]);
     expect(fsLightboxInstances['gallery-second'].props.sources).toEqual([
-        customSourceSecond, 'image/3.jpg'
+        customSourceSecondWithoutId, 'image/3.jpg'
     ]);
     expect(fsLightboxInstances['gallery-first'].elements.a).toEqual([
         firstA, secondA, fourthA
