@@ -1,8 +1,7 @@
-.d-block {
-    display: block !important;
+.display-block {
+    display: block;
 }
 
-#custom-source {
+#vimeo {
     display: none;
-    background: red;
 }
