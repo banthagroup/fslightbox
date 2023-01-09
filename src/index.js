@@ -1,5 +1,5 @@
-import './js/core/styles/styles-injection/styles-injection';
-import './js/FsLightbox';
+import './core/styles/styles-injection/styles-injection';
+import './FsLightbox';
 
 window.fsLightboxInstances = {};
 

@@ -1,4 +1,4 @@
-import { styles } from "./styles";
+import { styles } from "../../styles";
 import { FSLIGHTBOX_STYLES } from "../../constants/classes-names";
 
 export function createAndAppendStyles() {
