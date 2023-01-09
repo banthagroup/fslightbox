@@ -21,7 +21,7 @@
     "url": "git+https://github.com/banthagroup/fslightbox"
   },
   "scripts": {
-    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp",
+    "production": "webpack --mode production --config webpack.prod.config.js --display-modules",
     "watch": "webpack-dev-server  --mode development --host 0.0.0.0"
   },
   "devDependencies": {
