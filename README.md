@@ -6,7 +6,7 @@ The project's website: https://fslightbox.com.
 
 ## Installation
 ### Through an archive downloaded from the website.
-Just before the end of the <body> tag:
+Just before the end of the &lt;body&gt; tag:
 ```html
 <script src="fslightbox.js"></script>
 ```
