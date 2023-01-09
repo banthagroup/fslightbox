@@ -9,15 +9,17 @@ export function renderYoutube(fsLightbox, i) {
         props: { sources }
     } = fsLightbox;
 
-    sourcesElements[i] = document.createElement('iframe');
-    setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`)
-    sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl(sources[i])}?enablejsapi=1`;
+    sourcesElements[i] = document.createElement("iframe");
+    setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`);
+    var url = sources[i];
+    var p = url.split("?")[1];
+    sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl()}?${p ? p : ""}`;
     sourcesElements[i].allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
     sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
     sourceLoadHandlers[i].handleYoutubeLoad();
 
-    function getYoutubeVideoIdFromUrl(url) {
+    function getYoutubeVideoIdFromUrl() {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         return url.match(regExp)[2];
     }
