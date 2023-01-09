@@ -1,12 +1,10 @@
-/demo
-/node_modules
-/src
-/tests
 .babelrc
+demo/
 .gitignore
-.npmignore
-gulpfile.babel.js
 index.html
+node_modules/
+.npmignore
+package-lock.json
+src/
 webpack.config.js
 webpack.prod.config.js
-package-lock.json
