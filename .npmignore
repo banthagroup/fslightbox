@@ -4,15 +4,11 @@
 /node_modules
 /src
 /tests
-.env
-.env.example
 .babelrc
 .gitignore
 .npmignore
-cypress.json
 gulpfile.babel.js
 index.html
 webpack.config.js
-webpack.cypress.config.js
 webpack.prod.config.js
-yarn.lock
+package-lock.json
