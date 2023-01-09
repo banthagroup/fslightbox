@@ -22,7 +22,7 @@
   },
   "scripts": {
     "watch": "webpack-dev-server --host 0.0.0.0",
-    "production": "webpack --config webpack.prod.config.js"
+    "production": "webpack --config webpack.prod.config.js && cp index.js fslightbox.js"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
