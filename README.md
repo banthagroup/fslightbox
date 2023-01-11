@@ -13,7 +13,6 @@ Just before the end of the &lt;body&gt; tag:
 ### Or, through a package manager.
 ```
 npm install fslightbox
-
 ```
 And import it in your project's JavaScript file, for example through the Node.js "require" function:
 ```
