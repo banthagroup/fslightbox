@@ -10,13 +10,13 @@ import { fillSourcesOutersTransformersCollection } from "../../collections/fillS
 import { renderSlideButtons } from "../../../components/renderSlideButtons";
 import { renderSlideSwipingHoverer } from "../../../components/renderSlideSwipingHoverer";
 import { setUpCore } from "../../setUpCore";
-import { getScrollbarWidth } from "../../scrollbar/getScrollbarWidth";
+import { gsw } from "../../scrollbar/gsw";
 
 export function initializeLightbox(fsLightbox) {
     const { core: { eventsDispatcher }, data, elements, props: { sources } } = fsLightbox;
 
     data.isInitialized = true;
-    data.scrollbarWidth = getScrollbarWidth(fsLightbox);
+    data.scrollbarWidth = gsw(fsLightbox);
 
     fillSourcesOutersTransformersCollection(fsLightbox);
 
