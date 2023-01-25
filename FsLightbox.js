@@ -88,7 +88,6 @@ window.FsLightbox = function () {
     this.core = {
         classFacade: {},
         eventsDispatcher: {},
-        fullscreenToggler: {},
         globalEventsController: {},
         lightboxCloser: {},
         lightboxOpener: {},
@@ -101,6 +100,7 @@ window.FsLightbox = function () {
         stageManager: {},
         windowResizeActioner: {}
     };
+    this.fs = {};
 
     setUpLightboxOpener(this);
 

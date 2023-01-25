@@ -5,12 +5,12 @@ export function LightboxCloseActioner(
     {
         core: {
             eventsDispatcher,
-            fullscreenToggler,
             globalEventsController,
             scrollbarRecompensor
         },
         data,
         elements,
+	fs,
         props,
         sourcePointerProps
     }
@@ -24,8 +24,8 @@ export function LightboxCloseActioner(
 
         globalEventsController.removeListeners();
 
-        if (props.exitFullscreenOnClose && data.isFullscreenOpen) {
-            fullscreenToggler.exitFullscreen();
+        if (props.exitFullscreenOnClose && data.ifs) {
+            fs.x();
         }
 
         setTimeout(() => {

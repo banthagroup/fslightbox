@@ -5,6 +5,7 @@ import { SourcesPointerUp } from "../sources/pointering/up/SourcesPointerUp";
 export function setUpGlobalEventsController(
     {
         core: { globalEventsController: self, windowResizeActioner, },
+	fs,
         resolve
     }
 ) {
@@ -20,6 +21,8 @@ export function setUpGlobalEventsController(
         addEventListener('resize', windowResizeActioner.runActions);
 
         document.addEventListener('keydown', keyboardController.listener);
+
+	fs.l();
     };
 
     self.removeListeners = () => {
@@ -30,5 +33,7 @@ export function setUpGlobalEventsController(
         removeEventListener('resize', windowResizeActioner.runActions);
 
         document.removeEventListener('keydown', keyboardController.listener);
+
+	fs.q();
     };
 }
