@@ -53,6 +53,9 @@ require("fslightbox")
 ## Documentation
 Available at: https://fslightbox.com/javascript/documentation.
 
+## Demo
+Available at: https://fslightbox.com/javascript.
+
 ## Browser Compatibility
 
 | Browser | Works? |
