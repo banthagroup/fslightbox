@@ -27,7 +27,7 @@ export function CreatingSourcesLocalStorageManager({ props }) {
 
             if (newSourceTypesToDetect === 0) {
                 assignToObject(decodedSourceTypes, newTypes);
-                localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify(decodedSourceTypes));
+                try{localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify(decodedSourceTypes));}catch{}
             }
         }
     };
@@ -38,7 +38,7 @@ export function CreatingSourcesLocalStorageManager({ props }) {
     };
 
     if (!props.disableLocalStorage) {
-        decodedSourceTypes = JSON.parse(localStorage.getItem(SOURCES_TYPES_KEY));
+        try{decodedSourceTypes = JSON.parse(localStorage.getItem(SOURCES_TYPES_KEY));}catch{}
         // we are checking if detected source types contains at certain key source type
         // when localStorage will be empty we can overwrite this method because we are sure
         // that at every index will be no source type
