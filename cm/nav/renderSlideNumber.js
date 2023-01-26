@@ -9,10 +9,6 @@ export function renderSlideNumber({ componentsServices, props: { sources }, stag
 
     const currentNumber = document.createElement('span');
     componentsServices.setSlideNumber = (number) => currentNumber.innerHTML = number;
-    if (process.env.NODE_ENV === 'development') {
-        currentNumber.setAttribute('data-test-id', 'slide-number');
-    }
-
     const slash = document.createElement('span');
     slash.className = `${PREFIX}slash`;
 
