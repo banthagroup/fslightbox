@@ -10,10 +10,6 @@ export function renderSourceWrappersContainer(fsLightbox) {
 
     sourceWrappersContainer.addEventListener('pointerdown', sourcesPointerDown.listener);
 
-    if (process.env.NODE_ENV === 'development') {
-        sourceWrappersContainer.setAttribute('data-test-id', 'source-wrappers-container');
-    }
-
     elements.sourceWrappersContainer = sourceWrappersContainer;
 
     for (let i = 0; i < sources.length; i++) {
