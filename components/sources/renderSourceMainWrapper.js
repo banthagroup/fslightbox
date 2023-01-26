@@ -22,10 +22,6 @@ export function renderSourceMainWrapper(fsLightbox, i) {
         }
     };
 
-    if (process.env.NODE_ENV === 'development') {
-        sourceMainWrappers[i].setAttribute('data-test-class', 'source-main-wrapper');
-    }
-
     sourceWrappersContainer.appendChild(sourceMainWrappers[i]);
 
     renderSourceAnimationWrapper(fsLightbox, i);
