@@ -5,10 +5,12 @@ export function SourceLoadActioner(
     {
         collections: { sourceSizers },
         elements: { sourceAnimationWrappers, sourceMainWrappers, sources },
+	isl,
         resolve
     }, i
 ) {
     this.runActions = (defaultWidth, defaultHeight) => {
+	isl[i]=true;
         sources[i].classList.add(OPACITY_1_CLASS_NAME);
         sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
         sourceMainWrappers[i].removeChild(sourceMainWrappers[i].firstChild);
