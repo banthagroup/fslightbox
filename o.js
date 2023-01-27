@@ -65,7 +65,6 @@ window.FsLightbox = function () {
     };
 
     this.componentsServices = {
-        hideSourceLoaderIfNotYetCollection: [],
         // if there is one slide SlideNumber is not rendered so we need to prevent calling undefined function
         setSlideNumber: () => {}
     };
