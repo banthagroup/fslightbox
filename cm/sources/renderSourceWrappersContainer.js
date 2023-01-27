@@ -1,4 +1,4 @@
-import { renderSourceMainWrapper } from "./renderSourceMainWrapper";
+import { smw } from "./smw";
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../../cn/classes-names";
 
 export function renderSourceWrappersContainer(fsLightbox) {
@@ -13,6 +13,6 @@ export function renderSourceWrappersContainer(fsLightbox) {
     elements.sourceWrappersContainer = sourceWrappersContainer;
 
     for (let i = 0; i < sources.length; i++) {
-        renderSourceMainWrapper(fsLightbox, i);
+        smw(fsLightbox, i);
     }
 }

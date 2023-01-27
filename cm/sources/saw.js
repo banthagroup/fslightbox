@@ -1,0 +1,1 @@
+export function saw({elements:{sourceMainWrappers,sourceAnimationWrappers}},i){var w=document.createElement("div");var L="fslightboxl",l=document.createElement("div");loader.className=L;for(var in=0;in<3;in++){var lc=document.createElement("div");lc.className=L+"c";l.appendChild(lc)}w.appendChild(l);sourceMainWrappers[i].appendChild(w);sourceAnimationWrappers[i]=w}
