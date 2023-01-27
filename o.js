@@ -65,8 +65,6 @@ window.FsLightbox = function () {
     };
 
     this.componentsServices = {
-        enterFullscreen: null,
-        exitFullscreen: null,
         hideSourceLoaderIfNotYetCollection: [],
         // if there is one slide SlideNumber is not rendered so we need to prevent calling undefined function
         setSlideNumber: () => {}
