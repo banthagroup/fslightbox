@@ -96,8 +96,7 @@ window.FsLightbox = function () {
         sourceDisplayFacade: {},
         stageManager: {},
         windowResizeActioner: {}
-    };
-    this.fs = {};
+    };this.fs={};this.sws={};
 
     setUpLightboxOpener(this);
 

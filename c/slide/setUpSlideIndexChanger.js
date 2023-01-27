@@ -14,7 +14,9 @@ export function setUpSlideIndexChanger(
         componentsServices,
         core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { sourceAnimationWrappers },
-        stageIndexes
+	isl,
+        stageIndexes,
+	sws
     }
 ) {
     const runQueuedRemoveFadeOut = getQueuedAction(() => {
@@ -32,10 +34,66 @@ export function setUpSlideIndexChanger(
     };
 
     self.jumpTo = (i) => {
-        let previousI = stageIndexes.current;
+        var opi=stageIndexes.previous,oci=stageIndexes.current,oni=stageIndexes.current,ipl=isl[oci],icl=isl[i];
         self.changeTo(i);
+	var pi=stageIndexes.previous,ni=stageIndexes.next;
 
-        classFacade.removeFromEachElementClassIfContains(SOURCE_MAIN_WRAPPERS, TRANSFORM_TRANSITION_CLASS_NAME);
+        classFacade.removeFromEachElementClassIfContains(
+		SOURCE_MAIN_WRAPPERS,
+		TRANSFORM_TRANSITION_CLASS_NAME
+	);
+
+	sws.d(oi);
+	sws.c();
+
+	requestAnimationFrame(function(){
+		requestAnimationFrame(function(){
+			// The checking whether the source is loaded was done before reflow because if source would load after a slide change but before a reflow, inexpected animation may be added—in the case of a current source, a slide change animation would be added instead of initial animation after a load.
+			if (ipl) {
+				sourceAnimationWrappers[oci]
+					.classList.add(FADE_OUT_CLASS_NAME);
+			}
+			if (icl) {
+				sourceAnimationWrappers[i]
+					.classList.add(FADE_IN_CLASS_NAME);
+			}
+
+			sws.a();
+
+			if (pi !== undefined && pi !== oi) {
+				sourceMainWrapperTransformers[pi].negative();
+			}
+			sourceMainWrapperTransformers[i].n();
+			if (ni !== undefined && ni !== oi) {
+				sourceMainWrapperTransformers[ni].positive();
+			}
+
+			sws.b(opi);
+			sws.b(oni);
+
+			// If source is not loaded, then there are no animations, therefore no postponed transform.
+			if (isl[oi]) {
+				setTimeout(hoss, ANIMATION_TIME - 40);		
+			} else {
+				hoss();
+			}
+
+			function hoss() {
+				if (!stageManager.is(oi)) {
+					sourceMainWrappers[oi]
+						.classList
+						.add(DISPLAY_NONE_CLASS_NAME);
+					sourceMainWrapperTransformers[oi].n();
+				} else if (oi === pi) {
+					sourceMainWrapperTransformers[oi]
+						.negative();
+				} else if (oi === ni) {
+					sourceMainWrapperTransformers[oi]
+						.positive();
+				}
+			}
+		});
+	});
 
         removeFromElementClassIfContains(sourceAnimationWrappers[previousI], FADE_IN_STRONG_CLASS_NAME);
         removeFromElementClassIfContains(sourceAnimationWrappers[previousI], FADE_IN_CLASS_NAME);
@@ -48,13 +106,5 @@ export function setUpSlideIndexChanger(
         // we need to remove fade out from all sources because if someone used slide swiping during animation timeout
         // we cannot detect what slide will be
         runQueuedRemoveFadeOut();
-
-        sourceMainWrappersTransformers[i].zero();
-
-        setTimeout(() => {
-            if (previousI !== stageIndexes.current) {
-                sourceMainWrappersTransformers[previousI].negative();
-            }
-        }, ANIMATION_TIME - 30);
     };
 }
