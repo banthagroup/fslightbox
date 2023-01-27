@@ -14,6 +14,8 @@ export function SourceMainWrapperTransformer({ elements: { sourceMainWrappers },
         setFinalTransformAndCleanTransformer(0);
     };
 
+    this.n=function(){sourceMainWrappers[i].style.removeProperty("transform")};
+
     this.positive = () => {
         setFinalTransformAndCleanTransformer(getDefaultTransformDistance());
     };
