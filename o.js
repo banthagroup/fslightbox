@@ -58,9 +58,9 @@ window.FsLightbox = function () {
         a: [],
         container: null,
         slideSwipingHoverer: null,
+	smw: [],
         sourceWrappersContainer: null,
         sources: [],
-        sourceMainWrappers: [],
         sourceAnimationWrappers: [],
     };
 
