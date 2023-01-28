@@ -6,7 +6,6 @@ import {
 import { createSources } from "../../sources/creating/createSources";
 import { renderSourceWrappersContainer } from "../../../cm/sources/renderSourceWrappersContainer";
 import { renderNav } from "../../../cm/nav/renderNav";
-import { fillSourcesOutersTransformersCollection } from "../../collections/fillSourcesOutersTransformersCollection";
 import { renderSlideButtons } from "../../../cm/renderSlideButtons";
 import { renderSlideSwipingHoverer } from "../../../cm/renderSlideSwipingHoverer";
 import { setUpCore } from "../../setUpCore";

@@ -37,7 +37,7 @@ window.FsLightbox = function () {
         maxSourceWidth: 0,
         maxSourceHeight: 0,
         scrollbarWidth: 0
-    };.this.isl=[];
+    };this.isl=[];
 
     this.sourcePointerProps = {
         downScreenX: null,
