@@ -8,28 +8,30 @@ export function SourcesPointerUpActionerBucket(
     }
 ) {
     this.runPositiveSwipedXActions = () => {
-        if (stageIndexes.previous === undefined) {
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
+	var i = stageIndexes.previous;
+        if (i === undefined) {
+            t("z");
         } else {
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('positive');
-            slideIndexChanger.changeTo(stageIndexes.previous);
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
+            t("p");
+            slideIndexChanger.changeTo(i);
+            t("z");
         }
     };
 
     this.runNegativeSwipedXActions = () => {
-        if (stageIndexes.next === undefined) {
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
+	var i = stageIndexes.next;
+        if (i === undefined) {
+            t("z");
         } else {
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('negative');
-            slideIndexChanger.changeTo(stageIndexes.next);
-            addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
+            t("ne");
+            slideIndexChanger.changeTo(i);
+            t("z");
         }
     };
 
-    const addTransitionToCurrentSourceHolderAndTransformItToPosition = (position) => {
+    function t(p) {
 	var w=smw[stageIndexes.current];
 	w.a();
-        w[position]();
-    };
+        w[p]();
+    }
 }
