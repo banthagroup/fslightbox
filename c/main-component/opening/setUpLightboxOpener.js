@@ -3,7 +3,6 @@ import { initializeLightbox } from "../initializing/initializeLightbox";
 
 export function setUpLightboxOpener(fsLightbox) {
     const {
-        collections: { sourceMainWrappersTransformers },
         componentsServices,
         core: {
             eventsDispatcher,
@@ -40,7 +39,7 @@ export function setUpLightboxOpener(fsLightbox) {
         globalEventsController.attachListeners();
 
         windowResizeActioner.runActions();
-        smw[stageIndexes.current].n();
+        elements.smw[stageIndexes.current].n();
 
         eventsDispatcher.dispatch('onOpen');
     };
