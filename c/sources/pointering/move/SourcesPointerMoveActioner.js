@@ -19,16 +19,16 @@ export function SourcesPointerMoveActioner(
 
         sourcePointerProps.swipedX = e.screenX - sourcePointerProps.downScreenX;
 
-        transformSourceHolderAtIndexToPosition(stageIndexes.current, 'zero');
-        // if there are only two slides we need to check if source we want to transform exists
-        if (stageIndexes.previous !== undefined && sourcePointerProps.swipedX > 0) {
-            transformSourceHolderAtIndexToPosition(stageIndexes.previous, 'negative');
-        } else if (stageIndexes.next !== undefined && sourcePointerProps.swipedX < 0) {
-            transformSourceHolderAtIndexToPosition(stageIndexes.next, 'positive');
+	var pi=stageIndexes.previous,ni=stageIndexes.next;
+        t(stageIndexes.current, "z");
+        if (pi !== undefined && sourcePointerProps.swipedX > 0) {
+            t(pi, "ne");
+        } else if (ni !== undefined && sourcePointerProps.swipedX < 0) {
+            t(ni, "p");
         }
     };
 
-    function transformSourceHolderAtIndexToPosition(i, position) {
-	smw[i].v(sourcePointerProps.swipedX)[position]()
+    function t(i, p) {
+	elements.smw[i].v(sourcePointerProps.swipedX)[p]()
     }
 }
