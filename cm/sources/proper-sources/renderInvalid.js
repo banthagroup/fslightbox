@@ -2,7 +2,7 @@ import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../
 
 export function renderInvalid(
     {
-        elements: { sources: sourcesElements, sourceAnimationWrappers, sourceMainWrappers },
+        elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
     }, i
 ) {
@@ -12,8 +12,7 @@ export function renderInvalid(
 
     sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
 
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].removeChild(sourceAnimationWrappers[i].firstChild);
 
-    // remove loader
-    sourceMainWrappers[i].removeChild(sourceMainWrappers[i].firstChild);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
 }
