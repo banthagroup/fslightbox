@@ -2,9 +2,8 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../cn/classes-names";
 
 export function SourcesPointerUpActionerBucket(
     {
-        collections: { sourceMainWrappersTransformers },
         core: { slideIndexChanger },
-        elements: { sourceMainWrappers },
+        elements: { smw },
         stageIndexes
     }
 ) {
@@ -29,7 +28,8 @@ export function SourcesPointerUpActionerBucket(
     };
 
     const addTransitionToCurrentSourceHolderAndTransformItToPosition = (position) => {
-        sourceMainWrappers[stageIndexes.current].classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
-        sourceMainWrappersTransformers[stageIndexes.current][position]();
+	var w=smw[stageIndexes.current];
+	w.a();
+        w[position]();
     };
 }

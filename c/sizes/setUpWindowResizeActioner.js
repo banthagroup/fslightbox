@@ -3,11 +3,10 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../cn/classes-names";
 
 export function setUpWindowResizeActioner(
     {
-        collections: { sourceMainWrappersTransformers, sourceSizers },
+        collections: { sourceSizers },
         core: { windowResizeActioner: self },
         data,
-        elements: { sourceMainWrappers },
-        props,
+        elements: { smw },
         stageIndexes
     }
 ) {
@@ -18,12 +17,8 @@ export function setUpWindowResizeActioner(
             data.maxSourceWidth = 0.9 * innerWidth;
         data.maxSourceHeight = 0.9 * innerHeight;
 
-        for (let i = 0; i < props.sources.length; i++) {
-            removeFromElementClassIfContains(sourceMainWrappers[i], TRANSFORM_TRANSITION_CLASS_NAME);
-
-            if (i !== stageIndexes.current) {
-                sourceMainWrappersTransformers[i].negative();
-            }
+        for (let i = 0; i < smw.length; i++) {
+            smw[i].d();	
 
             // if source is Invalid or if lightbox is initialized there are no sourceSizers
             // so we need to check if it exists
@@ -31,5 +26,13 @@ export function setUpWindowResizeActioner(
                 sourceSizers[i].adjustSize();
             }
         }
+
+	var pi=stageIndexes.previous,ni=stageIndexes.next;
+	if (pi !== undefined) {
+		smw[pi].ne();
+	}
+	if (ni !== undefined) {
+		smw[ni].p();
+	}
     };
 }

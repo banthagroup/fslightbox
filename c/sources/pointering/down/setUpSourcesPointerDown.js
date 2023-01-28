@@ -4,7 +4,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../cn/classes-names";
 export function setUpSourcesPointerDown(
     {
         core: { classFacade, sourcesPointerDown: self },
-        elements: { sources },
+        elements: { smw, sources },
         sourcePointerProps,
         stageIndexes
     }
@@ -29,7 +29,9 @@ export function setUpSourcesPointerDown(
             sourcePointerProps.isSourceDownEventTarget = true :
             sourcePointerProps.isSourceDownEventTarget = false;
 
-        classFacade.removeFromEachElementClassIfContains(SOURCE_MAIN_WRAPPERS, TRANSFORM_TRANSITION_CLASS_NAME);
+	for (var i=0;i<smw.length;i++) {
+		smw[i].d();
+	}
     };
 }
 

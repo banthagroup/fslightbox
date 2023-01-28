@@ -18,8 +18,6 @@ export function initializeLightbox(fsLightbox) {
     data.isInitialized = true;
     data.scrollbarWidth = gsw(fsLightbox);
 
-    fillSourcesOutersTransformersCollection(fsLightbox);
-
     setUpCore(fsLightbox);
 
     elements.container = document.createElement('div');

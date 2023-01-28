@@ -10,10 +10,9 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 
 export function setUpSlideIndexChanger(
     {
-        collections: { sourceMainWrappersTransformers },
         componentsServices,
         core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
-        elements: { sourceAnimationWrappers },
+        elements: { smw, sourceAnimationWrappers },
 	isl,
         stageIndexes,
 	sws
@@ -61,11 +60,11 @@ export function setUpSlideIndexChanger(
 			sws.a();
 
 			if (pi !== undefined && pi !== oi) {
-				sourceMainWrapperTransformers[pi].negative();
+				smw[pi].ne();
 			}
-			sourceMainWrapperTransformers[i].n();
+			smw[i].n();
 			if (ni !== undefined && ni !== oi) {
-				sourceMainWrapperTransformers[ni].positive();
+				smw[ni].p();
 			}
 
 			sws.b(opi);
@@ -80,16 +79,12 @@ export function setUpSlideIndexChanger(
 
 			function hoss() {
 				if (!stageManager.is(oi)) {
-					sourceMainWrappers[oi]
-						.classList
-						.add(DISPLAY_NONE_CLASS_NAME);
-					sourceMainWrapperTransformers[oi].n();
+					smw[oi].h();
+					smw[oi].n();
 				} else if (oi === pi) {
-					sourceMainWrapperTransformers[oi]
-						.negative();
+					smw[oi].ne();
 				} else if (oi === ni) {
-					sourceMainWrapperTransformers[oi]
-						.positive();
+					smw[oi].p();
 				}
 			}
 		});

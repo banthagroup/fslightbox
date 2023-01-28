@@ -75,7 +75,6 @@ window.FsLightbox = function () {
     };
 
     this.collections = {
-        sourceMainWrappersTransformers: [],
         sourceLoadHandlers: [],
         sourcesRenderFunctions: [],
         // after source load its size adjuster will be stored in this array so it may be later resized

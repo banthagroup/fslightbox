@@ -4,7 +4,7 @@ import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../cn/classe
 export function SourceLoadActioner(
     {
         collections: { sourceSizers },
-        elements: { sourceAnimationWrappers, sourceMainWrappers, sources },
+        elements: { sourceAnimationWrappers, sources },
 	isl,
         resolve
     }, i
@@ -13,7 +13,8 @@ export function SourceLoadActioner(
 	isl[i]=true;
         sources[i].classList.add(OPACITY_1_CLASS_NAME);
         sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
-        sourceMainWrappers[i].removeChild(sourceMainWrappers[i].firstChild);
+        sourceAnimationWrappers[i]
+		.removeChild(sourceAnimationWrappers[i].firstChild);
 
         runNormalLoadActions(defaultWidth, defaultHeight);
         this.runActions = runNormalLoadActions;

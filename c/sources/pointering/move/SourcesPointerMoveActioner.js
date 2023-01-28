@@ -3,7 +3,6 @@ import { addToElementClassIfNotContains } from "../../../../h/elements/addToElem
 
 export function SourcesPointerMoveActioner(
     {
-        collections: { sourceMainWrappersTransformers },
         elements,
         sourcePointerProps,
         stageIndexes
@@ -29,9 +28,7 @@ export function SourcesPointerMoveActioner(
         }
     };
 
-    function transformSourceHolderAtIndexToPosition(index, position) {
-        sourceMainWrappersTransformers[index]
-            .byValue(sourcePointerProps.swipedX)
-            [position]();
+    function transformSourceHolderAtIndexToPosition(i, position) {
+	smw[i].v(sourcePointerProps.swipedX)[position]()
     }
 }

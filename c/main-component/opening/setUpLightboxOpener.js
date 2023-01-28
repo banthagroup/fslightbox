@@ -40,7 +40,7 @@ export function setUpLightboxOpener(fsLightbox) {
         globalEventsController.attachListeners();
 
         windowResizeActioner.runActions();
-        sourceMainWrappersTransformers[stageIndexes.current].zero();
+        smw[stageIndexes.current].n();
 
         eventsDispatcher.dispatch('onOpen');
     };
