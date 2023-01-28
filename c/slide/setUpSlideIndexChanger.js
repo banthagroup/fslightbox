@@ -1,5 +1,5 @@
 import { ANIMATION_TIME } from "../../cn/css-constants";
-import { SOURCE_ANIMATION_WRAPPERS, SOURCE_MAIN_WRAPPERS } from "../../cn/elements";
+import { SOURCE_ANIMATION_WRAPPER } from "../../cn/elements";
 import {
     FADE_IN_CLASS_NAME, FADE_IN_STRONG_CLASS_NAME,
     FADE_OUT_CLASS_NAME,
@@ -37,10 +37,9 @@ export function setUpSlideIndexChanger(
         self.changeTo(i);
 	var pi=stageIndexes.previous,ni=stageIndexes.next;
 
-        classFacade.removeFromEachElementClassIfContains(
-		SOURCE_MAIN_WRAPPERS,
-		TRANSFORM_TRANSITION_CLASS_NAME
-	);
+	for (var j; j < smw.length; j++) {
+		smw[j].d();
+	}
 
 	sws.d(oi);
 	sws.c();
@@ -89,17 +88,5 @@ export function setUpSlideIndexChanger(
 			}
 		});
 	});
-
-        removeFromElementClassIfContains(sourceAnimationWrappers[previousI], FADE_IN_STRONG_CLASS_NAME);
-        removeFromElementClassIfContains(sourceAnimationWrappers[previousI], FADE_IN_CLASS_NAME);
-        sourceAnimationWrappers[previousI].classList.add(FADE_OUT_CLASS_NAME);
-
-        removeFromElementClassIfContains(sourceAnimationWrappers[i], FADE_IN_STRONG_CLASS_NAME);
-        removeFromElementClassIfContains(sourceAnimationWrappers[i], FADE_OUT_CLASS_NAME);
-        sourceAnimationWrappers[i].classList.add(FADE_IN_CLASS_NAME);
-
-        // we need to remove fade out from all sources because if someone used slide swiping during animation timeout
-        // we cannot detect what slide will be
-        runQueuedRemoveFadeOut();
     };
 }
