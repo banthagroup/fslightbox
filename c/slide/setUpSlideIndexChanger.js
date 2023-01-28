@@ -33,7 +33,7 @@ export function setUpSlideIndexChanger(
     };
 
     self.jumpTo = (i) => {
-        var opi=stageIndexes.previous,oci=stageIndexes.current,oni=stageIndexes.current,ipl=isl[oci],icl=isl[i];
+        var opi=stageIndexes.previous,oi=stageIndexes.current,oni=stageIndexes.current,ipl=isl[oi],icl=isl[i];
         self.changeTo(i);
 	var pi=stageIndexes.previous,ni=stageIndexes.next;
 
@@ -48,7 +48,7 @@ export function setUpSlideIndexChanger(
 		requestAnimationFrame(function(){
 			// The checking whether the source is loaded was done before reflow because if source would load after a slide change but before a reflow, inexpected animation may be added—in the case of a current source, a slide change animation would be added instead of initial animation after a load.
 			if (ipl) {
-				sourceAnimationWrappers[oci]
+				sourceAnimationWrappers[oi]
 					.classList.add(FADE_OUT_CLASS_NAME);
 			}
 			if (icl) {
