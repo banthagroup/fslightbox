@@ -39,12 +39,9 @@ export function setUpStageManager(
         };
     }
 
-
-    // set up isSourceInStage
-    // if there are 3, 2, 1 slides all sources will be always in stage
     (lastSourceIndex <= 2) ?
-        self.isSourceInStage = () => true :
-        self.isSourceInStage = (index) => {
+        self.i = () => true :
+        self.i = (index) => {
             const currentIndex = stageIndexes.current;
 
             if ((currentIndex === 0 && index === lastSourceIndex)

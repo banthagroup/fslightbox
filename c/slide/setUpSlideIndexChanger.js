@@ -77,7 +77,7 @@ export function setUpSlideIndexChanger(
 			}
 
 			function hoss() {
-				if (!stageManager.is(oi)) {
+				if (!stageManager.i(oi)) {
 					smw[oi].h();
 					smw[oi].n();
 				} else if (oi === pi) {
