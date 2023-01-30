@@ -37,7 +37,7 @@ export function setUpSlideIndexChanger(
         self.changeTo(i);
 	var pi=stageIndexes.previous,ni=stageIndexes.next;
 
-	for (var j; j < smw.length; j++) {
+	for (var j = 0; j < smw.length; j++) {
 		smw[j].d();
 	}
 
