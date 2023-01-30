@@ -11,17 +11,13 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 export function setUpSlideIndexChanger(
     {
         componentsServices,
-        core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
+        core: { slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { smw, sourceAnimationWrappers },
 	isl,
         stageIndexes,
 	sws
     }
 ) {
-    const runQueuedRemoveFadeOut = getQueuedAction(() => {
-        classFacade.removeFromEachElementClassIfContains(SOURCE_ANIMATION_WRAPPERS, FADE_OUT_CLASS_NAME);
-    }, ANIMATION_TIME);
-
     self.changeTo = (i) => {
         stageIndexes.current = i;
 
