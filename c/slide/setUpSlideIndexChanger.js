@@ -29,7 +29,7 @@ export function setUpSlideIndexChanger(
     };
 
     self.jumpTo = (i) => {
-        var opi=stageIndexes.previous,oi=stageIndexes.current,oni=stageIndexes.current,ipl=isl[oi],icl=isl[i];
+        var opi=stageIndexes.previous,oi=stageIndexes.current,oni=stageIndexes.next,ipl=isl[oi],icl=isl[i];
         self.changeTo(i);
 	var pi=stageIndexes.previous,ni=stageIndexes.next;
 
