@@ -1,4 +1,4 @@
-import { setUpLightboxOpener } from "./c/main-component/opening/setUpLightboxOpener";
+import { so } from "./c/so";
 
 window.FsLightbox = function () {
     /**
@@ -32,7 +32,6 @@ window.FsLightbox = function () {
     };
 
     this.data = {
-        isInitialized: false,
         isFullscreenOpen: false,
         maxSourceWidth: 0,
         maxSourceHeight: 0,
@@ -86,7 +85,6 @@ window.FsLightbox = function () {
         eventsDispatcher: {},
         globalEventsController: {},
         lightboxCloser: {},
-        lightboxOpener: {},
         lightboxUpdater: {},
         scrollbarRecompensor: {},
         slideChangeFacade: {},
@@ -97,9 +95,7 @@ window.FsLightbox = function () {
         windowResizeActioner: {}
     };this.fs={};this.sws={};
 
-    setUpLightboxOpener(this);
-
-    this.open = (i) => this.core.lightboxOpener.open(i);
+    so(this);
 
     this.close = () => this.core.lightboxCloser.closeLightbox();
 };

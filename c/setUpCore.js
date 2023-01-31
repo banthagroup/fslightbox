@@ -3,7 +3,6 @@ import { setUpEventsDispatcher } from "./events/setUpEventsDispatcher";
 import{sfs}from"./sfs";
 import { setUpGlobalEventsController } from "./events/setUpGlobalEventsController";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
-import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
 import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
 import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
@@ -19,7 +18,6 @@ export function setUpCore(fsLightbox) {
     sfs(fsLightbox);
     setUpGlobalEventsController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
-    setUpLightboxOpener(fsLightbox);
     setUpScrollbarRecompensor(fsLightbox);
     setUpSlideChangeFacade(fsLightbox);
     setUpSlideIndexChanger(fsLightbox);
