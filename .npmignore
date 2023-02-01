@@ -3,7 +3,7 @@
 components/
 constants/
 core/
-FsLightbox.js
+fslightbox.js
 .git
 .gitignore
 helpers/
@@ -11,6 +11,7 @@ i.js
 index.html
 node_modules/
 .npmignore
+o.js
 package-lock.json
 styles.js
 webpack.config.js
