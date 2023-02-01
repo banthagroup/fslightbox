@@ -10,11 +10,12 @@
   },
   "main": "index.js",
   "keywords": [
-    "lightbox",
-    "slide gallery",
-    "image lightbox",
-    "slider",
-    "carousel"
+    "fslightbox",
+    "vanilla javascript fslightbox",
+    "vanilla js fslightbox",
+    "vanilla javascript lightbox",
+    "vanilla js lightbox",
+    "lightbox"
   ],
   "repository": {
     "type": "git",
