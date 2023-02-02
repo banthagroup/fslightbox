@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: "production",
-    entry: "./i.js",
+    entry: "./1/i.js",
     output: {
         path: path.resolve(__dirname),
         libraryTarget: "umd",
