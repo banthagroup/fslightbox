@@ -25,10 +25,11 @@ function setupLightboxesFromDOM() {
             continue;
         }
 
-        const instanceName = a[i].getAttribute('data-fslightbox');
         const href = a[i].hasAttribute('data-href') ?
             a[i].getAttribute('data-href') :
             a[i].getAttribute('href');
+	if(!href){console.warn('The "data-fslightbox" attribute was set without the "href" attribute.');continue;}
+	const instanceName = a[i].getAttribute('data-fslightbox');
 
         if (!fsLightboxInstances[instanceName]) {
             fsLightboxInstances[instanceName] = new FsLightbox();
