@@ -1,5 +1,4 @@
 import { removeFromElementClassIfContains } from "../../h/elements/removeFromElementClassIfContains";
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../cn/classes-names";
 
 export function setUpWindowResizeActioner(
     {
