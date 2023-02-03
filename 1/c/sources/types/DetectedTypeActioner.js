@@ -1,10 +1,10 @@
 import { CUSTOM_TYPE, IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../cn/core-constants";
 import { SourceLoadHandler } from "../SourceLoadHandler";
-import { renderImage } from "../../../cm/sources/proper-sources/renderImage";
-import { renderVideo } from "../../../cm/sources/proper-sources/renderVideo";
-import { renderYoutube } from "../../../cm/sources/proper-sources/renderYoutube";
-import { renderCustom } from "../../../cm/sources/proper-sources/renderCustom";
-import { renderInvalid } from "../../../cm/sources/proper-sources/renderInvalid";
+import { renderImage } from "../../../cm/renderImage";
+import { renderVideo } from "../../../cm/renderVideo";
+import { renderYoutube } from "../../../cm/renderYoutube";
+import { renderCustom } from "../../../cm/renderCustom";
+import { renderInvalid } from "../../../cm/renderInvalid";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
