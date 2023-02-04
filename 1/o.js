@@ -81,7 +81,6 @@ window.FsLightbox = function () {
     };
 
     this.core = {
-        classFacade: {},
         eventsDispatcher: {},
         globalEventsController: {},
         lightboxCloser: {},

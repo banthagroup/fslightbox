@@ -3,7 +3,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../cn/classes-names";
 
 export function setUpSourcesPointerDown(
     {
-        core: { classFacade, sourcesPointerDown: self },
+        core: { sourcesPointerDown: self },
         elements: { smw, sources },
         sourcePointerProps,
         stageIndexes
