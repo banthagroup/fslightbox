@@ -1,7 +1,7 @@
-import { SOURCE_CLASS_NAME } from "../../../cn/classes-names";
-import { setUpSourceClassName } from "../../../h/source/setUpSourceClassName";
+import { SOURCE_CLASS_NAME } from "../cn/classes-names";
+import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
 
-export function renderCustom(fsLightbox, i) {
+export function c(fsLightbox, i) {
     const {
         collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },

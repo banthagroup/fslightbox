@@ -1,10 +1,10 @@
 import { CUSTOM_TYPE, IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../cn/core-constants";
 import { SourceLoadHandler } from "../SourceLoadHandler";
-import { renderImage } from "../../../cm/renderImage";
-import { renderVideo } from "../../../cm/renderVideo";
-import { renderYoutube } from "../../../cm/renderYoutube";
-import { renderCustom } from "../../../cm/renderCustom";
-import { renderInvalid } from "../../../cm/renderInvalid";
+import { i } from "../../../cm/i";
+import { v } from "../../../cm/v";
+import { y } from "../../../cm/y";
+import { c } from "../../../cm/c";
+import { in } from "../../../cm/in";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
@@ -22,19 +22,19 @@ export function DetectedTypeActioner(fsLightbox) {
 
         switch (type) {
             case IMAGE_TYPE:
-                renderFunction = renderImage;
+                renderFunction = i;
                 break;
             case VIDEO_TYPE:
-                renderFunction = renderVideo;
+                renderFunction = v;
                 break;
             case YOUTUBE_TYPE:
-                renderFunction = renderYoutube;
+                renderFunction = y;
                 break;
             case CUSTOM_TYPE:
-                renderFunction = renderCustom;
+                renderFunction = c;
                 break;
             default:
-                renderFunction = renderInvalid;
+                renderFunction = in;
                 break;
         }
 

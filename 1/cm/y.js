@@ -1,8 +1,8 @@
-import { PREFIX, SOURCE_CLASS_NAME } from "../../../cn/classes-names";
-import { setUpSourceClassName } from "../../../h/source/setUpSourceClassName";
-import { setUpSourceCustomAttributes } from "../../../h/source/setUpSourceCustomAttributes";
+import { PREFIX, SOURCE_CLASS_NAME } from "../cn/classes-names";
+import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
+import { setUpSourceCustomAttributes } from "../h/source/setUpSourceCustomAttributes";
 
-export function renderYoutube(fsLightbox, i) {
+export function y(fsLightbox, i) {
     const {
         collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },
