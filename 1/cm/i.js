@@ -10,7 +10,7 @@ export function i(fsLightbox, j) {
     } = fsLightbox;
 
     sourcesElements[j] = document.createElement('img');
-    setUpSourceClassName(fsLightbox, i, SOURCE_CLASS_NAME);
+    setUpSourceClassName(fsLightbox, j, SOURCE_CLASS_NAME);
     sourcesElements[j].src = sources[j];
     sourcesElements[j].onload = sourceLoadHandlers[j].handleImageLoad;
     setUpSourceCustomAttributes(fsLightbox, j);
