@@ -1,6 +1,6 @@
 import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../cn/classes-names";
 
-export function in(
+export function inv(
     {
         elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }

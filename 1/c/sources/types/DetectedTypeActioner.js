@@ -4,7 +4,7 @@ import { i } from "../../../cm/i";
 import { v } from "../../../cm/v";
 import { y } from "../../../cm/y";
 import { c } from "../../../cm/c";
-import { in } from "../../../cm/in";
+import { inv } from "../../../cm/inv";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
@@ -13,9 +13,9 @@ export function DetectedTypeActioner(fsLightbox) {
         resolve
     } = fsLightbox;
 
-    this.runActionsForSourceTypeAndIndex = (type, i) => {
+    this.runActionsForSourceTypeAndIndex = (type, j) => {
         if (type !== INVALID_TYPE) {
-            sourceLoadHandlers[i] = resolve(SourceLoadHandler, [i]);
+            sourceLoadHandlers[j] = resolve(SourceLoadHandler, [j]);
         }
 
         let renderFunction;
@@ -34,11 +34,11 @@ export function DetectedTypeActioner(fsLightbox) {
                 renderFunction = c;
                 break;
             default:
-                renderFunction = in;
+                renderFunction = inv;
                 break;
         }
 
-        sourcesRenderFunctions[i] = () => renderFunction(fsLightbox, i);
+        sourcesRenderFunctions[j] = () => renderFunction(fsLightbox, j);
         sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
     };
 }
