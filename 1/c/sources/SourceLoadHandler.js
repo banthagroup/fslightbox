@@ -33,9 +33,13 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
     };
 
     this.handleCustomLoad = () => {
-        setTimeout(() => {
-            const source = sources[i];
-            sourceLoadActioner.runActions(source.offsetWidth, source.offsetHeight);
-        });
+	var s = sources[i],w=s.offsetWidth,h=s.offsetHeight;
+	
+	if (!w || !h) {
+		setTimeout(this.handleCustomLoad);
+		return;
+	}
+
+        sourceLoadActioner.runActions(w,h);
     };
 }
