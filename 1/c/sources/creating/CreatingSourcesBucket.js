@@ -1,8 +1,8 @@
-import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
+import { atd } from "../types/atd";
 
 export function CreatingSourcesBucket(
     {
-        props: { types, type, sources }, resolve,
+        props: { types, type, sources },
     }, localStorageManager, detectedTypeActioner
 ) {
     this.getTypeSetByClientForIndex = (i) => {
@@ -18,12 +18,9 @@ export function CreatingSourcesBucket(
     };
 
     this.retrieveTypeWithXhrForIndex = (i) => {
-        // we need to copy index because xhr will for sure come later than next loop iteration
-        const automaticTypeDetector = resolve(AutomaticTypeDetector);
-        automaticTypeDetector.setUrlToCheck(sources[i]);
-        automaticTypeDetector.getSourceType((sourceType) => {
-            localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[i]);
-            detectedTypeActioner.runActionsForSourceTypeAndIndex(sourceType, i)
-        });
+	atd(sources[i],function(t){
+	    localStorageManager.handleReceivedSourceTypeForUrl(t, sources[i]);
+            detectedTypeActioner.runActionsForSourceTypeAndIndex(t, i)	
+	})
     };
 }
