@@ -1,6 +1,3 @@
-import { SOURCE_MAIN_WRAPPERS } from "../../../../cn/elements";
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../cn/classes-names";
-
 export function setUpSourcesPointerDown(
     {
         core: { sourcesPointerDown: self },
