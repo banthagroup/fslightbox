@@ -1,5 +1,4 @@
 import { ANIMATION_TIME } from "../../cn/css-constants";
-import { SOURCE_ANIMATION_WRAPPER } from "../../cn/elements";
 import {
     FADE_IN_CLASS_NAME, FADE_IN_STRONG_CLASS_NAME,
     FADE_OUT_CLASS_NAME,
