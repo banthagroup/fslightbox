@@ -1,12 +1,5 @@
-1.jpg
-1/
-.babelrc
-fslightbox.js
-.git
-.gitignore
-index.html
-node_modules/
-.npmignore
-package-lock.json
-webpack.config.js
-webpack.prod.config.js
+*
+!/index.js
+!/package.json
+!/LICENSE
+!/README.md
