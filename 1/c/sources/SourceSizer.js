@@ -1,6 +1,5 @@
-export function SourceSizer({ data, elements: { sources } }, i, defaultWidth, defaultHeight) {
-    const ratio = defaultWidth / defaultHeight;
-    let newHeight = 0;
+export function SourceSizer(o, i, defaultWidth, defaultHeight) {
+	var { data, elements: { sources } } = o, r = defaultWidth / defaultHeight, h = 0;
 
     /**
      * This method takes care of setting sources dimensions.
@@ -9,28 +8,28 @@ export function SourceSizer({ data, elements: { sources } }, i, defaultWidth, de
      * In this case we are calculating dimensions mathematically.
      */
     this.adjustSize = () => {
-        newHeight = data.maxSourceWidth / ratio;
+        h = o.mw / ratio;
 
         // wider than higher
-        if (newHeight < data.maxSourceHeight) {
-            if (defaultWidth < data.maxSourceWidth) {
-                newHeight = defaultHeight;
+        if (h < o.mh) {
+            if (defaultWidth < o.mw) {
+                h = defaultHeight;
             }
             return updateDimensions();
         }
 
         // higher than wider
-        if (defaultHeight > data.maxSourceHeight) {
-            newHeight = data.maxSourceHeight;
+        if (defaultHeight > o.mh) {
+            h = o.mh;
         } else {
-            newHeight = defaultHeight;
+            h = defaultHeight;
         }
 
         updateDimensions();
     };
 
     const updateDimensions = () => {
-        sources[i].style.width = newHeight * ratio + 'px';
-        sources[i].style.height = newHeight + 'px';
+        sources[i].style.width = h * ratio + 'px';
+        sources[i].style.height = h + 'px';
     }
 }

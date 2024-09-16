@@ -20,6 +20,7 @@ window.FsLightbox = function () {
      *
      * @property { Boolean } exitFullscreenOnClose
      * @property { Boolean } loadOnlyCurrentSource
+     * @property { Number } sourceMargin
      * @property { Number } slideDistance
      */
     this.props = {
@@ -28,13 +29,12 @@ window.FsLightbox = function () {
         customClasses: [],
         types: [],
         videosPosters: [], // deprecated 3.2.0
+	sourceMargin: 0.05,
         slideDistance: 0.3
     };
 
     this.data = {
         isFullscreenOpen: false,
-        maxSourceWidth: 0,
-        maxSourceHeight: 0,
         scrollbarWidth: 0
     };this.isl=[];
 

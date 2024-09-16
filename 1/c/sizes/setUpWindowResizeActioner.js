@@ -1,20 +1,20 @@
 import { removeFromElementClassIfContains } from "../../h/elements/removeFromElementClassIfContains";
 
-export function setUpWindowResizeActioner(
-    {
+export function setUpWindowResizeActioner(o) {
+	var     {
         collections: { sourceSizers },
         core: { windowResizeActioner: self },
         data,
         elements: { smw },
+	props: { sourceMargin },
         stageIndexes
-    }
-) {
+    } = o, x = 1 - 2 * sourceMargin;
+
     self.runActions = () => {
-        // decreasing max source dimensions for better UX
-        (innerWidth < 992) ?
-            data.maxSourceWidth = innerWidth :
-            data.maxSourceWidth = 0.9 * innerWidth;
-        data.maxSourceHeight = 0.9 * innerHeight;
+        (innerWidth > 992) ?
+            o.mw = x * innerWidth :
+            o.mw = innerWidth;
+        o.mh = x * innerHeight;
 
         for (let i = 0; i < smw.length; i++) {
             smw[i].d();	
