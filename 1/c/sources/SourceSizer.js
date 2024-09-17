@@ -8,7 +8,7 @@ export function SourceSizer(o, i, defaultWidth, defaultHeight) {
      * In this case we are calculating dimensions mathematically.
      */
     this.adjustSize = () => {
-        h = o.mw / ratio;
+        h = o.mw / r;
 
         // wider than higher
         if (h < o.mh) {
@@ -29,7 +29,7 @@ export function SourceSizer(o, i, defaultWidth, defaultHeight) {
     };
 
     const updateDimensions = () => {
-        sources[i].style.width = h * ratio + 'px';
+        sources[i].style.width = h * r + 'px';
         sources[i].style.height = h + 'px';
     }
 }
