@@ -15,6 +15,8 @@ window.FsLightbox = function () {
      *
      * @property { Array } customAttributes
      * @property { Array } customClasses
+     * @property { Boolean } autoplay
+     * @property { Array } autoplays
      * @property { Object } maxYoutubeDimensions
      * @property { Array } videosPosters // deprecated 3.2.0
      *
@@ -27,6 +29,7 @@ window.FsLightbox = function () {
         sources: [],
         customAttributes: [],
         customClasses: [],
+        autoplays: [],
         types: [],
         videosPosters: [], // deprecated 3.2.0
 	sourceMargin: 0.05,
@@ -92,7 +95,7 @@ window.FsLightbox = function () {
         sourceDisplayFacade: {},
         stageManager: {},
         windowResizeActioner: {}
-    };this.fs={};this.sws={};
+    };this.ap={};this.fs={};this.sws={};
 
     so(this);
 

@@ -57,10 +57,11 @@ function setupLightboxesFromDOM() {
         setUpProp('videosPosters', 'data-video-poster');
         setUpProp('customClasses', 'data-class');
         setUpProp('customClasses', 'data-custom-class');
+	setUpProp('autoplays', 'data-autoplay');
 
         // The attributes that shouldn't be treated as custom attributes as
 	// adding them to the source makes no sense.
-        const LIGHTBOX_ATTRIBUTES = ['href', 'data-fslightbox', 'data-href', 'data-type', 'data-video-poster', 'data-class', 'data-custom-class'];
+        const LIGHTBOX_ATTRIBUTES = ['href', 'data-fslightbox', 'data-href', 'data-type', 'data-video-poster', 'data-class', 'data-custom-class', 'data-autoplay'];
         const attributes = a[i].attributes;
         const currentInstanceCustomAttributes = fsLightboxInstances[instanceName].props.customAttributes;
         for (let j = 0; j < attributes.length; j++) {

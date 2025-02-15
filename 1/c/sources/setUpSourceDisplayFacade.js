@@ -2,12 +2,12 @@ export function setUpSourceDisplayFacade(
     {
         collections: { sourcesRenderFunctions },
         core: { sourceDisplayFacade: self },
-        props,
+        loc,
         stageIndexes
     }
 ) {
     self.displaySourcesWhichShouldBeDisplayed = () => {
-        if (props.loadOnlyCurrentSource) {
+        if (loc) {
             runRenderActionsForSourceWithIndex(stageIndexes.current);
             return;
         }

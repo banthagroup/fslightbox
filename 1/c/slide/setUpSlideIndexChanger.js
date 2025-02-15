@@ -9,6 +9,7 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 
 export function setUpSlideIndexChanger(
     {
+	ap,
         componentsServices,
         core: { slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { smw, sourceAnimationWrappers },
@@ -18,6 +19,7 @@ export function setUpSlideIndexChanger(
     }
 ) {
     self.changeTo = (i) => {
+	ap.c(stageIndexes.current, i);
         stageIndexes.current = i;
 
         stageManager.updateStageIndexes();

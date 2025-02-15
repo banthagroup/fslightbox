@@ -3,29 +3,27 @@ import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
 import { setUpSourceCustomAttributes } from "../h/source/setUpSourceCustomAttributes";
 
 export function v(fsLightbox, i) {
-    const {
+    var {
+	ap,
         collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources, videosPosters }
-    } = fsLightbox;
+    } = fsLightbox, v=document.createElement('video'), s=document.createElement('source');sourcesElements[i]=v;
 
-    sourcesElements[i] = document.createElement('video');
     setUpSourceClassName(fsLightbox, i, SOURCE_CLASS_NAME)
-    sourcesElements[i].src = sources[i];
-    sourcesElements[i].onloadedmetadata = (e) => {
-        sourceLoadHandlers[i].handleVideoLoad(e);
-    };
-    sourcesElements[i].controls = true;
+    v.src = sources[i];
+    v.onloadedmetadata = (e) => sourceLoadHandlers[i].handleVideoLoad(e);
+    v.controls = true;v.autoplay=ap.i(i);
+    
     setUpSourceCustomAttributes(fsLightbox, i);
     if (videosPosters[i]) {
         sourcesElements[i].poster = videosPosters[i];
     }
 
-    const source = document.createElement('source');
-    source.src = sources[i];
-    sourcesElements[i].appendChild(source);
+    s.src = sources[i];
+    v.appendChild(s);
 
     setTimeout(sourceLoadHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(sourcesElements[i])
 }

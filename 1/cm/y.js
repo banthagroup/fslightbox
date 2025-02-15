@@ -3,24 +3,18 @@ import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
 import { setUpSourceCustomAttributes } from "../h/source/setUpSourceCustomAttributes";
 
 export function y(fsLightbox, i) {
-    const {
+    var {
+	ap,
         collections: { sourceLoadHandlers },
         elements: { sources: sourcesElements, sourceAnimationWrappers },
         props: { sources }
-    } = fsLightbox;
+    } = fsLightbox, u = sources[i], p=u.split("?")[1], s=document.createElement("iframe"), r=/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
 
-    sourcesElements[i] = document.createElement("iframe");
+    sourcesElements[i] = s;
     setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`);
-    var url = sources[i];
-    var p = url.split("?")[1];
-    sourcesElements[i].src = `https://www.youtube.com/embed/${getYoutubeVideoIdFromUrl()}?${p ? p : ""}`;
-    sourcesElements[i].allowFullscreen = true;
+    s.src = `https://www.youtube.com/embed/${u.match(r)[2]}?${p?p:""}&mute=1&autoplay=${ap.i(i)}&enablejsapi=1`;
+    s.allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
+    sourceAnimationWrappers[i].appendChild(s);
     sourceLoadHandlers[i].handleYoutubeLoad();
-
-    function getYoutubeVideoIdFromUrl() {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        return url.match(regExp)[2];
-    }
 }
