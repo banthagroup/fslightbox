@@ -10,7 +10,7 @@ export function v(fsLightbox, i) {
         props: { sources, videosPosters }
     } = fsLightbox, v=document.createElement('video'), s=document.createElement('source');sourcesElements[i]=v;
 
-    setUpSourceClassName(fsLightbox, i, SOURCE_CLASS_NAME)
+    setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} fslightboxv`);
     v.src = sources[i];
     v.onloadedmetadata = (e) => sourceLoadHandlers[i].handleVideoLoad(e);
     v.controls = true;v.autoplay=ap.i(i);

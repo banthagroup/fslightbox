@@ -12,7 +12,7 @@ export function y(fsLightbox, i) {
 
     sourcesElements[i] = s;
     setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`);
-    s.src = `https://www.youtube.com/embed/${u.match(r)[2]}?${p?p:""}&mute=1&autoplay=${ap.i(i)}&enablejsapi=1`;
+    s.src = `https://www.youtube.com/embed/${u.match(r)[2]}?${p?p:""}${ap.i(i)?"&mute=1&autoplay=1":""}&enablejsapi=1`;
     s.allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
     sourceAnimationWrappers[i].appendChild(s);
