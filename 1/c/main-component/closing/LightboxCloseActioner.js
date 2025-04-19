@@ -1,8 +1,8 @@
 import { FADE_OUT_STRONG_CLASS_NAME, OPEN_CLASS_NAME } from "../../../cn/classes-names";
 import { ANIMATION_TIME } from "../../../cn/css-constants";
 
-export function LightboxCloseActioner(
-    {
+export function LightboxCloseActioner(o) {
+     var {
         core: {
             eventsDispatcher,
             globalEventsController,
@@ -13,23 +13,20 @@ export function LightboxCloseActioner(
 	fs,
         props,
         sourcePointerProps
-    }
-) {
-    this.isLightboxFadingOut = false;
+    } = o;
 
     this.runActions = () => {
-        this.isLightboxFadingOut = true;
+        this.i = 1;
 
         elements.container.classList.add(FADE_OUT_STRONG_CLASS_NAME);
 
         globalEventsController.removeListeners();
 
-        if (props.exitFullscreenOnClose && data.ifs) {
+        if (props.exitFullscreenOnClose&&o.ifs)
             fs.x();
-        }
 
         setTimeout(() => {
-            this.isLightboxFadingOut = false;
+		this.i=0;
 
             sourcePointerProps.isPointering = false;
 

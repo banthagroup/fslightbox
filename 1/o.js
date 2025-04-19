@@ -32,6 +32,7 @@ window.FsLightbox = function () {
         autoplays: [],
         types: [],
         videosPosters: [], // deprecated 3.2.0
+	exitFullscreenOnClose: 1,
 	sourceMargin: 0.05,
         slideDistance: 0.3
     };
