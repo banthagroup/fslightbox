@@ -67,10 +67,8 @@ window.FsLightbox = function () {
         sourceAnimationWrappers: [],
     };
 
-    this.componentsServices = {
-        // if there is one slide SlideNumber is not rendered so we need to prevent calling undefined function
-        setSlideNumber: () => {}
-    };
+	// Prevents calling undefined function if there is only one slide.
+    this.sn=()=>{};
 
     this.resolve = (dependency, params = []) => {
         params.unshift(this);

@@ -1,17 +1,18 @@
 import { PREFIX } from "../../cn/classes-names";
 
 export function renderAndGetSvg(parent, size, viewBox, d) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttributeNS(null, 'width', size);
-    svg.setAttributeNS(null, 'height', size);
-    svg.setAttributeNS(null, 'viewBox', viewBox);
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),C=`${PREFIX}svg`;
+	s.setAttributeNS(null, 'class', `${C}`);
+    s.setAttributeNS(null, 'width', size);
+    s.setAttributeNS(null, 'height', size);
+    s.setAttributeNS(null, 'viewBox', viewBox);
 
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttributeNS(null, 'class', `${PREFIX}svg-path`);
-    path.setAttributeNS(null, 'd', d);
+    var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttributeNS(null, 'class', `${C}p`);
+    p.setAttributeNS(null, 'd', d);
 
-    svg.appendChild(path);
-    parent.appendChild(svg);
+    s.appendChild(p);
+    parent.appendChild(s);
 
-    return svg;
+    return s;
 }

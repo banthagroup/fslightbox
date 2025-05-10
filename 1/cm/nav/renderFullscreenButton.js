@@ -1,5 +1,6 @@
 import { renderAndGetSvg } from "../h/renderSvg";
 import { renderAndGetToolbarButton } from "./renderAndGetToolbarButton";
+import{PREFIX}from"../../cn/classes-names.js"
 
 export function renderFullscreenButton(o,p) {
 if(o.hfs)return;
@@ -13,13 +14,13 @@ if(o.hfs)return;
 
     const fullscreenButton = renderAndGetToolbarButton(p);
     fullscreenButton.title = 'Enter fullscreen';
-    const svg = renderAndGetSvg(fullscreenButton, enterSize, enterViewBox, enterD);
+    const svg = renderAndGetSvg(fullscreenButton, "", enterViewBox, enterD);
+	svg.setAttributeNS(null, 'class', `${PREFIX}fso`);
 
     o.fso = () => {
         o.ifs = 1;
         fullscreenButton.title = 'Exit fullscreen';
-        svg.setAttributeNS(null, 'width', exitSize);
-        svg.setAttributeNS(null, 'height', exitSize);
+	svg.setAttributeNS(null, 'class', `${PREFIX}fsx`);
         svg.setAttributeNS(null, 'viewBox', exitViewBox);
         svg.firstChild.setAttributeNS(null, 'd', exitD);
     };
@@ -27,8 +28,7 @@ if(o.hfs)return;
     o.fsx = () => {
         o.ifs = 0;
         fullscreenButton.title = 'Enter fullscreen';
-        svg.setAttributeNS(null, 'width', enterSize);
-        svg.setAttributeNS(null, 'height', enterSize);
+	svg.setAttributeNS(null, 'class', `${PREFIX}fso`);
         svg.setAttributeNS(null, 'viewBox', enterViewBox);
         svg.firstChild.setAttributeNS(null, 'd', enterD);
     };

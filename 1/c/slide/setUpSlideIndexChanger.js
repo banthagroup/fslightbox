@@ -7,8 +7,8 @@ import {
 import { removeFromElementClassIfContains } from "../../h/elements/removeFromElementClassIfContains";
 import { getQueuedAction } from "../timeouts/getQueuedAction";
 
-export function setUpSlideIndexChanger(
-    {
+export function setUpSlideIndexChanger(o) {
+var{
 	ap,
         componentsServices,
         core: { slideIndexChanger: self, sourceDisplayFacade, stageManager },
@@ -16,15 +16,14 @@ export function setUpSlideIndexChanger(
 	isl,
         stageIndexes,
 	sws
-    }
-) {
+    }=o;
     self.changeTo = (i) => {
 	ap.c(stageIndexes.current, i);
         stageIndexes.current = i;
 
         stageManager.updateStageIndexes();
 
-        componentsServices.setSlideNumber(i + 1);
+        o.sn(i+1);
 
         sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
     };
