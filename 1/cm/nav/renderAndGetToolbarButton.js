@@ -1,11 +1,11 @@
 import { FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../cn/classes-names";
 
-export function renderAndGetToolbarButton(parent, title) {
-    const toolbarButton = document.createElement('div');
-    toolbarButton.className = `${PREFIX}toolbar-button ${FLEX_CENTERED_CLASS_NAME}`;
-    toolbarButton.title = title;
+export function renderAndGetToolbarButton(p, title) {
+    var b = document.createElement("button");
+    b.className = `fslightboxb ${PREFIX}toolbar-button ${FLEX_CENTERED_CLASS_NAME}`;
+    b.title = title;
 
-    parent.appendChild(toolbarButton);
+    p.appendChild(b);
 
-    return toolbarButton;
+    return b;
 }
