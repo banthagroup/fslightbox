@@ -1,4 +1,4 @@
-import { renderAndGetSvg } from "../h/renderSvg";
+import { svg } from "../svg";
 import { renderAndGetToolbarButton } from "./renderAndGetToolbarButton";
 import{PREFIX}from"../../cn/classes-names.js"
 
@@ -12,23 +12,22 @@ if(o.hfs)return;
 
     const fullscreenButton = renderAndGetToolbarButton(p);
     fullscreenButton.title = 'Enter fullscreen';
-    const svg = renderAndGetSvg(fullscreenButton, "", enterViewBox, enterD);
-	svg.setAttributeNS(null, 'class', `${PREFIX}fso`);
+    var s = svg(fullscreenButton, enterViewBox, enterD);
 
     o.fso = () => {
         o.ifs = 1;
         fullscreenButton.title = 'Exit fullscreen';
-	svg.setAttributeNS(null, 'class', `${PREFIX}fsx`);
-        svg.setAttributeNS(null, 'viewBox', exitViewBox);
-        svg.firstChild.setAttributeNS(null, 'd', exitD);
+	s.classList.add(`${PREFIX}fsx`);
+        s.setAttributeNS(null, 'viewBox', exitViewBox);
+        s.firstChild.setAttributeNS(null, 'd', exitD);
     };
 
     o.fsx = () => {
         o.ifs = 0;
         fullscreenButton.title = 'Enter fullscreen';
-	svg.setAttributeNS(null, 'class', `${PREFIX}fso`);
-        svg.setAttributeNS(null, 'viewBox', enterViewBox);
-        svg.firstChild.setAttributeNS(null, 'd', enterD);
+	s.classList.remove(`${PREFIX}fsx`);
+        s.setAttributeNS(null, 'viewBox', enterViewBox);
+        s.firstChild.setAttributeNS(null, 'd', enterD);
     };
 
     fullscreenButton.onclick = o.fs.t;

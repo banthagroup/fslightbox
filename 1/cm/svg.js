@@ -1,10 +1,8 @@
-import { PREFIX } from "../../cn/classes-names";
+import { PREFIX } from "../cn/classes-names";
 
-export function renderAndGetSvg(parent, size, viewBox, d) {
+export function svg(parent, viewBox, d) {
     var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),C=`${PREFIX}svg`;
 	s.setAttributeNS(null, 'class', `${C}`);
-    s.setAttributeNS(null, 'width', size);
-    s.setAttributeNS(null, 'height', size);
     s.setAttributeNS(null, 'viewBox', viewBox);
 
     var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
