@@ -6,12 +6,12 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
     let wasVideoLoadCalled;
 
     this.handleImageLoad = ({ target: { naturalWidth, naturalHeight } }) => {
-        sourceLoadActioner.runActions(naturalWidth, naturalHeight);
+        sourceLoadActioner.b(naturalWidth, naturalHeight);
     };
 
     this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
         wasVideoLoadCalled = true;
-        sourceLoadActioner.runActions(videoWidth, videoHeight);
+        sourceLoadActioner.b(videoWidth, videoHeight);
     };
 
     this.handleNotMetaDatedVideoLoad = () => {
@@ -29,7 +29,7 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
             height = props.maxYoutubeDimensions.height;
         }
 
-        sourceLoadActioner.runActions(width, height);
+        sourceLoadActioner.b(width, height);
     };
 
     this.handleCustomLoad = () => {
@@ -40,6 +40,6 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
 		return;
 	}
 
-        sourceLoadActioner.runActions(w,h);
+        sourceLoadActioner.b(w,h);
     };
 }
