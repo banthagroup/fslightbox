@@ -20,16 +20,14 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, }, i)
         }
     };
 
-    this.handleYoutubeLoad = () => {
-        let width = 1920;
-        let height = 1080;
-
+    this.handleYoutubeLoad = (w, h) => {
+	if(!w){w=1920;h=1080}
         if (props.maxYoutubeDimensions) {
-            width = props.maxYoutubeDimensions.width;
-            height = props.maxYoutubeDimensions.height;
+            w = props.maxYoutubeDimensions.width;
+            h = props.maxYoutubeDimensions.height;
         }
 
-        sourceLoadActioner.b(width, height);
+        sourceLoadActioner.b(w, h);
     };
 
     this.handleCustomLoad = () => {

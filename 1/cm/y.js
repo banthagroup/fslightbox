@@ -16,5 +16,5 @@ export function y(fsLightbox, i) {
     s.allowFullscreen = true;
     setUpSourceCustomAttributes(fsLightbox, i);
     sourceAnimationWrappers[i].appendChild(s);
-    sourceLoadHandlers[i].handleYoutubeLoad();
+    sourceLoadHandlers[i].handleYoutubeLoad(parseInt(s.width),parseInt(s.height));
 }
