@@ -5,6 +5,7 @@ import { removeFromElementChildIfContains } from '../../../../h/elements/removeF
 export function SourcesPointerUpActioner(
     {
         core: { lightboxCloser },
+	dss,
         elements,
 	props,
         resolve,
@@ -24,11 +25,10 @@ export function SourcesPointerUpActioner(
     };
 
     this.runActions = () => {
-        if (sourcePointerProps.swipedX > 0) {
-            sourcesPointerUpActionsBucket.runPositiveSwipedXActions();
-        } else {
+	if (!dss)
+        (sourcePointerProps.swipedX > 0) ?
+            sourcesPointerUpActionsBucket.runPositiveSwipedXActions():
             sourcesPointerUpActionsBucket.runNegativeSwipedXActions();
-        }
 
         removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
 

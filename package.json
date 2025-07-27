@@ -1,6 +1,6 @@
 {
   "name": "fslightbox",
-  "version": "3.7.2",
+  "version": "3.7.3",
   "description": "An easy to use vanilla JavaScript plug-in without production dependencies for displaying images, videos, or, through custom sources, anything you want in a clean overlying box.",
   "author": "Bantha Apps Piotr Zdziarski",
   "license": "MIT",
