@@ -6,6 +6,7 @@ export function SourcesPointerUpActioner(
     {
         core: { lightboxCloser },
         elements,
+	props,
         resolve,
         sourcePointerProps
     }
@@ -15,7 +16,7 @@ export function SourcesPointerUpActioner(
     this.runNoSwipeActions = () => {
         removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
 
-        if (!sourcePointerProps.isSourceDownEventTarget) {
+        if (!sourcePointerProps.isSourceDownEventTarget&&!props.disableBackgroundClose) {
             lightboxCloser.closeLightbox();
         }
 
