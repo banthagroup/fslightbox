@@ -5,7 +5,7 @@ export function inv(
 ) {
 var {
         elements: { sources: sourcesElements, sourceAnimationWrappers },
-        props: { onSourceLoad, sources }
+        props: { sources }
     } = o;
     sourcesElements[i] = document.createElement('div');
     sourcesElements[i].className = `${PREFIX}invalid-file-wrapper ${FLEX_CENTERED_CLASS_NAME}`;

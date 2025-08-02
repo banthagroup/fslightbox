@@ -83,7 +83,6 @@ window.FsLightbox = function () {
     };
 
     this.core = {
-        eventsDispatcher: {},
         globalEventsController: {},
         lightboxCloser: {},
         lightboxUpdater: {},
@@ -95,6 +94,11 @@ window.FsLightbox = function () {
         stageManager: {},
         windowResizeActioner: {}
     };this.ap={};this.fs={};this.sws={};
+
+    this.e = (n) => {	
+        if (this.props[n])
+            this.props[n](this)
+    };
 
     so(this);
 

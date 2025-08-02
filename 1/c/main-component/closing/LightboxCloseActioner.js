@@ -4,11 +4,11 @@ import { ANIMATION_TIME } from "../../../cn/css-constants";
 export function LightboxCloseActioner(o) {
      var {
         core: {
-            eventsDispatcher,
             globalEventsController,
             scrollbarRecompensor
         },
         data,
+	e,
         elements,
 	fs,
         props,
@@ -37,7 +37,7 @@ export function LightboxCloseActioner(o) {
 
             document.body.removeChild(elements.container);
 
-            eventsDispatcher.dispatch('onClose');
+            e('onClose');
         }, ANIMATION_TIME - 30);
     };
 }
