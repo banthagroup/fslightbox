@@ -1,12 +1,8 @@
-const path = require('path');
-
-module.exports = {
+var p = require("path");var c={
     mode: "production",
-    entry: "./1/i.js",
     output: {
-        path: path.resolve(__dirname),
-        libraryTarget: "umd",
-        filename: "./index.js",
+        path: p.resolve(__dirname),
+        libraryTarget: "umd"
     },
     module: {
         rules: [
@@ -19,4 +15,4 @@ module.exports = {
             }
         ]
     }
-};
+},ic=Object.assign({entry:"./1/i.js"},c),oc=Object.assign({entry:"./1/o.js"},c);ic.output=Object.assign({filename:"index.js"},c.output);oc.output=Object.assign({filename:"o.js"},c.output);module.exports=[ic,oc]
