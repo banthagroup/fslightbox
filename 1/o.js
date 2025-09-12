@@ -1,7 +1,7 @@
 import './c/styles/styles-injection/styles-injection';
 import { so } from "./c/so";
 
-window.FsLightbox = function () {
+export default function () {
     /**
      * @property { Array } sources
      *

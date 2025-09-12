@@ -1,4 +1,4 @@
-import './o';
+import "./w.js";
 
 window.fsLightboxInstances = {};
 
