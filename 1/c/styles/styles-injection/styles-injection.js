@@ -1,5 +1,5 @@
 import { createAndAppendStyles } from "../createAndAppendStyles";
 
-if (typeof document === "object") {
+if (typeof window === "object") {
     createAndAppendStyles();
 }
