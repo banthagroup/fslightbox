@@ -15,4 +15,4 @@ var p = require("path");var c={
             }
         ]
     }
-},ic=Object.assign({entry:"./1/i.js"},c),oc=Object.assign({entry:"./1/o.js"},c);ic.output=Object.assign({filename:"index.js"},c.output);oc.output=Object.assign({filename:"o.js"},c.output);module.exports=[ic,oc]
+},ic=Object.assign({entry:"./1/i.js"},c),oc=Object.assign({entry:"./1/o.js"},c),wc=Object.assign({entry:"./1/wb.js"},c);ic.output=Object.assign({filename:"index.js"},c.output);oc.output=Object.assign({filename:"o.js"},c.output);wc.output=Object.assign({filename:"w.js"},c.output);module.exports=[ic,oc,wc]
