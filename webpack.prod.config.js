@@ -1,8 +1,7 @@
 var p = require("path");var c={
     mode: "production",
     output: {
-        path: p.resolve(__dirname),
-        libraryTarget: "umd"
+        path: p.resolve(__dirname)
     },
     module: {
         rules: [
@@ -15,4 +14,4 @@ var p = require("path");var c={
             }
         ]
     }
-},ic=Object.assign({entry:"./1/i.js"},c),oc=Object.assign({entry:"./1/o.js"},c),wc=Object.assign({entry:"./1/wb.js"},c);ic.output=Object.assign({filename:"index.js"},c.output);oc.output=Object.assign({filename:"o.js"},c.output);wc.output=Object.assign({filename:"w.js"},c.output);module.exports=[ic,oc,wc]
+},ic=Object.assign({entry:"./1/i.js"},c),oc=Object.assign({entry:"./1/o.js"},c),wc=Object.assign({entry:"./1/wb.js"},c);ic.output=Object.assign({filename:"index.js",libraryTarget:"umd"},c.output);oc.output=Object.assign({filename:"o.js",libraryTarget:"umd"},c.output);wc.output=Object.assign({filename:"w.js",libraryTarget:"var"},c.output);module.exports=[ic,oc,wc]
