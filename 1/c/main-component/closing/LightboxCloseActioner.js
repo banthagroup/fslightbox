@@ -12,7 +12,8 @@ export function LightboxCloseActioner(o) {
         elements,
 	fs,
         props,
-        sourcePointerProps
+        sourcePointerProps,
+	ud
     } = o;
 
     this.runActions = () => {
@@ -34,7 +35,8 @@ export function LightboxCloseActioner(o) {
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
 
             scrollbarRecompensor.removeRecompense();
-
+		
+            ud&&elements.container.close();
             document.body.removeChild(elements.container);
 
             e('onClose');

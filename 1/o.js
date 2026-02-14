@@ -25,6 +25,7 @@ export default function () {
      * @property { Boolean } loadOnlyCurrentSource
      * @property { Number } sourceMargin
      * @property { Number } slideDistance
+     * @property { Boolean } useDialog
      */
     this.props = {
         sources: [],
