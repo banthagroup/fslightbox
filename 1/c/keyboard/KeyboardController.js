@@ -10,7 +10,7 @@ export function KeyboardController(
     this.listener = (e) => {
         switch (e.key) {
             case 'Escape':
-                lightboxCloser.closeLightbox();
+                lightboxCloser.close();
                 break;
             case 'ArrowLeft':
                 slideChangeFacade.changeToPrevious();

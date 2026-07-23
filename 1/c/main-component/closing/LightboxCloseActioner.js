@@ -40,6 +40,7 @@ export function LightboxCloseActioner(o) {
             document.body.removeChild(elements.container);
 
             e('onClose');
+	    o.io = 0;
         }, ANIMATION_TIME - 30);
     };
 }

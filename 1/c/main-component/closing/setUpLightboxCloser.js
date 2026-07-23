@@ -1,10 +1,11 @@
 import { LightboxCloseActioner } from "./LightboxCloseActioner";
 
-export function setUpLightboxCloser({ core: { lightboxCloser: self }, resolve }) {
-    const lightboxCloseActioner = resolve(LightboxCloseActioner);
+export function setUpLightboxCloser(o) {
+	var { core: { lightboxCloser: self }, resolve } = o,
+	lightboxCloseActioner = resolve(LightboxCloseActioner);
 
-    self.closeLightbox = () => {
-        if (!lightboxCloseActioner.isLightboxFadingOut) {
+    self.close = () => {
+        if (o.io && !lightboxCloseActioner.isLightboxFadingOut) {
             lightboxCloseActioner.runActions();
         }
     };

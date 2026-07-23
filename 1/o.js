@@ -104,5 +104,5 @@ export default function () {
 
     so(this);
 
-    this.close = () => this.core.lightboxCloser.closeLightbox();
+    this.close = () => {if(this.core.lightboxCloser.close)this.core.lightboxCloser.close()}
 };

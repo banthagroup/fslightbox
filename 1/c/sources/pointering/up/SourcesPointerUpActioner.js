@@ -18,7 +18,7 @@ export function SourcesPointerUpActioner(
         removeFromElementChildIfContains(elements.container, elements.slideSwipingHoverer);
 
         if (!sourcePointerProps.isSourceDownEventTarget&&!props.disableBackgroundClose) {
-            lightboxCloser.closeLightbox();
+            lightboxCloser.close();
         }
 
         sourcePointerProps.isPointering = false;
