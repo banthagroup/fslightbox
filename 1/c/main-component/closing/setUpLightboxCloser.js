@@ -5,7 +5,7 @@ export function setUpLightboxCloser(o) {
 	lightboxCloseActioner = resolve(LightboxCloseActioner);
 
     self.close = () => {
-        if (o.io && !lightboxCloseActioner.isLightboxFadingOut) {
+        if (o.io && !lightboxCloseActioner.i) {
             lightboxCloseActioner.runActions();
         }
     };
