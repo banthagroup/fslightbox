@@ -4,6 +4,7 @@ import { addToElementClassIfNotContains } from "../../../../h/elements/addToElem
 export function SourcesPointerMoveActioner(
     {
         elements,
+	smw,
         sourcePointerProps,
         stageIndexes
     }
@@ -29,6 +30,6 @@ export function SourcesPointerMoveActioner(
     };
 
     function t(i, p) {
-	elements.smw[i].v(sourcePointerProps.swipedX)[p]()
+	smw[i].v(sourcePointerProps.swipedX)[p]()
     }
 }

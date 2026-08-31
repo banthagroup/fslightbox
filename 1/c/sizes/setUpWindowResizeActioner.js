@@ -5,8 +5,8 @@ export function setUpWindowResizeActioner(o) {
         collections: { sourceSizers },
         core: { windowResizeActioner: self },
         data,
-        elements: { smw },
 	props: { sourceMargin },
+	smw,
         stageIndexes
     } = o, x = 1 - 2 * sourceMargin;
 

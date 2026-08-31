@@ -59,10 +59,9 @@ export default function () {
         a: [],
         container: null,
         slideSwipingHoverer: null,
-	smw: [],
         sourceWrappersContainer: null,
         sources: []
-    };this.saw=[];
+    };this.saw=[];this.smw=[];
 
 	// Prevents calling undefined function if there is only one slide.
     this.sn=()=>{};

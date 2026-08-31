@@ -1,7 +1,8 @@
 export function setUpSourcesPointerDown(
     {
         core: { sourcesPointerDown: self },
-        elements: { smw, sources },
+        elements: { sources },
+	smw,
         sourcePointerProps,
         stageIndexes
     }

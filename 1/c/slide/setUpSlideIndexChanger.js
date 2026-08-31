@@ -12,9 +12,9 @@ var{
 	ap,
         componentsServices,
         core: { slideIndexChanger: self, sourceDisplayFacade, stageManager },
-        elements: { smw },
 	isl,
 	saw,
+	smw,
         stageIndexes,
 	sws
     }=o;
