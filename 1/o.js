@@ -15,11 +15,9 @@ export default function () {
      * @property { String } type
      *
      * @property { Array } customAttributes
-     * @property { Array } customClasses
      * @property { Boolean } autoplay
      * @property { Array } autoplays
      * @property { Object } maxYoutubeDimensions
-     * @property { Array } videosPosters // deprecated 3.2.0
      *
      * @property { Boolean } exitFullscreenOnClose
      * @property { Boolean } loadOnlyCurrentSource
@@ -30,10 +28,8 @@ export default function () {
     this.props = {
         sources: [],
         customAttributes: [],
-        customClasses: [],
         autoplays: [],
         types: [],
-        videosPosters: [], // deprecated 3.2.0
 	exitFullscreenOnClose: 1,
 	sourceMargin: 0.05,
         slideDistance: 0.3
@@ -65,9 +61,8 @@ export default function () {
         slideSwipingHoverer: null,
 	smw: [],
         sourceWrappersContainer: null,
-        sources: [],
-        sourceAnimationWrappers: [],
-    };
+        sources: []
+    };this.saw=[];
 
 	// Prevents calling undefined function if there is only one slide.
     this.sn=()=>{};

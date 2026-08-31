@@ -22,6 +22,3 @@ export const FADE_OUT_STRONG_CLASS_NAME = FADE_OUT_CLASS_NAME + '-strong';
 // opacity
 const opacityBaseClassName = `${PREFIX}opacity-`;
 export const OPACITY_1_CLASS_NAME = `${opacityBaseClassName}1`;
-
-// sources
-export const SOURCE_CLASS_NAME = `${PREFIX}source`;

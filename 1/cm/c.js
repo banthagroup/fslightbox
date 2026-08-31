@@ -1,15 +1,17 @@
 import { SOURCE_CLASS_NAME } from "../cn/classes-names";
-import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
+import { ca } from "../h/ca";
 
-export function c(fsLightbox, i) {
-    const {
+export function c(o, i) {
+    var {
         collections: { sourceLoadHandlers },
-        elements: { sources: sourcesElements, sourceAnimationWrappers },
-        props: { sources }
-    } = fsLightbox;
+        elements: { sources: sourcesElements },
+        props: { sources },
+	saw
+    } = o, s = sources[i];
 
-    sourcesElements[i] = sources[i];
-    setUpSourceClassName(fsLightbox, i, `${sourcesElements[i].className} ${SOURCE_CLASS_NAME}`);
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
+    sourcesElements[i] = s;
+    s.classList.add("fslightboxs");
+    ca(o, i);
+    saw[i].appendChild(s);
     sourceLoadHandlers[i].handleCustomLoad();
 }

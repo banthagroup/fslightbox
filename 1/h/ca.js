@@ -1,0 +1,1 @@
+export function ca({elements:{sources},props:{customAttributes}},i){var s=sources[i];for(let n in customAttributes[i]){var a=customAttributes[i][n];if(n=="class"){s.className+=" "+a;continue}s.setAttribute(n,a)}}

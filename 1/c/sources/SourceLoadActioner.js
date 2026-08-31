@@ -4,10 +4,11 @@ import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../cn/classe
 export function SourceLoadActioner(o, i) {
 var {
         collections: { sourceSizers },
-        elements: { sourceAnimationWrappers, sources },
+        elements: { sources },
 	isl,
 	props: {onSourceLoad},
-        resolve
+        resolve,
+	saw
     } = o;
     this.b = (defaultWidth, defaultHeight) => {
         sources[i].classList.add(OPACITY_1_CLASS_NAME);
@@ -17,9 +18,9 @@ var {
     };
 	this.a = () => {
 		isl[i]=true;
-		sourceAnimationWrappers[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
-        	sourceAnimationWrappers[i]
-			.removeChild(sourceAnimationWrappers[i].firstChild);
+		saw[i].classList.add(FADE_IN_STRONG_CLASS_NAME);
+        	saw[i]
+			.removeChild(saw[i].firstChild);
 		if (onSourceLoad)
 			onSourceLoad(o, sources[i], i);
 	}

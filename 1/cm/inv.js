@@ -2,14 +2,13 @@ import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../
 
 export function inv(
     o, i
-) {
-var {
-        elements: { sources: sourcesElements, sourceAnimationWrappers },
-        props: { sources }
+) {var {
+        elements: { sources: s },
+        props: { sources },
+	saw
     } = o;
-    sourcesElements[i] = document.createElement('div');
-    sourcesElements[i].className = `${PREFIX}invalid-file-wrapper ${FLEX_CENTERED_CLASS_NAME}`;
-    sourcesElements[i].innerHTML = 'Invalid source';
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i]);
-	new SourceLoadActioner(o, i).a();
+    s[i] = document.createElement('div');
+    s[i].className = `${PREFIX}invalid-file-wrapper ${FLEX_CENTERED_CLASS_NAME}`;
+    s[i].innerHTML = 'Invalid source';
+    saw[i].appendChild(s[i]);new SourceLoadActioner(o, i).a();
 }

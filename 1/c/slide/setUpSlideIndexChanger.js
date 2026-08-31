@@ -12,8 +12,9 @@ var{
 	ap,
         componentsServices,
         core: { slideIndexChanger: self, sourceDisplayFacade, stageManager },
-        elements: { smw, sourceAnimationWrappers },
+        elements: { smw },
 	isl,
+	saw,
         stageIndexes,
 	sws
     }=o;
@@ -45,11 +46,11 @@ var{
 
 			// The checking whether the source is loaded was done before reflow because if source would load after a slide change but before a reflow, inexpected animation may be added—in the case of a current source, a slide change animation would be added instead of initial animation after a load.
 			if (ipl) {
-				sourceAnimationWrappers[oi]
+				saw[oi]
 					.classList.add(FADE_OUT_CLASS_NAME);
 			}
 			if (icl) {
-				sourceAnimationWrappers[stageIndexes.current]
+				saw[stageIndexes.current]
 					.classList.add(FADE_IN_CLASS_NAME);
 			}
 

@@ -1,29 +1,25 @@
-import { SOURCE_CLASS_NAME } from "../cn/classes-names";
-import { setUpSourceClassName } from "../h/source/setUpSourceClassName";
-import { setUpSourceCustomAttributes } from "../h/source/setUpSourceCustomAttributes";
+import { ca } from "../h/ca";
 
-export function v(fsLightbox, i) {
+export function v(o, i) {
     var {
 	ap,
         collections: { sourceLoadHandlers },
-        elements: { sources: sourcesElements, sourceAnimationWrappers },
-        props: { sources, videosPosters }
-    } = fsLightbox, v=document.createElement('video'), s=document.createElement('source');sourcesElements[i]=v;
+        elements: { sources: se },
+        props: { sources, videosPosters },
+	saw
+    } = o, v=document.createElement('video'), s=document.createElement('source');se[i]=v;
 
-    setUpSourceClassName(fsLightbox, i, `${SOURCE_CLASS_NAME} fslightboxv`);
+    v.className = "fslightboxs fslightboxv";
     v.src = sources[i];
     v.onloadedmetadata = (e) => sourceLoadHandlers[i].handleVideoLoad(e);
     v.controls = true;v.autoplay=ap.i(i);
     
-    setUpSourceCustomAttributes(fsLightbox, i);
-    if (videosPosters[i]) {
-        sourcesElements[i].poster = videosPosters[i];
-    }
+    ca(o, i);
 
     s.src = sources[i];
     v.appendChild(s);
 
     setTimeout(sourceLoadHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
-    sourceAnimationWrappers[i].appendChild(sourcesElements[i])
+    saw[i].appendChild(v)
 }
